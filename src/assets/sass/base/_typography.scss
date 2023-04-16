@@ -1,5 +1,5 @@
 body {
-    font-size: 1.8rem;
+    font-size: 2rem;
     font-family: "League Spartan", sans-serif;
     color: var(--secondary-text);
 }
@@ -8,7 +8,8 @@ h1,
 h2,
 h3,
 h4 {
-    color: var(--primary-text);
+    // color: var(--primary-text);
+    color: $swatch_1;
     font-weight: 700;
 }
 
@@ -65,6 +66,18 @@ p {
 }
 
 .heading-s {
+    font-size: 5rem;
+
+    @media screen and (max-width: 750px) {
+        font-size: 3rem;
+    }
+
+    @media screen and (max-width: 450px) {
+        font-size: 2.5rem;
+    }
+}
+
+.heading-xs {
     font-size: 3.2rem;
 
     @media screen and (max-width: 750px) {
@@ -78,6 +91,7 @@ p {
 
 .para {
     font-size: 1.8rem;
+    font-weight: 400;
 
     @media screen and (max-width: 750px) {
         font-size: 1.6rem;

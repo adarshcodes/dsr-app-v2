@@ -1,0 +1,19 @@
+.btn {
+    padding: 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all .3s $bez-1;
+
+    &:active {
+        transform: scale(.98);
+    }
+}
+
+.btn-dark {
+    color: #fff;
+    background-color: $swatch_3;
+
+    &:hover {
+        background-color: $swatch_4;
+    }
+}

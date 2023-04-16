@@ -1,11 +1,12 @@
 @import "./abstract/variables";
-@import "./abstract/utility";
 @import "./abstract/mixins";
+@import "./abstract/utility";
 
 @import "./base/base";
 @import "./base/typography";
 @import "./base/animations";
 
-// @import "./components";
+@import "../../components/Buttons/buttons.styles";
 
+@import "../../parts/Login/login.styles";
 @import "../../app.styles";

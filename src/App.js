@@ -10,7 +10,7 @@ import Drafts from "./routes/Drafts/Drafts";
 
 function App() {
 	// Theme Switching
-	const [theme, setTheme] = React.useState(true);
+	const [theme, setTheme] = React.useState(false);
 
 	// function themeSwitch() {
 	// 	setTheme(!theme);

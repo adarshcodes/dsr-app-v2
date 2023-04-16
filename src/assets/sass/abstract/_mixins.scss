@@ -72,3 +72,16 @@
 		border-radius: .1rem;
 	}
 }
+
+// Shadows
+@mixin shadow-1 {
+	box-shadow: rgba(149, 157, 165, 0.1) 0px 8px 24px;
+}
+
+@mixin shadow-2 {
+	box-shadow: 0 0.5rem 1rem rgb(26 39 61 / 3%);
+}
+
+@mixin shadow-3 {
+	box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
