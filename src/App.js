@@ -1,25 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from "react";
+import { Routes, Route } from "react-router-dom";
+
+import "./assets/sass/main.css";
+import User from "./routes/User/User";
+import Dashboard from "./parts/Dashboard/Dashboard";
+import NewDsr from "./routes/NewDsr/NewDsr";
+import WeeklyDsr from "./routes/WeeklyDsr/WeeklyDsr";
+import Drafts from "./routes/Drafts/Drafts";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	// Theme Switching
+	const [theme, setTheme] = React.useState(true);
+
+	// function themeSwitch() {
+	// 	setTheme(!theme);
+	// }
+
+	useEffect(() => {
+		if (theme) {
+			document.documentElement.classList.add("dark");
+		} else {
+			document.documentElement.classList.remove("dark");
+		}
+	}, [theme]);
+
+	return (
+		<Routes>
+			<Route path="/user" element={<User />} />
+
+			<Route path="/" element={<Dashboard />}>
+				<Route index element={<NewDsr />} />
+				<Route path="weekly" element={<WeeklyDsr />} />
+				<Route path="drafts" element={<Drafts />} />
+			</Route>
+
+			{/* <Route path="/*" element={<ErrorPage />} /> */}
+		</Routes>
+	);
 }
 
 export default App;

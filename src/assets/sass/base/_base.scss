@@ -1,0 +1,29 @@
+/* Default */
+*,
+*::after,
+*::before {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+html {
+	font-size: 62.5%;
+	scroll-behavior: smooth;
+	overflow-x: hidden;
+}
+
+body {
+	overflow-x: hidden;
+	box-sizing: border-box;
+	scroll-behavior: smooth;
+
+	a {
+		text-decoration: none;
+		color: inherit;
+	}
+
+	li {
+		list-style: none;
+	}
+}

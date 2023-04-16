@@ -1,0 +1,159 @@
+:root {
+  --app-container: #F8F8FA;
+  --light-section: #fff;
+  --secondary-color: #4A4A4A;
+  --border-color: #e9ebf0;
+  --primary-text: #151F20;
+  --secondary-text: #858585;
+}
+
+.dark:root {
+  --app-container: #141316;
+  --light-section: #1F2027;
+  --secondary-color: rgba(255, 255, 255, .8);
+  --border-color: #333539;
+  --primary-text: #fff;
+  --secondary-text: #7C828F;
+}
+
+/* Default */
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  overflow-x: hidden;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+body a {
+  text-decoration: none;
+  color: inherit;
+}
+body li {
+  list-style: none;
+}
+
+body {
+  font-size: 1.8rem;
+  font-family: "League Spartan", sans-serif;
+  color: var(--secondary-text);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  color: var(--primary-text);
+  font-weight: 700;
+}
+
+p {
+  font-weight: 500;
+  line-height: 2.4rem;
+}
+
+.heading-xl {
+  font-size: 15rem;
+  letter-spacing: -0.5px;
+}
+@media screen and (max-width: 1050px) {
+  .heading-xl {
+    font-size: 10rem;
+  }
+}
+@media screen and (max-width: 750px) {
+  .heading-xl {
+    font-size: 8rem;
+  }
+}
+@media screen and (max-width: 450px) {
+  .heading-xl {
+    font-size: 5rem;
+  }
+}
+
+.heading-l {
+  font-size: 9.2rem;
+  letter-spacing: -0.2rem;
+}
+@media screen and (max-width: 1050px) {
+  .heading-l {
+    font-size: 8rem;
+  }
+}
+@media screen and (max-width: 750px) {
+  .heading-l {
+    font-size: 6rem;
+  }
+}
+@media screen and (max-width: 450px) {
+  .heading-l {
+    font-size: 4rem;
+  }
+}
+
+.heading-m {
+  font-size: 7.2rem;
+  letter-spacing: -0.2rem;
+}
+@media screen and (max-width: 750px) {
+  .heading-m {
+    font-size: 5rem;
+  }
+}
+@media screen and (max-width: 450px) {
+  .heading-m {
+    font-size: 3.5rem;
+  }
+}
+
+.heading-s {
+  font-size: 3.2rem;
+}
+@media screen and (max-width: 750px) {
+  .heading-s {
+    font-size: 3rem;
+  }
+}
+@media screen and (max-width: 450px) {
+  .heading-s {
+    font-size: 2.5rem;
+  }
+}
+
+.para {
+  font-size: 1.8rem;
+}
+@media screen and (max-width: 750px) {
+  .para {
+    font-size: 1.6rem;
+  }
+}
+@media screen and (max-width: 450px) {
+  .para {
+    font-size: 1.4rem;
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translatey(0px);
+  }
+  50% {
+    transform: translatey(-20px);
+  }
+  100% {
+    transform: translatey(0px);
+  }
+}/*# sourceMappingURL=main.css.map */
