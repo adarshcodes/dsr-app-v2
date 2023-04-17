@@ -1,0 +1,15 @@
+.dashboard {
+    @include flex-row;
+    height: 100vh;
+    overflow: hidden;
+    width: 100%;
+    background-color: var(--app-container);
+
+    .main-content {
+        flex: 1;
+    }
+
+    .container {
+        padding: 2rem;
+    }
+}

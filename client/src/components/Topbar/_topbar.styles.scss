@@ -1,0 +1,58 @@
+.topbar {
+    width: 100%;
+    background-color: var(--light-section);
+    @include shadow-1;
+    padding: 1.94rem;
+    border-bottom: 1px solid var(--border-color);
+
+    .greet {
+        @include flex-row;
+        align-items: center;
+        gap: 2rem;
+    }
+
+    .ham {
+        display: none;
+
+        @media screen and (max-width: 750px) {
+            display: block;
+        }
+    }
+
+    .menu-icons {
+        cursor: pointer;
+
+        .line {
+            width: 3rem;
+            height: .25rem;
+            background-color: #555;
+            margin-bottom: .6rem;
+        }
+
+        .line1,
+        .line3 {
+            width: 2.5rem;
+            transition: all .3s;
+        }
+
+        &:hover .line {
+            width: 3rem;
+        }
+    }
+
+    .checkbox:checked~.ham .line1 {
+        transform: rotate(-405deg) translate(-5.4px, 6.6px);
+        width: 2.5rem;
+        background-color: $color-error;
+    }
+
+    .checkbox:checked~.ham .line2 {
+        opacity: 0;
+    }
+
+    .checkbox:checked~.ham .line3 {
+        transform: rotate(405deg) translate(-5px, -7.1px);
+        width: 2.4rem;
+        background-color: $color-error;
+    }
+}

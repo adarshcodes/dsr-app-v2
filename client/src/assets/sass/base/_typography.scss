@@ -1,0 +1,106 @@
+body {
+    font-size: 2rem;
+    font-family: "League Spartan", sans-serif;
+    color: var(--secondary-text);
+}
+
+h1,
+h2,
+h3,
+h4 {
+    color: $swatch_1;
+    font-weight: 700;
+}
+
+p {
+    font-weight: 500;
+    line-height: 2.4rem;
+}
+
+.heading-xl {
+    font-size: 15rem;
+    letter-spacing: -.5px;
+
+    @media screen and (max-width: 1050px) {
+        font-size: 10rem;
+    }
+
+    @media screen and (max-width: 750px) {
+        font-size: 8rem;
+    }
+
+    @media screen and (max-width: 450px) {
+        font-size: 5rem;
+    }
+}
+
+.heading-l {
+    font-size: 9.2rem;
+    letter-spacing: -.2rem;
+
+    @media screen and (max-width: 1050px) {
+        font-size: 8rem;
+    }
+
+    @media screen and (max-width: 750px) {
+        font-size: 6rem;
+    }
+
+    @media screen and (max-width: 450px) {
+        font-size: 4rem;
+    }
+}
+
+.heading-m {
+    font-size: 7.2rem;
+    letter-spacing: -.2rem;
+
+    @media screen and (max-width: 750px) {
+        font-size: 5rem;
+    }
+
+    @media screen and (max-width: 450px) {
+        font-size: 3.5rem;
+    }
+}
+
+.heading-s {
+    font-size: 5rem;
+
+    @media screen and (max-width: 750px) {
+        font-size: 3rem;
+    }
+
+    @media screen and (max-width: 450px) {
+        font-size: 2.5rem;
+    }
+}
+
+.heading-xs {
+    font-size: 3.2rem;
+
+    @media screen and (max-width: 750px) {
+        font-size: 3rem;
+    }
+
+    @media screen and (max-width: 450px) {
+        font-size: 2.5rem;
+    }
+}
+
+.heading-tiny {
+    font-size: 2rem;
+}
+
+.para {
+    font-size: 1.8rem;
+    font-weight: 400;
+
+    @media screen and (max-width: 750px) {
+        font-size: 1.6rem;
+    }
+
+    @media screen and (max-width: 450px) {
+        font-size: 1.4rem;
+    }
+}
