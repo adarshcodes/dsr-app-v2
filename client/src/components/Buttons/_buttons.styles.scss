@@ -17,3 +17,21 @@
         background-color: $swatch_4;
     }
 }
+
+.btn-light {
+    background-color: #fff;
+    color: $swatch_1;
+}
+
+// Pass the below custom class to the button as a customClass props if you want the button to be light and with shadow and border (currently used for login with microsoft button)--Adarsh
+
+.btn-light-shadow {
+    @include shadow-1;
+    @include flex-row-center;
+    gap: 1rem;
+    border: 1px solid var(--border-color);
+
+    img {
+        width: 2rem;
+    }
+}

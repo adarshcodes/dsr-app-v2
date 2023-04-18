@@ -1,3 +1,4 @@
+// Created basic guidelines for typography, so you just have to use these classes --Adarsh
 body {
     font-size: 2rem;
     font-family: "League Spartan", sans-serif;
@@ -65,7 +66,7 @@ p {
 }
 
 .heading-s {
-    font-size: 5rem;
+    font-size: 4rem;
 
     @media screen and (max-width: 750px) {
         font-size: 3rem;

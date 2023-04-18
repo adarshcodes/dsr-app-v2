@@ -172,7 +172,7 @@ p {
 }
 
 .heading-s {
-  font-size: 5rem;
+  font-size: 4rem;
 }
 @media screen and (max-width: 750px) {
   .heading-s {
@@ -250,6 +250,23 @@ p {
 }
 .btn-dark:hover {
   background-color: #00584e;
+}
+
+.btn-light {
+  background-color: #fff;
+  color: #01362a;
+}
+
+.btn-light-shadow {
+  box-shadow: rgba(149, 157, 165, 0.1) 0px 8px 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  border: 1px solid var(--border-color);
+}
+.btn-light-shadow img {
+  width: 2rem;
 }
 
 .sidebar {

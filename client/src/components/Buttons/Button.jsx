@@ -2,10 +2,14 @@ import React from "react";
 
 function Button({ value, varient, customClass, icon }) {
 	return (
-		<div className={`btn ${varient === "dark" ? "btn-dark customClass" : ""}`}>
-			{icon}
+		<div
+			className={`btn ${
+				varient === "btn-light" ? "btn-light" : "btn-dark"
+			} ${customClass}`}
+		>
+			{icon && <img src={icon} alt="ms icon" />}
 
-			{value}
+			<p>{value}</p>
 		</div>
 	);
 }
