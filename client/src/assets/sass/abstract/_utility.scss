@@ -26,3 +26,22 @@
 .highlight {
     color: $swatch_3;
 }
+
+.circle-cta {
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    @include shadow-1;
+    @include flex-row-center;
+    transition: all .3s $bez-3;
+    border: 1px solid var(--message-box-border);
+
+    &:hover {
+        background-color: var(--message-box-border);
+    }
+
+    @media screen and (max-width: 500px) {
+        width: 3.2rem;
+        height: 3.2rem;
+    }
+}

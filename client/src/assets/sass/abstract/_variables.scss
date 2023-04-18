@@ -15,6 +15,7 @@ $swatch_4: #00584e;
     --primary-green: #01362a;
     --primary-text: #151F20;
     --secondary-text: #858585;
+    --message-box-border: #e9ebf0;
 }
 
 .dark:root {
@@ -22,8 +23,10 @@ $swatch_4: #00584e;
     --light-section: #1F2027;
     --secondary-color: rgba(255, 255, 255, .8);
     --border-color: #333539;
+    --primary-green: #07d3a4;
     --primary-text: #fff;
     --secondary-text: #7C828F;
+    --message-box-border: rgba(255, 255, 255, .1);
 }
 
 // animation-bezier
