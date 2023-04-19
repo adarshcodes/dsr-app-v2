@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import Logo from "../../assets/images/logo/logo-leaf.svg";
+import Icon from "../../assets/images/logo/ms.svg";
 import Quadrafort from "../../assets/images/logo/quadrafort-dark.png";
 import Button from "../../components/Buttons/Button";
 
@@ -19,9 +20,10 @@ function Login() {
 				<form className="form login-form">
 					<Link to="/">
 						<Button
-							value={"Sign In"}
-							varient={"dark"}
-							customClass={"login-btn"}
+							value={"Sign in with Microsoft"}
+							varient={"btn-light"}
+							customClass={"btn-light-shadow"}
+							icon={Icon}
 						/>
 					</Link>
 

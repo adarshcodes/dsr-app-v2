@@ -31,29 +31,6 @@
   flex-direction: row;
   gap: 1rem;
 }
-@media screen and (max-width: 500px) {
-  .form .input-row {
-    flex-wrap: wrap;
-    flex-direction: column;
-  }
-}
-.form .input-row input,
-.form .input-row textarea {
-  flex: 1;
-  width: 100%;
-  outline: none;
-  border: #a7cfca 2px solid;
-  padding: 1.2rem 1rem;
-  border-radius: 0.4rem;
-  font-family: inherit;
-  font-size: 1.6rem;
-  transition: all 0.3s cubic-bezier(0.5, 0, 0.5, 1.5);
-  background-color: var(--light-section);
-}
-.form .input-row input:focus,
-.form .input-row textarea:focus {
-  border-color: #018171;
-}
 
 .highlight {
   color: #018171;
@@ -183,7 +160,7 @@ p {
 }
 
 .heading-s {
-  font-size: 5rem;
+  font-size: 4rem;
 }
 @media screen and (max-width: 750px) {
   .heading-s {
@@ -268,6 +245,23 @@ p {
 }
 .btn-dark:hover {
   background-color: #00584e;
+}
+
+.btn-light {
+  background-color: #fff;
+  color: #01362a;
+}
+
+.btn-light-shadow {
+  box-shadow: rgba(149, 157, 165, 0.1) 0px 8px 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  border: 1px solid var(--border-color);
+}
+.btn-light-shadow img {
+  width: 2rem;
 }
 
 .btn-leave {
@@ -463,8 +457,7 @@ p {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
 }
 
 .active-ham {
@@ -505,9 +498,7 @@ p {
 
 .toggle {
   --size: 1.7rem;
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
+  appearance: none;
   outline: none;
   cursor: pointer;
   width: var(--size);
@@ -593,33 +584,3 @@ p {
 }
 .dashboard .container {
   padding: 2rem;
-  height: 91.4vh;
-  overflow-y: scroll;
-}
-.dashboard .container::-webkit-scrollbar {
-  width: 0.3rem;
-}
-.dashboard .container::-webkit-scrollbar-track {
-  background-color: var(--color-primary-grey);
-  border-radius: 0.1rem;
-}
-.dashboard .container::-webkit-scrollbar-thumb {
-  background-color: var(--color-primary-purple);
-  border-radius: 0.1rem;
-}
-@media screen and (max-width: 500px) {
-  .dashboard .container {
-    padding: 1.5rem 1.5rem 2rem 1.5rem;
-  }
-}
-
-.new-dsr {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-}
-.new-dsr .uid-date {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}/*# sourceMappingURL=main.css.map */
