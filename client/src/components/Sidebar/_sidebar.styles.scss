@@ -1,7 +1,7 @@
 .sidebar {
     width: 22rem;
     background-color: var(--light-section);
-    @include shadow-1;
+    @include shadow-2;
     height: 100vh;
     border: 1px solid var(--border-color);
     transition: all .3s $bez-1;
@@ -44,7 +44,7 @@
             }
 
             &__items {
-                font-size: 1.8rem;
+                font-size: 1.7rem;
                 border-radius: .4rem;
                 cursor: pointer;
                 letter-spacing: .2rem;

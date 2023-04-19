@@ -244,8 +244,8 @@ p {
   border-radius: 0.4rem;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.5, 0, 0.5, 1.5);
-  font-size: 1.6rem;
-  padding: 0.8rem 3rem;
+  font-size: 1.5rem;
+  padding: 0.8rem 2.2rem;
   user-select: none;
 }
 .btn:active {
@@ -294,7 +294,7 @@ p {
 .sidebar {
   width: 22rem;
   background-color: var(--light-section);
-  box-shadow: rgba(149, 157, 165, 0.1) 0px 8px 24px;
+  box-shadow: 0 0.5rem 1rem rgba(26, 39, 61, 0.03);
   height: 100vh;
   border: 1px solid var(--border-color);
   transition: all 0.3s cubic-bezier(0.5, 0, 0.5, 1.5);
@@ -336,7 +336,7 @@ p {
   color: #fff;
 }
 .sidebar__tabs .route-list__items {
-  font-size: 1.8rem;
+  font-size: 1.7rem;
   border-radius: 0.4rem;
   cursor: pointer;
   letter-spacing: 0.2rem;
@@ -382,8 +382,8 @@ p {
 .topbar {
   width: 100%;
   background-color: var(--light-section);
-  box-shadow: rgba(149, 157, 165, 0.1) 0px 8px 24px;
-  padding: 1.18rem;
+  box-shadow: 0 0.5rem 1rem rgba(26, 39, 61, 0.03);
+  padding: 1.18rem 2rem;
   border-bottom: 1px solid var(--border-color);
   display: flex;
   justify-content: space-between;
