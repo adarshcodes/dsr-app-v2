@@ -4,7 +4,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import Topbar from "../../components/Topbar/Topbar";
 
-function Dashboard({ theme, themeSwitch }) {
+function Dashboard({ theme }) {
 	const location = useLocation();
 	const [ham, setHam] = useState(false);
 
@@ -13,7 +13,7 @@ function Dashboard({ theme, themeSwitch }) {
 			<Sidebar location={location} theme={theme} ham={ham} setHam={setHam} />
 
 			<section className="main-content">
-				<Topbar ham={ham} setHam={setHam} themeSwitch={themeSwitch} />
+				<Topbar ham={ham} setHam={setHam} />
 
 				<div className="container">
 					<Outlet />
