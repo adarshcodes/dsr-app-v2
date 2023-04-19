@@ -12,9 +12,9 @@ function App() {
 	// Theme Switching
 	const [theme, setTheme] = React.useState(false);
 
-	function themeSwitch() {
-		setTheme(!theme);
-	}
+	// function themeSwitch() {
+	// 	setTheme(!theme);
+	// }
 
 	useEffect(() => {
 		if (theme) {
@@ -28,16 +28,7 @@ function App() {
 		<Routes>
 			<Route path="/login" element={<Login />} />
 
-			<Route
-				path="/"
-				element={
-					<Dashboard
-						theme={theme}
-						setTheme={setTheme}
-						themeSwitch={themeSwitch}
-					/>
-				}
-			>
+			<Route path="/" element={<Dashboard theme={theme} setTheme={setTheme} />}>
 				<Route index element={<NewDsr />} />
 				<Route path="recents" element={<WeeklyDsr />} />
 				<Route path="drafts" element={<Drafts />} />

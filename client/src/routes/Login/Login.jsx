@@ -18,6 +18,13 @@ function Login() {
 				</div>
 
 				<form className="form login-form">
+					<div className="input-row">
+						<input type="email" placeholder="Email address" id="login-email" />
+					</div>
+					<div className="input-row">
+						<input type="password" placeholder="Password" id="login-password" />
+					</div>
+
 					<Link to="/">
 						<Button
 							value={"Sign in with Microsoft"}
@@ -26,8 +33,6 @@ function Login() {
 							icon={Icon}
 						/>
 					</Link>
-
-					{/* <ButtonLogin value={"Sign in with Microsoft"} varient={light}/> */}
 				</form>
 
 				<div className="branding">
