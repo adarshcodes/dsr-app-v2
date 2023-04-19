@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const Router = require("./routes")
+const Router = require("./routes");
+
 // const model = require("./model")
 // const jsonData = require('./data.json');
 
@@ -37,7 +38,7 @@ mongoose.connect('mongodb+srv://catalyst16812:nikhil11111@origindb.ginrwdp.mongo
 
 // start the server
 app.use(Router);
-
-app.listen(3000, () => {
+const PORT = process.env.PORT || 3030;
+app.listen(PORT, () => {
   console.log("Server is running at port 3000");
 });
