@@ -18,26 +18,8 @@ p {
     line-height: 2.4rem;
 }
 
-.heading-xl {
-    font-size: 15rem;
-    letter-spacing: -.5px;
-
-    @media screen and (max-width: 1050px) {
-        font-size: 10rem;
-    }
-
-    @media screen and (max-width: 750px) {
-        font-size: 8rem;
-    }
-
-    @media screen and (max-width: 450px) {
-        font-size: 5rem;
-    }
-}
-
 .heading-l {
-    font-size: 9.2rem;
-    letter-spacing: -.2rem;
+    font-size: 4rem;
 
     @media screen and (max-width: 1050px) {
         font-size: 8rem;
@@ -53,8 +35,7 @@ p {
 }
 
 .heading-m {
-    font-size: 7.2rem;
-    letter-spacing: -.2rem;
+    font-size: 3rem;
 
     @media screen and (max-width: 750px) {
         font-size: 5rem;
@@ -66,28 +47,17 @@ p {
 }
 
 .heading-s {
-    font-size: 4rem;
+    font-size: 2.2rem;
 
     @media screen and (max-width: 750px) {
-        font-size: 3rem;
+        font-size: 2rem;
     }
 
     @media screen and (max-width: 450px) {
-        font-size: 2.5rem;
+        font-size: 1.8rem;
     }
 }
 
-.heading-xs {
-    font-size: 3.2rem;
-
-    @media screen and (max-width: 750px) {
-        font-size: 3rem;
-    }
-
-    @media screen and (max-width: 450px) {
-        font-size: 2.5rem;
-    }
-}
 
 .heading-tiny {
     font-size: 2rem;
