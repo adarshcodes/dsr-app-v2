@@ -31,18 +31,6 @@
   flex-direction: row;
   gap: 1rem;
 }
-.form .input-row input {
-  flex: 1;
-  outline: none;
-  border: #a7cfca 2px solid;
-  padding: 1.2rem 1rem;
-  font-family: inherit;
-  font-size: 1.6rem;
-  transition: all 0.3s cubic-bezier(0.5, 0, 0.5, 1.5);
-}
-.form .input-row input:focus {
-  border-color: #018171;
-}
 
 .highlight {
   color: #018171;
@@ -237,11 +225,18 @@ p {
 .btn {
   padding: 1.5rem;
   text-align: center;
+  border-radius: 0.4rem;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.5, 0, 0.5, 1.5);
 }
 .btn:active {
   transform: scale(0.98);
+}
+@media screen and (max-width: 500px) {
+  .btn {
+    font-size: 1.6rem;
+    padding: 1.2rem;
+  }
 }
 
 .btn-dark {
@@ -447,7 +442,7 @@ p {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
+  gap: 2.5rem;
 }
 .topbar-ctas .logout {
   font-size: 1.5rem;
@@ -589,4 +584,3 @@ p {
 }
 .dashboard .container {
   padding: 2rem;
-}/*# sourceMappingURL=main.css.map */
