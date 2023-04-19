@@ -2,8 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import Logo from "../../assets/images/logo/logo-leaf.svg";
+import Icon from "../../assets/images/logo/ms.svg";
 import Quadrafort from "../../assets/images/logo/quadrafort-dark.png";
-import ButtonDark from "../../components/Buttons/ButtonDark";
+import Button from "../../components/Buttons/Button";
 
 function Login() {
 	return (
@@ -17,18 +18,12 @@ function Login() {
 				</div>
 
 				<form className="form login-form">
-					<div className="input-row">
-						<input type="email" placeholder="Email address" id="login-email" />
-					</div>
-					<div className="input-row">
-						<input type="password" placeholder="Password" id="login-password" />
-					</div>
-
 					<Link to="/">
-						<ButtonDark
-							value={"Sign In"}
-							varient={"dark"}
-							customClass={"login-btn"}
+						<Button
+							value={"Sign in with Microsoft"}
+							varient={"btn-light"}
+							customClass={"btn-light-shadow"}
+							icon={Icon}
 						/>
 					</Link>
 				</form>
