@@ -8,7 +8,7 @@ h1,
 h2,
 h3,
 h4 {
-    color: $swatch_1;
+    color: var(--primary-green);
     font-weight: 700;
 }
 
@@ -90,6 +90,10 @@ p {
 
 .heading-tiny {
     font-size: 2rem;
+
+    @media screen and (max-width: 450px) {
+        font-size: 1.3rem;
+    }
 }
 
 .para {

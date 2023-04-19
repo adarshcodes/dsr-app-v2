@@ -1,28 +1,55 @@
 .form {
-    @include flex-column;
-    gap: 1rem;
+  @include flex-column;
+  gap: 1rem;
 
-    .input-row {
-        flex: 1;
-        @include flex-row;
-        gap: 1rem;
-
-        input {
-            flex: 1;
-            outline: none;
-            border: $swatch_2 2px solid;
-            padding: 1.2rem 1rem;
-            font-family: inherit;
-            font-size: 1.6rem;
-            transition: all .3s $bez-1;
-
-            &:focus {
-                border-color: $swatch_3;
-            }
-        }
+  .input-row {
+    @media screen and (max-width: 500px) {
+      flex-wrap: wrap;
+      flex-direction: column;
     }
+    input,
+    textarea {
+      // Given textarea the property of input inside the input-row.
+      flex: 1;
+      width: 100%;
+      outline: none;
+      border: $swatch_2 2px solid;
+      padding: 1.2rem 1rem;
+      border-radius: 0.4rem;
+      font-family: inherit;
+      font-size: 1.6rem;
+      transition: all 0.3s $bez-1;
+      background-color: var(--light-section);
+
+      &:focus {
+        border-color: $swatch_3;
+      }
+    }
+    flex: 1;
+    @include flex-row;
+    gap: 1rem;
+  }
 }
 
 .highlight {
-    color: $swatch_3;
+  color: $swatch_3;
+}
+
+.circle-cta {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  @include shadow-1;
+  @include flex-row-center;
+  transition: all 0.3s $bez-3;
+  border: 1px solid var(--message-box-border);
+
+  &:hover {
+    background-color: var(--message-box-border);
+  }
+
+  @media screen and (max-width: 500px) {
+    width: 3.2rem;
+    height: 3.2rem;
+  }
 }

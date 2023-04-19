@@ -1,14 +1,19 @@
 .sidebar {
+    z-index: 100;
     width: 22rem;
     background-color: var(--light-section);
     @include shadow-1;
     height: 100vh;
     border: 1px solid var(--border-color);
-    transition: all .3s $bez-1;
+    transition: all .3s $bez-3;
 
     @media screen and (max-width: 750px) {
         position: absolute;
         transform: translateX(-100%);
+    }
+
+    @media screen and (max-width: 500px) {
+        width: 20rem;
     }
 
     &__logo {
@@ -19,11 +24,19 @@
 
         .logo {
             width: 70%;
+
+            @media screen and (max-width: 500px) {
+                width: 60%;
+            }
         }
     }
 
     &__tabs {
         padding: 2rem;
+
+        @media screen and (max-width: 500px) {
+            padding: 1.5rem;
+        }
 
         .route-list {
             @include flex-column;
@@ -53,6 +66,10 @@
                 z-index: 1;
                 color: $swatch_1;
                 color: var(--primary-text);
+
+                @media screen and (max-width: 500px) {
+                    font-size: 1.6rem;
+                }
 
                 &::before {
                     content: "";
