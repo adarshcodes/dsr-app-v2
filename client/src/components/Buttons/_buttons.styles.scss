@@ -2,28 +2,16 @@
     padding: 1.5rem;
     text-align: center;
     cursor: pointer;
-<<<<<<< HEAD
-    transition: all .3s $bez-1;
-
-    &:active {
-        transform: scale(.98);
-=======
     transition: all 0.3s $bez-1;
 
     &:active {
         transform: scale(0.98);
->>>>>>> 1e528a86f2be2391bb14979a1cbcd55f7ff8b27e
     }
 }
 
 .btn-dark {
     color: #fff;
     background-color: $swatch_3;
-<<<<<<< HEAD
-
-    &:hover {
-        background-color: $swatch_4;
-=======
 
     &:hover {
         background-color: $swatch_4;
@@ -56,6 +44,5 @@
 
     &:hover {
         background-color: $color-error-active;
->>>>>>> 1e528a86f2be2391bb14979a1cbcd55f7ff8b27e
     }
 }
