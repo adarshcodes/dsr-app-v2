@@ -11,13 +11,19 @@ function NewDsr() {
 		// Adding animated component to make the route change animated -- Adarsh(19-Apr)
 		<AnimatedComponent>
 			<div className="new-dsr">
-				<Button value={"Leave"} varient={"dark"} customClass={"btn-leave"} />
+				<Button
+					value={"Leave today?"}
+					varient={"dark"}
+					customClass={"btn-leave"}
+				/>
+
 				<div className="uid-date">
 					<p className="para uid-date">
-						UID <span>000</span>
+						UID: <span>000</span>
 					</p>
 					<p className="para">18/04/2023</p>
 				</div>
+
 				<div className="form">
 					<form className="form login-form">
 						<div className="input-row">
