@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Logo from "../../assets/images/logo/logo-leaf.svg";
 import Icon from "../../assets/images/logo/ms.svg";
 import Quadrafort from "../../assets/images/logo/quadrafort-dark.png";
-import Button from "../../components/Buttons/Button";
+import ButtonDark from "../../components/Buttons/ButtonDark";
 
 function Login() {
 	return (
@@ -18,16 +18,28 @@ function Login() {
 				</div>
 
 				<form className="form login-form">
+					<div className="input-row">
+						<input type="email" placeholder="Email address" id="login-email" />
+					</div>
+					<div className="input-row">
+						<input type="password" placeholder="Password" id="login-password" />
+					</div>
+
 					<Link to="/">
+<<<<<<< HEAD
+						<ButtonDark
+							value={"Sign In"}
+							varient={"dark"}
+							customClass={"login-btn"}
+=======
 						<Button
 							value={"Sign in with Microsoft"}
 							varient={"btn-light"}
 							customClass={"btn-light-shadow"}
 							icon={Icon}
+>>>>>>> 1e528a86f2be2391bb14979a1cbcd55f7ff8b27e
 						/>
 					</Link>
-
-					{/* <ButtonLogin value={"Sign in with Microsoft"} varient={light}/> */}
 				</form>
 
 				<div className="branding">
