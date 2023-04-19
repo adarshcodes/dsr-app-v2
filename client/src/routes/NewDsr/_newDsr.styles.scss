@@ -1,8 +1,0 @@
-.new-dsr {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  .uid-date {
-    @include flex-row-spacebetween;
-  }
-}
