@@ -9,25 +9,25 @@ $swatch_3: #018171;
 $swatch_4: #00584e;
 
 :root {
-  --app-container: #f8f8fa;
-  --light-section: #fff;
-  --secondary-color: #4a4a4a;
-  --border-color: #e9ebf0;
-  --primary-green: #01362a;
-  --primary-text: #151f20;
-  --secondary-text: #858585;
-  --message-box-border: #e9ebf0;
+    --app-container: #f8f8fa;
+    --light-section: #fff;
+    --secondary-color: #4a4a4a;
+    --border-color: #e9ebf0;
+    --primary-green: #01362a;
+    --primary-text: #151f20;
+    --secondary-text: #858585;
+    --message-box-border: #e9ebf0;
 }
 
 .dark:root {
-  --app-container: #141316;
-  --light-section: #1f2027;
-  --secondary-color: rgba(255, 255, 255, 0.8);
-  --border-color: #333539;
-  --primary-green: #07d3a4;
-  --primary-text: #fff;
-  --secondary-text: #7c828f;
-  --message-box-border: rgba(255, 255, 255, 0.1);
+    --app-container: #141316;
+    --light-section: #1f2027;
+    --secondary-color: rgba(255, 255, 255, 0.8);
+    --border-color: #333539;
+    --primary-green: #07d3a4;
+    --primary-text: #fff;
+    --secondary-text: #7c828f;
+    --message-box-border: rgba(255, 255, 255, 0.1);
 }
 
 // animation-bezier
