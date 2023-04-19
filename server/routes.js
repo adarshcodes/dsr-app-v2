@@ -1,6 +1,7 @@
 const express = require("express");
 const userModel = require("./model");
 const dsrModel = require("./dsrmodel");
+const draftModel = require("./draftmodel")
 
 const app = express();
 
@@ -93,4 +94,56 @@ app.get("/users", async (request, response) => {
       response.status(500).send(error);
     }
   });
+
+//***************************Draft-calls*******************************8 */
+
+    //save a Draft record related to a user
+    app.post("/add_draft/:userId", async (request, response) => {
+      const userId = request.params.userId;
+      const user = await userModel.findById(userId);
+    
+      if (!user) {
+        return response.status(404).send("User not found");
+      }
+    
+      const draft = new draftModel({
+        ...request.body,
+        user: userId
+      });
+    
+      try {
+        await draft.save();
+        response.send(draft);
+      } catch (error) {
+        response.status(500).send(error);
+      }
+    });
+  
+    //retrieve the draft records of a user
+    app.get("/users/:userId/draft", async (request, response) => {
+      const userId = request.params.userId;
+    
+      try {
+        const draft = await draftModel.find({ user: userId });
+        response.send(draft);
+      } catch (error) {
+        response.status(500).send(error);
+      }
+    });
+
+    //delete the draft record
+    app.delete("/drafts/:draftId", async (request, response) => {
+      const draftId = request.params.draftId;
+    
+      try {
+        const draft = await draftModel.findByIdAndDelete(draftId);
+        if (!draft) {
+          return response.status(404).send("Draft not found");
+        }
+        response.send("Draft deleted successfully");
+      } catch (error) {
+        response.status(500).send(error);
+      }
+    });
+    
   module.exports = app;
