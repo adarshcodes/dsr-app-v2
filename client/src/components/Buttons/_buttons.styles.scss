@@ -2,10 +2,10 @@
     padding: 1.5rem;
     text-align: center;
     cursor: pointer;
-    transition: all .3s $bez-1;
+    transition: all 0.3s $bez-1;
 
     &:active {
-        transform: scale(.98);
+        transform: scale(0.98);
     }
 }
 
@@ -33,5 +33,16 @@
 
     img {
         width: 2rem;
+    }
+}
+
+//button leave error color and hover error color----
+.btn-leave {
+    background-color: $color-error;
+    padding: 1.4rem 2rem;
+    align-self: flex-end;
+
+    &:hover {
+        background-color: $color-error-active;
     }
 }

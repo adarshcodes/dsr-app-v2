@@ -1,23 +1,23 @@
 :root {
-  --app-container: #F8F8FA;
+  --app-container: #f8f8fa;
   --light-section: #fff;
-  --secondary-color: #4A4A4A;
+  --secondary-color: #4a4a4a;
   --border-color: #e9ebf0;
   --primary-green: #01362a;
-  --primary-text: #151F20;
+  --primary-text: #151f20;
   --secondary-text: #858585;
   --message-box-border: #e9ebf0;
 }
 
 .dark:root {
   --app-container: #141316;
-  --light-section: #1F2027;
-  --secondary-color: rgba(255, 255, 255, .8);
+  --light-section: #1f2027;
+  --secondary-color: rgba(255, 255, 255, 0.8);
   --border-color: #333539;
   --primary-green: #07d3a4;
   --primary-text: #fff;
-  --secondary-text: #7C828F;
-  --message-box-border: rgba(255, 255, 255, .1);
+  --secondary-text: #7c828f;
+  --message-box-border: rgba(255, 255, 255, 0.1);
 }
 
 .form {
@@ -269,6 +269,15 @@ p {
   width: 2rem;
 }
 
+.btn-leave {
+  background-color: #df5656;
+  padding: 1.4rem 2rem;
+  align-self: flex-end;
+}
+.btn-leave:hover {
+  background-color: #bb3030;
+}
+
 .sidebar {
   z-index: 100;
   width: 22rem;
@@ -444,7 +453,7 @@ p {
   font-size: 1.5rem;
 }
 .topbar-ctas .logout:hover {
-  color: #DF5656;
+  color: #df5656;
 }
 .topbar-ctas .avatar {
   overflow: hidden;
@@ -462,7 +471,7 @@ p {
 .active-ham .line1 {
   transform: rotate(-405deg) translate(-5.4px, 6.6px);
   width: 2.5rem !important;
-  background-color: #DF5656;
+  background-color: #df5656;
 }
 .active-ham .line2 {
   opacity: 0;
@@ -470,7 +479,7 @@ p {
 .active-ham .line3 {
   transform: rotate(405deg) translate(-5px, -7.1px);
   width: 2.5rem !important;
-  background-color: #DF5656;
+  background-color: #df5656;
 }
 
 .toggle-bx {
