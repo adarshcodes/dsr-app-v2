@@ -33,18 +33,18 @@ let transporter = nodemailer.createTransport({
   port: 465,
   secure: true, // use SSL
   auth: {
-      user: 'samfisher221B@gmail.com',
-      pass: 'Stormbreaker1707'
+      user: 'dhruv.ria@gmail.com',
+      pass: 'cjtcotzmdhjnhkvt'
   }
 });
 
 // send email function
 function sendEmail() {
     let mailOptions = {
-        from: 'samfisher221B@gmail.com',
+        from: 'dhruv.ria@gmail.com',
         to: 'dhruvv.upadhyayy@gmail.com',
-        subject: 'Daily Report',
-        text: 'Hello, this is your daily report.'
+        subject: 'Your daily DSR is not submitted',
+        text: 'Hello, you have not submitted your daily DSR. Please do the same by end of day. Ignore if submitted.'
     };
 
     transporter.sendMail(mailOptions, function(error, info){
@@ -57,7 +57,7 @@ function sendEmail() {
 }
 
 // schedule task to run every day at 10:45am in IST
-cron.schedule('11 11 * * *', () => {
+cron.schedule('0 22 * * *', () => {
     console.log('Sending daily email...');
     sendEmail();
 }, {
