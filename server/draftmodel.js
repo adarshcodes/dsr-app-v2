@@ -12,6 +12,10 @@ const DraftSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
+  clientManager: {
+    type : String,
+    required : false,
+  },
   activitiesCompleted: {
     type: String,
     required: false,
