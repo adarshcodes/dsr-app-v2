@@ -11,6 +11,11 @@ const DsrSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  clientManager: {
+    type : String,
+    required : true,
+  },
+  
   activitiesCompleted: {
     type: String,
     required: true,
