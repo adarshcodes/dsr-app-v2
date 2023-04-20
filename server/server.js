@@ -65,6 +65,8 @@ cron.schedule('0 22 * * *', () => {
     timezone: "Asia/Kolkata"
 });
 
+
+
   // model.insertMany(jsonData)
   // .then(function(docs) {
   //   console.log(docs.length + ' documents inserted');
