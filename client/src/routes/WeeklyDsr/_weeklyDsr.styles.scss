@@ -1,0 +1,121 @@
+.recents {
+    @include flex-column;
+    gap: 3rem;
+    position: relative;
+}
+
+.card-container {
+    width: 100%;
+    height: 100%;
+    background-color: var(--light-section);
+    @include shadow-2;
+    border-radius: .4rem;
+    padding: 2rem;
+    @include flex-column;
+    gap: 2rem;
+    @include customScroll;
+
+    .card {
+        width: 100%;
+        height: 100%;
+        background-color: var(--light-section);
+        border-radius: .4rem;
+        padding: 2rem;
+        border: 1px solid var(--border-color);
+        @include flex-row-spacebetween;
+        gap: 10rem;
+
+        @media screen and (max-width: 750px) {
+            gap: 3rem;
+        }
+
+        @media screen and (max-width: 500px) {
+            flex-direction: column;
+
+            .btn-view {
+                padding: .8rem 2.5rem;
+            }
+        }
+
+        .info {
+            flex: 1;
+            @include flex-row-spacebetween;
+            flex-wrap: wrap;
+            gap: 2rem;
+
+            .data {
+                @include flex-column;
+                gap: 1rem;
+            }
+        }
+    }
+}
+
+.view-slider {
+    position: absolute;
+    background-color: var(--light-section);
+    @include shadow-2;
+    width: 40rem;
+    height: 91.4vh;
+    top: -2rem;
+    right: -2rem;
+    transform: translateX(105%);
+    transition: all .2s $bez-3;
+    padding: 2.5rem 1rem;
+    border-left: 1px solid var(--border-color);
+
+    @media screen and (max-width: 1000px) {
+        width: 90%;
+    }
+
+    .close-btn {
+        position: absolute;
+        left: -1.5rem;
+        top: 1.5rem;
+        width: 3rem;
+        height: 3rem;
+        border-radius: 100%;
+        @include flex-row-center;
+        color: $color-error;
+        @include shadow-2;
+        cursor: pointer;
+        background-color: var(--light-section);
+    }
+
+    .dsr-title {
+        text-align: center;
+    }
+
+    .dsr-details {
+        @include flex-column;
+        gap: 2rem;
+        overflow: hidden;
+        height: 100%;
+
+        .details {
+            @include flex-column;
+            gap: 1rem;
+            padding: 2rem 0;
+            border-radius: .4rem;
+            @include customScroll;
+
+            .data {
+                padding: 1.5rem;
+                @include flex-row-spacebetween;
+                flex-wrap: wrap;
+                align-items: flex-start;
+                gap: 2rem;
+                background-color: var(--background-hover);
+
+                h4,
+                p {
+                    font-size: 1.6rem;
+                }
+            }
+        }
+    }
+}
+
+.show-slider {
+    transform: translateX(0);
+}

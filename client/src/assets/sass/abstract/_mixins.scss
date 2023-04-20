@@ -63,12 +63,12 @@
 	}
 
 	&::-webkit-scrollbar-track {
-		background-color: var(--color-primary-grey);
+		background-color: var(--border-color);
 		border-radius: .1rem;
 	}
 
 	&::-webkit-scrollbar-thumb {
-		background-color: var(--color-primary-purple);
+		background-color: var(--primary-text);
 		border-radius: .1rem;
 	}
 }
