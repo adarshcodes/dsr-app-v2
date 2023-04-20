@@ -91,7 +91,7 @@ const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric
 
     //save a Draft record related to a user
     app.post("/add_draft/", async (request, response) => {
-      const userId = request.body.user;
+      const user = request.body.user;
       const uservalid = await userModel.findById(user);
     
       if (!uservalid) {
@@ -112,7 +112,7 @@ const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric
   
     //retrieve the draft records of a user
     app.post("/users/draft", async (request, response) => {
-      const userId = request.body.userId;
+      const userId = request.body.user;
     
       try {
         const draft = await draftModel.find({ user: userId });
