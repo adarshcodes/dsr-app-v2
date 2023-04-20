@@ -5,13 +5,14 @@ const draftModel = require("./draftmodel")
 
 const app = express();
 
-//*********************user calls***********************
-
-//create a user
-
 app.get("/view",(req,res)=>{
   res.sendFile(__dirname+"/new.html");
 })
+
+
+//*********************user calls***********************
+
+//create a user
 
 
 app.post("/add_user", async (request, response) => {

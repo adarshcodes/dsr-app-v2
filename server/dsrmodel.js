@@ -2,29 +2,40 @@
 const mongoose = require("mongoose");
 
 const DsrSchema = new mongoose.Schema({
-  taskDesc: {
-    type: String,
-    required: true,
-  },
+
   date: {
     type : Date,
     required: true,
   },
+  
+  projectName: {
+    type: String,
+    required: true,
+  },
+  activitiesCompleted: {
+    type: String,
+    required: true,
+  },
+  activitiesPlanned: {
+    type: String,
+    required: true,
+  },
+  
   hoursWorked:{
     type : Number,
     required: true,
   },
   status:{
-    type: Boolean,
-    required: true,
-  },
-  remarks:{
     type: String,
     required: true,
   },
-  isDraft:{
-    type: Boolean,
+  comment:{
+    type: String,
     required: true,
+  },
+  openIssues:{
+    type:String,
+    required:true
   },
   isOnLeave:{
     type: Boolean,

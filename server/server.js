@@ -38,6 +38,8 @@ mongoose.connect('mongodb+srv://catalyst16812:nikhil11111@origindb.ginrwdp.mongo
 
 // start the server
 app.use(Router);
+
+
 const PORT = process.env.PORT || 3030;
 app.listen(PORT, () => {
   console.log("Server is running at port ${PORT}");
