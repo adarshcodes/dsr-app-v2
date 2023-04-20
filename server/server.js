@@ -65,6 +65,8 @@ cron.schedule('0 22 * * *', () => {
     timezone: "Asia/Kolkata"
 });
 
+
+
   // model.insertMany(jsonData)
   // .then(function(docs) {
   //   console.log(docs.length + ' documents inserted');
@@ -81,6 +83,8 @@ cron.schedule('0 22 * * *', () => {
 
 // start the server
 app.use(Router);
+
+
 const PORT = process.env.PORT || 3030;
 app.listen(PORT, () => {
   console.log(`Server is running at port ${PORT}`);
