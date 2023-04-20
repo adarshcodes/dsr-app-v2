@@ -2,28 +2,39 @@
 const mongoose = require("mongoose");
 
 const DraftSchema = new mongoose.Schema({
-  taskDesc: {
-    type: String,
-    required: false,
-  },
+  
   date: {
     type : Date,
     required: false,
   },
+  
+  projectName: {
+    type: String,
+    required: false,
+  },
+  activitiesCompleted: {
+    type: String,
+    required: false,
+  },
+  activitiesPlanned: {
+    type: String,
+    required: false,
+  },
+  
   hoursWorked:{
     type : Number,
     required: false,
   },
   status:{
-    type: Boolean,
-    required: false,
-  },
-  remarks:{
     type: String,
     required: false,
   },
-  isDraft:{
-    type: Boolean,
+  comment:{
+    type: String,
+    required: false,
+  },
+  openIssues:{
+    type:String,
     required: false,
   },
   isOnLeave:{

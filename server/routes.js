@@ -5,13 +5,14 @@ const draftModel = require("./draftmodel")
 
 const app = express();
 
-//*********************user calls***********************
-
-//create a user
-
 app.get("/view",(req,res)=>{
   res.sendFile(__dirname+"/new.html");
 })
+
+
+//*********************user calls***********************
+
+//create a user
 
 
 app.post("/add_user", async (request, response) => {
@@ -61,6 +62,8 @@ app.get("/users", async (request, response) => {
     }
   });
 
+let time = new Date();
+
   //save a DSR record related to a user
   app.post("/add_dsr/:userId", async (request, response) => {
     const userId = request.params.userId;
@@ -71,7 +74,7 @@ app.get("/users", async (request, response) => {
     }
   
     const dsr = new dsrModel({
-      ...request.body,
+      ...request.body,date : time,createdAt : time,updatedAt: time,
       user: userId
     });
   
