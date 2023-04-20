@@ -6,10 +6,12 @@ const DsrSchema = new mongoose.Schema({
   date: {
     type : Date,
     required: true,
+    
   },
   projectName: {
     type: String,
     required: true,
+    default : "Leave"
   },
   clientManager: {
     type : String,

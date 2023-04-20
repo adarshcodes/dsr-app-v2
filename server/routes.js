@@ -40,16 +40,16 @@ app.get("/users", async (request, response) => {
   //********************dsr calls************************
 
   //save ds`r only without any relation
-  app.post("/add_dsr", async (request, response) => {
-    const dsr = new dsrModel(request.body);
+//   app.post("/add_dsr", async (request, response) => {
+//     const dsr = new dsrModel(request.body);
   
-    try {
-      await dsr.save();
-      response.send(dsr);
-    } catch (error) {
-      response.status(500).send(error);
-    }
-});
+//     try {
+//       await dsr.save();
+//       response.send(dsr);
+//     } catch (error) {
+//       response.status(500).send(error);
+//     }
+// });
 
   //retrive all dsr
   app.get("/dsr", async (request, response) => {
@@ -92,8 +92,10 @@ const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric
     const userId = request.params.userId;
   
     try {
-      const dsr = await dsrModel.find({ user: userId });
-      response.send(dsr);
+      const sort =  -1 ;
+      const dsr = (await dsrModel.find({ user: userId }));
+      const reverdsr = dsr.reverse();
+      response.send(reverdsr.slice(0,5));
     } catch (error) {
       response.status(500).send(error);
     }
@@ -102,7 +104,7 @@ const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric
 //***************************Draft-calls*******************************8 */
 
     //save a Draft record related to a user
-    app.post("/add_draft/:userId", async (request, response) => {
+    app.post("/add_draft/", async (request, response) => {
       const userId = request.params.userId;
       const user = await userModel.findById(userId);
     
@@ -111,8 +113,7 @@ const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric
       }
     
       const draft = new draftModel({
-        ...request.body,
-        user: userId
+        ...request.body
       });
     
       try {
