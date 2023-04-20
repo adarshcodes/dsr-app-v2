@@ -11,7 +11,9 @@ const nodemailer = require('nodemailer');
 
 // create the Express app
 const app = express();
-app.use(cors());
+app.use(cors({
+  methods: ['GET','POST','DELETE','UPDATE']
+}));
 app.use(express.json());
 //catalyst16812
 

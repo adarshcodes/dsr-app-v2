@@ -66,7 +66,7 @@ let time = new Date();
 const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
   //save a DSR record related to a user
-  app.post("/add_dsr/:userId", async (request, response) => {
+  app.post("/add_dsr/", async (request, response) => {
     const userId = request.params.userId;
     const user = await userModel.findById(userId);
   
@@ -75,8 +75,8 @@ const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric
     }
   
     const dsr = new dsrModel({
-      ...request.body,
-      user: userId
+      ...request.body
+      
     });
   
     try {
