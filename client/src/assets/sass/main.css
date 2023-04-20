@@ -461,10 +461,10 @@ p {
 	overflow: hidden;
 }
 .topbar-ctas .avatar img {
-	width: 100%;
-	height: 100%;
-	border-radius: 50%;
-	object-fit: cover;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .active-ham {
@@ -502,6 +502,7 @@ p {
 }
 
 .toggle {
+
 	--size: 1.7rem;
 	appearance: none;
 	outline: none;
@@ -530,6 +531,48 @@ p {
 		var(--offset-diagonal) var(--offset-diagonal) 0 var(--ray-size),
 		calc(var(--offset-diagonal) * -1) var(--offset-diagonal) 0 var(--ray-size),
 		var(--offset-diagonal) calc(var(--offset-diagonal) * -1) 0 var(--ray-size);
+}
+
+.model {
+  display: flex;
+  position: absolute;
+  flex-direction: column;
+  z-index: 100;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  top: 50%;
+  left: 50%;
+  border-radius: 0.4rem;
+  background-color: #fff;
+  min-height: 25vh;
+  padding: 2rem;
+  outline: 0.2rem solid #a7cfca;
+}
+.model .prompt {
+  width: 100%;
+}
+.model .confirm-btns {
+  width: 15rem;
+  transform: translateY(5rem);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+@media screen and (max-width: 500px) {
+  .model {
+    top: 30vh;
+    left: 10vw;
+    height: 15rem;
+    width: 20rem;
+    font-size: medium;
+    padding: 2rem 3rem;
+    overflow: scroll;
+  }
+}
+
+.visible {
+  display: inline-block;
 }
 
 .login-container {
@@ -620,12 +663,19 @@ p {
 }
 
 .new-dsr {
-	display: flex;
-	flex-direction: column;
-	gap: 2rem;
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  gap: 2rem;
 }
 .new-dsr .uid-date {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-} /*# sourceMappingURL=main.css.map */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.new-dsr .backGroundModel {
+  position: absolute;
+  background-color: rgba(128, 128, 128, 0.17);
+  height: calc(100vh - 10rem);
+  width: calc(100vw - 22rem);
+}
