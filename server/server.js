@@ -1,6 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const Router = require("./routes");
+const cors  = require("cors");
+
 
 const cron = require('node-cron');
 const nodemailer = require('nodemailer');
@@ -9,6 +11,7 @@ const nodemailer = require('nodemailer');
 
 // create the Express app
 const app = express();
+app.use(cors());
 app.use(express.json());
 //catalyst16812
 
