@@ -461,6 +461,7 @@ p {
 }
 
 .toggle {
+<<<<<<< HEAD
   --size: 1.7rem;
   appearance: none;
   outline: none;
@@ -471,6 +472,19 @@ p {
   border-radius: 22rem;
   color: hsl(240, 20%, 32%);
   transition: all 500ms;
+=======
+
+	--size: 1.7rem;
+	appearance: none;
+	outline: none;
+	cursor: pointer;
+	width: var(--size);
+	height: var(--size);
+	box-shadow: inset calc(var(--size) * 0.45) calc(var(--size) * -0.3) 0;
+	border-radius: 22rem;
+	color: hsl(240, 20%, 32%);
+	transition: all 500ms;
+>>>>>>> 7a004c47d125df5dc51e102f92d3195fe9fb8e5c
 }
 .toggle:checked {
   --ray-size: calc(var(--size) * -0.4);
@@ -479,6 +493,48 @@ p {
   transform: scale(0.7);
   color: hsl(40, 100%, 50%);
   box-shadow: inset 0 0 0 var(--size), calc(var(--offset-orthogonal) * -1) 0 0 var(--ray-size), var(--offset-orthogonal) 0 0 var(--ray-size), 0 calc(var(--offset-orthogonal) * -1) 0 var(--ray-size), 0 var(--offset-orthogonal) 0 var(--ray-size), calc(var(--offset-diagonal) * -1) calc(var(--offset-diagonal) * -1) 0 var(--ray-size), var(--offset-diagonal) var(--offset-diagonal) 0 var(--ray-size), calc(var(--offset-diagonal) * -1) var(--offset-diagonal) 0 var(--ray-size), var(--offset-diagonal) calc(var(--offset-diagonal) * -1) 0 var(--ray-size);
+}
+
+.model {
+  display: flex;
+  position: absolute;
+  flex-direction: column;
+  z-index: 100;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  top: 50%;
+  left: 50%;
+  border-radius: 0.4rem;
+  background-color: #fff;
+  min-height: 25vh;
+  padding: 2rem;
+  outline: 0.2rem solid #a7cfca;
+}
+.model .prompt {
+  width: 100%;
+}
+.model .confirm-btns {
+  width: 15rem;
+  transform: translateY(5rem);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+@media screen and (max-width: 500px) {
+  .model {
+    top: 30vh;
+    left: 10vw;
+    height: 15rem;
+    width: 20rem;
+    font-size: medium;
+    padding: 2rem 3rem;
+    overflow: scroll;
+  }
+}
+
+.visible {
+  display: inline-block;
 }
 
 .login-container {
@@ -559,6 +615,10 @@ p {
 
 .new-dsr {
   display: flex;
+<<<<<<< HEAD
+=======
+  position: relative;
+>>>>>>> 7a004c47d125df5dc51e102f92d3195fe9fb8e5c
   flex-direction: column;
   gap: 2rem;
 }
@@ -567,6 +627,7 @@ p {
   justify-content: space-between;
   align-items: center;
 }
+<<<<<<< HEAD
 
 .recents {
   display: flex;
@@ -717,3 +778,11 @@ p {
 .show-slider {
   transform: translateX(0);
 }/*# sourceMappingURL=main.css.map */
+=======
+.new-dsr .backGroundModel {
+  position: absolute;
+  background-color: rgba(128, 128, 128, 0.17);
+  height: calc(100vh - 10rem);
+  width: calc(100vw - 22rem);
+}
+>>>>>>> 7a004c47d125df5dc51e102f92d3195fe9fb8e5c
