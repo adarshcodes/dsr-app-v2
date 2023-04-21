@@ -4,7 +4,13 @@
     cursor: pointer;
     transition: all 0.3s $bez-1;
     font-size: 1.5rem;
-    padding: 0.8rem 2.2rem;
+    padding: 1.2rem 2.2rem;
+    outline: none;
+    border: none;
+    justify-content: center;
+    align-items: center;
+    font-family: inherit;
+
     user-select: none;
 
     &:active {
@@ -38,8 +44,6 @@
     @include flex-row-center;
     gap: 1rem;
     height: 100%;
-    padding-top: 1.2rem !important;
-    padding-bottom: 1.2rem !important;
     font-size: 1.8rem;
     border: 1px solid var(--border-color);
 
@@ -50,7 +54,7 @@
 
 //leave button custum button can be reusable for error button  ---Ayush
 
-.btn-leave {
+.btn-error {
     background-color: $color-error;
     align-self: flex-end;
 

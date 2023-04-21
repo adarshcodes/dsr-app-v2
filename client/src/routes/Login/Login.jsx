@@ -22,12 +22,10 @@ function Login() {
 
 					<form className="form login-form">
 						<Link to="/">
-							<Button
-								value={"Sign in with Microsoft"}
-								varient={"btn-light"}
-								customClass={"btn-light-shadow"}
-								icon={Icon}
-							/>
+							<div className="btn btn-light btn-light-shadow">
+								<img src={Icon} alt="ms-login" />
+								<p>Sign in with Microsoft</p>
+							</div>
 						</Link>
 					</form>
 
