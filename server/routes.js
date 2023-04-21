@@ -81,7 +81,7 @@ let time = new Date();
       const sort =  -1 ;
       const dsr = await dsrModel.find({ user: userId }).sort({_id:-1}).limit(5);
       //const reverdsr = dsr.reverse();
-      //response.send(reverdsr.slice(0,5));
+      response.send(dsr);
     } catch (error) {
       response.status(500).send(error);
     }
