@@ -38,19 +38,6 @@ app.get("/users", async (request, response) => {
   });
 
   //********************dsr calls************************
-
-  //save ds`r only without any relation
-//   app.post("/add_dsr", async (request, response) => {
-//     const dsr = new dsrModel(request.body);
-  
-//     try {
-//       await dsr.save();
-//       response.send(dsr);
-//     } catch (error) {
-//       response.status(500).send(error);
-//     }
-// });
-
   //retrive all dsr
   app.get("/dsr", async (request, response) => {
     const dsr = await dsrModel.find({});
@@ -67,11 +54,11 @@ let time = new Date();
 
   //save a DSR record related to a user
   app.post("/add_dsr/", async (request, response) => {
-    const userId = request.params.userId;
-    const user = await userModel.findById(userId);
+    const user = request.body.user;
+    const uservalid = await userModel.findById(user);
   
-    if (!user) {
-      return response.status(404).send("User not found");
+    if (!uservalid) {
+      return response.status(404).send("User not found"+user);
     }
   
     const dsr = new dsrModel({
@@ -88,9 +75,8 @@ let time = new Date();
   });
 
   //retrieve the DSR records of a user
-  app.get("/users/:userId/dsr", async (request, response) => {
-    const userId = request.params.userId;
-  
+  app.post("/users/dsr", async (request, response) => {
+    const userId = request.body.user;
     try {
       const sort =  -1 ;
       const dsr = await dsrModel.find({ user: userId }).sort({_id:-1}).limit(5);
@@ -105,11 +91,11 @@ let time = new Date();
 
     //save a Draft record related to a user
     app.post("/add_draft/", async (request, response) => {
-      const userId = request.params.userId;
-      const user = await userModel.findById(userId);
+      const user = request.body.user;
+      const uservalid = await userModel.findById(user);
     
-      if (!user) {
-        return response.status(404).send("User not found");
+      if (!uservalid) {
+        return response.status(404).send("User not found"+user);
       }
     
       const draft = new draftModel({
@@ -125,8 +111,8 @@ let time = new Date();
     });
   
     //retrieve the draft records of a user
-    app.get("/users/:userId/draft", async (request, response) => {
-      const userId = request.params.userId;
+    app.post("/users/draft", async (request, response) => {
+      const userId = request.body.user;
     
       try {
         const draft = await draftModel.find({ user: userId });
@@ -137,8 +123,8 @@ let time = new Date();
     });
 
     //delete the draft record
-    app.delete("/drafts/:draftId", async (request, response) => {
-      const draftId = request.params.draftId;
+    app.delete("/draftdelete", async (request, response) => {
+      const draftId = request.body.draftId;
     
       try {
         const draft = await draftModel.findByIdAndDelete(draftId);
