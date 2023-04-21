@@ -63,12 +63,12 @@
 	}
 
 	&::-webkit-scrollbar-track {
-		background-color: var(--color-primary-grey);
+		background-color: var(--border-color);
 		border-radius: .1rem;
 	}
 
 	&::-webkit-scrollbar-thumb {
-		background-color: var(--color-primary-purple);
+		background-color: var(--primary-text);
 		border-radius: .1rem;
 	}
 }
@@ -84,4 +84,9 @@
 
 @mixin shadow-3 {
 	box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+
+@mixin shadow-4 {
+	box-shadow: rgba(0, 0, 0, 0.02) 0px 29px 6px;
 }

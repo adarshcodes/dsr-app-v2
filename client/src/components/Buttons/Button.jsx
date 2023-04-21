@@ -1,6 +1,6 @@
 import React from "react";
 
-function Button({ value, varient, customClass, icon }) {
+function Button({ value, varient, customClass, icon, handleClick }) {
 	return (
 		<div
 			className={`btn ${
