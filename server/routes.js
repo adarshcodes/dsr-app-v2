@@ -63,7 +63,7 @@ app.get("/users", async (request, response) => {
   });
 
 let time = new Date();
-const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+//const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
   //save a DSR record related to a user
   app.post("/add_dsr/", async (request, response) => {
@@ -93,9 +93,9 @@ const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric
   
     try {
       const sort =  -1 ;
-      const dsr = (await dsrModel.find({ user: userId }));
-      const reverdsr = dsr.reverse();
-      response.send(reverdsr.slice(0,5));
+      const dsr = await dsrModel.find({ user: userId }).sort({_id:-1}).limit(5);
+      //const reverdsr = dsr.reverse();
+      //response.send(reverdsr.slice(0,5));
     } catch (error) {
       response.status(500).send(error);
     }
