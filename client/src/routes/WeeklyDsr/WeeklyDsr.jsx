@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import AnimatedComponent from "../../AnimatedComponent";
-import Button from "../../components/Buttons/Button";
 
 function WeeklyDsr() {
 	// Adding animated component to make the route change animated -- Adarsh(19-Apr)
@@ -62,8 +61,13 @@ function WeeklyDsr() {
 						</div>
 					)}
 
-					<div className="cta" onClick={(e) => setSlider(data._id)}>
-						<Button value={"View"} varient={"dark"} customClass={"btn-view"} />
+					<div className="cta">
+						<button
+							className="btn btn-dark btn-view"
+							onClick={(e) => setSlider(data._id)}
+						>
+							View
+						</button>
 					</div>
 				</div>
 

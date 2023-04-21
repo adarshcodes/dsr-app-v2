@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import Button from "../../components/Buttons/Button";
+import React, { useState } from "react";
 import AnimatedComponent from "../../AnimatedComponent";
 
 /*
