@@ -1,8 +1,8 @@
 .topbar {
   width: 100%;
   background-color: var(--light-section);
-  @include shadow-1;
-  padding: 1.18rem;
+  @include shadow-2;
+  padding: 1.18rem 2rem;
   border-bottom: 1px solid var(--border-color);
   @include flex-row-spacebetween;
   gap: 1rem;
@@ -59,7 +59,7 @@
 
   &-ctas {
     @include flex-row-center;
-    gap: 2.5rem;
+    gap: 2rem;
 
     .logout {
       font-size: 1.5rem;
