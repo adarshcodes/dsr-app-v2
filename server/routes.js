@@ -1,16 +1,18 @@
 const express = require("express");
 const userModel = require("./model");
 const dsrModel = require("./dsrmodel");
+const draftModel = require("./draftmodel")
 
 const app = express();
-
-//*********************user calls***********************
-
-//create a user
 
 app.get("/view",(req,res)=>{
   res.sendFile(__dirname+"/new.html");
 })
+
+
+//*********************user calls***********************
+
+//create a user
 
 
 app.post("/add_user", async (request, response) => {
@@ -36,19 +38,6 @@ app.get("/users", async (request, response) => {
   });
 
   //********************dsr calls************************
-
-  //save ds`r only without any relation
-  app.post("/add_dsr", async (request, response) => {
-    const dsr = new dsrModel(request.body);
-  
-    try {
-      await dsr.save();
-      response.send(dsr);
-    } catch (error) {
-      response.status(500).send(error);
-    }
-});
-
   //retrive all dsr
   app.get("/dsr", async (request, response) => {
     const dsr = await dsrModel.find({});
@@ -60,18 +49,21 @@ app.get("/users", async (request, response) => {
     }
   });
 
+let time = new Date();
+const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+
   //save a DSR record related to a user
-  app.post("/add_dsr/:userId", async (request, response) => {
-    const userId = request.params.userId;
-    const user = await userModel.findById(userId);
+  app.post("/add_dsr/", async (request, response) => {
+    const user = request.body.user;
+    const uservalid = await userModel.findById(user);
   
-    if (!user) {
-      return response.status(404).send("User not found");
+    if (!uservalid) {
+      return response.status(404).send("User not found"+user);
     }
   
     const dsr = new dsrModel({
-      ...request.body,
-      user: userId
+      ...request.body
+      
     });
   
     try {
@@ -83,14 +75,66 @@ app.get("/users", async (request, response) => {
   });
 
   //retrieve the DSR records of a user
-  app.get("/users/:userId/dsr", async (request, response) => {
-    const userId = request.params.userId;
-  
+  app.post("/users/dsr", async (request, response) => {
+    const userId = request.body.user;
     try {
-      const dsr = await dsrModel.find({ user: userId });
-      response.send(dsr);
+      const sort =  -1 ;
+      const dsr = (await dsrModel.find({ user: userId }));
+      const reverdsr = dsr.reverse();
+      response.send(reverdsr.slice(0,5));
     } catch (error) {
       response.status(500).send(error);
     }
   });
+
+//***************************Draft-calls*******************************8 */
+
+    //save a Draft record related to a user
+    app.post("/add_draft/", async (request, response) => {
+      const user = request.body.user;
+      const uservalid = await userModel.findById(user);
+    
+      if (!uservalid) {
+        return response.status(404).send("User not found"+user);
+      }
+    
+      const draft = new draftModel({
+        ...request.body
+      });
+    
+      try {
+        await draft.save();
+        response.send(draft);
+      } catch (error) {
+        response.status(500).send(error);
+      }
+    });
+  
+    //retrieve the draft records of a user
+    app.post("/users/draft", async (request, response) => {
+      const userId = request.body.user;
+    
+      try {
+        const draft = await draftModel.find({ user: userId });
+        response.send(draft);
+      } catch (error) {
+        response.status(500).send(error);
+      }
+    });
+
+    //delete the draft record
+    app.delete("/draftdelete", async (request, response) => {
+      const draftId = request.body.draftId;
+    
+      try {
+        const draft = await draftModel.findByIdAndDelete(draftId);
+        if (!draft) {
+          return response.status(404).send("Draft not found");
+        }
+        response.send("Draft deleted successfully");
+      } catch (error) {
+        response.status(500).send(error);
+      }
+    });
+    
   module.exports = app;
