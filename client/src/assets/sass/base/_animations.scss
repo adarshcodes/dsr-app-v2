@@ -11,3 +11,29 @@
         transform: translatey(0px);
     }
 }
+
+// Skeleton loading animation
+
+@keyframes skeleton-loading {
+
+    0% {
+        background-color: var(--app-container);
+    }
+
+    100% {
+        background-color: hsl(200, 20%, 95%);
+    }
+
+}
+
+@keyframes skeleton-loading-child {
+
+    0% {
+        background-color: hsl(200, 20%, 80%);
+    }
+
+    100% {
+        background-color: hsl(200, 20%, 95%);
+    }
+
+}
