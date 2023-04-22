@@ -41,7 +41,7 @@ function WeeklyDsr() {
 						<div className="info">
 							<div className="data date">
 								<h4 className="heading-xs">Date of Submission</h4>
-								<p className="para date">{data.date}</p>
+								<p className="para date">{data.date.toLocaleString()}</p>
 							</div>
 
 							<div className="data project-name">
@@ -61,14 +61,18 @@ function WeeklyDsr() {
 						</div>
 					)}
 
-					<div className="cta">
-						<button
-							className="btn btn-dark btn-view"
-							onClick={(e) => setSlider(data._id)}
-						>
-							View
-						</button>
-					</div>
+					{data.isOnLeave ? (
+						""
+					) : (
+						<div className="cta">
+							<button
+								className="btn btn-dark btn-view"
+								onClick={(e) => setSlider(data._id)}
+							>
+								View
+							</button>
+						</div>
+					)}
 				</div>
 
 				<div
