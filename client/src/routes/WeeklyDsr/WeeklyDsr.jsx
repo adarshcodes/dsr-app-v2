@@ -32,16 +32,49 @@ function WeeklyDsr() {
 
 	// Mapping fetched DSR to display as a card in recents tab
 	const cardDsr = recents.map((data) => {
+		// formatting date and time from API data
+		let date = new Date(data.date);
+		let year = date.getFullYear();
+		let month = date.getMonth();
+		let day = date.getDay();
+
+		let hour = date.getHours();
+		let min = date.getMinutes();
+		let ampm = hour >= 12 ? "PM" : "AM";
+		hour = hour % 12;
+		hour = hour ? hour : 12; // the hour '0' should be '12'
+		min = min < 10 ? "0" + min : min;
+		let time = hour + ":" + min + " " + ampm;
+
+		let monthArray = [
+			"Jan",
+			"Feb",
+			"March",
+			"April",
+			"May",
+			"June",
+			"July",
+			"Aug",
+			"Sept",
+			"Oct",
+			"Nov",
+			"Dec",
+		];
+		let dateOfCreation = day + "/" + monthArray[month] + "/" + year;
+
 		return (
 			<div key={data._id}>
 				<div className="recents-card card">
 					{data.isOnLeave ? (
-						"Leave"
+						<h4 className="heading-xs leave-cta">
+							<i class="fa-solid fa-person-walking-arrow-right"></i> You Marked
+							the DSR as Leave on {dateOfCreation}
+						</h4>
 					) : (
 						<div className="info">
 							<div className="data date">
 								<h4 className="heading-xs">Date of Submission</h4>
-								<p className="para date">{data.date.toLocaleString()}</p>
+								<p className="para date">{dateOfCreation}</p>
 							</div>
 
 							<div className="data project-name">
@@ -87,8 +120,8 @@ function WeeklyDsr() {
 
 						<div className="details">
 							<div className="data">
-								<h4 className="heading-xs">Date:</h4>
-								<p className="para">{data.date}</p>
+								<h4 className="heading-xs">Date & Time:</h4>
+								<p className="para">{dateOfCreation + "  " + time}</p>
 							</div>
 
 							<div className="data">

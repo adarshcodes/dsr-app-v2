@@ -705,7 +705,7 @@ p {
   background-color: var(--light-section);
   width: 40rem;
   height: 91.4vh;
-  box-shadow: rgba(0, 0, 0, 0.02) 0px 29px 6px;
+  box-shadow: rgba(149, 157, 165, 0.1) 0px 8px 24px;
   top: 6rem;
   right: 0rem;
   transform: translateX(105%);
@@ -780,4 +780,21 @@ p {
 
 .show-slider {
   transform: translateX(0);
+}
+
+.leave-cta {
+  color: #DF5656;
+  text-align: center;
+}
+.leave-cta i {
+  margin-right: 1rem;
+}
+
+.draft-card .info {
+  gap: 1rem !important;
+}
+.draft-card .cta {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
 }/*# sourceMappingURL=main.css.map */

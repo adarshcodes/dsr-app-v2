@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import AnimatedComponent from "../../AnimatedComponent";
 
 /*
@@ -10,23 +10,6 @@ function NewDsr() {
 	// Creating state to get data from the inputs onChange --Adarsh-20-April-2023
 
 	const [dsrData, setDsrData] = useState({
-		date: "2023-04-20T08:33:15.958Z",
-		projectName: "",
-		clientManager: "",
-		activitiesCompleted: "",
-		activitiesPlanned: "",
-		hoursWorked: "",
-		status: "",
-		comment: "",
-		openIssues: "",
-		isOnLeave: true,
-		createdAt: "2023-04-20T08:33:15.958Z",
-		updatedAt: "2023-04-20T08:33:15.958Z",
-		user: "64417870bc83e4becb95f97d",
-	});
-
-	// setting inputs data for draft --20-April-2023--Adarsh
-	const [draftData, setDraftData] = useState({
 		date: "2023-04-20T08:33:15.958Z",
 		projectName: "",
 		clientManager: "",
@@ -55,13 +38,6 @@ function NewDsr() {
 			createdAt: dateTime,
 			updatedAt: dateTime,
 		});
-
-		console.log(dsrData);
-
-		// setDraftData({
-		// 	...draftData,
-		// 	[e.target.name]: value,
-		// });
 	}
 
 	// --Handle data post for new DSR to API--
@@ -92,7 +68,6 @@ function NewDsr() {
 	// --End of Posting New DSR Data--
 
 	// Clearing the input
-
 	const handleClear = () => {
 		console.log("working clear");
 		setDsrData({
