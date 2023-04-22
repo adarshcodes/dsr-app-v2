@@ -1,33 +1,81 @@
+// Use this class for any form to auto-style
+// There should be a form element(class: form), which contains a div with class input-row(this will take how many input shows in a row) which contains one input element(class: form__input form-input) and a lable(input__label input-label) to that --Adarsh--21-april-2023
+
 .form {
   @include flex-column;
-  gap: 1rem;
+  gap: 2rem;
 
   .input-row {
+    flex: 1;
+    @include flex-row;
+    gap: 3rem;
+
     @media screen and (max-width: 500px) {
       flex-wrap: wrap;
       flex-direction: column;
     }
-    input,
-    textarea {
-      // Given textarea the property of input inside the input-row.
-      flex: 1;
-      width: 100%;
-      outline: none;
-      border: $swatch_2 2px solid;
-      padding: 1.2rem 1rem;
-      border-radius: 0.4rem;
-      font-family: inherit;
-      font-size: 1.6rem;
-      transition: all 0.3s $bez-1;
-      background-color: var(--light-section);
 
-      &:focus {
-        border-color: $swatch_3;
+    .input__group {
+      flex: 1;
+      @include flex-column;
+      gap: .2rem;
+
+      textarea {
+        resize: none;
+        @include customScroll;
       }
     }
-    flex: 1;
-    @include flex-row;
-    gap: 1rem;
+
+    .input__label {
+      font-size: 1.6rem;
+      font-weight: 300;
+      color: var(--primary-text);
+      transition: all 0.3s $bez-1;
+      transform: translateX(0rem);
+    }
+
+    // .input__label__area {
+    //   transform: translate(0rem, -9rem);
+    // }
+
+    .form__input {
+      font-weight: 400;
+      flex: 1 1;
+      background-color: var(--light-section);
+      border: none;
+      font-family: inherit;
+      color: var(--primary-text);
+      border-bottom: 2px solid #084b3e;
+      padding: 1.2rem 0rem 0.8rem 0;
+      font-size: 1.8rem;
+      transition: all 0.3s cubic-bezier(0.5, 0, 0.5, 1.5);
+    }
+
+    textarea {
+      padding-bottom: 0rem !important;
+    }
+
+    .form__input:focus {
+      outline: none;
+    }
+
+    .form__input:focus:invalid {
+      border-bottom: 2px solid #FA7161;
+    }
+
+    .form__input::-webkit-input-placeholder {
+      color: #232323;
+    }
+
+    .form__input::placeholder {
+      color: #232323;
+    }
+
+    .form-input:placeholder-shown+.input-label {
+      opacity: 0;
+      visibility: hidden;
+      transform: translate(0rem, -4rem);
+    }
   }
 }
 
