@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import "react-loading-skeleton/dist/skeleton.css";
 
 import AnimatedComponent from "../../AnimatedComponent";
 import RecentSkeleton from "../../components/Skeleton/RecentSkeleton";
