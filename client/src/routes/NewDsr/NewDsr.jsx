@@ -9,6 +9,31 @@ function NewDsr() {
 	// Posting New DSR Data --Adarsh-20-April-2023
 	// Creating state to get data from the inputs onChange --Adarsh-20-April-2023
 
+	// Generating current date in readble format
+	const dateTime = new Date();
+
+	let monthArray = [
+		"Jan",
+		"Feb",
+		"March",
+		"April",
+		"May",
+		"June",
+		"July",
+		"Aug",
+		"Sept",
+		"Oct",
+		"Nov",
+		"Dec",
+	];
+
+	let currentDate =
+		dateTime.getDay() +
+		"-" +
+		monthArray[dateTime.getMonth()] +
+		"-" +
+		dateTime.getFullYear();
+
 	const [dsrData, setDsrData] = useState({
 		date: "2023-04-20T08:33:15.958Z",
 		projectName: "",
@@ -29,7 +54,6 @@ function NewDsr() {
 
 	function storeData(e) {
 		const value = e.target.value;
-		const dateTime = new Date();
 
 		setDsrData({
 			...dsrData,
@@ -91,10 +115,7 @@ function NewDsr() {
 
 				<div className="new-dsr-card">
 					<div className="uid-date">
-						<p className="para uid-date">
-							UID: <span>000</span>
-						</p>
-						<p className="para">18/04/2023</p>
+						<p className="para">Date: {currentDate}</p>
 					</div>
 
 					<div className="form">

@@ -16,9 +16,9 @@
     }
 
     .input__group {
-      flex: 1;
       @include flex-column;
       gap: .2rem;
+      flex: 1;
 
       textarea {
         resize: none;
