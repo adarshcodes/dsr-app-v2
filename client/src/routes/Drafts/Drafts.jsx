@@ -33,7 +33,7 @@ function Drafts() {
 	};
 
 	useEffect(() => {
-		fetchDrafts(drafts);
+		fetchDrafts();
 	}, []);
 
 	// Mapping drafts in to React component
