@@ -1,0 +1,10 @@
+.draft-card {
+    .info {
+        gap: 1rem !important;
+    }
+
+    .cta {
+        @include flex-row;
+        gap: 1rem;
+    }
+}

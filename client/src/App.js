@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 
 import "./assets/sass/main.css";
@@ -10,7 +10,7 @@ import Login from "./routes/Login/Login";
 
 function App() {
 	// Theme Switching
-	const [theme, setTheme] = React.useState(false);
+	const [theme, setTheme] = useState(false);
 
 	function themeSwitch() {
 		setTheme(!theme);

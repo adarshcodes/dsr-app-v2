@@ -68,7 +68,7 @@
     background-color: var(--light-section);
     width: 40rem;
     height: 91.4vh;
-    @include shadow-4;
+    @include shadow-1;
     top: 6rem;
     right: 0rem;
     transform: translateX(105%);
@@ -131,4 +131,13 @@
 
 .show-slider {
     transform: translateX(0);
+}
+
+.leave-cta {
+    color: $color-error;
+    text-align: center;
+
+    i {
+        margin-right: 1rem;
+    }
 }
