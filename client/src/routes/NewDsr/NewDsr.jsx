@@ -115,7 +115,9 @@ function NewDsr() {
 
 				<div className="new-dsr-card">
 					<div className="uid-date">
-						<p className="para">Date: {currentDate}</p>
+						<p className="para">
+							Date: <span>{currentDate}</span>
+						</p>
 					</div>
 
 					<div className="form">

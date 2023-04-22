@@ -5,6 +5,17 @@
 
   .uid-date {
     @include flex-row-spacebetween;
+
+    p {
+      font-weight: 500;
+      color: var(--primary-text);
+
+      span {
+        color: var(--secondary-text);
+        font-weight: 500;
+        font-size: 1.5rem;
+      }
+    }
   }
 
   &-card {

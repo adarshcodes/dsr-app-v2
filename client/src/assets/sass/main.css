@@ -668,6 +668,15 @@ p {
   justify-content: space-between;
   align-items: center;
 }
+.new-dsr .uid-date p {
+  font-weight: 500;
+  color: var(--primary-text);
+}
+.new-dsr .uid-date p span {
+  color: var(--secondary-text);
+  font-weight: 500;
+  font-size: 1.5rem;
+}
 .new-dsr-card {
   padding: 2rem 2rem 4rem 2rem;
   border-radius: 0.4rem;
