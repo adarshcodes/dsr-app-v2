@@ -7,6 +7,7 @@
       flex-wrap: wrap;
       flex-direction: column;
     }
+
     input,
     textarea {
       // Given textarea the property of input inside the input-row.
@@ -25,6 +26,7 @@
         border-color: $swatch_3;
       }
     }
+
     flex: 1;
     @include flex-row;
     gap: 1rem;

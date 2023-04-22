@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+
 import AnimatedComponent from "../../AnimatedComponent";
 import Button from "../../components/Buttons/Button";
+import RecentSkeleton from "../../components/Skeleton/RecentSkeleton";
 
 function WeeklyDsr() {
 	// Adding animated component to make the route change animated -- Adarsh(19-Apr)
@@ -8,8 +12,10 @@ function WeeklyDsr() {
 	// Using post method to send userID which return the Recents DSR of the user
 	const [recents, setRecents] = useState([]);
 	const [slider, setSlider] = useState("");
+	const [loading, setLoading] = useState(true);
 
 	const fetchData = () => {
+		setLoading(true);
 		return fetch("https://new-web-app.onrender.com/users/dsr", {
 			method: "POST",
 			headers: {
@@ -21,6 +27,7 @@ function WeeklyDsr() {
 			.then((data) => {
 				console.log("Success:", data);
 				setRecents(data);
+				setLoading(false);
 			})
 			.catch((error) => {
 				console.error("Error:", error);
@@ -134,7 +141,11 @@ function WeeklyDsr() {
 			<div className="recents">
 				<h3 className="heading-s">View Your Last 5 DSR</h3>
 
-				<div className="recents-card-container card-container">{cardDsr}</div>
+				<div className="recents-card-container card-container">
+					<div className="scroll-parent">
+						{loading ? Array(5).fill(<RecentSkeleton />) : cardDsr}
+					</div>
+				</div>
 			</div>
 		</AnimatedComponent>
 	);

@@ -6,13 +6,20 @@
 
 .card-container {
     width: 100%;
-    height: 100%;
+    height: 79vh;
     background-color: var(--light-section);
     @include shadow-2;
     border-radius: .4rem;
-    padding: 2rem;
-    @include flex-column;
-    gap: 2rem;
+    padding: 2rem 0;
+
+    .scroll-parent {
+        width: 100%;
+        height: 100%;
+        padding: 0 2rem;
+        @include flex-column;
+        gap: 2rem;
+        @include customScroll;
+    }
 
     .card {
         width: 100%;
