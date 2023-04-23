@@ -5,37 +5,42 @@ import AnimatedComponent from "../../AnimatedComponent";
 import Logo from "../../assets/images/logo/logo-leaf.svg";
 import Icon from "../../assets/images/logo/ms.svg";
 import Quadrafort from "../../assets/images/logo/quadrafort-dark.png";
+import { useAuth0 } from "@auth0/auth0-react";
 
 function Login() {
-	return (
-		// Adding animated component to make the route change animated -- Adarsh(19-Apr)
-		<AnimatedComponent>
-			<div className="login-container">
-				<div className="login-card">
-					<div className="top-part">
-						<img src={Logo} alt="logo" className="logo" />
+  const { loginWithPopup } = useAuth0();
+  return (
+    // Adding animated component to make the route change animated -- Adarsh(19-Apr)
+    <AnimatedComponent>
+      <div className="login-container">
+        <div className="login-card">
+          <div className="top-part">
+            <img src={Logo} alt="logo" className="logo" />
 
-						<h1 className="heading-s">LeafLog</h1>
-						<p className="para">Stay connected to your Work and Nature</p>
-					</div>
+            <h1 className="heading-s">LeafLog</h1>
+            <p className="para">Stay connected to your Work and Nature</p>
+          </div>
 
-					<form className="form login-form">
-						<Link to="/">
-							<div className="btn btn-light btn-light-shadow">
-								<img src={Icon} alt="ms-login" />
-								<p>Sign in with Microsoft</p>
-							</div>
-						</Link>
-					</form>
+          <form className="form login-form">
+            {/* <Link to="/"> */}
+            <div
+              className="btn btn-light btn-light-shadow"
+              onClick={() => loginWithPopup()}
+            >
+              <img src={Icon} alt="ms-login" />
+              <p>Sign in with Microsoft</p>
+            </div>
+            {/* </Link> */}
+          </form>
 
-					<div className="branding">
-						Proudly by
-						<img src={Quadrafort} alt="Quadrafort" className="quadra-logo" />
-					</div>
-				</div>
-			</div>
-		</AnimatedComponent>
-	);
+          <div className="branding">
+            Proudly by
+            <img src={Quadrafort} alt="Quadrafort" className="quadra-logo" />
+          </div>
+        </div>
+      </div>
+    </AnimatedComponent>
+  );
 }
 
 export default Login;
