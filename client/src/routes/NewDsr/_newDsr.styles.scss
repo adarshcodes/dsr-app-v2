@@ -48,6 +48,7 @@
   border-left: 4px solid $color-success;
   transition: all .3s $bez-3;
   transform: translateX(200%);
+  z-index: 1000;
 
   .heading-xs {
     font-weight: 500;

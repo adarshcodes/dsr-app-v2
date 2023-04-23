@@ -65,6 +65,8 @@ function Drafts() {
 	async function handleDelete(id) {
 		try {
 			const deletedData = await deleteDraft(id);
+			verificationMsg();
+			setTimeout(closeMsg, 3000);
 			await fetchDrafts();
 			console.log("Deleted data:", deletedData);
 			// do something with deletedData, such as update state or re-fetch data
@@ -73,6 +75,15 @@ function Drafts() {
 		}
 	}
 
+	const [msg, setMsg] = useState(false);
+
+	function verificationMsg() {
+		setMsg(true);
+	}
+
+	function closeMsg() {
+		setMsg(false);
+	}
 	// Mapping drafts in to React component
 
 	const cardDraft = drafts.map((data) => {
@@ -150,6 +161,9 @@ function Drafts() {
 	return (
 		// Adding animated component to make the route change animated -- Adarsh(19-Apr)
 		<AnimatedComponent>
+			<div className={`verification-cta ${msg ? "show-verification" : ""}`}>
+				<h3 className="heading-xs">Draft Deleted Successfully! 🎉</h3>
+			</div>
 			<div className="recents">
 				<h3 className="heading-s">Your Saved Drafts</h3>
 

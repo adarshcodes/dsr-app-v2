@@ -759,6 +759,7 @@ p {
   border-left: 4px solid #09C97F;
   transition: all 0.3s cubic-bezier(0.55, 0.055, 0.675, 0.19);
   transform: translateX(200%);
+  z-index: 1000;
 }
 .verification-cta .heading-xs {
   font-weight: 500;
