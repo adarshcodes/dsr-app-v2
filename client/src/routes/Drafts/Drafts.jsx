@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 import AnimatedComponent from "../../AnimatedComponent";
 import RecentSkeleton from "../../components/Skeleton/RecentSkeleton";
@@ -43,7 +42,7 @@ function Drafts() {
 		let date = new Date(data.date);
 		let year = date.getFullYear();
 		let month = date.getMonth();
-		let day = date.getDay();
+		let day = date.getDate();
 
 		// let hour = date.getHours();
 		// let min = date.getMinutes();
@@ -72,7 +71,6 @@ function Drafts() {
 
 		return (
 			<div key={data._id}>
-				{console.log(`This is date: ${data.date}`)}
 				<div className="draft-card recents-card card">
 					<div className="info">
 						<div className="data date">
@@ -114,7 +112,9 @@ function Drafts() {
 
 				<div className="recents-card-container card-container">
 					<div className="scroll-parent">
-						{loading ? Array(5).fill(<RecentSkeleton />) : cardDraft}
+						{loading
+							? Array.from({ length: 10 }, (_, i) => <RecentSkeleton key={i} />)
+							: cardDraft}
 					</div>
 				</div>
 			</div>

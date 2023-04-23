@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-
 import AnimatedComponent from "../../AnimatedComponent";
 import RecentSkeleton from "../../components/Skeleton/RecentSkeleton";
 
@@ -22,7 +21,6 @@ function WeeklyDsr() {
 		})
 			.then((response) => response.json())
 			.then((data) => {
-				console.log("Success:", data);
 				setRecents(data);
 				setLoading(false);
 			})
@@ -41,7 +39,7 @@ function WeeklyDsr() {
 		let date = new Date(data.date);
 		let year = date.getFullYear();
 		let month = date.getMonth();
-		let day = date.getDay();
+		let day = date.getDate();
 
 		let hour = date.getHours();
 		let min = date.getMinutes();
@@ -65,15 +63,15 @@ function WeeklyDsr() {
 			"Nov",
 			"Dec",
 		];
-		let dateOfCreation = day + "/" + monthArray[month] + "/" + year;
+		let dateOfCreation = day + " " + monthArray[month] + " " + year;
 
 		return (
 			<div key={data._id}>
 				<div className="recents-card card">
 					{data.isOnLeave ? (
 						<h4 className="heading-xs leave-cta">
-							<i class="fa-solid fa-person-walking-arrow-right"></i> You Marked
-							the DSR as Leave on {dateOfCreation}
+							<i className="fa-solid fa-person-walking-arrow-right"></i> You
+							Marked the DSR as Leave on {dateOfCreation}
 						</h4>
 					) : (
 						<div className="info">
@@ -117,7 +115,7 @@ function WeeklyDsr() {
 					className={`view-slider ${slider === data._id ? "show-slider" : ""}`}
 				>
 					<div className="close-btn" onClick={(e) => setSlider(false)}>
-						<i class="fa-solid fa-angle-right"></i>
+						<i className="fa-solid fa-angle-right"></i>
 					</div>
 
 					<div className="dsr-details">
@@ -126,7 +124,7 @@ function WeeklyDsr() {
 						<div className="details">
 							<div className="data">
 								<h4 className="heading-xs">Date & Time:</h4>
-								<p className="para">{dateOfCreation + "  " + time}</p>
+								<p className="para">{dateOfCreation + ",  " + time}</p>
 							</div>
 
 							<div className="data">
@@ -182,7 +180,9 @@ function WeeklyDsr() {
 
 				<div className="recents-card-container card-container">
 					<div className="scroll-parent">
-						{loading ? Array(5).fill(<RecentSkeleton />) : cardDsr}
+						{loading
+							? Array.from({ length: 10 }, (_, i) => <RecentSkeleton key={i} />)
+							: cardDsr}
 					</div>
 				</div>
 			</div>

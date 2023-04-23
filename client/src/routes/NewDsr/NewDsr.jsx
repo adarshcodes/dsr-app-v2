@@ -28,10 +28,10 @@ function NewDsr() {
 	];
 
 	let currentDate =
-		dateTime.getDay() +
-		"-" +
+		dateTime.getDate() +
+		" " +
 		monthArray[dateTime.getMonth()] +
-		"-" +
+		" " +
 		dateTime.getFullYear();
 
 	const [dsrData, setDsrData] = useState({
@@ -58,9 +58,9 @@ function NewDsr() {
 		setDsrData({
 			...dsrData,
 			[e.target.name]: value,
-			date: dateTime,
-			createdAt: dateTime,
-			updatedAt: dateTime,
+			date: currentDate,
+			createdAt: currentDate,
+			updatedAt: currentDate,
 		});
 	}
 
@@ -76,12 +76,8 @@ function NewDsr() {
 			body: JSON.stringify(dsrData),
 		})
 			.then((response) => response.json())
-			.then((data) => {
-				console.log("Success:", data);
-			})
-			.catch((error) => {
-				console.error("Error:", error);
-			});
+			.then((data) => {})
+			.catch((error) => {});
 
 		// If user submitted the DSR successfully then the below code will empty the Drafts State
 		// setDraftData("");
@@ -93,7 +89,6 @@ function NewDsr() {
 
 	// Clearing the input
 	const handleClear = () => {
-		console.log("working clear");
 		setDsrData({
 			...dsrData,
 			projectName: "",
@@ -115,6 +110,7 @@ function NewDsr() {
 
 				<div className="new-dsr-card">
 					<div className="uid-date">
+						<h3 className="heading-s">Please Fill Your DSR!</h3>
 						<p className="para">
 							Date: <span>{currentDate}</span>
 						</p>
@@ -200,7 +196,7 @@ function NewDsr() {
 							</div>
 
 							<div className="input-row">
-								<div className="input__group">
+								<div className="input__group input__group__area">
 									<textarea
 										type="text"
 										placeholder="Activities completed Today"
@@ -220,7 +216,7 @@ function NewDsr() {
 									</label>
 								</div>
 
-								<div className="input__group">
+								<div className="input__group input__group__area">
 									<textarea
 										type="text"
 										placeholder="Activities planned for tomorrow"
@@ -242,7 +238,7 @@ function NewDsr() {
 							</div>
 
 							<div className="input-row">
-								<div className="input__group">
+								<div className="input__group input__group__area">
 									<textarea
 										id="open-issues"
 										placeholder="Open Issues"
@@ -260,7 +256,7 @@ function NewDsr() {
 									</label>
 								</div>
 
-								<div className="input__group">
+								<div className="input__group input__group__area">
 									<textarea
 										id="comment"
 										placeholder="Any Other Comments"
@@ -289,7 +285,7 @@ function NewDsr() {
 								</button>
 
 								<button
-									className="btn btn-dark"
+									className="btn btn-dark btn-warning"
 									type="button"
 									// onClick={handleDraft}
 								>
@@ -298,7 +294,7 @@ function NewDsr() {
 
 								<button
 									type="button"
-									className="btn btn-dark"
+									className="btn btn-dark btn-error"
 									onClick={handleClear}
 								>
 									Clear
