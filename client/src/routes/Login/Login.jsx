@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 import AnimatedComponent from "../../AnimatedComponent";
 import Logo from "../../assets/images/logo/logo-leaf.svg";
