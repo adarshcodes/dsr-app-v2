@@ -749,6 +749,34 @@ p {
   }
 }
 
+.verification-cta {
+  position: absolute;
+  background-color: var(--light-section);
+  box-shadow: rgba(149, 157, 165, 0.1) 0px 8px 24px;
+  padding: 1.5rem 2rem;
+  border-radius: 0.4rem 0 0 0.4rem;
+  right: 0;
+  border-left: 4px solid #09C97F;
+  transition: all 0.3s cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  transform: translateX(200%);
+  z-index: 1000;
+}
+.verification-cta .heading-xs {
+  font-weight: 500;
+  color: #09C97F;
+}
+
+.error-cta {
+  border-left: 4px solid #DF5656;
+}
+.error-cta .heading-xs {
+  color: #DF5656;
+}
+
+.show-verification {
+  transform: translateX(0);
+}
+
 .recents {
   display: flex;
   flex-direction: column;
@@ -854,6 +882,21 @@ p {
     width: 10rem;
   }
 }
+.card-container .blank-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto 0;
+  height: 100%;
+}
+.card-container .blank-page .heading-s {
+  color: #09C97F;
+  text-align: center;
+  line-height: 3rem;
+}
+.card-container .blank-page .heading-s i {
+  font-size: 3.5rem;
+}
 
 .view-slider {
   position: fixed;
@@ -905,6 +948,18 @@ p {
   gap: 1rem;
   padding: 2rem 0;
   border-radius: 0.4rem;
+  overflow-y: scroll;
+}
+.view-slider .dsr-details .details::-webkit-scrollbar {
+  width: 0.3rem;
+}
+.view-slider .dsr-details .details::-webkit-scrollbar-track {
+  background-color: var(--border-color);
+  border-radius: 0.1rem;
+}
+.view-slider .dsr-details .details::-webkit-scrollbar-thumb {
+  background-color: var(--primary-text);
+  border-radius: 0.1rem;
 }
 .view-slider .dsr-details .details .data {
   padding: 0.6rem 1.5rem;

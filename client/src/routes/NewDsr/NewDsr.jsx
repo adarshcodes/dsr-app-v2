@@ -58,33 +58,48 @@ function NewDsr() {
 		setDsrData({
 			...dsrData,
 			[e.target.name]: value,
-			date: currentDate,
-			createdAt: currentDate,
-			updatedAt: currentDate,
+			date: dateTime,
+			createdAt: dateTime,
+			updatedAt: dateTime,
+		});
+
+		setDraftData({
+			...draftData,
+			[e.target.name]: value,
+			date: dateTime,
+			createdAt: dateTime,
+			updatedAt: dateTime,
 		});
 	}
 
 	// --Handle data post for new DSR to API--
-	const handlePost = (event) => {
-		event.preventDefault();
+	const handlePost = async (event) => {
+		setMsgToShow("DSR-Saved");
+		try {
+			event.preventDefault();
+			const response = await fetch(
+				"https://new-web-app.onrender.com/add_dsr/",
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify(dsrData),
+				}
+			);
 
-		fetch("https://new-web-app.onrender.com/add_dsr/", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(dsrData),
-		})
-			.then((response) => response.json())
-			.then((data) => {})
-			.catch((error) => {});
-
-		// If user submitted the DSR successfully then the below code will empty the Drafts State
-		// setDraftData("");
-
-		// Clearing form after Submission
-		handleClear();
+			const data = await response.json();
+			// Clearing form after Submission
+			data.errors ? errMsg() : verificationMsg();
+			handleClear();
+			setTimeout(closeMsg, 3000);
+		} catch (error) {
+			setMsgToShow("DSR-Not-Saved");
+			errorMsg();
+			setTimeout(closeMsg, 3000);
+		}
 	};
+
 	// --End of Posting New DSR Data--
 
 	// Clearing the input
@@ -102,10 +117,94 @@ function NewDsr() {
 		});
 	};
 
+	// Showing notification on submit data and error
+	const [msgToShow, setMsgToShow] = useState();
+
+	const [msg, setMsg] = useState(false);
+	const [errMsg, setErrMsg] = useState(false);
+
+	function verificationMsg() {
+		setMsg(true);
+	}
+
+	function errorMsg() {
+		setErrMsg(true);
+	}
+
+	function closeMsg() {
+		setMsg(false);
+		setErrMsg(false);
+	}
+
+	// Saving Draft
+	const [draftData, setDraftData] = useState({
+		date: "2023-04-20T08:33:15.958Z",
+		projectName: "",
+		clientManager: "",
+		activitiesCompleted: "",
+		activitiesPlanned: "",
+		hoursWorked: "",
+		status: "",
+		comment: "",
+		openIssues: "",
+		isOnLeave: false,
+		createdAt: "2023-04-20T08:33:15.958Z",
+		updatedAt: "2023-04-20T08:33:15.958Z",
+		user: "64417870bc83e4becb95f97d",
+	});
+
+	// Handle Draft Save
+	const handleDraft = async (event) => {
+		setMsgToShow("Draft-Saved");
+		try {
+			event.preventDefault();
+			const response = await fetch(
+				"https://new-web-app.onrender.com/add_draft/",
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify(draftData),
+				}
+			);
+
+			const data = await response.json();
+			// Clearing form after Submission
+			data.errors ? errMsg() : verificationMsg();
+			handleClear();
+			setTimeout(closeMsg, 3000);
+		} catch (error) {
+			setMsgToShow("Draft-Not-Saved");
+			errorMsg();
+			setTimeout(closeMsg, 3000);
+		}
+	};
+
 	return (
 		// Adding animated component to make the route change animated -- Adarsh(19-Apr)
 		<AnimatedComponent>
 			<div className="new-dsr">
+				<div className={`verification-cta ${msg ? "show-verification" : ""}`}>
+					<h3 className="heading-xs">
+						{msgToShow === "DSR-Saved"
+							? "DSR successfully Submitted! 🎉"
+							: "Draft saved successfully! Find it in the Drafts Tab! 🎉"}
+					</h3>
+				</div>
+
+				<div
+					className={`verification-cta error-cta ${
+						errMsg ? "show-verification" : ""
+					}`}
+				>
+					<h3 className="heading-xs">
+						{msgToShow === "DSR-Not-Saved"
+							? "DSR was not Saved! We are experiencing some problems! 💀 🎉"
+							: "Draft was not Saved! We are experiencing some problems! 💀 🎉"}
+					</h3>
+				</div>
+
 				<button className="btn btn-dark btn-error">On Leave</button>
 
 				<div className="new-dsr-card">
@@ -287,7 +386,7 @@ function NewDsr() {
 								<button
 									className="btn btn-dark btn-warning"
 									type="button"
-									// onClick={handleDraft}
+									onClick={handleDraft}
 								>
 									Save as Draft
 								</button>
