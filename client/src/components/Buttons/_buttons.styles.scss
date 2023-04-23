@@ -63,3 +63,11 @@
         background-color: $color-error-active;
     }
 }
+
+.btn-warning {
+    background-color: $color-warning;
+
+    &:hover {
+        background-color: $color-warning-active;
+    }
+}

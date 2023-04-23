@@ -45,7 +45,6 @@
 }
 .form .input-row .input__group textarea {
   resize: none;
-  overflow-y: scroll;
 }
 .form .input-row .input__group textarea::-webkit-scrollbar {
   width: 0.3rem;
@@ -58,12 +57,20 @@
   background-color: var(--primary-text);
   border-radius: 0.1rem;
 }
+.form .input-row .input__group__area {
+  height: 10rem;
+}
 .form .input-row .input__label {
   font-size: 1.6rem;
   font-weight: 300;
   color: var(--primary-text);
   transition: all 0.3s cubic-bezier(0.5, 0, 0.5, 1.5);
   transform: translateX(0rem);
+}
+@media screen and (max-width: 600px) {
+  .form .input-row .input__label {
+    font-weight: 400;
+  }
 }
 .form .input-row .form__input {
   font-weight: 400;
@@ -76,6 +83,12 @@
   padding: 1.2rem 0rem 0.8rem 0;
   font-size: 1.8rem;
   transition: all 0.3s cubic-bezier(0.5, 0, 0.5, 1.5);
+}
+@media screen and (max-width: 600px) {
+  .form .input-row .form__input {
+    font-size: 1.6rem;
+    font-weight: 500;
+  }
 }
 .form .input-row textarea {
   padding-bottom: 0rem !important;
@@ -121,6 +134,11 @@
     width: 3.2rem;
     height: 3.2rem;
   }
+}
+
+.btn-row {
+  flex-direction: row !important;
+  gap: 1.5rem !important;
 }
 
 /* Default */
@@ -227,12 +245,7 @@ p {
 }
 @media screen and (max-width: 750px) {
   .para {
-    font-size: 1.6rem;
-  }
-}
-@media screen and (max-width: 450px) {
-  .para {
-    font-size: 1.4rem;
+    font-size: 1.7rem;
   }
 }
 
@@ -323,6 +336,13 @@ p {
   background-color: #bb3030;
 }
 
+.btn-warning {
+  background-color: #f5aa3b;
+}
+.btn-warning:hover {
+  background-color: #ef8607;
+}
+
 .sidebar {
   width: 22rem;
   background-color: var(--light-section);
@@ -330,6 +350,7 @@ p {
   height: 100vh;
   border: 1px solid var(--border-color);
   transition: all 0.3s cubic-bezier(0.5, 0, 0.5, 1.5);
+  z-index: 1002;
 }
 @media screen and (max-width: 750px) {
   .sidebar {
@@ -343,13 +364,19 @@ p {
   justify-content: center;
   align-items: center;
   padding: 1rem;
+  height: 5.8rem;
   border-bottom: 1px solid var(--border-color);
 }
 .sidebar__logo .logo {
-  width: 70%;
+  width: 60%;
 }
 .sidebar__tabs {
   padding: 2rem;
+}
+@media screen and (max-width: 600px) {
+  .sidebar__tabs {
+    padding: 1rem;
+  }
 }
 .sidebar__tabs .route-list {
   display: flex;
@@ -421,12 +448,23 @@ p {
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
+  height: 5.9rem;
+}
+@media screen and (max-width: 400px) {
+  .topbar {
+    padding: 1.18rem 1.5rem;
+  }
 }
 .topbar .greet {
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 1rem;
+}
+@media screen and (max-width: 400px) {
+  .topbar .greet h4 {
+    font-size: 1.5rem;
+  }
 }
 .topbar .logo-phone {
   width: 2.5rem;
@@ -442,8 +480,8 @@ p {
 }
 .topbar .ham {
   display: none;
-  z-index: 1000;
-  transform: scale(0.8);
+  z-index: 1005;
+  transform: scale(0.8) translate(-1rem);
 }
 @media screen and (max-width: 750px) {
   .topbar .ham {
@@ -473,8 +511,18 @@ p {
   align-items: center;
   gap: 2rem;
 }
+@media screen and (max-width: 400px) {
+  .topbar-ctas {
+    gap: 1rem;
+  }
+}
 .topbar-ctas .logout {
   font-size: 1.5rem;
+}
+@media screen and (max-width: 400px) {
+  .topbar-ctas .logout {
+    font-size: 1.2rem;
+  }
 }
 .topbar-ctas .logout:hover {
   color: #DF5656;
@@ -535,6 +583,11 @@ p {
   color: hsl(240, 20%, 32%);
   transition: all 500ms;
 }
+@media screen and (max-width: 400px) {
+  .toggle {
+    --size: 1.4rem;
+  }
+}
 .toggle:checked {
   --ray-size: calc(var(--size) * -0.4);
   --offset-orthogonal: calc(var(--size) * 0.8);
@@ -566,7 +619,7 @@ p {
 }
 .skeleton-card {
   width: 100%;
-  height: 10rem !important;
+  padding: 2rem;
   border-radius: 0.4rem;
 }
 
@@ -654,7 +707,7 @@ p {
 }
 @media screen and (max-width: 500px) {
   .dashboard .container {
-    padding: 1.5rem 1.5rem 2rem 1.5rem;
+    padding: 2rem 1.5rem 2rem 1.5rem;
   }
 }
 
@@ -665,8 +718,8 @@ p {
 }
 .new-dsr .uid-date {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  gap: 2rem;
 }
 .new-dsr .uid-date p {
   font-weight: 500;
@@ -677,14 +730,23 @@ p {
   font-weight: 500;
   font-size: 1.5rem;
 }
+.new-dsr .uid-date h3 {
+  text-align: center;
+  font-weight: 700;
+}
 .new-dsr-card {
-  padding: 2rem 2rem 4rem 2rem;
+  padding: 4rem;
   border-radius: 0.4rem;
   box-shadow: 0 0.5rem 1rem rgba(26, 39, 61, 0.03);
   background-color: var(--light-section);
   display: flex;
   flex-direction: column;
   gap: 3rem;
+}
+@media screen and (max-width: 600px) {
+  .new-dsr-card {
+    padding: 4rem 2.5rem;
+  }
 }
 
 .recents {
@@ -701,6 +763,15 @@ p {
   box-shadow: 0 0.5rem 1rem rgba(26, 39, 61, 0.03);
   border-radius: 0.4rem;
   padding: 2rem 0;
+}
+@media screen and (max-width: 600px) {
+  .card-container {
+    padding: 0;
+    overflow-y: initial;
+    background-color: transparent;
+    height: 100%;
+    box-shadow: none;
+  }
 }
 .card-container .scroll-parent {
   width: 100%;
@@ -722,6 +793,12 @@ p {
   background-color: var(--primary-text);
   border-radius: 0.1rem;
 }
+@media screen and (max-width: 600px) {
+  .card-container .scroll-parent {
+    padding: 0;
+    overflow-y: initial;
+  }
+}
 .card-container .card {
   width: 100%;
   height: 100%;
@@ -734,7 +811,7 @@ p {
   align-items: center;
   gap: 10rem;
 }
-@media screen and (max-width: 750px) {
+@media screen and (max-width: 1000px) {
   .card-container .card {
     gap: 3rem;
   }
@@ -760,9 +837,19 @@ p {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  width: 22rem;
+  width: 15rem;
 }
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 600px) {
+  .card-container .card .info .data {
+    width: 15rem;
+  }
+}
+@media screen and (max-width: 400px) {
+  .card-container .card .info .data {
+    width: 13rem;
+  }
+}
+@media screen and (max-width: 360px) {
   .card-container .card .info .data {
     width: 10rem;
   }
@@ -818,18 +905,6 @@ p {
   gap: 1rem;
   padding: 2rem 0;
   border-radius: 0.4rem;
-  overflow-y: scroll;
-}
-.view-slider .dsr-details .details::-webkit-scrollbar {
-  width: 0.3rem;
-}
-.view-slider .dsr-details .details::-webkit-scrollbar-track {
-  background-color: var(--border-color);
-  border-radius: 0.1rem;
-}
-.view-slider .dsr-details .details::-webkit-scrollbar-thumb {
-  background-color: var(--primary-text);
-  border-radius: 0.1rem;
 }
 .view-slider .dsr-details .details .data {
   padding: 0.6rem 1.5rem;
@@ -838,7 +913,7 @@ p {
   align-items: center;
   flex-wrap: wrap;
   align-items: flex-start;
-  gap: 2rem;
+  gap: 0.5rem;
   background-color: var(--background-hover);
 }
 .view-slider .dsr-details .details .data h4,
@@ -859,7 +934,7 @@ p {
 }
 
 .draft-card .info {
-  gap: 1rem !important;
+  gap: 2rem !important;
 }
 .draft-card .cta {
   display: flex;
