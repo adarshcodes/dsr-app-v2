@@ -25,7 +25,7 @@ const tabs = [
 	},
 ];
 
-function Sidebar({ location, ham }) {
+function Sidebar({ location, ham, setHam }) {
 	const routeTab = tabs.map((data) => {
 		return (
 			<li
@@ -33,6 +33,7 @@ function Sidebar({ location, ham }) {
 					data.route === location.pathname ? "active" : null
 				}`}
 				key={data.id}
+				onClick={(e) => setHam(!ham)}
 			>
 				<Link to={data.route} className="route-link">
 					{data.icon}

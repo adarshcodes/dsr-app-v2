@@ -6,11 +6,22 @@
   border-bottom: 1px solid var(--border-color);
   @include flex-row-spacebetween;
   gap: 1rem;
+  height: 5.9rem;
+
+  @media screen and (max-width: 400px) {
+    padding: 1.18rem 1.5rem;
+  }
 
   .greet {
     @include flex-row;
     align-items: center;
     gap: 1rem;
+
+    h4 {
+      @media screen and (max-width: 400px) {
+        font-size: 1.5rem;
+      }
+    }
   }
 
   .logo-phone {
@@ -28,8 +39,9 @@
 
   .ham {
     display: none;
-    z-index: 1000;
-    transform: scale(0.8);
+    z-index: 1005;
+    transform: scale(0.8) translate(-1rem);
+
 
     @media screen and (max-width: 750px) {
       display: block;
@@ -61,8 +73,16 @@
     @include flex-row-center;
     gap: 2rem;
 
+    @media screen and (max-width: 400px) {
+      gap: 1rem;
+    }
+
     .logout {
       font-size: 1.5rem;
+
+      @media screen and (max-width: 400px) {
+        font-size: 1.2rem;
+      }
 
       &:hover {
         color: $color-error;
