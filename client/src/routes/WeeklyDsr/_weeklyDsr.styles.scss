@@ -82,6 +82,22 @@
             }
         }
     }
+
+    .blank-page {
+        @include flex-row-center;
+        margin: auto 0;
+        height: 100%;
+
+        .heading-s {
+            color: $color-success;
+            text-align: center;
+            line-height: 3rem;
+
+            i {
+                font-size: 3.5rem;
+            }
+        }
+    }
 }
 
 .view-slider {

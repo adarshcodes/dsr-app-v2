@@ -35,6 +35,44 @@ function Drafts() {
 		fetchDrafts();
 	}, []);
 
+	// Deleting Drafts
+	async function deleteDraft(id) {
+		console.log(id);
+		try {
+			const response = await fetch(
+				"https://new-web-app.onrender.com/draftdelete",
+				{
+					method: "DELETE",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({ draft: id }),
+				}
+			);
+
+			if (!response.ok) {
+				throw new Error("Network response was not ok");
+			}
+
+			const data = await response.json();
+			console.log(data);
+		} catch (error) {
+			console.error("There was an error deleting the data:", error);
+		}
+	}
+
+	// Call deleteDraft and then fetchDrafts in sequence
+	async function handleDelete(id) {
+		try {
+			const deletedData = await deleteDraft(id);
+			await fetchDrafts();
+			console.log("Deleted data:", deletedData);
+			// do something with deletedData, such as update state or re-fetch data
+		} catch (error) {
+			console.error("Error:", error);
+		}
+	}
+
 	// Mapping drafts in to React component
 
 	const cardDraft = drafts.map((data) => {
@@ -67,7 +105,7 @@ function Drafts() {
 			"Dec",
 		];
 
-		let dateOfCreation = day + "/" + monthArray[month] + "/" + year;
+		let dateOfCreation = day + " " + monthArray[month] + " " + year;
 
 		return (
 			<div key={data._id}>
@@ -97,7 +135,12 @@ function Drafts() {
 					<div className="cta">
 						<button className="btn btn-dark btn-view">Use</button>
 
-						<button className="btn btn-dark btn-error">Delete</button>
+						<button
+							className="btn btn-dark btn-error"
+							onClick={(e) => handleDelete(data._id)}
+						>
+							Delete
+						</button>
 					</div>
 				</div>
 			</div>
@@ -111,11 +154,23 @@ function Drafts() {
 				<h3 className="heading-s">Your Saved Drafts</h3>
 
 				<div className="recents-card-container card-container">
-					<div className="scroll-parent">
-						{loading
-							? Array.from({ length: 10 }, (_, i) => <RecentSkeleton key={i} />)
-							: cardDraft}
-					</div>
+					{cardDraft.length > 0 ? (
+						<div className="scroll-parent">
+							{loading
+								? Array.from({ length: 10 }, (_, i) => (
+										<RecentSkeleton key={i} />
+								  ))
+								: cardDraft}
+						</div>
+					) : (
+						<div className="blank-page">
+							<h3 className="heading-s">
+								<i class="fa-solid fa-mug-hot"></i>
+								<br /> There is no saved Drafts. <br />
+								You can save the draft from the New DSR page!
+							</h3>
+						</div>
+					)}
 				</div>
 			</div>
 		</AnimatedComponent>

@@ -881,6 +881,21 @@ p {
     width: 10rem;
   }
 }
+.card-container .blank-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto 0;
+  height: 100%;
+}
+.card-container .blank-page .heading-s {
+  color: #09C97F;
+  text-align: center;
+  line-height: 3rem;
+}
+.card-container .blank-page .heading-s i {
+  font-size: 3.5rem;
+}
 
 .view-slider {
   position: fixed;
