@@ -55,6 +55,10 @@ const DsrSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
+  isupdated:{
+    type :Boolean,
+    default:false,
+  },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',

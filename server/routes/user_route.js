@@ -8,8 +8,12 @@ const app = express();
 
 //create a user
 app.post("/add_user", async (request, response) => {
-    const user = new userModel(request.body);
-  
+
+    let currdate = new Date();
+    const user = new userModel({
+      ...request.body , lastdsrtime : currdate
+      
+    });
     try {
       await user.save();
       response.send(user);
