@@ -187,7 +187,6 @@ app.post("/saveupdate", async (request, response) => {
       return response.send("You have already updated dsr");
     } else {
     
-        dsrvalid.date=request.body.date;
         dsrvalid.projectName=request.body.projectName;
         dsrvalid.clientManager=request.body.clientManager;
         dsrvalid.activitiesCompleted=request.body.activitiesCompleted;
@@ -196,7 +195,6 @@ app.post("/saveupdate", async (request, response) => {
         dsrvalid.status=request.body.status;
         dsrvalid.comment=request.body.comment;
         dsrvalid.openIssues=request.body.openIssues;
-        dsrvalid.isOnLeave=request.body.isOnLeave;
         dsrvalid.isupdated= true;
         dsrvalid.updatedAt= updatetime;
       }
