@@ -130,5 +130,5 @@ app.post("/onleave", async (request, response) => {
     response.status(500).send(error);
   }
 });
-//retrieve the last dsr that the user has submitted
+
 module.exports = app;
