@@ -31,11 +31,10 @@ app.post("/add_dsr/", async (request, response) => {
   const savetime = request.body.createdAt;
   const date1 = new Date(savetime);
   const date2 = new Date(uservalid.lastdsrtime);
- 
-  {
-    date1.setHours(0);
-    date1.setMinutes(0);
-    date1.setSeconds(0);
+
+  date1.setHours(0);
+  date1.setMinutes(0);
+  date1.setSeconds(0);
 
   date2.setHours(0);
   date2.setMinutes(0);
@@ -54,10 +53,9 @@ app.post("/add_dsr/", async (request, response) => {
         ...request.body,
         isupdated: false
       });
-      await uservalid.save();
+
       await uservalid.save();
       await dsr.save();
-
       response.send(dsr);
     }
   } catch (error) {
@@ -89,15 +87,15 @@ app.post("/dsrfilled", async (request, response) => {
     return response.status(404).send("User not found" + user);
   }
   const date2 = new Date(uservalid.lastdsrtime);
-  {
-    todaysDate.setHours(0);
-    todaysDate.setMinutes(0);
-    todaysDate.setSeconds(0);
 
-    date2.setHours(0);
-    date2.setMinutes(0);
-    date2.setSeconds(0);
-  }
+  todaysDate.setHours(0);
+  todaysDate.setMinutes(0);
+  todaysDate.setSeconds(0);
+
+  date2.setHours(0);
+  date2.setMinutes(0);
+  date2.setSeconds(0);
+
   try {
     if (todaysDate.getDate() == date2.getDate()) {
       return response.send(true);

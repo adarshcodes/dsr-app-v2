@@ -48,10 +48,10 @@ const app = express();
           if (!draft) {
             return response.status(404).send("Draft not found");
           }
-          response.send(true);
+          response.send("Draft deleted successfully");
         } catch (error) {
           response.status(500).send(error);
         }
-      }); 
+      });
       
     module.exports = app;
