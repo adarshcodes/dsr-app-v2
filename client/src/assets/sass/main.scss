@@ -10,6 +10,7 @@
 @import "../../components/Sidebar/sidebar.styles";
 @import "../../components/Topbar/topbar.styles";
 @import "../../components/ThemeToggle/themeToggle.styles";
+@import "../../components/Skeleton/recentSkeleton";
 // @import "../../components/Models/model.styles";
 
 @import "../../routes/Login/login.styles";
@@ -17,3 +18,4 @@
 @import "../../app.styles";
 @import "../../routes/NewDsr/newDsr.styles";
 @import "../../routes/WeeklyDsr/weeklyDsr.styles";
+@import "../../routes/Drafts/drafts.styles";

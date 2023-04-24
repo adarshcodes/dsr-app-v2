@@ -31,9 +31,10 @@ const app = express();
         const userId = request.body.user;
       
         try {
-          const draft = await draftModel.find({ user: userId });
+          const draft = await draftModel.find({ user: userId }).sort({_id:-1});
           response.send(draft);
-        } catch (error) {
+        } 
+        catch (error) {
           response.status(500).send(error);
         }
       });

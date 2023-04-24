@@ -46,6 +46,7 @@ const DsrSchema = new mongoose.Schema({
   isOnLeave:{
     type: Boolean,
     required: true,
+    default:false
   },
   createdAt:{
     type: Date,
@@ -54,6 +55,10 @@ const DsrSchema = new mongoose.Schema({
   updatedAt:{
     type: Date,
     required: true,
+  },
+  isupdated:{
+    type :Boolean,
+    default:false,
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,

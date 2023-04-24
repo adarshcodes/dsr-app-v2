@@ -5,7 +5,6 @@ import AnimatedComponent from "../../AnimatedComponent";
 import Logo from "../../assets/images/logo/logo-leaf.svg";
 import Icon from "../../assets/images/logo/ms.svg";
 import Quadrafort from "../../assets/images/logo/quadrafort-dark.png";
-import Button from "../../components/Buttons/Button";
 
 function Login() {
 	return (
