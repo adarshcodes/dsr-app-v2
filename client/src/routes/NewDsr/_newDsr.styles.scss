@@ -39,14 +39,14 @@
 }
 
 .verification-cta {
-  position: absolute;
+  position: fixed;
   background-color: var(--light-section);
   @include shadow-1;
   padding: 1.5rem 2rem;
   border-radius: .4rem 0 0 .4rem;
   right: 0;
   border-left: 4px solid $color-success;
-  transition: all .3s $bez-3;
+  transition: all .2s $bez-3;
   transform: translateX(200%);
   z-index: 1000;
 

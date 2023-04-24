@@ -1,17 +1,28 @@
 import React, { useState } from "react";
 import Helmet from "react-helmet";
 import AnimatedComponent from "../../AnimatedComponent";
+import { useOutletContext } from "react-router-dom";
 
 /*
   Written the Code of NewDSR and made it responsive --- Ayush
 */
 
 function NewDsr() {
+	const [isSubmitted, setIsSubmitted] = useState(false);
+
+	function submittedDSR() {
+		setIsSubmitted(true);
+	}
 	// Posting New DSR Data --Adarsh-20-April-2023
 	// Creating state to get data from the inputs onChange --Adarsh-20-April-2023
 
 	// Generating current date in readble format
 	const dateTime = new Date();
+
+	// Adding using Draft Feature -- Adarsh-24-april-2023
+	const [useDraft, setUseDraft] = useOutletContext();
+
+	console.log(useDraft, "This data is from Draft!");
 
 	let monthArray = [
 		"Jan",
@@ -93,11 +104,12 @@ function NewDsr() {
 			// Clearing form after Submission
 			data.errors ? errMsg() : verificationMsg();
 			handleClear();
-			setTimeout(closeMsg, 3000);
+			setTimeout(closeMsg, 2000);
+			submittedDSR();
 		} catch (error) {
 			setMsgToShow("DSR-Not-Saved");
 			errorMsg();
-			setTimeout(closeMsg, 3000);
+			setTimeout(closeMsg, 2000);
 		}
 	};
 
@@ -106,6 +118,18 @@ function NewDsr() {
 	// Clearing the input
 	const handleClear = () => {
 		setDsrData({
+			...dsrData,
+			projectName: "",
+			clientManager: "",
+			activitiesCompleted: "",
+			activitiesPlanned: "",
+			hoursWorked: "",
+			status: "",
+			comment: "",
+			openIssues: "",
+		});
+
+		setDraftData({
 			...dsrData,
 			projectName: "",
 			clientManager: "",
@@ -173,12 +197,12 @@ function NewDsr() {
 			const data = await response.json();
 			// Clearing form after Submission
 			data.errors ? errMsg() : verificationMsg();
+			setTimeout(closeMsg, 2000);
 			handleClear();
-			setTimeout(closeMsg, 3000);
 		} catch (error) {
 			setMsgToShow("Draft-Not-Saved");
 			errorMsg();
-			setTimeout(closeMsg, 3000);
+			setTimeout(closeMsg, 2000);
 		}
 	};
 
@@ -217,6 +241,7 @@ function NewDsr() {
 						<p className="para">
 							Date: <span>{currentDate}</span>
 						</p>
+						{isSubmitted ? <p>Already Filled DSR</p> : ""}
 					</div>
 
 					<div className="form">

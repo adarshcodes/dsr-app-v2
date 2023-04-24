@@ -765,14 +765,14 @@ p {
 }
 
 .verification-cta {
-  position: absolute;
+  position: fixed;
   background-color: var(--light-section);
   box-shadow: rgba(149, 157, 165, 0.1) 0px 8px 24px;
   padding: 1.5rem 2rem;
   border-radius: 0.4rem 0 0 0.4rem;
   right: 0;
   border-left: 4px solid #09C97F;
-  transition: all 0.3s cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  transition: all 0.2s cubic-bezier(0.55, 0.055, 0.675, 0.19);
   transform: translateX(200%);
   z-index: 1000;
 }
@@ -995,7 +995,7 @@ p {
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  align-items: flex-start;
+  align-items: center;
   gap: 0.5rem;
   background-color: var(--background-hover);
 }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Helmet from "react-helmet";
 import AnimatedComponent from "../../AnimatedComponent";
+import { useOutletContext } from "react-router-dom";
 import RecentSkeleton from "../../components/Skeleton/RecentSkeleton";
 
 function Drafts() {
@@ -84,8 +85,29 @@ function Drafts() {
 	function closeMsg() {
 		setMsg(false);
 	}
-	// Mapping drafts in to React component
 
+	// Adding use Draft Feature --Adarsh-24-April-2023
+	const [useDraft, setUseDraft] = useOutletContext();
+	// setUseDraft({
+	// 	date: "2023-04-20T08:33:15.958Z",
+	// 	projectName: "",
+	// 	clientManager: "",
+	// 	activitiesCompleted: "",
+	// 	activitiesPlanned: "",
+	// 	hoursWorked: "",
+	// 	status: "",
+	// 	comment: "",
+	// 	openIssues: "",
+	// 	isOnLeave: false,
+	// 	createdAt: "2023-04-20T08:33:15.958Z",
+	// 	updatedAt: "2023-04-20T08:33:15.958Z",
+	// 	user: "64417870bc83e4becb95f97d",
+	// });
+	function handleUseDraft(id) {
+		console.log(id);
+	}
+
+	// Mapping drafts in to React component
 	const cardDraft = drafts.map((data) => {
 		// formatting date and time from API data
 		let date = new Date(data.date);
@@ -144,7 +166,12 @@ function Drafts() {
 					</div>
 
 					<div className="cta">
-						<button className="btn btn-dark btn-view">Use</button>
+						<button
+							className="btn btn-dark btn-view"
+							onClick={(e) => handleUseDraft(data._id)}
+						>
+							Use
+						</button>
 
 						<button
 							className="btn btn-dark btn-error"
@@ -182,7 +209,7 @@ function Drafts() {
 					) : (
 						<div className="blank-page">
 							<h3 className="heading-s">
-								<i class="fa-solid fa-mug-hot"></i>
+								<i className="fa-solid fa-mug-hot"></i>
 								<br /> There is no saved Drafts. <br />
 								You can save the draft from the New DSR page!
 							</h3>
