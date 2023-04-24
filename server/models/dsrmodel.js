@@ -58,6 +58,7 @@ const DsrSchema = new mongoose.Schema({
   },
   isupdated:{
     type :Boolean,
+    required:true,
     default:false,
   },
   user: {
