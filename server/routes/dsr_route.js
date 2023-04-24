@@ -72,9 +72,17 @@ app.post("/users/dsr", async (request, response) => {
   }
 });
 
+
 //when the user is on leave
 app.post("/onleave", async (request, response) => {
+  
   const userId = request.body.user;
+  
+  
+
+ 
+
+    
   // const userId = "64417870bc83e4becb95f97d";
   const today = new Date();
   try {
@@ -100,10 +108,30 @@ app.post("/onleave", async (request, response) => {
   } catch (error) {
     response.status(500).send(error);
   }
+  
+  
 });
 
 
 //retrieve the last dsr that the user has submitted
+app.post("/lastdsr", async(request,response) => {
+
+  const userId = request.body.user;
+
+  try{
+
+    const dsr = await dsrModel.findOne({user : userId}).sort({_id : -1});
+    console.log(dsr);
+    response.send(dsr);
+  }
+  catch(error)
+  {
+    response.status(500).send(error);
+  }
+});
+
+
+//edit dsr
 
 
 module.exports = app;
