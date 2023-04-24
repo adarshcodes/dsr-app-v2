@@ -41,11 +41,8 @@ app.post("/add_dsr/", async (request, response) => {
     return response.send("Dsr already saved for today");
   } else {
     try {
-<<<<<<< HEAD
       // Update the user's savetime field
-=======
       // Update the user's dsr date-time field
->>>>>>> 51d70bd54945ca7573e9b6085c5957df03397e08
       uservalid.lastdsrtime = savetime;
       await uservalid.save();
 
@@ -100,11 +97,10 @@ app.post("/dsrfilled", async (request, response) => {
     } else {
       response.send(false);
     }
-     } catch (error) {
+  } catch (error) {
     response.status(500).send(error);
   }
 });
-
 
 //when the user is on leave
 app.post("/onleave", async (request, response) => {
@@ -116,7 +112,7 @@ app.post("/onleave", async (request, response) => {
       ...request.body,
       isupdated: true,
       date: today,
-      projectName:"null",
+      projectName: "null",
       clientManager: "null",
       activitiesCompleted: "null",
       activitiesPlanned: "null",
@@ -126,13 +122,11 @@ app.post("/onleave", async (request, response) => {
       openIssues: "null",
       isOnLeave: true,
       createdAt: today,
-      updatedAt: today
+      updatedAt: today,
     });
     await dsr.save();
     response.send(dsr);
-  }
-  catch(error)
-  {
+  } catch (error) {
     response.status(500).send(error);
   }
 });
