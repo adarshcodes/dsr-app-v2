@@ -41,6 +41,7 @@ app.post("/add_dsr/", async (request, response) => {
     return response.send("Dsr already saved for today");
   } else {
     try {
+      // Update the user's savetime field
       // Update the user's dsr date-time field
       uservalid.lastdsrtime = savetime;
       await uservalid.save();
@@ -72,6 +73,35 @@ app.post("/users/dsr", async (request, response) => {
   }
 });
 
+// api for already filled dsr
+app.post("/dsrfilled", async (request, response) => {
+  const user = request.body.user;
+  let todaysDate = new Date();
+  const uservalid = await userModel.findById(user);
+  if (!uservalid) {
+    return response.status(404).send("User not found" + user);
+  }
+  const date2 = new Date(uservalid.lastdsrtime);
+
+  todaysDate.setHours(0);
+  todaysDate.setMinutes(0);
+  todaysDate.setSeconds(0);
+
+  date2.setHours(0);
+  date2.setMinutes(0);
+  date2.setSeconds(0);
+
+  try {
+    if (todaysDate.getDate() == date2.getDate()) {
+      return response.send(true);
+    } else {
+      response.send(false);
+    }
+  } catch (error) {
+    response.status(500).send(error);
+  }
+});
+
 //when the user is on leave
 app.post("/onleave", async (request, response) => {
   const userId = request.body.user;
@@ -82,7 +112,7 @@ app.post("/onleave", async (request, response) => {
       ...request.body,
       isupdated: true,
       date: today,
-      projectName:"null",
+      projectName: "null",
       clientManager: "null",
       activitiesCompleted: "null",
       activitiesPlanned: "null",
@@ -92,18 +122,13 @@ app.post("/onleave", async (request, response) => {
       openIssues: "null",
       isOnLeave: true,
       createdAt: today,
-      updatedAt: today
+      updatedAt: today,
     });
     await dsr.save();
     response.send(dsr);
-
   } catch (error) {
     response.status(500).send(error);
   }
 });
-
-
-//retrieve the last dsr that the user has submitted
-
 
 module.exports = app;
