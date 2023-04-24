@@ -689,6 +689,7 @@ p {
   flex: 1;
 }
 .dashboard .container {
+  position: relative;
   padding: 2rem;
   height: 91.4vh;
   overflow-x: hidden;
@@ -889,6 +890,11 @@ p {
   margin: auto 0;
   height: 100%;
 }
+@media screen and (max-width: 700px) {
+  .card-container .blank-page {
+    padding: 25% 0;
+  }
+}
 .card-container .blank-page .heading-s {
   color: #09C97F;
   text-align: center;
@@ -896,6 +902,14 @@ p {
 }
 .card-container .blank-page .heading-s i {
   font-size: 3.5rem;
+}
+@media screen and (max-width: 700px) {
+  .card-container .blank-page .heading-s {
+    font-size: 1.8rem;
+  }
+  .card-container .blank-page .heading-s i {
+    font-size: 2.5rem;
+  }
 }
 
 .view-slider {
