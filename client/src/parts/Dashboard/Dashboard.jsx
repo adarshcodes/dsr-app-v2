@@ -7,21 +7,7 @@ import Topbar from "../../components/Topbar/Topbar";
 function Dashboard({ theme, themeSwitch }) {
 	const location = useLocation();
 	const [ham, setHam] = useState(false);
-	const [useDraft, setUseDraft] = React.useState({
-		date: "2023-04-20T08:33:15.958Z",
-		projectName: "",
-		clientManager: "",
-		activitiesCompleted: "",
-		activitiesPlanned: "",
-		hoursWorked: "",
-		status: "",
-		comment: "",
-		openIssues: "",
-		isOnLeave: false,
-		createdAt: "2023-04-20T08:33:15.958Z",
-		updatedAt: "2023-04-20T08:33:15.958Z",
-		user: "64417870bc83e4becb95f97d",
-	});
+	const [useDraft, setUseDraft] = React.useState({});
 
 	return (
 		<div className="dashboard">
