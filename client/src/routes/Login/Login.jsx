@@ -29,7 +29,7 @@ function Login() {
 					</form>
 
 					<div className="branding">
-						Proudly by
+						a solution by
 						<img src={Quadrafort} alt="Quadrafort" className="quadra-logo" />
 					</div>
 				</div>

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Helmet from "react-helmet";
 import AnimatedComponent from "../../AnimatedComponent";
 
 /*
@@ -184,6 +185,9 @@ function NewDsr() {
 	return (
 		// Adding animated component to make the route change animated -- Adarsh(19-Apr)
 		<AnimatedComponent>
+			<Helmet>
+				<title>Create New DSR | LeafLog-Quadrafort</title>
+			</Helmet>
 			<div className="new-dsr">
 				<div className={`verification-cta ${msg ? "show-verification" : ""}`}>
 					<h3 className="heading-xs">

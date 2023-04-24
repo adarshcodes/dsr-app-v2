@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
 import AnimatedComponent from "../../AnimatedComponent";
 import RecentSkeleton from "../../components/Skeleton/RecentSkeleton";
 
@@ -175,6 +176,9 @@ function WeeklyDsr() {
 
 	return (
 		<AnimatedComponent>
+			<Helmet>
+				<title>Your Weekly DSR | LeafLog-Quadrafort</title>
+			</Helmet>
 			<div className="recents">
 				<h3 className="heading-s">View Your Last 5 DSR</h3>
 

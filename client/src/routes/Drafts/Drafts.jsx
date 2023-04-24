@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-
+import Helmet from "react-helmet";
 import AnimatedComponent from "../../AnimatedComponent";
 import RecentSkeleton from "../../components/Skeleton/RecentSkeleton";
 
@@ -161,6 +161,9 @@ function Drafts() {
 	return (
 		// Adding animated component to make the route change animated -- Adarsh(19-Apr)
 		<AnimatedComponent>
+			<Helmet>
+				<title>Your Saved Drafts | LeafLog-Quadrafort</title>
+			</Helmet>
 			<div className={`verification-cta ${msg ? "show-verification" : ""}`}>
 				<h3 className="heading-xs">Draft Deleted Successfully! 🎉</h3>
 			</div>
