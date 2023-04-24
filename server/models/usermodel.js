@@ -9,6 +9,10 @@ const UserSchema = new mongoose.Schema({
     type: String,
     default: 0,
   },
+
+  lastdsrtime: {
+    type: Date
+  }
 });
 
 const User = mongoose.model("User", UserSchema);

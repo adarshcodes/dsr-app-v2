@@ -22,23 +22,49 @@ let time = new Date();
   //save a DSR record related to a user
   app.post("/add_dsr/", async (request, response) => {
     const user = request.body.user;
+    const savetime = request.body.createdAt;
     const uservalid = await userModel.findById(user);
-  
-    if (!uservalid) {
+    const date1 = new Date(savetime);
+  const date2 = new Date(uservalid.lastdsrtime);
+
+
+    date1.setHours(0);
+    date1.setMinutes(0);
+    date1.setSeconds(0);
+    
+   
+    date2.setHours(0);
+    date2.setMinutes(0);
+    date2.setSeconds(0);
+    
+    
+    
+    if (!uservalid ) {
       return response.status(404).send("User not found"+user);
     }
-  
-    const dsr = new dsrModel({
-      ...request.body
-      
-    });
-  
-    try {
-      await dsr.save();
-      response.send(dsr);
-    } catch (error) {
-      response.status(500).send(error);
+    else if(date1.getDate()==date2.getDate())
+    {
+      return response.send("Dsr already saved for today");
     }
+    else{
+      try{
+      // Update the user's savetime field
+      uservalid.lastdsrtime = savetime;
+      await uservalid.save();
+
+      const dsr = new dsrModel({
+       ...request.body
+       
+     });
+
+     await dsr.save();
+     response.send(dsr);
+   }
+ 
+    catch (error) {
+     response.status(500).send(error);
+   }}
+    
   });
 
   //retrieve the last 5 DSR records of a user
@@ -48,7 +74,8 @@ let time = new Date();
       const dsr = await dsrModel.find({ user: userId }).sort({_id:-1}).limit(5);
       //const reverdsr = dsr.reverse();
       response.send(dsr);
-    } catch (error) {
+    } 
+    catch (error) {
       response.status(500).send(error);
     }
   });
