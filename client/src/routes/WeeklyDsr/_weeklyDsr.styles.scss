@@ -6,13 +6,20 @@
 
 .card-container {
     width: 100%;
-    height: 100%;
+    height: 79vh;
     background-color: var(--light-section);
     @include shadow-2;
     border-radius: .4rem;
-    padding: 2rem;
-    @include flex-column;
-    gap: 2rem;
+    padding: 2rem 0;
+
+    .scroll-parent {
+        width: 100%;
+        height: 100%;
+        padding: 0 2rem;
+        @include flex-column;
+        gap: 2rem;
+        @include customScroll;
+    }
 
     .card {
         width: 100%;
@@ -61,7 +68,7 @@
     background-color: var(--light-section);
     width: 40rem;
     height: 91.4vh;
-    @include shadow-4;
+    @include shadow-1;
     top: 6rem;
     right: 0rem;
     transform: translateX(105%);
@@ -124,4 +131,13 @@
 
 .show-slider {
     transform: translateX(0);
+}
+
+.leave-cta {
+    color: $color-error;
+    text-align: center;
+
+    i {
+        margin-right: 1rem;
+    }
 }
