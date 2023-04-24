@@ -344,6 +344,8 @@ p {
 }
 
 .sidebar {
+  display: flex;
+  flex-direction: column;
   width: 22rem;
   background-color: var(--light-section);
   box-shadow: 0 0.5rem 1rem rgba(26, 39, 61, 0.03);
@@ -436,6 +438,18 @@ p {
 
 .show-sidebar {
   transform: translateX(0%);
+}
+
+.bottom-branding {
+  width: 100%;
+  padding: 2rem;
+  margin-top: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.bottom-branding img {
+  width: 75%;
 }
 
 .topbar {
@@ -653,7 +667,7 @@ p {
   margin-bottom: 3rem;
 }
 .login-card .top-part .logo {
-  width: 6rem;
+  width: 4rem;
 }
 .login-card .top-part .heading-s {
   font-family: "Tenor Sans", sans-serif;
@@ -670,10 +684,10 @@ p {
   align-items: center;
   gap: 1rem;
   font-weight: 500;
-  font-size: 1.3rem;
+  font-size: 1.5rem;
 }
 .login-card .branding img {
-  width: 12rem;
+  width: 13rem;
   height: auto;
 }
 
@@ -689,6 +703,7 @@ p {
   flex: 1;
 }
 .dashboard .container {
+  position: relative;
   padding: 2rem;
   height: 91.4vh;
   overflow-x: hidden;
@@ -750,14 +765,14 @@ p {
 }
 
 .verification-cta {
-  position: absolute;
+  position: fixed;
   background-color: var(--light-section);
   box-shadow: rgba(149, 157, 165, 0.1) 0px 8px 24px;
   padding: 1.5rem 2rem;
   border-radius: 0.4rem 0 0 0.4rem;
   right: 0;
   border-left: 4px solid #09C97F;
-  transition: all 0.3s cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  transition: all 0.2s cubic-bezier(0.55, 0.055, 0.675, 0.19);
   transform: translateX(200%);
   z-index: 1000;
 }
@@ -889,6 +904,11 @@ p {
   margin: auto 0;
   height: 100%;
 }
+@media screen and (max-width: 700px) {
+  .card-container .blank-page {
+    padding: 25% 0;
+  }
+}
 .card-container .blank-page .heading-s {
   color: #09C97F;
   text-align: center;
@@ -896,6 +916,14 @@ p {
 }
 .card-container .blank-page .heading-s i {
   font-size: 3.5rem;
+}
+@media screen and (max-width: 700px) {
+  .card-container .blank-page .heading-s {
+    font-size: 1.8rem;
+  }
+  .card-container .blank-page .heading-s i {
+    font-size: 2.5rem;
+  }
 }
 
 .view-slider {
@@ -967,7 +995,7 @@ p {
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  align-items: flex-start;
+  align-items: center;
   gap: 0.5rem;
   background-color: var(--background-hover);
 }

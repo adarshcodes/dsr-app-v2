@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Helmet from "react-helmet";
 import AnimatedComponent from "../../AnimatedComponent";
 
 /*
@@ -92,11 +93,11 @@ function NewDsr() {
 			// Clearing form after Submission
 			data.errors ? errMsg() : verificationMsg();
 			handleClear();
-			setTimeout(closeMsg, 3000);
+			setTimeout(closeMsg, 2500);
 		} catch (error) {
 			setMsgToShow("DSR-Not-Saved");
 			errorMsg();
-			setTimeout(closeMsg, 3000);
+			setTimeout(closeMsg, 2500);
 		}
 	};
 
@@ -105,6 +106,18 @@ function NewDsr() {
 	// Clearing the input
 	const handleClear = () => {
 		setDsrData({
+			...dsrData,
+			projectName: "",
+			clientManager: "",
+			activitiesCompleted: "",
+			activitiesPlanned: "",
+			hoursWorked: "",
+			status: "",
+			comment: "",
+			openIssues: "",
+		});
+
+		setDraftData({
 			...dsrData,
 			projectName: "",
 			clientManager: "",
@@ -171,19 +184,22 @@ function NewDsr() {
 
 			const data = await response.json();
 			// Clearing form after Submission
-			data.errors ? errMsg() : verificationMsg();
 			handleClear();
-			setTimeout(closeMsg, 3000);
+			data.errors ? errMsg() : verificationMsg();
+			setTimeout(closeMsg, 2500);
 		} catch (error) {
 			setMsgToShow("Draft-Not-Saved");
 			errorMsg();
-			setTimeout(closeMsg, 3000);
+			setTimeout(closeMsg, 2500);
 		}
 	};
 
 	return (
 		// Adding animated component to make the route change animated -- Adarsh(19-Apr)
 		<AnimatedComponent>
+			<Helmet>
+				<title>Create New DSR | LeafLog-Quadrafort</title>
+			</Helmet>
 			<div className="new-dsr">
 				<div className={`verification-cta ${msg ? "show-verification" : ""}`}>
 					<h3 className="heading-xs">

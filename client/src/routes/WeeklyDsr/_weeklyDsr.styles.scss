@@ -88,6 +88,10 @@
         margin: auto 0;
         height: 100%;
 
+        @media screen and (max-width: 700px) {
+            padding: 25% 0;
+        }
+
         .heading-s {
             color: $color-success;
             text-align: center;
@@ -95,6 +99,14 @@
 
             i {
                 font-size: 3.5rem;
+            }
+
+            @media screen and (max-width: 700px) {
+                font-size: 1.8rem;
+
+                i {
+                    font-size: 2.5rem;
+                }
             }
         }
     }
@@ -153,7 +165,7 @@
                 padding: 0.6rem 1.5rem;
                 @include flex-row-spacebetween;
                 flex-wrap: wrap;
-                align-items: flex-start;
+                align-items: center;
                 gap: .5rem;
                 background-color: var(--background-hover);
 

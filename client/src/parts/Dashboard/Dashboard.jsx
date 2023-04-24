@@ -7,6 +7,7 @@ import Topbar from "../../components/Topbar/Topbar";
 function Dashboard({ theme, themeSwitch }) {
 	const location = useLocation();
 	const [ham, setHam] = useState(false);
+	const [useDraft, setUseDraft] = React.useState({});
 
 	return (
 		<div className="dashboard">
@@ -16,7 +17,7 @@ function Dashboard({ theme, themeSwitch }) {
 				<Topbar ham={ham} setHam={setHam} themeSwitch={themeSwitch} />
 
 				<div className="container">
-					<Outlet />
+					<Outlet context={[useDraft, setUseDraft]} />
 				</div>
 			</section>
 		</div>

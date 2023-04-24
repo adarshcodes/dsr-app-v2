@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-
+import Helmet from "react-helmet";
 import AnimatedComponent from "../../AnimatedComponent";
 import RecentSkeleton from "../../components/Skeleton/RecentSkeleton";
 
@@ -37,7 +37,6 @@ function Drafts() {
 
 	// Deleting Drafts
 	async function deleteDraft(id) {
-		console.log(id);
 		try {
 			const response = await fetch(
 				"https://new-web-app.onrender.com/draftdelete",
@@ -55,7 +54,7 @@ function Drafts() {
 			}
 
 			const data = await response.json();
-			console.log(data);
+			return data;
 		} catch (error) {
 			console.error("There was an error deleting the data:", error);
 		}
@@ -84,8 +83,8 @@ function Drafts() {
 	function closeMsg() {
 		setMsg(false);
 	}
-	// Mapping drafts in to React component
 
+	// Mapping drafts in to React component
 	const cardDraft = drafts.map((data) => {
 		// formatting date and time from API data
 		let date = new Date(data.date);
@@ -161,6 +160,9 @@ function Drafts() {
 	return (
 		// Adding animated component to make the route change animated -- Adarsh(19-Apr)
 		<AnimatedComponent>
+			<Helmet>
+				<title>Your Saved Drafts | LeafLog-Quadrafort</title>
+			</Helmet>
 			<div className={`verification-cta ${msg ? "show-verification" : ""}`}>
 				<h3 className="heading-xs">Draft Deleted Successfully! 🎉</h3>
 			</div>
@@ -179,7 +181,7 @@ function Drafts() {
 					) : (
 						<div className="blank-page">
 							<h3 className="heading-s">
-								<i class="fa-solid fa-mug-hot"></i>
+								<i className="fa-solid fa-mug-hot"></i>
 								<br /> There is no saved Drafts. <br />
 								You can save the draft from the New DSR page!
 							</h3>
