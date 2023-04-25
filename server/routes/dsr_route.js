@@ -227,7 +227,7 @@ app.post("/todaystatus", async (request, response) => {
     else {
       const dsr = await dsrModel.findOne({ user: user }).sort({ _id: -1 });
       if(!dsr){
-        response.status(709)
+        response.send("3");
       }
       if(dsr.isOnLeave){
         //user was on leave
