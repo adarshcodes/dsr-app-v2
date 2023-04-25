@@ -221,13 +221,16 @@ app.post("/todaystatus", async (request, response) => {
     let lastdate = new Date(uservalid.lastdsrtime);
     let today = new Date()
     if (lastdate.getDate() != today.getDate()){
+      //dsr not filled
       response.send("0");
     }
     else {
       const dsr = await dsrModel.findOne({ user: user }).sort({ _id: -1 });
       if(dsr.isOnLeave){
+        //user was on leave
       response.send("2");}
       else{
+        //user has saved dsr
       response.send("1");}
 
     }

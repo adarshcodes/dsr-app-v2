@@ -1,0 +1,7 @@
+702 : User id not found in database
+703 : Dsr is already saved for today
+704 : Already Marked Leave for today
+705 : DSR id is not found
+706 : Dsr is already updated for today
+707 : No DSR found for the user
+708 : Draft id not found
