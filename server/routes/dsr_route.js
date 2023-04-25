@@ -186,51 +186,22 @@ app.post("/saveupdate", async (request, response) => {
     if (dsrvalid.isupdated == true) {
       return response.send("You have already updated dsr");
     } else {
-      // dsrvalid.date=request.body.date;
-      // dsrvalid.projectName=request.body.projectName;
-      // dsrvalid.clientManager=request.body.clientManager;
-      // dsrvalid.activitiesCompleted=request.body.activitiesCompleted;
-      // dsrvalid.activitiesPlanned=request.body.activitiesPlanned,
-      // dsrvalid.hoursWorked=request.body.hoursWorked;
-      // dsrvalid.status=request.body.status;
-      // dsrvalid.comment=request.body.comment;
-      // dsrvalid.openIssues=request.body.openIssues;
-      // dsrvalid.isOnLeave=request.body.isOnLeave;
-      // dsrvalid.isupdated= true;
-      // dsrvalid.updatedAt= updatetime;
-
-      // const {
-      //   date,
-      //   projectName,
-      //   clientManager,
-      //   activitiesCompleted,
-      //   activitiesPlanned,
-      //   hoursWorked,
-      //   status,
-      //   comment,
-      //   openIssues,
-      //   isOnLeave,
-      // } = request.body;
-
-      // dsrvalid = {
-      //   ...dsrvalid,
-      //   date,
-      //   projectName,
-      //   clientManager,
-      //   activitiesCompleted,
-      //   activitiesPlanned,
-      //   hoursWorked,
-      //   status,
-      //   comment,
-      //   openIssues,
-      //   isOnLeave,
-      //   isupdated: true,
-      //   updatedAt: updatetime,
-      // };
+    
+        dsrvalid.projectName=request.body.projectName;
+        dsrvalid.clientManager=request.body.clientManager;
+        dsrvalid.activitiesCompleted=request.body.activitiesCompleted;
+        dsrvalid.activitiesPlanned=request.body.activitiesPlanned,
+        dsrvalid.hoursWorked=request.body.hoursWorked;
+        dsrvalid.status=request.body.status;
+        dsrvalid.comment=request.body.comment;
+        dsrvalid.openIssues=request.body.openIssues;
+        dsrvalid.isupdated= true;
+        dsrvalid.updatedAt= updatetime;
+      }
+      await dsrvalid.save();
+      response.send(dsrvalid);
     }
-    await dsrvalid.save();
-    response.send(dsrvalid);
-  } catch (error) {
+   catch (error) {
     response.status(500).send(error);
   }
 });
