@@ -11,7 +11,7 @@ const app = express();
         const uservalid = await userModel.findById(user);
       
         if (!uservalid) {
-          return response.status(404).send({error : "User not found"}+user);
+          return response.status(702).send();
         }
       
         const draft = new draftModel({
@@ -46,7 +46,7 @@ const app = express();
         try {
           const draft = await draftModel.findByIdAndDelete(draftId);
           if (!draft) {
-            return response.status(404).send({error : "Draft not found"});
+            return response.status(708).send();
           }
           response.send("Draft deleted successfully");
         } catch (error) {
