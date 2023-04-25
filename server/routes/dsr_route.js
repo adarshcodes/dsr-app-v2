@@ -51,7 +51,7 @@ app.post("/add_dsr/", async (request, response) => {
 
       const dsr = new dsrModel({
         ...request.body,
-        isupdated: false
+        isupdated: false,
       });
 
       await uservalid.save();
@@ -178,7 +178,7 @@ app.post("/lastdsr", async (request, response) => {
 app.post("/saveupdate", async (request, response) => {
   const dsr = request.body._id;
   const dsrvalid = await dsrModel.findById(dsr);
- updatetime = new Date();
+  updatetime = new Date();
   if (!dsrvalid) {
     return response.status(404).send("Dsr not found" + dsr);
   }
@@ -186,24 +186,51 @@ app.post("/saveupdate", async (request, response) => {
     if (dsrvalid.isupdated == true) {
       return response.send("You have already updated dsr");
     } else {
-    
-        dsrvalid.date=request.body.date;
-        dsrvalid.projectName=request.body.projectName;
-        dsrvalid.clientManager=request.body.clientManager;
-        dsrvalid.activitiesCompleted=request.body.activitiesCompleted;
-        dsrvalid.activitiesPlanned=request.body.activitiesPlanned,
-        dsrvalid.hoursWorked=request.body.hoursWorked;
-        dsrvalid.status=request.body.status;
-        dsrvalid.comment=request.body.comment;
-        dsrvalid.openIssues=request.body.openIssues;
-        dsrvalid.isOnLeave=request.body.isOnLeave;
-        dsrvalid.isupdated= true;
-        dsrvalid.updatedAt= updatetime;
-      }
-      await dsrvalid.save();
-      response.send(dsrvalid);
+      // dsrvalid.date=request.body.date;
+      // dsrvalid.projectName=request.body.projectName;
+      // dsrvalid.clientManager=request.body.clientManager;
+      // dsrvalid.activitiesCompleted=request.body.activitiesCompleted;
+      // dsrvalid.activitiesPlanned=request.body.activitiesPlanned,
+      // dsrvalid.hoursWorked=request.body.hoursWorked;
+      // dsrvalid.status=request.body.status;
+      // dsrvalid.comment=request.body.comment;
+      // dsrvalid.openIssues=request.body.openIssues;
+      // dsrvalid.isOnLeave=request.body.isOnLeave;
+      // dsrvalid.isupdated= true;
+      // dsrvalid.updatedAt= updatetime;
+
+      // const {
+      //   date,
+      //   projectName,
+      //   clientManager,
+      //   activitiesCompleted,
+      //   activitiesPlanned,
+      //   hoursWorked,
+      //   status,
+      //   comment,
+      //   openIssues,
+      //   isOnLeave,
+      // } = request.body;
+
+      // dsrvalid = {
+      //   ...dsrvalid,
+      //   date,
+      //   projectName,
+      //   clientManager,
+      //   activitiesCompleted,
+      //   activitiesPlanned,
+      //   hoursWorked,
+      //   status,
+      //   comment,
+      //   openIssues,
+      //   isOnLeave,
+      //   isupdated: true,
+      //   updatedAt: updatetime,
+      // };
     }
-   catch (error) {
+    await dsrvalid.save();
+    response.send(dsrvalid);
+  } catch (error) {
     response.status(500).send(error);
   }
 });
