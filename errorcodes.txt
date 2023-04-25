@@ -5,3 +5,4 @@
 706 : Dsr is already updated for today
 707 : No DSR found for the user
 708 : Draft id not found
+709 : Dsr was deleted
