@@ -3,8 +3,22 @@ const dsrModel = require("../models/dsrmodel");
 const userModel = require("../models/usermodel");
 
 const app = express();
+
+
+function getist(){
+  
+  var currentTime = new Date();
+  var currentOffSet = currentTime.getTimezoneOffset();
+  var ISTOffSet = 330;
+  var ISTTime = new Date(currentTime.getTime() + (ISTOffSet + currentOffSet)*60000);
+  return ISTTime;
+}
+
 //global.userString = new String("User not found");
 //********************dsr calls************************
+
+
+
 
 //retrive all dsr
 app.get("/dsr", async (request, response) => {
@@ -178,11 +192,16 @@ app.post("/lastdsr", async (request, response) => {
   }
 });
 
+
+
+
 //edit dsr
 app.post("/saveupdate", async (request, response) => {
   const dsr = request.body._id;
   const dsrvalid = await dsrModel.findById(dsr);
-  updatetime = new Date();
+
+
+  let updatetime = new Date() ;
   if (!dsrvalid) {
     return response.status(705).send();
   }
@@ -221,7 +240,7 @@ app.post("/todaystatus", async (request, response) => {
   }
   try {
     if(!uservalid.lastdsrtime){
-      return response.status(707).send();
+      return response.status(707).send("0");
     }
     let lastdate = new Date(uservalid.lastdsrtime);
     let today = new Date()
@@ -231,6 +250,9 @@ app.post("/todaystatus", async (request, response) => {
     }
     else {
       const dsr = await dsrModel.findOne({ user: user }).sort({ _id: -1 });
+      if(!dsr){
+        response.send("3");
+      }
       if(dsr.isOnLeave){
         //user was on leave
       response.send("2");}
