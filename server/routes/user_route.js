@@ -43,7 +43,7 @@ app.post("/finduser", async (request, response) => {
     const user = await userModel.findOne({ _id: userId });
 
     if (!user) {
-      return response.status(404).send({error : "User not found"});
+      return response.status(702);
     }
     response.send(user);
     // res.json(entity);
