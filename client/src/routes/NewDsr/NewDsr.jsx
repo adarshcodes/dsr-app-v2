@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Helmet from "react-helmet";
 import AnimatedComponent from "../../AnimatedComponent";
 
@@ -7,6 +7,7 @@ import AnimatedComponent from "../../AnimatedComponent";
 */
 
 function NewDsr() {
+	let userId = "64417870bc83e4becb95f97d";
 	// Posting New DSR Data --Adarsh-20-April-2023
 	// Creating state to get data from the inputs onChange --Adarsh-20-April-2023
 
@@ -48,7 +49,7 @@ function NewDsr() {
 		isOnLeave: false,
 		createdAt: "2023-04-20T08:33:15.958Z",
 		updatedAt: "2023-04-20T08:33:15.958Z",
-		user: "64417870bc83e4becb95f97d",
+		user: userId,
 	});
 
 	// Setting data from input in the state for both the DSR data and Draft data --20-April-2023--Adarsh
@@ -163,7 +164,7 @@ function NewDsr() {
 		isOnLeave: false,
 		createdAt: "2023-04-20T08:33:15.958Z",
 		updatedAt: "2023-04-20T08:33:15.958Z",
-		user: "64417870bc83e4becb95f97d",
+		user: userId,
 	});
 
 	// Handle Draft Save
@@ -193,6 +194,52 @@ function NewDsr() {
 			setTimeout(closeMsg, 2500);
 		}
 	};
+
+	// Checking if the user is already mark as on leave
+	const [isOnLeave, setIsOnLeave] = useState(false);
+
+	const fetchLeaveStatus = async () => {
+		try {
+			const response = await fetch("https://new-web-app.onrender.com/onleave", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ user: userId }),
+			});
+			const data = await response.json();
+			console.log(data);
+		} catch (error) {
+			console.error("Error:", error);
+		}
+	};
+
+	// Checking if DSR is already Filled and not edited
+	const [dsrFilled, setDsrFilled] = useState(false);
+	const fetchDsrStatus = async () => {
+		try {
+			const response = await fetch(
+				"https://new-web-app.onrender.com/dsrfilled",
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({ user: userId }),
+				}
+			);
+			const data = await response.json();
+			console.log(data);
+		} catch (error) {
+			console.error("Error:", error);
+		}
+	};
+
+	useEffect(() => {
+		fetchLeaveStatus();
+		fetchDsrStatus();
+		console.log("effect is running");
+	});
 
 	return (
 		// Adding animated component to make the route change animated -- Adarsh(19-Apr)
