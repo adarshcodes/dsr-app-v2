@@ -26,7 +26,7 @@ app.post("/add_dsr/", async (request, response) => {
   const uservalid = await userModel.findById(user);
 
   if (!uservalid) {
-    return response.status(404).send({ error: "User not found" } + user);
+    return response.status(702).send();
   }
 
   const savetime = request.body.createdAt;
@@ -43,7 +43,7 @@ app.post("/add_dsr/", async (request, response) => {
 
   try {
     if (date1.getDate() == date2.getDate()) {
-      return response.send({ error: "Dsr already saved for today" });
+      return response.status(703).send();
     }
     // Update the user's savetime field
     // Update the user's dsr date-time field
@@ -85,7 +85,7 @@ app.post("/dsrfilled", async (request, response) => {
   let todaysDate = new Date();
   const uservalid = await userModel.findById(user);
   if (!uservalid) {
-    return response.status(404).send({ error: "User not found" } + user);
+    return response.status(702).send();
   }
   const date2 = new Date(uservalid.lastdsrtime);
 
@@ -114,7 +114,7 @@ app.post("/onleave", async (request, response) => {
   const uservalid = await userModel.findById(user);
 
   if (!uservalid) {
-    return response.status(404).send({ error: "User not found" } + user);
+    return response.status(702).send();
   }
 
   // const userId = "64417870bc83e4becb95f97d";
@@ -132,7 +132,7 @@ app.post("/onleave", async (request, response) => {
 
   try {
     if (date1.getDate() == today.getDate()) {
-      return response.send({ error: "You have already marked leave" });
+      return response.status(704).send();
     } else {
       uservalid.lastdsrtime = savetime;
 
@@ -170,7 +170,7 @@ app.post("/lastdsr", async (request, response) => {
     const dsr = await dsrModel.findOne({ user: userId }).sort({ _id: -1 });
 
     if (!dsr) {
-      response.status(404).send({ error: "DSR not found" });
+      response.status(705).send();
     }
     response.send(dsr);
   } catch (error) {
@@ -184,17 +184,17 @@ app.post("/saveupdate", async (request, response) => {
   const dsrvalid = await dsrModel.findById(dsr);
   updatetime = new Date();
   if (!dsrvalid) {
-    return response.status(404).send({ error: "Dsr not found" } + dsr);
+    return response.status(705).send();
   }
   try {
     if (dsrvalid.isupdated == true) {
-      return response.send({ error: "You have already updated dsr" });
+      return response.status(706).send();
     } else {
       dsrvalid.projectName = request.body.projectName;
       dsrvalid.clientManager = request.body.clientManager;
       dsrvalid.activitiesCompleted = request.body.activitiesCompleted;
-      (dsrvalid.activitiesPlanned = request.body.activitiesPlanned),
-        (dsrvalid.hoursWorked = request.body.hoursWorked);
+      dsrvalid.activitiesPlanned = request.body.activitiesPlanned;
+      dsrvalid.hoursWorked = request.body.hoursWorked;
       dsrvalid.status = request.body.status;
       dsrvalid.comment = request.body.comment;
       dsrvalid.openIssues = request.body.openIssues;
@@ -208,4 +208,31 @@ app.post("/saveupdate", async (request, response) => {
   }
 });
 
+app.post("/todaystatus", async (request, response) => {
+  const user = request.body.user;
+  const uservalid = await userModel.findById(user);
+  if (!uservalid) {
+    return response.status(702).send();
+  }
+  try {
+    if(!uservalid.lastdsrtime){
+      return response.status(707).send();
+    }
+    let lastdate = new Date(uservalid.lastdsrtime);
+    let today = new Date()
+    if (lastdate.getDate() != today.getDate()){
+      response.send("0");
+    }
+    else {
+      const dsr = await dsrModel.findOne({ user: user }).sort({ _id: -1 });
+      if(dsr.isOnLeave){
+      response.send("2");}
+      else{
+      response.send("1");}
+
+    }
+  } catch (error) {
+    response.status(500).send(error);
+  }
+});
 module.exports = app;
