@@ -208,6 +208,11 @@ app.post("/saveupdate", async (request, response) => {
   }
 });
 
+
+
+
+
+//to check whether the user is on leave,dsr has not been filled, user has already saved dsr
 app.post("/todaystatus", async (request, response) => {
   const user = request.body.user;
   const uservalid = await userModel.findById(user);
