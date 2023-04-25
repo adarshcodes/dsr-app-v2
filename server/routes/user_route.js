@@ -11,7 +11,7 @@ app.post("/add_user", async (request, response) => {
 
     let currdate = new Date();
     const user = new userModel({
-      ...request.body , lastdsrtime : currdate
+      ...request.body
       
     });
     try {
@@ -43,7 +43,7 @@ app.post("/finduser", async (request, response) => {
     const user = await userModel.findOne({ _id: userId });
 
     if (!user) {
-      return response.status(404).send("user not found");
+      return response.status(404).send({error : "User not found"});
     }
     response.send(user);
     // res.json(entity);
