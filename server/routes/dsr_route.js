@@ -26,7 +26,7 @@ app.post("/add_dsr/", async (request, response) => {
   const uservalid = await userModel.findById(user);
 
   if (!uservalid) {
-    return response.status(702);
+    return response.status(702).send();
   }
 
   const savetime = request.body.createdAt;
@@ -43,7 +43,7 @@ app.post("/add_dsr/", async (request, response) => {
 
   try {
     if (date1.getDate() == date2.getDate()) {
-      return response.status(703);
+      return response.status(703).send();
     }
     // Update the user's savetime field
     // Update the user's dsr date-time field
@@ -85,7 +85,7 @@ app.post("/dsrfilled", async (request, response) => {
   let todaysDate = new Date();
   const uservalid = await userModel.findById(user);
   if (!uservalid) {
-    return response.status(702);
+    return response.status(702).send();
   }
   const date2 = new Date(uservalid.lastdsrtime);
 
@@ -114,7 +114,7 @@ app.post("/onleave", async (request, response) => {
   const uservalid = await userModel.findById(user);
 
   if (!uservalid) {
-    return response.status(702);
+    return response.status(702).send();
   }
 
   // const userId = "64417870bc83e4becb95f97d";
@@ -132,7 +132,7 @@ app.post("/onleave", async (request, response) => {
 
   try {
     if (date1.getDate() == today.getDate()) {
-      return response.status(704);
+      return response.status(704).send();
     } else {
       uservalid.lastdsrtime = savetime;
 
@@ -170,7 +170,7 @@ app.post("/lastdsr", async (request, response) => {
     const dsr = await dsrModel.findOne({ user: userId }).sort({ _id: -1 });
 
     if (!dsr) {
-      response.status(404).status(705);
+      response.status(705).send();
     }
     response.send(dsr);
   } catch (error) {
@@ -184,11 +184,11 @@ app.post("/saveupdate", async (request, response) => {
   const dsrvalid = await dsrModel.findById(dsr);
   updatetime = new Date();
   if (!dsrvalid) {
-    return response.status(705);
+    return response.status(705).send();
   }
   try {
     if (dsrvalid.isupdated == true) {
-      return response.status(706);
+      return response.status(706).send();
     } else {
       dsrvalid.projectName = request.body.projectName;
       dsrvalid.clientManager = request.body.clientManager;
@@ -208,24 +208,28 @@ app.post("/saveupdate", async (request, response) => {
   }
 });
 
-app.post("/leavetoday", async (request, response) => {
+app.post("/todaystatus", async (request, response) => {
   const user = request.body.user;
   const uservalid = await userModel.findById(user);
   if (!uservalid) {
-    return response.status(702);
+    return response.status(702).send();
   }
   try {
     if(!uservalid.lastdsrtime){
-      return response.status(707);
+      return response.status(707).send();
     }
     let lastdate = new Date(uservalid.lastdsrtime);
     let today = new Date()
     if (lastdate.getDate() != today.getDate()){
-      response.send(false);
+      response.send("0");
     }
     else {
       const dsr = await dsrModel.findOne({ user: user }).sort({ _id: -1 });
-      response.send(dsr.isOnLeave);
+      if(dsr.isOnLeave){
+      response.send("2");}
+      else{
+      response.send("1");}
+
     }
   } catch (error) {
     response.status(500).send(error);
