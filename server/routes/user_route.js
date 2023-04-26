@@ -50,4 +50,23 @@ app.post("/finduser", async (request, response) => {
   }
 });
 
+// Updates the last DSR time for all users. This is used to determine when to stop the server
+app.post("/changedate", async (request, response) => {
+  try {
+    // Find all non-admin users
+    const users = await userModel.find({ isAdmin: false });
+    const myDate = new Date(1950, 0, 1, 0, 0, 0);
+
+    // Update lastdsrtime field for each user
+    for (const user of users) {
+      user.lastdsrtime = myDate;
+      await user.save();
+    }
+
+    response.send("Last DSR time updated for all non-admin users");
+  } catch (error) {
+    response.status(500).send(error);
+  }
+});
+
 module.exports = app;
