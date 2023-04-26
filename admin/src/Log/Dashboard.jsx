@@ -47,12 +47,3 @@ const Dashboard = () => {
 <List item={data}/>
 <List item={data}/>
 <List item={data}/>
-
-    </div>
-
-
-
-  )
-}
-
-export default Dashboard;
