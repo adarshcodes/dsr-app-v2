@@ -3,6 +3,7 @@ import Helmet from "react-helmet";
 import AnimatedComponent from "../../AnimatedComponent";
 import RecentSkeleton from "../../components/Skeleton/RecentSkeleton";
 
+let userId = "64478175f08be675340458ec";
 function Drafts() {
 	// State to save drafts from API call
 	const [drafts, setDrafts] = useState([]);
@@ -20,7 +21,7 @@ function Drafts() {
 					headers: {
 						"Content-Type": "application/json",
 					},
-					body: JSON.stringify({ user: "64417870bc83e4becb95f97d" }),
+					body: JSON.stringify({ user: userId }),
 				}
 			);
 			const data = await response.json();
@@ -133,7 +134,7 @@ function Drafts() {
 
 						<div className="data hrs-worked">
 							<h4 className="heading-xs">Hours Worked</h4>
-							<p className="para">{data.hoursWorked}hrs</p>
+							<p className="para">{data.hoursWorked} hrs</p>
 						</div>
 
 						<div className="data client-manager">
