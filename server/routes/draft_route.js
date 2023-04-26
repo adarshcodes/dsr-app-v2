@@ -11,14 +11,17 @@ const app = express();
         const uservalid = await userModel.findById(user);
       
         
-      
+        const date1 = new Date();
         try {
           if (!uservalid) {
             return response.status(702).send();
           }
         
           const draft = new draftModel({
-            ...request.body
+            ...request.body,
+            date:date1,
+        createdAt:date1,
+        updatedAt:date1,
           });
           await draft.save();
           response.send(draft);
