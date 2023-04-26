@@ -2,15 +2,15 @@ import React, { useState, useEffect } from "react";
 import Helmet from "react-helmet";
 import AnimatedComponent from "../../AnimatedComponent";
 import Modal from "../../components/Modal/Modal";
-import sabash from "../../assets/images/sabash.jpeg";
-import kkr from "../../assets/images/meme.jpg";
+// import sabash from "../../assets/images/sabash.jpeg";
+// import kkr from "../../assets/images/meme.jpg";
 /*
   Written the Code of NewDSR and made it responsive --- Ayush
 */
 let userId = "64478175f08be675340458ec";
 function NewDsr() {
 	// Checking today's status of dsr(if already dsr is added the we will show edit option and remove form and leave button | if leave status is returned then it will show that you are on leave and if neither it returns leave nor dsr filled then will will show the form as well as Leave button) --Adarsh-25-apr-2023
-	const [isLeave, setIsLeave] = useState("");
+	// const [isLeave, setIsLeave] = useState("");
 
 	const fetchStatus = async () => {
 		try {
