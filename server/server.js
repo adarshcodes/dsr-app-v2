@@ -1,18 +1,22 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const user_route = require("./routes/user_route");
-const dsr_route = require("./routes/dsr_route");
+const admin_route = require("./routes/admin_route");
 const draft_route = require("./routes/draft_route");
+const dsr_fetch_route = require("./routes/dsr_fetch_route");
+const dsr_save_route = require("./routes/dsr_save_route");
+const user_route = require("./routes/user_route");
 const web_route = require("./routes/web_route");
 const cron = require("node-cron");
 const nodemailer = require("nodemailer");
 
 // create the Express app
 const app = express();
-app.use(cors({
-  origin: '*'
-}));
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 app.use(express.json());
 //catalyst16812
 
@@ -77,22 +81,12 @@ cron.schedule(
   }
 );
 
-// model
-//   .insertMany(jsonData)
-//   .then(function (docs) {
-//     console.log(docs.length + " documents inserted");
-//     mongoose.disconnect();
-//   })
-//   .catch(function (err) {
-//     console.error(err);
-//     mongoose.disconnect();
-//   });
-
 // start the server
-app.use(dsr_route);
-
-app.use(user_route);
+app.use(admin_route);
 app.use(draft_route);
+app.use(dsr_fetch_route);
+app.use(dsr_save_route);
+app.use(user_route);
 app.use(web_route);
 
 const PORT = process.env.PORT || 3030;
