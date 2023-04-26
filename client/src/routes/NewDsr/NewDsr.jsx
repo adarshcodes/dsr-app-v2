@@ -26,6 +26,7 @@ function NewDsr() {
 			);
 			const data = await response.json();
 			// setIsLeave(data);
+			return data;
 		} catch (error) {
 			console.error("Error:", error);
 		}
