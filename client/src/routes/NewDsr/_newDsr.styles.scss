@@ -67,3 +67,45 @@
 .show-verification {
   transform: translateX(0);
 }
+
+.blank-container {
+  height: 86vh !important;
+
+  .heading-m {
+    line-height: 4rem;
+    text-align: center;
+    color: $color-success;
+
+    i {
+      font-size: 6rem;
+      margin-bottom: 5rem;
+    }
+
+    img {
+      width: 50%;
+    }
+  }
+}
+
+.validation-error {
+  position: absolute;
+  top: 27%;
+  right: 0;
+  color: $color-error;
+  font-size: 1.5rem;
+  font-weight: 400;
+}
+
+.textarea-error {
+  top: 55% !important;
+}
+
+.invalid-input {
+  border-color: $color-error !important;
+}
+
+.valid-input {
+  &:focus {
+    border-color: $color-success !important;
+  }
+}

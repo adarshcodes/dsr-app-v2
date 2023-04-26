@@ -1,17 +1,44 @@
 import React, { useState, useEffect } from "react";
 import Helmet from "react-helmet";
 import AnimatedComponent from "../../AnimatedComponent";
-
+import Modal from "../../components/Modal/Modal";
+import sabash from "../../assets/images/sabash.jpeg";
+import kkr from "../../assets/images/meme.jpg";
 /*
   Written the Code of NewDSR and made it responsive --- Ayush
 */
-
+let userId = "64478175f08be675340458ec";
 function NewDsr() {
-	let userId = "64417870bc83e4becb95f97d";
+	// Checking today's status of dsr(if already dsr is added the we will show edit option and remove form and leave button | if leave status is returned then it will show that you are on leave and if neither it returns leave nor dsr filled then will will show the form as well as Leave button) --Adarsh-25-apr-2023
+	const [isLeave, setIsLeave] = useState("");
+
+	const fetchStatus = async () => {
+		try {
+			const response = await fetch(
+				"https://new-web-app.onrender.com/todaystatus",
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({ user: userId }),
+				}
+			);
+			const data = await response.json();
+			setIsLeave(data);
+		} catch (error) {
+			console.error("Error:", error);
+		}
+	};
+
+	useEffect(() => {
+		fetchStatus();
+	}, []);
+
 	// Posting New DSR Data --Adarsh-20-April-2023
 	// Creating state to get data from the inputs onChange --Adarsh-20-April-2023
 
-	// Generating current date in readble format
+	// Generating current date in readable format
 	const dateTime = new Date();
 
 	let monthArray = [
@@ -72,11 +99,15 @@ function NewDsr() {
 			createdAt: dateTime,
 			updatedAt: dateTime,
 		});
+
+		setErrors({
+			...errors,
+			[e.target.name]: "",
+		});
 	}
 
 	// --Handle data post for new DSR to API--
 	const handlePost = async (event) => {
-		setMsgToShow("DSR-Saved");
 		try {
 			event.preventDefault();
 			const response = await fetch(
@@ -92,6 +123,7 @@ function NewDsr() {
 
 			const data = await response.json();
 			// Clearing form after Submission
+			setMsgToShow("DSR-Saved");
 			data.errors ? errMsg() : verificationMsg();
 			handleClear();
 			setTimeout(closeMsg, 2500);
@@ -99,6 +131,13 @@ function NewDsr() {
 			setMsgToShow("DSR-Not-Saved");
 			errorMsg();
 			setTimeout(closeMsg, 2500);
+		}
+	};
+
+	const handleSubmit = (event) => {
+		event.preventDefault();
+		if (validateForm()) {
+			handlePost(event);
 		}
 	};
 
@@ -169,7 +208,6 @@ function NewDsr() {
 
 	// Handle Draft Save
 	const handleDraft = async (event) => {
-		setMsgToShow("Draft-Saved");
 		try {
 			event.preventDefault();
 			const response = await fetch(
@@ -186,6 +224,7 @@ function NewDsr() {
 			const data = await response.json();
 			// Clearing form after Submission
 			handleClear();
+			setMsgToShow("Draft-Saved");
 			data.errors ? errMsg() : verificationMsg();
 			setTimeout(closeMsg, 2500);
 		} catch (error) {
@@ -195,10 +234,8 @@ function NewDsr() {
 		}
 	};
 
-	// Checking if the user is already mark as on leave
-	const [isOnLeave, setIsOnLeave] = useState(false);
-
-	const fetchLeaveStatus = async () => {
+	// Handle Leave Mark
+	const handleLeave = async () => {
 		try {
 			const response = await fetch("https://new-web-app.onrender.com/onleave", {
 				method: "POST",
@@ -208,38 +245,115 @@ function NewDsr() {
 				body: JSON.stringify({ user: userId }),
 			});
 			const data = await response.json();
-			console.log(data);
+			setMsgToShow("Marked-Leave");
+			!data ? errMsg() : verificationMsg();
+			setTimeout(closeMsg, 2500);
 		} catch (error) {
-			console.error("Error:", error);
+			setMsgToShow("Unmarked-Leave");
+			errorMsg();
+			setTimeout(closeMsg, 2500);
 		}
+
+		setModal(false);
 	};
 
-	// Checking if DSR is already Filled and not edited
-	const [dsrFilled, setDsrFilled] = useState(false);
-	const fetchDsrStatus = async () => {
-		try {
-			const response = await fetch(
-				"https://new-web-app.onrender.com/dsrfilled",
-				{
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({ user: userId }),
-				}
-			);
-			const data = await response.json();
-			console.log(data);
-		} catch (error) {
-			console.error("Error:", error);
-		}
-	};
+	function handleLeaveBtn() {
+		hideModal();
+		handleLeave();
+	}
+
+	const [modal, setModal] = useState(false);
 
 	useEffect(() => {
-		fetchLeaveStatus();
-		fetchDsrStatus();
-		console.log("effect is running");
+		const container = document.querySelector(".container");
+		modal
+			? document.querySelector(".container").classList.add("remove-scroll")
+			: document.querySelector(".container").classList.remove("remove-scroll");
+		console.log(container);
+	}, [modal]);
+
+	function showModal() {
+		setModal(true);
+	}
+
+	function hideModal() {
+		setModal(false);
+	}
+
+	// Form Validation
+	const [errors, setErrors] = useState({
+		projectName: "",
+		clientManager: "",
+		hoursWorked: "",
+		status: "",
+		activitiesCompleted: "",
+		activitiesPlanned: "",
+		openIssues: "",
+		comment: "",
 	});
+
+	const validateForm = () => {
+		let isValid = true;
+
+		const newErrors = {
+			projectName: "",
+			clientManager: "",
+			hoursWorked: "",
+			status: "",
+			activitiesCompleted: "",
+			activitiesPlanned: "",
+			openIssues: "",
+			comment: "",
+		};
+
+		if (!dsrData.projectName) {
+			newErrors.projectName = "Project Name is required.";
+			isValid = false;
+		}
+
+		if (!dsrData.clientManager) {
+			newErrors.clientManager = "Client Manager Name is required.";
+			isValid = false;
+		}
+
+		if (!dsrData.hoursWorked) {
+			newErrors.hoursWorked = "Hours Worked is required.";
+			isValid = false;
+		} else if (dsrData.hoursWorked < 0) {
+			newErrors.hoursWorked = "Hours Worked must be a positive number.";
+			isValid = false;
+		}
+
+		if (!dsrData.status) {
+			newErrors.status = "Project Status is required.";
+			isValid = false;
+		}
+
+		if (!dsrData.activitiesCompleted) {
+			newErrors.activitiesCompleted = "Activities completed today is required.";
+			isValid = false;
+		}
+
+		if (!dsrData.activitiesPlanned) {
+			newErrors.activitiesPlanned =
+				"Activities planned for tomorrow is required.";
+			isValid = false;
+		}
+
+		if (!dsrData.openIssues) {
+			newErrors.openIssues = "Open Issues is required.";
+			isValid = false;
+		}
+
+		if (!dsrData.comment) {
+			newErrors.comment = "Any Other Comments is required.";
+			isValid = false;
+		}
+
+		setErrors(newErrors);
+
+		return isValid;
+	};
 
 	return (
 		// Adding animated component to make the route change animated -- Adarsh(19-Apr)
@@ -247,12 +361,15 @@ function NewDsr() {
 			<Helmet>
 				<title>Create New DSR | LeafLog-Quadrafort</title>
 			</Helmet>
+
+			{/* {isLeave === 0 && ( */}
 			<div className="new-dsr">
+				{/* Notification Messages */}
 				<div className={`verification-cta ${msg ? "show-verification" : ""}`}>
 					<h3 className="heading-xs">
-						{msgToShow === "DSR-Saved"
-							? "DSR successfully Submitted! 🎉"
-							: "Draft saved successfully! Find it in the Drafts Tab! 🎉"}
+						{msgToShow === "DSR-Saved" && "DSR successfully Submitted! 🎉"}
+						{msgToShow === "Draft-Saved" && "Draft saved successfully!🎉"}
+						{msgToShow === "Marked-Leave" && "Leave Marked for today! 🎉"}
 					</h3>
 				</div>
 
@@ -262,13 +379,28 @@ function NewDsr() {
 					}`}
 				>
 					<h3 className="heading-xs">
-						{msgToShow === "DSR-Not-Saved"
-							? "DSR was not Saved! We are experiencing some problems! 💀 🎉"
-							: "Draft was not Saved! We are experiencing some problems! 💀 🎉"}
+						{msgToShow === "DSR-Not-Saved" &&
+							"DSR was not Saved! We are experiencing some problems! 💀"}
+						{msgToShow === "Draft-Not-Saved" &&
+							"Draft was not Saved! We are experiencing some problems! 💀"}
+						{msgToShow === "Unmarked-Leave" &&
+							"Unable to mark leave due to some internal issues! 💀"}
 					</h3>
 				</div>
 
-				<button className="btn btn-dark btn-error">On Leave</button>
+				{/* Modal confirmation */}
+				<Modal
+					btnValue={"Mark Leave"}
+					modalHead={"Are you sure to mark leave today?"}
+					action={handleLeaveBtn}
+					state={modal}
+					setState={setModal}
+					hideModal={hideModal}
+				/>
+
+				<button className="btn btn-dark btn-error" onClick={(e) => showModal()}>
+					On Leave
+				</button>
 
 				<div className="new-dsr-card">
 					<div className="uid-date">
@@ -288,7 +420,9 @@ function NewDsr() {
 										id="project-name"
 										name="projectName"
 										onChange={storeData}
-										className="form__input form-input"
+										className={`form__input form-input ${
+											errors.projectName ? "invalid-input" : "valid-input"
+										}`}
 										value={dsrData.projectName}
 									/>
 
@@ -298,6 +432,10 @@ function NewDsr() {
 									>
 										Project Name <sup style={{ color: `red` }}>*</sup>
 									</label>
+
+									{errors.projectName && (
+										<div className="validation-error">{errors.projectName}</div>
+									)}
 								</div>
 
 								<div className="input__group">
@@ -307,7 +445,9 @@ function NewDsr() {
 										id="client-manager-name"
 										name="clientManager"
 										onChange={storeData}
-										className="form__input form-input"
+										className={`form__input form-input ${
+											errors.clientManager ? "invalid-input" : "valid-input"
+										}`}
 										value={dsrData.clientManager}
 									/>
 
@@ -317,6 +457,12 @@ function NewDsr() {
 									>
 										Client Manager Name <sup style={{ color: `red` }}>*</sup>
 									</label>
+
+									{errors.clientManager && (
+										<div className="validation-error">
+											{errors.clientManager}
+										</div>
+									)}
 								</div>
 							</div>
 
@@ -328,7 +474,9 @@ function NewDsr() {
 										id="hours-worked"
 										name="hoursWorked"
 										onChange={storeData}
-										className="form__input form-input"
+										className={`form__input form-input ${
+											errors.hoursWorked ? "invalid-input" : "valid-input"
+										}`}
 										value={dsrData.hoursWorked}
 									/>
 
@@ -338,6 +486,10 @@ function NewDsr() {
 									>
 										Hours Worked <sup style={{ color: "red" }}>*</sup>
 									</label>
+
+									{errors.hoursWorked && (
+										<div className="validation-error">{errors.hoursWorked}</div>
+									)}
 								</div>
 
 								<div className="input__group">
@@ -347,13 +499,19 @@ function NewDsr() {
 										id="status"
 										name="status"
 										onChange={storeData}
-										className="form__input form-input"
+										className={`form__input form-input ${
+											errors.status ? "invalid-input" : "valid-input"
+										}`}
 										value={dsrData.status}
 									/>
 
 									<label htmlFor="status" className="input__label input-label">
 										Project Status <sup style={{ color: "red" }}>*</sup>
 									</label>
+
+									{errors.status && (
+										<div className="validation-error">{errors.status}</div>
+									)}
 								</div>
 							</div>
 
@@ -365,7 +523,11 @@ function NewDsr() {
 										id="activities-today"
 										name="activitiesCompleted"
 										onChange={storeData}
-										className="form__input form-input"
+										className={`form__input form-input ${
+											errors.activitiesCompleted
+												? "invalid-input"
+												: "valid-input"
+										}`}
 										value={dsrData.activitiesCompleted}
 									/>
 
@@ -376,6 +538,12 @@ function NewDsr() {
 										Activities completed Today{" "}
 										<sup style={{ color: "red" }}>*</sup>
 									</label>
+
+									{errors.activitiesCompleted && (
+										<div className="validation-error textarea-error">
+											{errors.activitiesCompleted}
+										</div>
+									)}
 								</div>
 
 								<div className="input__group input__group__area">
@@ -385,7 +553,11 @@ function NewDsr() {
 										id="activities-tomorrow"
 										name="activitiesPlanned"
 										onChange={storeData}
-										className="form__input form-input"
+										className={`form__input form-input ${
+											errors.activitiesCompleted
+												? "invalid-input"
+												: "valid-input"
+										}`}
 										value={dsrData.activitiesPlanned}
 									/>
 
@@ -396,6 +568,12 @@ function NewDsr() {
 										Activities planned for tomorrow{" "}
 										<sup style={{ color: "red" }}>*</sup>
 									</label>
+
+									{errors.activitiesPlanned && (
+										<div className="validation-error textarea-error">
+											{errors.activitiesPlanned}
+										</div>
+									)}
 								</div>
 							</div>
 
@@ -406,7 +584,9 @@ function NewDsr() {
 										placeholder="Open Issues"
 										name="openIssues"
 										onChange={storeData}
-										className="form__input form-input"
+										className={`form__input form-input ${
+											errors.openIssues ? "invalid-input" : "valid-input"
+										}`}
 										value={dsrData.openIssues}
 									/>
 
@@ -416,6 +596,12 @@ function NewDsr() {
 									>
 										Open Issues <sup style={{ color: "red" }}>*</sup>
 									</label>
+
+									{errors.openIssues && (
+										<div className="validation-error textarea-error">
+											{errors.openIssues}
+										</div>
+									)}
 								</div>
 
 								<div className="input__group input__group__area">
@@ -424,7 +610,9 @@ function NewDsr() {
 										placeholder="Any Other Comments"
 										name="comment"
 										onChange={storeData}
-										className="form__input form-input"
+										className={`form__input form-input ${
+											errors.comment ? "invalid-input" : "valid-input"
+										}`}
 										value={dsrData.comment}
 									/>
 
@@ -434,6 +622,12 @@ function NewDsr() {
 									>
 										Any Other Comments <sup style={{ color: "red" }}>*</sup>
 									</label>
+
+									{errors.comment && (
+										<div className="validation-error textarea-error">
+											{errors.comment}
+										</div>
+									)}
 								</div>
 							</div>
 
@@ -441,7 +635,7 @@ function NewDsr() {
 								<button
 									type="submit"
 									className="btn btn-dark"
-									onClick={handlePost}
+									onClick={handleSubmit}
 								>
 									Submit
 								</button>
@@ -466,6 +660,7 @@ function NewDsr() {
 					</div>
 				</div>
 			</div>
+			{/* )} */}
 		</AnimatedComponent>
 	);
 }

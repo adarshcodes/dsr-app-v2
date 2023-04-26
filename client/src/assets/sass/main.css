@@ -38,6 +38,7 @@
   }
 }
 .form .input-row .input__group {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 0.2rem;
@@ -193,17 +194,17 @@ p {
 }
 @media screen and (max-width: 1050px) {
   .heading-l {
-    font-size: 8rem;
+    font-size: 3.5rem;
   }
 }
 @media screen and (max-width: 750px) {
   .heading-l {
-    font-size: 6rem;
+    font-size: 3.2rem;
   }
 }
 @media screen and (max-width: 450px) {
   .heading-l {
-    font-size: 4rem;
+    font-size: 3rem;
   }
 }
 
@@ -637,6 +638,64 @@ p {
   border-radius: 0.4rem;
 }
 
+.modal {
+  z-index: 1;
+  width: 100%;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(3px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.5, 0, 0.5, 1.5);
+}
+.modal-card {
+  background-color: var(--light-section);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 5rem;
+  border-radius: 0.4rem;
+  width: 40rem;
+  text-align: center;
+}
+@media screen and (max-width: 500px) {
+  .modal-card {
+    width: 90%;
+    padding: 3rem 2rem;
+  }
+  .modal-card .heading-s {
+    font-size: 2rem;
+  }
+  .modal-card .ctas .btn {
+    font-size: 1.5rem;
+  }
+}
+.modal-card .heading-s {
+  line-height: 3rem;
+  font-size: 2.5rem;
+}
+.modal-card .ctas {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+}
+
+.show-modal {
+  opacity: 1;
+  visibility: visible;
+}
+
+.remove-scroll {
+  overflow: hidden !important;
+}
+
 .login-container {
   min-height: 100vh;
   width: 100%;
@@ -790,6 +849,43 @@ p {
 
 .show-verification {
   transform: translateX(0);
+}
+
+.blank-container {
+  height: 86vh !important;
+}
+.blank-container .heading-m {
+  line-height: 4rem;
+  text-align: center;
+  color: #09C97F;
+}
+.blank-container .heading-m i {
+  font-size: 6rem;
+  margin-bottom: 5rem;
+}
+.blank-container .heading-m img {
+  width: 50%;
+}
+
+.validation-error {
+  position: absolute;
+  top: 27%;
+  right: 0;
+  color: #DF5656;
+  font-size: 1.5rem;
+  font-weight: 400;
+}
+
+.textarea-error {
+  top: 55% !important;
+}
+
+.invalid-input {
+  border-color: #DF5656 !important;
+}
+
+.valid-input:focus {
+  border-color: #09C97F !important;
 }
 
 .recents {
