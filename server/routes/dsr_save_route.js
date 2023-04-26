@@ -4,7 +4,7 @@ const userModel = require("../models/usermodel");
 
 const app = express();
 
-//save a DSR record related to a user
+// Adds a DSR to the conversation. This is the first step in the DSR processing
 app.post("/add_dsr/", async (request, response) => {
   const user = request.body.user;
   const uservalid = await userModel.findById(user);
@@ -14,12 +14,6 @@ app.post("/add_dsr/", async (request, response) => {
       return response.status(702).send();
     }
     const date1 = new Date();
-    {
-      const day = date1.getDate();
-      const month = date1.getMonth() + 1; // Add 1 because getMonth() returns a zero-based month (January is 0)
-      const year = date1.getFullYear();
-      const onlydate = `${day}-${month}-${year}`;
-    }
     const date2 = new Date(uservalid.lastdsrtime);
     if (date1.getDate() == date2.getDate()) {
       return response.status(703).send();
@@ -29,7 +23,7 @@ app.post("/add_dsr/", async (request, response) => {
       const dsr = new dsrModel({
         ...request.body,
         isupdated: false,
-        date: onlydate,
+        date: date1,
         createdAt: date1,
         updatedAt: date1,
       });
@@ -43,7 +37,7 @@ app.post("/add_dsr/", async (request, response) => {
   }
 });
 
-//when the user is on leave
+// Handles onleave requests. This is the last step in the conversation process. We need to know if the user is valid
 app.post("/onleave", async (request, response) => {
   const user = request.body.user;
   const uservalid = await userModel.findById(user);
@@ -51,12 +45,6 @@ app.post("/onleave", async (request, response) => {
   try {
     if (!uservalid) {
       return response.status(702).send();
-    }
-    {
-      const day = date1.getDate();
-      const month = date1.getMonth() + 1; // Add 1 because getMonth() returns a zero-based month (January is 0)
-      const year = date1.getFullYear();
-      const onlydate = `${day}-${month}-${year}`;
     }
     const today = new Date();
     const savetime = new Date();
@@ -69,7 +57,7 @@ app.post("/onleave", async (request, response) => {
       const dsr = new dsrModel({
         ...request.body,
         isupdated: true,
-        date: onlydate,
+        date: savetime,
         projectName: "null",
         clientManager: "null",
         activitiesCompleted: "null",
@@ -92,7 +80,7 @@ app.post("/onleave", async (request, response) => {
   }
 });
 
-//edit dsr
+// Updates or creates a DSR. This is a POST / saveupdate request
 app.post("/saveupdate", async (request, response) => {
   const dsr = request.body._id;
   const dsrvalid = await dsrModel.findById(dsr);
