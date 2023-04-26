@@ -1,0 +1,106 @@
+.dash{
+  display: flex;
+  justify-content: space-between;
+
+}
+
+.cards{
+  width: 200px;
+  height: 175px;
+  background-color: white;
+  border:5px solid black ;
+  text-align: center;
+  margin-top: 100px;
+  margin-left: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  transition: 0.3s;
+  overflow: hidden; 
+  border-radius: 10px;
+}
+
+.cards1{
+  color: red;
+  border-bottom: 2px solid red;
+}
+
+.cards2{
+ color: blue;
+ border-bottom: 2px solid blue;
+}
+
+.cards3{
+color: green;
+border-bottom: 2px solid green;
+}
+.cards1:hover::before {
+      content: '';
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      background-color:red;
+      transition: 0.3s;
+      animation: slideIn 1s linear;
+    }
+
+  .cards2:hover::before {
+          content: '';
+          position: absolute;
+          height: 100%;
+          width: 100%;
+          background-color: rgb(69, 139, 209);
+          transition: 0.3s;
+          animation: slideIn 1s linear;
+        }
+
+     .cards3:hover::before {
+                  content: '';
+                  position: absolute;
+                  height: 100%;
+                  width: 100%;
+                  background-color: rgb(25, 190, 154);
+                  text-decoration: underline;
+                  transition: 0.3s;
+                  animation: slideIn 1s linear;
+                }
+
+
+.cards p{
+  z-index: 10;
+  transition-delay: 0.5s;
+}
+
+.cards:hover p{
+  color: white;
+}
+
+@keyframes slideIn {
+  0%{
+    transform: translateY(100%);
+  }
+
+  100%{
+    transform: translateY(0%);
+  }
+}
+
+
+.draft{
+  display: flex;
+  background-color: rgb(195, 224, 214);
+  border: 2px solid black;
+  margin-top: 50px;
+  margin-left: 100px;
+  justify-content: space-between;
+  border-radius: 10px;
+ }
+
+ .view{
+   display: block;
+   padding: 2px;
+   background-color:rgb(181, 175, 175);
+   margin-top: 10px;
+   
+ }
