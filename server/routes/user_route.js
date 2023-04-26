@@ -2,9 +2,7 @@ const express = require("express");
 const userModel = require("../models/usermodel");
 const app = express();
 
-//*********************user calls***********************
-
-//create a user
+// Adds a user to the service. This is a POST request and will return a response
 app.post("/add_user", async (request, response) => {
   let adm = false;
   if (request.body.isAdmin == true) {
@@ -24,7 +22,7 @@ app.post("/add_user", async (request, response) => {
   }
 });
 
-//retrieve all user
+// Returns all users that are in the database. This is a GET request and should be used to make sure that we don't get an error from the service
 app.get("/users", async (request, response) => {
   const users = await userModel.find({});
 
@@ -35,7 +33,7 @@ app.get("/users", async (request, response) => {
   }
 });
 
-//retrieve one user
+// Finds a user by ID and sends it to the response. This is a POST
 app.post("/finduser", async (request, response) => {
   const userId = request.body.user;
 

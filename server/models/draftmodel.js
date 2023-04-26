@@ -1,20 +1,18 @@
-
 const mongoose = require("mongoose");
 
 const DraftSchema = new mongoose.Schema({
-  
   date: {
-    type : Date,
+    type: Date,
     required: false,
   },
-  
+
   projectName: {
     type: String,
     required: false,
   },
   clientManager: {
-    type : String,
-    required : false,
+    type: String,
+    required: false,
   },
   activitiesCompleted: {
     type: String,
@@ -24,40 +22,40 @@ const DraftSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
-  
-  hoursWorked:{
-    type : Number,
+
+  hoursWorked: {
+    type: Number,
     required: false,
   },
-  status:{
+  status: {
     type: String,
     required: false,
   },
-  comment:{
+  comment: {
     type: String,
     required: false,
   },
-  openIssues:{
-    type:String,
+  openIssues: {
+    type: String,
     required: false,
   },
-  isOnLeave:{
+  isOnLeave: {
     type: Boolean,
     required: false,
   },
-  createdAt:{
+  createdAt: {
     type: Date,
     required: false,
   },
-  updatedAt:{
+  updatedAt: {
     type: Date,
     required: false,
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
-  }
+    ref: "User",
+    required: true,
+  },
 });
 
 const Draft = mongoose.model("draft", DraftSchema);

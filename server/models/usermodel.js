@@ -9,17 +9,16 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  password:{
+  password: {
     type: String,
     required: true,
   },
   lastdsrtime: {
-    type: Date
+    type: Date,
   },
-  isAdmin:{
-    type:Boolean,
-    
-  }
+  isAdmin: {
+    type: Boolean,
+  },
 });
 
 const User = mongoose.model("User", UserSchema);

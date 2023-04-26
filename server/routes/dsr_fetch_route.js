@@ -4,7 +4,7 @@ const userModel = require("../models/usermodel");
 
 const app = express();
 
-//retrive all dsr
+// Sends all DSRs that are in the database. This is a GET request
 app.get("/dsr", async (request, response) => {
   const dsr = await dsrModel.find({});
 
@@ -15,7 +15,7 @@ app.get("/dsr", async (request, response) => {
   }
 });
 
-//retrieve the last 5 DSR records of a user
+// Returns last 5 DSR for the user specified in the request body. This is a POST
 app.post("/users/dsr", async (request, response) => {
   const userId = request.body.user;
   try {
@@ -30,7 +30,7 @@ app.post("/users/dsr", async (request, response) => {
   }
 });
 
-//retrieve the last dsr that the user has submitted
+// Returns the last DSR for the user sorted by ID. This is a POST
 app.post("/lastdsr", async (request, response) => {
   const userId = request.body.user;
 
@@ -46,6 +46,7 @@ app.post("/lastdsr", async (request, response) => {
   }
 });
 
+// Checks to see if there is a DSR for the user and if so sends a status
 app.post("/todaystatus", async (request, response) => {
   const user = request.body.user;
   const uservalid = await userModel.findById(user);
