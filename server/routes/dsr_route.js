@@ -39,23 +39,24 @@ app.post("/add_dsr/", async (request, response) => {
   const user = request.body.user;
   const uservalid = await userModel.findById(user);
 
-  if (!uservalid) {
-    return response.status(702).send();
-  }
-
-  const savetime = request.body.createdAt;
-  const date1 = new Date(savetime);
-  const date2 = new Date(uservalid.lastdsrtime);
-
-  date1.setHours(0);
-  date1.setMinutes(0);
-  date1.setSeconds(0);
-
-  date2.setHours(0);
-  date2.setMinutes(0);
-  date2.setSeconds(0);
+  
 
   try {
+    if (!uservalid) {
+      return response.status(702).send();
+    }
+  
+    const savetime = request.body.createdAt;
+    const date1 = new Date(savetime);
+    const date2 = new Date(uservalid.lastdsrtime);
+  
+    date1.setHours(0);
+    date1.setMinutes(0);
+    date1.setSeconds(0);
+  
+    date2.setHours(0);
+    date2.setMinutes(0);
+    date2.setSeconds(0);
     if (date1.getDate() == date2.getDate()) {
       return response.status(703).send();
     }
@@ -127,24 +128,25 @@ app.post("/onleave", async (request, response) => {
   const user = request.body.user;
   const uservalid = await userModel.findById(user);
 
-  if (!uservalid) {
-    return response.status(702).send();
-  }
-
-  // const userId = "64417870bc83e4becb95f97d";
-  const today = getist();
-  const savetime = getist();
-  const date1 = new Date(uservalid.lastdsrtime);
-
-  date1.setHours(0);
-  date1.setMinutes(0);
-  date1.setSeconds(0);
-
-  today.setHours(0);
-  today.setMinutes(0);
-  today.setSeconds(0);
+  
 
   try {
+    if (!uservalid) {
+      return response.status(702).send();
+    }
+  
+    // const userId = "64417870bc83e4becb95f97d";
+    const today = getist();
+    const savetime = getist();
+    const date1 = new Date(uservalid.lastdsrtime);
+  
+    date1.setHours(0);
+    date1.setMinutes(0);
+    date1.setSeconds(0);
+  
+    today.setHours(0);
+    today.setMinutes(0);
+    today.setSeconds(0);
     if (date1.getDate() == today.getDate()) {
       return response.status(704).send();
     } else {
@@ -202,10 +204,11 @@ app.post("/saveupdate", async (request, response) => {
 
 
   let updatetime = getist() ;
-  if (!dsrvalid) {
-    return response.status(705).send();
-  }
+  
   try {
+    if (!dsrvalid) {
+      return response.status(409).send();
+    }
     if (dsrvalid.isupdated == true) {
       return response.status(706).send();
     } else {
@@ -230,12 +233,13 @@ app.post("/saveupdate", async (request, response) => {
 app.post("/todaystatus", async (request, response) => {
   const user = request.body.user;
   const uservalid = await userModel.findById(user);
-  if (!uservalid) {
-    return response.status(702).send();
-  }
+  
   try {
-    if(!uservalid.lastdsrtime){
-      return response.status(707).send("0");
+    if (!uservalid) {
+      return response.status(702).send();
+    }
+    if(uservalid.lastdsrtime===""){
+      return response.send("0");
     }
     let lastdate = new Date(uservalid.lastdsrtime);
     let today = getist();

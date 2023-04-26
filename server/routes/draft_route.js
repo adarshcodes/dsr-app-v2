@@ -10,15 +10,16 @@ const app = express();
         const user = request.body.user;
         const uservalid = await userModel.findById(user);
       
-        if (!uservalid) {
-          return response.status(702).send();
-        }
-      
-        const draft = new draftModel({
-          ...request.body
-        });
+        
       
         try {
+          if (!uservalid) {
+            return response.status(702).send();
+          }
+        
+          const draft = new draftModel({
+            ...request.body
+          });
           await draft.save();
           response.send(draft);
         } catch (error) {
