@@ -10,8 +10,14 @@ const app = express();
 app.post("/add_user", async (request, response) => {
 
     let currdate = new Date();
+    let adm=false;
+    if(request.body.isAdmin==true)
+    {
+      adm =true;
+    }
     const user = new userModel({
-      ...request.body
+      ...request.body,
+      isAdmin:adm
       
     });
     try {
@@ -33,6 +39,18 @@ app.get("/users", async (request, response) => {
     }
   });
 
+  //retrieve employee
+  app.get("/getemp", async (request, response) => {
+    const users = await userModel.find({isAdmin:false});
+    // let count=await users.count();
+    let count=users.length;
+    console.log(count);
+    try {
+      response.send(JSON.stringify(count));
+    } catch (error) {
+      response.status(500).send(error);
+    }
+  });
   
 
   //retrieve one user

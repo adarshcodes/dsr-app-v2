@@ -23,13 +23,30 @@ function getist(){
 //retrive all dsr
 app.get("/dsr", async (request, response) => {
   const dsr = await dsrModel.find({});
-
+  
   try {
     response.send(dsr);
   } catch (error) {
     response.status(500).send(error);
   }
 });
+
+
+//retrieve today dsr
+app.get("/todaydsr", async (request, response) => {
+  let date=new Date();
+  
+  console.log(date.getDate());
+  const dsr = await dsrModel.find({});
+  console.log(dsr[0].date.getDate()); 
+  let count=dsr.length
+  try {
+    response.send(dsr);
+  } catch (error) {
+    response.status(500).send(error);
+  }
+});
+
 
 // let time = new Date();
 //const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
