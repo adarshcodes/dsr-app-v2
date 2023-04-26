@@ -1,23 +1,20 @@
-
 const mongoose = require("mongoose");
 
 const DsrSchema = new mongoose.Schema({
-
   date: {
-    type : Date,
+    type: Date,
     required: true,
-    
   },
   projectName: {
     type: String,
     required: true,
-    default : "Leave"
+    default: "Leave",
   },
   clientManager: {
-    type : String,
-    required : true,
+    type: String,
+    required: true,
   },
-  
+
   activitiesCompleted: {
     type: String,
     required: true,
@@ -26,46 +23,46 @@ const DsrSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  
-  hoursWorked:{
-    type : Number,
+
+  hoursWorked: {
+    type: Number,
     required: true,
   },
-  status:{
+  status: {
     type: String,
     required: true,
   },
-  comment:{
+  comment: {
     type: String,
     required: true,
   },
-  openIssues:{
-    type:String,
-    required:true
+  openIssues: {
+    type: String,
+    required: true,
   },
-  isOnLeave:{
+  isOnLeave: {
     type: Boolean,
     required: true,
-    default:false
+    default: false,
   },
-  createdAt:{
+  createdAt: {
     type: Date,
     required: true,
   },
-  updatedAt:{
+  updatedAt: {
     type: Date,
     required: true,
   },
-  isupdated:{
-    type :Boolean,
-    required:true,
-    default:false,
+  isupdated: {
+    type: Boolean,
+    required: true,
+    default: false,
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
-  }
+    ref: "User",
+    required: true,
+  },
 });
 
 const Dsr = mongoose.model("dsr", DsrSchema);

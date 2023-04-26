@@ -4,8 +4,7 @@ const userModel = require("../models/usermodel");
 
 const app = express();
 
-//***************************Draft-calls*******************************8 */
-//save a Draft record related to a user
+// Adds a draft to the user's list of drafts. This is the first step in the process
 app.post("/add_draft/", async (request, response) => {
   const user = request.body.user;
   const uservalid = await userModel.findById(user);
@@ -29,7 +28,7 @@ app.post("/add_draft/", async (request, response) => {
   }
 });
 
-//retrieve the draft records of a user
+// Retrieves the draft for the given user and sends it to the client. This is a POST
 app.post("/users/draft", async (request, response) => {
   const userId = request.body.user;
 
@@ -41,7 +40,7 @@ app.post("/users/draft", async (request, response) => {
   }
 });
 
-//delete the draft record
+// Deletes the given draft. This is a POST request and does not require authentication
 app.delete("/draftdelete", async (request, response) => {
   const draftId = request.body.draft;
 
