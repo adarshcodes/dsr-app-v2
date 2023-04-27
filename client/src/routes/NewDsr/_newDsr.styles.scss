@@ -75,10 +75,10 @@
     line-height: 4rem;
     text-align: center;
     color: $color-success;
+    font-size: 2.2rem;
 
     i {
-      font-size: 6rem;
-      margin-bottom: 5rem;
+      font-size: 3.5rem;
     }
 
     img {
@@ -107,5 +107,78 @@
 .valid-input {
   &:focus {
     border-color: $color-success !important;
+  }
+}
+
+
+// Edit page
+.edit-card {
+  height: 100% !important;
+  padding: 5rem 0 !important;
+}
+
+.dsr-edit-page {
+  @include flex-column;
+  gap: 3rem;
+
+  .preview-edit {
+    width: 60rem;
+    @include flex-column;
+    gap: 2rem;
+    padding: 3rem 5rem;
+    border-radius: .4rem;
+    border: 1px solid var(--border-color);
+
+    .heading-s {
+      font-size: 1.8rem;
+    }
+
+    .btn-edit {
+      align-self: center;
+    }
+
+    .para {
+      color: $color-error;
+      font-size: 1.7rem;
+      text-align: center;
+      font-weight: 500;
+    }
+
+    .preview-card {
+      @include flex-column;
+      gap: 1rem;
+
+      .edit-input-row {
+        width: 100%;
+        @include flex-row-spacebetween;
+        gap: 2rem;
+
+        label {
+          font-size: 1.6rem;
+          color: var(--primary-text);
+          font-weight: 600;
+        }
+
+        input,
+        textarea {
+          width: 30%;
+          padding: .5rem 1rem;
+          outline: none;
+          border: 1px solid $swatch_2;
+          border-radius: .4rem;
+          font-family: inherit;
+          font-size: 1.6rem;
+        }
+
+        textarea {
+          resize: none;
+        }
+
+        .non-editable {
+          color: $noEditable;
+          border: none;
+        }
+      }
+    }
   }
 }

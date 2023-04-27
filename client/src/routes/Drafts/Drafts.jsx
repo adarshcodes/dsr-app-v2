@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import Helmet from "react-helmet";
 import AnimatedComponent from "../../AnimatedComponent";
 import RecentSkeleton from "../../components/Skeleton/RecentSkeleton";
+import Modal from "../../components/Modal/Modal";
 
-let userId = "64478175f08be675340458ec";
+let userId = "6448cd7e09f1d7a9cc85ba1e";
 function Drafts() {
 	// State to save drafts from API call
 	const [drafts, setDrafts] = useState([]);
@@ -62,18 +63,41 @@ function Drafts() {
 	}
 
 	// Call deleteDraft and then fetchDrafts in sequence
-	async function handleDelete(id) {
+	async function handleDelete(draftId) {
 		try {
-			const deletedData = await deleteDraft(id);
+			const deletedData = await deleteDraft(draftId);
 			verificationMsg();
 			setTimeout(closeMsg, 3000);
 			await fetchDrafts();
-			console.log("Deleted data:", deletedData);
-			// do something with deletedData, such as update state or re-fetch data
+			return deletedData;
 		} catch (error) {
 			console.error("Error:", error);
 		}
 	}
+
+	function handleDeleteBtn(draftId) {
+		hideModal();
+		handleDelete(draftId);
+	}
+
+	const [modal, setModal] = useState(false);
+
+	useEffect(() => {
+		const container = document.querySelector(".container");
+		modal
+			? container.classList.add("remove-scroll")
+			: container.classList.remove("remove-scroll");
+	}, [modal]);
+
+	function showModal() {
+		setModal(true);
+	}
+
+	function hideModal() {
+		setModal(false);
+	}
+
+	let draftId = 0;
 
 	const [msg, setMsg] = useState(false);
 
@@ -117,6 +141,7 @@ function Drafts() {
 		];
 
 		let dateOfCreation = day + " " + monthArray[month] + " " + year;
+		draftId = data._id;
 
 		return (
 			<div key={data._id}>
@@ -146,10 +171,7 @@ function Drafts() {
 					<div className="cta">
 						<button className="btn btn-dark btn-view">Use</button>
 
-						<button
-							className="btn btn-dark btn-error"
-							onClick={(e) => handleDelete(data._id)}
-						>
+						<button className="btn btn-dark btn-error" onClick={showModal}>
 							Delete
 						</button>
 					</div>
@@ -167,6 +189,18 @@ function Drafts() {
 			<div className={`verification-cta ${msg ? "show-verification" : ""}`}>
 				<h3 className="heading-xs">Draft Deleted Successfully! 🎉</h3>
 			</div>
+
+			{/* Modal confirmation */}
+			<Modal
+				btnValue={"Delete"}
+				modalHead={"Are you sure to delete this Draft?"}
+				action={handleDeleteBtn}
+				state={modal}
+				setState={setModal}
+				hideModal={hideModal}
+				draftId={draftId}
+			/>
+
 			<div className="recents">
 				<h3 className="heading-s">Your Saved Drafts</h3>
 
