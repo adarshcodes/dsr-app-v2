@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import Helmet from "react-helmet";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 import AnimatedComponent from "../../AnimatedComponent";
 import RecentSkeleton from "../../components/Skeleton/RecentSkeleton";
 import { transferData, takeData } from "../../parts/Dashboard/Dashboard";
@@ -176,37 +176,39 @@ function Drafts() {
 
   return (
     // Adding animated component to make the route change animated -- Adarsh(19-Apr)
-    <AnimatedComponent>
-      <Helmet>
-        <title>Your Saved Drafts | LeafLog-Quadrafort</title>
-      </Helmet>
-      <div className={`verification-cta ${msg ? "show-verification" : ""}`}>
-        <h3 className="heading-xs">Draft Deleted Successfully! 🎉</h3>
-      </div>
-      <div className="recents">
-        <h3 className="heading-s">Your Saved Drafts</h3>
-
-        <div className="recents-card-container card-container">
-          {cardDraft.length > 0 ? (
-            <div className="scroll-parent">
-              {loading
-                ? Array.from({ length: 10 }, (_, i) => (
-                    <RecentSkeleton key={i} />
-                  ))
-                : cardDraft}
-            </div>
-          ) : (
-            <div className="blank-page">
-              <h3 className="heading-s">
-                <i className="fa-solid fa-mug-hot"></i>
-                <br /> There is no saved Drafts. <br />
-                You can save the draft from the New DSR page!
-              </h3>
-            </div>
-          )}
+    <HelmetProvider>
+      <AnimatedComponent>
+        <Helmet>
+          <title>Your Saved Drafts | LeafLog-Quadrafort</title>
+        </Helmet>
+        <div className={`verification-cta ${msg ? "show-verification" : ""}`}>
+          <h3 className="heading-xs">Draft Deleted Successfully! 🎉</h3>
         </div>
-      </div>
-    </AnimatedComponent>
+        <div className="recents">
+          <h3 className="heading-s">Your Saved Drafts</h3>
+
+          <div className="recents-card-container card-container">
+            {cardDraft.length > 0 ? (
+              <div className="scroll-parent">
+                {loading
+                  ? Array.from({ length: 10 }, (_, i) => (
+                      <RecentSkeleton key={i} />
+                    ))
+                  : cardDraft}
+              </div>
+            ) : (
+              <div className="blank-page">
+                <h3 className="heading-s">
+                  <i className="fa-solid fa-mug-hot"></i>
+                  <br /> There is no saved Drafts. <br />
+                  You can save the draft from the New DSR page!
+                </h3>
+              </div>
+            )}
+          </div>
+        </div>
+      </AnimatedComponent>
+    </HelmetProvider>
   );
 }
 
