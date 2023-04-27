@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Helmet } from "react-helmet";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 import AnimatedComponent from "../../AnimatedComponent";
 import RecentSkeleton from "../../components/Skeleton/RecentSkeleton";
 
@@ -176,34 +176,36 @@ function WeeklyDsr() {
   });
 
   return (
-    <AnimatedComponent>
-      <Helmet>
-        <title>Your Weekly DSR | LeafLog-Quadrafort</title>
-      </Helmet>
-      <div className="recents">
-        <h3 className="heading-s">View Your Last 5 DSR</h3>
+    <HelmetProvider>
+      <AnimatedComponent>
+        <Helmet>
+          <title>Your Weekly DSR | LeafLog-Quadrafort</title>
+        </Helmet>
+        <div className="recents">
+          <h3 className="heading-s">View Your Last 5 DSR</h3>
 
-        <div className="recents-card-container card-container">
-          {cardDsr.length > 0 ? (
-            <div className="scroll-parent">
-              {loading
-                ? Array.from({ length: 10 }, (_, i) => (
-                    <RecentSkeleton key={i} />
-                  ))
-                : cardDsr}
-            </div>
-          ) : (
-            <div className="blank-page">
-              <h3 className="heading-s">
-                <i className="fa-solid fa-umbrella-beach"></i>
-                <br /> There is no DSR recorded yet! <br />
-                You can add DSR from the New DSR page!
-              </h3>
-            </div>
-          )}
+          <div className="recents-card-container card-container">
+            {cardDsr.length > 0 ? (
+              <div className="scroll-parent">
+                {loading
+                  ? Array.from({ length: 10 }, (_, i) => (
+                      <RecentSkeleton key={i} />
+                    ))
+                  : cardDsr}
+              </div>
+            ) : (
+              <div className="blank-page">
+                <h3 className="heading-s">
+                  <i className="fa-solid fa-umbrella-beach"></i>
+                  <br /> There is no DSR recorded yet! <br />
+                  You can add DSR from the New DSR page!
+                </h3>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
-    </AnimatedComponent>
+      </AnimatedComponent>
+    </HelmetProvider>
   );
 }
 
