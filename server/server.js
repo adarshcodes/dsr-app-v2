@@ -41,6 +41,8 @@ db.once("open", function () {
   console.log("Connected successfully");
 });
 
+
+const userMail="atuleshsharma5@gmail.com";
 // Creates a transport that sends messages to Gmail. We do this by setting the transport's flags to allow HTTPS
 let transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
@@ -58,7 +60,7 @@ let transporter = nodemailer.createTransport({
 function sendEmail() {
   let mailOptions = {
     from: "dhruv.ria@gmail.com",
-    to: "dhruvv.upadhyayy@gmail.com",
+    to: userMail,
     subject: "Your daily DSR is not submitted",
     text: "Hello, you have not submitted your daily DSR. Please do the same by end of day. Ignore if submitted.",
   };
