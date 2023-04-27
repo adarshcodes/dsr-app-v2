@@ -1,28 +1,26 @@
-
 import React, { useState, useEffect, useContext } from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import AnimatedComponent from "../../AnimatedComponent";
 import { transferData, takeData } from "../../parts/Dashboard/Dashboard";
 import RecentSkeleton from "../../components/Skeleton/RecentSkeleton";
 import Modal from "../../components/Modal/Modal";
+import { Link } from "react-router-dom";
 
 let userId = "6448cd7e09f1d7a9cc85ba1e";
 function Drafts() {
-
 	// State to save drafts from API call
 	const [drafts, setDrafts] = useState([]);
 	// State to set the Loading skeleton
 	const [loading, setLoading] = useState(true);
-  
-  
-   // using the useContext to set the draftdata into the setDraftData function for newDSr.
-  const { setDraftData } = useContext(transferData);
-  const { setIsUse } = useContext(takeData);
 
-  function handleUse(index) {
-    setDraftData(drafts[index]);
-    setIsUse(true);
-  }
+	// using the useContext to set the draftdata into the setDraftData function for newDSr.
+	const { setDraftData } = useContext(transferData);
+	const { setIsUse } = useContext(takeData);
+
+	function handleUse(index) {
+		setDraftData(drafts[index]);
+		setIsUse(true);
+	}
 
 	// Fetching drafts data from API using Async
 	const fetchDrafts = async () => {
@@ -123,7 +121,7 @@ function Drafts() {
 	}
 
 	// Mapping drafts in to React component
-	const cardDraft = drafts.map((data) => {
+	const cardDraft = drafts.map((data, index) => {
 		// formatting date and time from API data
 		let date = new Date(data.date);
 		let year = date.getFullYear();
@@ -182,7 +180,13 @@ function Drafts() {
 					</div>
 
 					<div className="cta">
-						<Link to="/" className="btn btn-dark btn-view" onClick={() => handleUse(data(index))}>Use</Link>
+						<Link
+							to="/"
+							className="btn btn-dark btn-view"
+							onClick={() => handleUse(data(index))}
+						>
+							Use
+						</Link>
 
 						<button className="btn btn-dark btn-error" onClick={showModal}>
 							Delete
@@ -195,51 +199,51 @@ function Drafts() {
 
 	return (
 		// Adding animated component to make the route change animated -- Adarsh(19-Apr)
-    <HelmetProvider>
-		<AnimatedComponent>
-			<Helmet>
-				<title>Your Saved Drafts | LeafLog-Quadrafort</title>
-			</Helmet>
-			<div className={`verification-cta ${msg ? "show-verification" : ""}`}>
-				<h3 className="heading-xs">Draft Deleted Successfully! 🎉</h3>
-			</div>
-
-			{/* Modal confirmation */}
-			<Modal
-				btnValue={"Delete"}
-				modalHead={"Are you sure to delete this Draft?"}
-				action={handleDeleteBtn}
-				state={modal}
-				setState={setModal}
-				hideModal={hideModal}
-				draftId={draftId}
-			/>
-
-			<div className="recents">
-				<h3 className="heading-s">Your Saved Drafts</h3>
-
-				<div className="recents-card-container card-container">
-					{cardDraft.length > 0 ? (
-						<div className="scroll-parent">
-							{loading
-								? Array.from({ length: 10 }, (_, i) => (
-										<RecentSkeleton key={i} />
-								  ))
-								: cardDraft}
-						</div>
-					) : (
-						<div className="blank-page">
-							<h3 className="heading-s">
-								<i className="fa-solid fa-mug-hot"></i>
-								<br /> There is no saved Drafts. <br />
-								You can save the draft from the New DSR page!
-							</h3>
-						</div>
-					)}
+		<HelmetProvider>
+			<AnimatedComponent>
+				<Helmet>
+					<title>Your Saved Drafts | LeafLog-Quadrafort</title>
+				</Helmet>
+				<div className={`verification-cta ${msg ? "show-verification" : ""}`}>
+					<h3 className="heading-xs">Draft Deleted Successfully! 🎉</h3>
 				</div>
-			</div>
-		</AnimatedComponent>
-    </HelmetProvider>
+
+				{/* Modal confirmation */}
+				<Modal
+					btnValue={"Delete"}
+					modalHead={"Are you sure to delete this Draft?"}
+					action={handleDeleteBtn}
+					state={modal}
+					setState={setModal}
+					hideModal={hideModal}
+					draftId={draftId}
+				/>
+
+				<div className="recents">
+					<h3 className="heading-s">Your Saved Drafts</h3>
+
+					<div className="recents-card-container card-container">
+						{cardDraft.length > 0 ? (
+							<div className="scroll-parent">
+								{loading
+									? Array.from({ length: 10 }, (_, i) => (
+											<RecentSkeleton key={i} />
+									  ))
+									: cardDraft}
+							</div>
+						) : (
+							<div className="blank-page">
+								<h3 className="heading-s">
+									<i className="fa-solid fa-mug-hot"></i>
+									<br /> There is no saved Drafts. <br />
+									You can save the draft from the New DSR page!
+								</h3>
+							</div>
+						)}
+					</div>
+				</div>
+			</AnimatedComponent>
+		</HelmetProvider>
 	);
 }
 
