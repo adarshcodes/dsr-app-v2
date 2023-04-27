@@ -380,6 +380,7 @@ function NewDsr() {
 
 	// Updating DSR
 	const [lastDsr, setLastDsr] = useState({
+		_id: "",
 		projectName: "",
 		clientManager: "",
 		activitiesCompleted: "",
@@ -388,8 +389,6 @@ function NewDsr() {
 		status: "",
 		comment: "",
 		openIssues: "",
-		isOnLeave: false,
-		user: userId,
 	});
 
 	const fetchLastDsr = async (event) => {
@@ -412,30 +411,8 @@ function NewDsr() {
 
 	const [isUpdated, setIsUpdated] = useState(false);
 
-	const saveUpdatedDsr = async (event) => {
-		try {
-			const response = await fetch(
-				"https://new-web-app.onrender.com/saveupdate",
-				{
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify(lastDsr),
-				}
-			);
-
-			const data = await response.json();
-			setIsUpdated(data);
-			console.log(data, "This is updatedDSR value");
-		} catch (error) {
-			return error;
-		}
-	};
-
 	useEffect(() => {
 		fetchLastDsr();
-		// saveUpdatedDsr();
 	}, []);
 
 	function handleEdit(e) {
@@ -455,11 +432,7 @@ function NewDsr() {
 
 	function updateDsr() {
 		setIsEditable(false);
-		saveUpdatedDsr();
-		fetchLastDsr();
 	}
-
-	// if updated is click fetchlast dsr is called again and display the data
 
 	return (
 		// Adding animated component to make the route change animated -- Adarsh(19-Apr)
