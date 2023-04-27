@@ -3,7 +3,7 @@ import { Helmet } from "react-helmet";
 import AnimatedComponent from "../../AnimatedComponent";
 import RecentSkeleton from "../../components/Skeleton/RecentSkeleton";
 
-let userId = "64478175f08be675340458ec";
+let userId = "6448cd7e09f1d7a9cc85ba1e";
 function WeeklyDsr() {
 	// Adding animated component to make the route change animated -- Adarsh(19-Apr)
 
