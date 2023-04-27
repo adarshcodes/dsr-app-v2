@@ -417,6 +417,8 @@ function NewDsr() {
 		openIssues: "",
 	});
 
+	const [isUpdated, setIsUpdated] = useState(false);
+
 	const fetchLastDsr = async (event) => {
 		// event.preventDefault();
 		try {
@@ -430,16 +432,40 @@ function NewDsr() {
 
 			const data = await response.json();
 			setLastDsr(data);
+			setIsUpdated(data.isupdated);
 		} catch (error) {
 			return error;
 		}
 	};
 
-	const [isUpdated, setIsUpdated] = useState(false);
-
 	useEffect(() => {
 		fetchLastDsr();
 	}, []);
+
+	const saveUpdate = async () => {
+		try {
+			const response = await fetch(
+				"https://new-web-app.onrender.com/saveupdate",
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify(lastDsr),
+				}
+			);
+
+			const data = await response.json();
+			setLastDsr(data);
+			setMsgToShow("Updated-Dsr");
+			!data.isupdated ? errMsg() : verificationMsg();
+			setTimeout(closeMsg, 2500);
+		} catch (error) {
+			setMsgToShow("Noupdated-Dsr");
+			errorMsg();
+			setTimeout(closeMsg, 2500);
+		}
+	};
 
 	function handleEdit(e) {
 		const value = e.target.value;
@@ -458,6 +484,8 @@ function NewDsr() {
 
 	function updateDsr() {
 		setIsEditable(false);
+		setIsUpdated(true);
+		saveUpdate();
 	}
 
 	return (
@@ -480,6 +508,8 @@ function NewDsr() {
 								{msgToShow === "DSR-Saved" && "DSR successfully Submitted! 🎉"}
 								{msgToShow === "Draft-Saved" && "Draft saved successfully!🎉"}
 								{msgToShow === "Marked-Leave" && "Leave Marked for today! 🎉"}
+								{msgToShow === "Updated-Dsr" &&
+									"DSR is updated successfully! 🎉"}
 							</h3>
 						</div>
 
@@ -495,6 +525,8 @@ function NewDsr() {
 									"Draft was not Saved! We are experiencing some problems! 💀"}
 								{msgToShow === "Unmarked-Leave" &&
 									"Unable to mark leave due to some internal issues! 💀"}
+								{msgToShow === "Noupdated-Dsr" &&
+									"Unable to edit DSR due to some internal issues! 💀"}
 							</h3>
 						</div>
 
@@ -785,6 +817,27 @@ function NewDsr() {
 
 				{isLeave === 1 && (
 					<div className="blank-container card-container edit-card">
+						{/* Notification Messages */}
+						<div
+							className={`verification-cta ${msg ? "show-verification" : ""}`}
+						>
+							<h3 className="heading-xs">
+								{msgToShow === "Updated-Dsr" &&
+									"DSR is updated successfully! 🎉"}
+							</h3>
+						</div>
+
+						<div
+							className={`verification-cta error-cta ${
+								errMsg ? "show-verification" : ""
+							}`}
+						>
+							<h3 className="heading-xs">
+								{msgToShow === "Noupdated-Dsr" &&
+									"Unable to edit DSR due to some internal issues! 💀"}
+							</h3>
+						</div>
+
 						<div className="blank-page dsr-edit-page">
 							<h1 className="heading-m">
 								{/* <img src={sabash} alt="meme" /> */}
