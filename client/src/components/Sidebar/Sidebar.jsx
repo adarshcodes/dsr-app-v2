@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Logo from "../../assets/images/logo/logo.svg";
+import Quadrafort from "../../assets/images/logo/quadrafort-dark-2.png";
 
 const tabs = [
 	{
@@ -51,6 +52,10 @@ function Sidebar({ location, ham, setHam }) {
 
 			<div className="sidebar__tabs">
 				<ul className="route-list">{routeTab}</ul>
+			</div>
+
+			<div className="bottom-branding">
+				<img src={Quadrafort} alt="logo" />
 			</div>
 		</div>
 	);

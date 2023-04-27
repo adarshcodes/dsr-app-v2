@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 import AnimatedComponent from "../../AnimatedComponent";
 import RecentSkeleton from "../../components/Skeleton/RecentSkeleton";
 
+let userId = "6448cd7e09f1d7a9cc85ba1e";
 function WeeklyDsr() {
 	// Adding animated component to make the route change animated -- Adarsh(19-Apr)
 
@@ -17,7 +19,7 @@ function WeeklyDsr() {
 			headers: {
 				"Content-Type": "application/json",
 			},
-			body: JSON.stringify({ user: "64417870bc83e4becb95f97d" }),
+			body: JSON.stringify({ user: userId }),
 		})
 			.then((response) => response.json())
 			.then((data) => {
@@ -174,19 +176,36 @@ function WeeklyDsr() {
 	});
 
 	return (
+  <HelmetProvider>
 		<AnimatedComponent>
+			<Helmet>
+				<title>Your Weekly DSR | LeafLog-Quadrafort</title>
+			</Helmet>
 			<div className="recents">
 				<h3 className="heading-s">View Your Last 5 DSR</h3>
 
 				<div className="recents-card-container card-container">
-					<div className="scroll-parent">
-						{loading
-							? Array.from({ length: 10 }, (_, i) => <RecentSkeleton key={i} />)
-							: cardDsr}
-					</div>
+					{cardDsr.length > 0 ? (
+						<div className="scroll-parent">
+							{loading
+								? Array.from({ length: 10 }, (_, i) => (
+										<RecentSkeleton key={i} />
+								  ))
+								: cardDsr}
+						</div>
+					) : (
+						<div className="blank-page">
+							<h3 className="heading-s">
+								<i className="fa-solid fa-umbrella-beach"></i>
+								<br /> There is no DSR recorded yet! <br />
+								You can add DSR from the New DSR page!
+							</h3>
+						</div>
+					)}
 				</div>
 			</div>
 		</AnimatedComponent>
+    </HelmetProvider>
 	);
 }
 

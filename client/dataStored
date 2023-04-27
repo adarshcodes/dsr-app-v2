@@ -1,0 +1,38 @@
+{isLeave === 1 && (
+				<div className="blank-container card-container">
+					<div className="blank-page">
+						<h1 className="heading-m">
+							<img src={sabash} alt="meme" />
+							{/* <i class="fa-solid fa-person-hiking"></i> */}
+							<br />
+							You've already filled the DSR, Do you want to edit!
+						</h1>
+					</div>
+				</div>
+			)}
+
+			{isLeave === 2 && (
+				<div className="blank-container card-container">
+					<div className="blank-page">
+						<h1 className="heading-m">
+							<img src={kkr} alt="meme" />
+							{/* <i class="fa-solid fa-person-hiking"></i> */}
+							<br />
+							You've already marked the DSR as Leave! <br /> Enjoi your dey
+							biro!
+						</h1>
+					</div>
+				</div>
+			)}
+
+			{isLeave === 3 && (
+				<div className="blank-container card-container">
+					<div className="blank-page">
+						<h1 className="heading-m">
+							<i class="fa-solid fa-server"></i>
+							<br />
+							DSR was removed by Admin! Please contact your Manager!
+						</h1>
+					</div>
+				</div>
+			)}

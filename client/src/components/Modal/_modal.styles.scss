@@ -1,0 +1,59 @@
+.modal {
+    z-index: 1;
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, .3);
+    backdrop-filter: blur(3px);
+    @include flex-row-center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all .3s $bez-1;
+
+    &-card {
+        background-color: var(--light-section);
+        @include flex-column;
+        align-items: center;
+        gap: 2rem;
+        padding: 5rem;
+        border-radius: .4rem;
+        width: 40rem;
+        text-align: center;
+
+        @media screen and (max-width: 500px) {
+            width: 90%;
+            padding: 3rem 2rem;
+
+            .heading-s {
+                font-size: 2rem;
+            }
+
+            .ctas {
+                .btn {
+                    font-size: 1.5rem;
+                }
+            }
+        }
+
+        .heading-s {
+            line-height: 3rem;
+            font-size: 2.5rem;
+        }
+
+        .ctas {
+            @include flex-row;
+            gap: 2rem;
+        }
+    }
+}
+
+.show-modal {
+    opacity: 1;
+    visibility: visible;
+}
+
+.remove-scroll {
+    overflow: hidden !important;
+}

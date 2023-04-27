@@ -1,4 +1,5 @@
 .sidebar {
+    @include flex-column;
     width: 22rem;
     background-color: var(--light-section);
     @include shadow-2;
@@ -96,4 +97,15 @@
 
 .show-sidebar {
     transform: translateX(0%);
+}
+
+.bottom-branding {
+    width: 100%;
+    padding: 2rem;
+    margin-top: auto;
+    @include flex-row-center;
+
+    img {
+        width: 75%;
+    }
 }

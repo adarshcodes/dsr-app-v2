@@ -16,6 +16,7 @@
     }
 
     .input__group {
+      position: relative;
       @include flex-column;
       gap: .2rem;
       flex: 1;
