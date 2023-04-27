@@ -22,8 +22,26 @@
 
       textarea {
         resize: none;
-        @include customScroll;
+
+        // @include customScroll;
+        &::-webkit-scrollbar {
+          width: 0.3rem;
+        }
+
+        &::-webkit-scrollbar-track {
+          background-color: var(--border-color);
+          border-radius: .1rem;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          background-color: var(--primary-text);
+          border-radius: .1rem;
+        }
       }
+    }
+
+    .input__group__area {
+      height: 10rem;
     }
 
     .input__label {
@@ -32,6 +50,10 @@
       color: var(--primary-text);
       transition: all 0.3s $bez-1;
       transform: translateX(0rem);
+
+      @media screen and (max-width: 600px) {
+        font-weight: 400;
+      }
     }
 
     // .input__label__area {
@@ -49,6 +71,11 @@
       padding: 1.2rem 0rem 0.8rem 0;
       font-size: 1.8rem;
       transition: all 0.3s cubic-bezier(0.5, 0, 0.5, 1.5);
+
+      @media screen and (max-width: 600px) {
+        font-size: 1.6rem;
+        font-weight: 500;
+      }
     }
 
     textarea {
@@ -100,4 +127,9 @@
     width: 3.2rem;
     height: 3.2rem;
   }
+}
+
+.btn-row {
+  flex-direction: row !important;
+  gap: 1.5rem !important;
 }
