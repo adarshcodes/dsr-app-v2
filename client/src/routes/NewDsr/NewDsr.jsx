@@ -9,7 +9,7 @@ import NewDsrSkeleton from "../../components/Skeleton/NewDsrSkeleton";
 /*
   Written the Code of NewDSR and made it responsive --- Ayush
 */
-let userId = "6448cd7e09f1d7a9cc85ba1e";
+let userId = "6448cde109f1d7a9cc85ba34";
 function NewDsr() {
 	// adding a loading part which renders if api is slows down
 	const [loading, setLoading] = useState(true);

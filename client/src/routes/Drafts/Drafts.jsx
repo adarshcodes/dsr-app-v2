@@ -6,7 +6,7 @@ import RecentSkeleton from "../../components/Skeleton/RecentSkeleton";
 import Modal from "../../components/Modal/Modal";
 import { Link } from "react-router-dom";
 
-let userId = "6448cd7e09f1d7a9cc85ba1e";
+let userId = "6448cde109f1d7a9cc85ba34";
 function Drafts() {
 	// State to save drafts from API call
 	const [drafts, setDrafts] = useState([]);
@@ -183,7 +183,7 @@ function Drafts() {
 						<Link
 							to="/"
 							className="btn btn-dark btn-view"
-							onClick={() => handleUse(data(index))}
+							onClick={() => handleUse(index)}
 						>
 							Use
 						</Link>
