@@ -1,15 +1,28 @@
-import React, { useState, useEffect } from "react";
-import Helmet from "react-helmet";
+
+import React, { useState, useEffect, useContext } from "react";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 import AnimatedComponent from "../../AnimatedComponent";
+import { transferData, takeData } from "../../parts/Dashboard/Dashboard";
 import RecentSkeleton from "../../components/Skeleton/RecentSkeleton";
 import Modal from "../../components/Modal/Modal";
 
 let userId = "6448cd7e09f1d7a9cc85ba1e";
 function Drafts() {
+
 	// State to save drafts from API call
 	const [drafts, setDrafts] = useState([]);
 	// State to set the Loading skeleton
 	const [loading, setLoading] = useState(true);
+  
+  
+   // using the useContext to set the draftdata into the setDraftData function for newDSr.
+  const { setDraftData } = useContext(transferData);
+  const { setIsUse } = useContext(takeData);
+
+  function handleUse(index) {
+    setDraftData(drafts[index]);
+    setIsUse(true);
+  }
 
 	// Fetching drafts data from API using Async
 	const fetchDrafts = async () => {
@@ -169,7 +182,7 @@ function Drafts() {
 					</div>
 
 					<div className="cta">
-						<button className="btn btn-dark btn-view">Use</button>
+						<Link to="/" className="btn btn-dark btn-view" onClick={() => handleUse(data(index))}>Use</Link>
 
 						<button className="btn btn-dark btn-error" onClick={showModal}>
 							Delete
@@ -182,6 +195,7 @@ function Drafts() {
 
 	return (
 		// Adding animated component to make the route change animated -- Adarsh(19-Apr)
+    <HelmetProvider>
 		<AnimatedComponent>
 			<Helmet>
 				<title>Your Saved Drafts | LeafLog-Quadrafort</title>
@@ -225,6 +239,7 @@ function Drafts() {
 				</div>
 			</div>
 		</AnimatedComponent>
+    </HelmetProvider>
 	);
 }
 

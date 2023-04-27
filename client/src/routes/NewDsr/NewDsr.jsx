@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
-import Helmet from "react-helmet";
+import React, { useState, useEffect, useContext } from "react";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 import AnimatedComponent from "../../AnimatedComponent";
 import Modal from "../../components/Modal/Modal";
+import { takeData, transferData } from "../../parts/Dashboard/Dashboard";
 import NewDsrSkeleton from "../../components/Skeleton/NewDsrSkeleton";
 // import sabash from "../../assets/images/sabash.jpeg";
 // import kkr from "../../assets/images/meme.jpg";
@@ -10,11 +11,16 @@ import NewDsrSkeleton from "../../components/Skeleton/NewDsrSkeleton";
 */
 let userId = "6448cd7e09f1d7a9cc85ba1e";
 function NewDsr() {
+
 	// adding a loading part which renders if api is slows down
 	const [loading, setLoading] = useState(true);
 
 	// Checking today's status of dsr(if already dsr is added the we will show edit option and remove form and leave button | if leave status is returned then it will show that you are on leave and if neither it returns leave nor dsr filled then will will show the form as well as Leave button) --Adarsh-25-apr-2023
 	const [isLeave, setIsLeave] = useState("");
+  
+ //draft value is receiving from the drafts.jsx for
+  const { draftValue } = useContext(transferData);
+  const { isUse, setIsUse } = useContext(takeData);
 
 	const fetchStatus = async () => {
 		setLoading(true);
@@ -102,6 +108,27 @@ function NewDsr() {
 			[e.target.name]: "",
 		});
 	}
+  
+  
+    //changing the state of dsrData if draftValue exist :------Ayush
+
+  useEffect(() => {
+    isUse &&
+      draftValue &&
+      setDsrData({
+        projectName: draftValue.projectName,
+        clientManager: draftValue.clientManager,
+        activitiesCompleted: draftValue.activitiesCompleted,
+        activitiesPlanned: draftValue.activitiesPlanned,
+        hoursWorked: draftValue.hoursWorked,
+        status: draftValue.status,
+        comment: draftValue.comment,
+        openIssues: draftValue.openIssues,
+        isOnLeave: false,
+        user: userId,
+      });
+  }, [isUse, draftValue]);
+  
 
 	// --Handle data post for new DSR to API--
 	const handlePost = async (event) => {
@@ -178,6 +205,8 @@ function NewDsr() {
 			comment: "",
 			openIssues: "",
 		});
+    
+    setIsUse(false);
 	};
 
 	// Showing notification on submit data and error
@@ -463,6 +492,7 @@ function NewDsr() {
 
 	return (
 		// Adding animated component to make the route change animated -- Adarsh(19-Apr)
+    <HelmetProvider>
 		<AnimatedComponent>
 			<Helmet>
 				<title>Create New DSR | LeafLog-Quadrafort</title>
@@ -959,6 +989,7 @@ function NewDsr() {
 				</div>
 			)}
 		</AnimatedComponent>
+    </HelmetProvider>
 	);
 }
 
