@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Helmet } from "react-helmet";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 import AnimatedComponent from "../../AnimatedComponent";
 import RecentSkeleton from "../../components/Skeleton/RecentSkeleton";
 
@@ -176,6 +176,7 @@ function WeeklyDsr() {
 	});
 
 	return (
+  <HelmetProvider>
 		<AnimatedComponent>
 			<Helmet>
 				<title>Your Weekly DSR | LeafLog-Quadrafort</title>
@@ -204,6 +205,7 @@ function WeeklyDsr() {
 				</div>
 			</div>
 		</AnimatedComponent>
+    </HelmetProvider>
 	);
 }
 
