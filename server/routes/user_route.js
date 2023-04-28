@@ -23,23 +23,27 @@ app.post("/add_user", async (request, response) => {
 });
 
 // verify user when using custom login method
-// app.post("/login",(req,res)=>{
-//   const user=new userModel.find();
-//   var userName=req.body.email;
-//   var password=req.body.password;
-//   const i = dataFound.findIndex(e => e.email === userName);
-//   if (i > -1) {
-//       if(user[i].password===password){
-//           res.send("logged in");
-//       }
-//       else{
-//           res.send("incorrect password");
-//       }
-//   }
-//   else{
-//           res.send("incorrect username/email");
-//       }
-// });
+app.post("/login", async (req,res)=>{
+  const user=await userModel.find({});
+  var userName=req.body.email;
+  var password=req.body.password;
+  const i = user.findIndex(e => e.email === userName);
+  try{
+    if (i > -1) {
+      if(user[i].password===password){
+          res.send("logged in");
+      }
+      else{
+          res.send("incorrect password");
+      }
+    }
+    else{
+          res.send("incorrect username/email");
+        }  
+  }catch (error) {
+    response.status(500).send(error);
+  }
+});
 
 // Returns all users that are in the database. This is a GET request and should be used to make sure that we don't get an error from the service
 app.get("/users", async (request, response) => {
