@@ -632,6 +632,7 @@ function NewDsr() {
 										<div className="input__group">
 											<input
 												type="number"
+												inputMode="numeric"
 												placeholder="Hours Worked"
 												id="hours-worked"
 												name="hoursWorked"
