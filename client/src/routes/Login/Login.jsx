@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 import AnimatedComponent from "../../AnimatedComponent";
 import Logo from "../../assets/images/logo/logo-leaf.svg";
@@ -7,19 +7,31 @@ import Icon from "../../assets/images/logo/ms.svg";
 import Quadrafort from "../../assets/images/logo/quadrafort-dark.png";
 
 function Login() {
+  const [userData, setUserData] = useState();
+
   const [userDetail, setUserDetail] = useState({
     email: "",
     password: "",
   });
 
-  const [userData, setUserData] = useState();
+  const handleDataInput = (data) => {
+    if (data) {
+      localStorage.setItem("usercred", JSON.stringify(data));
+      setUserData(data);
+    } else {
+      const storedUserData = localStorage.getItem("usercred");
+      if (storedUserData) {
+        setUserData(JSON.parse(storedUserData));
+      }
+    }
+    navigate("/");
+  };
 
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
   const navigate = useNavigate();
 
-  const handleNavigation = () => navigate("/");
   const handleLogin = async (e) => {
     console.log("handlelogin started");
     try {
@@ -33,10 +45,14 @@ function Login() {
       });
 
       const data = await response.json();
-      console.log(data);
 
-      // handleNavigation();
-      setUserData(data);
+      // console.log(data);
+      if (data.id) {
+        handleDataInput(data);
+      } else {
+        // handle login failure here, e.g. show an error message
+        console.log("Login failed.");
+      }
     } catch (error) {
       console.log(error);
     }
@@ -74,9 +90,6 @@ function Login() {
     handleLogin();
     // }
   };
-  useEffect(() => {
-    handleLogin();
-  }, []);
 
   return (
     // Adding animated component to make the route change animated -- Adarsh(19-Apr)
