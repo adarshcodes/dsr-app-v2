@@ -13,14 +13,20 @@ function App() {
 	const [theme, setTheme] = useState(false);
 
 	function themeSwitch() {
-		setTheme(!theme);
+		const newTheme = !theme;
+		setTheme(newTheme);
+		localStorage.setItem("theme", newTheme ? "dark" : "light");
+		console.log(theme);
 	}
 
 	useEffect(() => {
-		if (theme) {
+		const savedTheme = localStorage.getItem("theme");
+		if (savedTheme === "dark") {
 			document.documentElement.classList.add("dark");
+			setTheme(true);
 		} else {
 			document.documentElement.classList.remove("dark");
+			setTheme(false);
 		}
 	}, [theme]);
 

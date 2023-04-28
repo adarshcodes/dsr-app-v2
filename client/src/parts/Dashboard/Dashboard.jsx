@@ -29,7 +29,12 @@ function Dashboard({ theme, themeSwitch }) {
 					/>
 
 					<section className="main-content">
-						<Topbar ham={ham} setHam={setHam} themeSwitch={themeSwitch} />
+						<Topbar
+							ham={ham}
+							setHam={setHam}
+							themeSwitch={themeSwitch}
+							theme={theme}
+						/>
 
 						<div className="container">
 							<Outlet context={[useDraft, setUseDraft]} />

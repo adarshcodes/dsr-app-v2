@@ -635,7 +635,8 @@ p {
     --size: 1.4rem;
   }
 }
-.toggle:checked {
+
+.checked {
   --ray-size: calc(var(--size) * -0.4);
   --offset-orthogonal: calc(var(--size) * 0.8);
   --offset-diagonal: calc(var(--size) * 0.55);
