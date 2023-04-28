@@ -45,22 +45,22 @@
   padding: 1.5rem 2rem;
   border-radius: .4rem 0 0 .4rem;
   right: 0;
-  border-left: 4px solid $color-success;
+  border-left: 4px solid var(--color-success);
   transition: all .2s $bez-3;
   transform: translateX(200%);
   z-index: 1000;
 
   .heading-xs {
     font-weight: 500;
-    color: $color-success;
+    color: var(--color-success);
   }
 }
 
 .error-cta {
-  border-left: 4px solid $color-error;
+  border-left: 4px solid var(--color-error);
 
   .heading-xs {
-    color: $color-error;
+    color: var(--color-error);
   }
 }
 
@@ -74,7 +74,7 @@
   .heading-m {
     line-height: 4rem;
     text-align: center;
-    color: $color-success;
+    color: var(--color-success);
     font-size: 2.2rem;
 
     i {
@@ -91,7 +91,7 @@
   position: absolute;
   top: 27%;
   right: 0;
-  color: $color-error;
+  color: var(--color-error);
   font-size: 1.5rem;
   font-weight: 400;
 }
@@ -101,12 +101,12 @@
 }
 
 .invalid-input {
-  border-color: $color-error !important;
+  border-color: var(--color-error) !important;
 }
 
 .valid-input {
   &:focus {
-    border-color: $color-success !important;
+    border-color: var(--color-success) !important;
   }
 }
 
@@ -138,7 +138,7 @@
     }
 
     .para {
-      color: $color-error;
+      color: var(--color-error);
       font-size: 1.7rem;
       text-align: center;
       font-weight: 500;
@@ -165,7 +165,7 @@
           width: 50%;
           padding: .5rem 1rem;
           outline: none;
-          border: 1px solid $swatch_2;
+          border: 1px solid var(--swatch-2);
           border-radius: .4rem;
           font-family: inherit;
           font-size: 1.6rem;

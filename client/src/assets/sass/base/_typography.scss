@@ -9,7 +9,7 @@ h1,
 h2,
 h3,
 h4 {
-    color: $swatch_1;
+    color: var(--swatch-1);
     font-weight: 600;
 }
 

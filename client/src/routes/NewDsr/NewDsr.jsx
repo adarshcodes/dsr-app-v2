@@ -4,8 +4,8 @@ import AnimatedComponent from "../../AnimatedComponent";
 import Modal from "../../components/Modal/Modal";
 import { takeData, transferData } from "../../parts/Dashboard/Dashboard";
 import NewDsrSkeleton from "../../components/Skeleton/NewDsrSkeleton";
-// import sabash from "../../assets/images/sabash.jpeg";
-// import kkr from "../../assets/images/meme.jpg";
+// import sabash from "../../assets/images/meme.jpg";
+import kkr from "../../assets/images/meme.jpg";
 /*
   Written the Code of NewDSR and made it responsive --- Ayush
 */
@@ -191,7 +191,7 @@ function NewDsr() {
 			openIssues: "",
 		});
 
-		setErrMsg({
+		setErrors({
 			...errors,
 			projectName: "",
 			clientManager: "",
@@ -199,8 +199,6 @@ function NewDsr() {
 			activitiesPlanned: "",
 			hoursWorked: "",
 			status: "",
-			comment: "",
-			openIssues: "",
 		});
 
 		setIsUse(false);
@@ -337,8 +335,6 @@ function NewDsr() {
 		status: "",
 		activitiesCompleted: "",
 		activitiesPlanned: "",
-		openIssues: "",
-		comment: "",
 	});
 
 	const validateForm = () => {
@@ -351,8 +347,6 @@ function NewDsr() {
 			status: "",
 			activitiesCompleted: "",
 			activitiesPlanned: "",
-			openIssues: "",
-			comment: "",
 		};
 
 		if (!dsrData.projectName) {
@@ -386,16 +380,6 @@ function NewDsr() {
 		if (!dsrData.activitiesPlanned) {
 			newErrors.activitiesPlanned =
 				"Activities planned for tomorrow is required.";
-			isValid = false;
-		}
-
-		if (!dsrData.openIssues) {
-			newErrors.openIssues = "Open Issues is required.";
-			isValid = false;
-		}
-
-		if (!dsrData.comment) {
-			newErrors.comment = "Any Other Comments is required.";
 			isValid = false;
 		}
 
@@ -737,9 +721,7 @@ function NewDsr() {
 												placeholder="Open Issues"
 												name="openIssues"
 												onChange={storeData}
-												className={`form__input form-input ${
-													errors.openIssues ? "invalid-input" : "valid-input"
-												}`}
+												className={`form__input form-input`}
 												value={dsrData.openIssues}
 											/>
 
@@ -747,14 +729,8 @@ function NewDsr() {
 												htmlFor="open-issues"
 												className="input__label input__label__area input-label"
 											>
-												Open Issues <sup style={{ color: "red" }}>*</sup>
+												Open Issues
 											</label>
-
-											{errors.openIssues && (
-												<div className="validation-error textarea-error">
-													{errors.openIssues}
-												</div>
-											)}
 										</div>
 
 										<div className="input__group input__group__area">
@@ -763,9 +739,7 @@ function NewDsr() {
 												placeholder="Any Other Comments"
 												name="comment"
 												onChange={storeData}
-												className={`form__input form-input ${
-													errors.comment ? "invalid-input" : "valid-input"
-												}`}
+												className={`form__input form-input`}
 												value={dsrData.comment}
 											/>
 
@@ -773,14 +747,8 @@ function NewDsr() {
 												htmlFor="comment"
 												className="input__label input__label__area input-label"
 											>
-												Any Other Comments <sup style={{ color: "red" }}>*</sup>
+												Any Other Comments
 											</label>
-
-											{errors.comment && (
-												<div className="validation-error textarea-error">
-													{errors.comment}
-												</div>
-											)}
 										</div>
 									</div>
 
@@ -840,8 +808,8 @@ function NewDsr() {
 
 						<div className="blank-page dsr-edit-page">
 							<h1 className="heading-m">
-								{/* <img src={sabash} alt="meme" /> */}
-								<i className="fa-solid fa-person-hiking"></i>
+								<img src={kkr} alt="meme" />
+								{/* <i className="fa-solid fa-person-hiking"></i> */}
 								<br />
 								{`${
 									!isUpdated
