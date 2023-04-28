@@ -34,11 +34,9 @@ const DsrSchema = new mongoose.Schema({
   },
   comment: {
     type: String,
-    required: true,
   },
   openIssues: {
     type: String,
-    required: true,
   },
   isOnLeave: {
     type: Boolean,
