@@ -1,16 +1,17 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-
-import AnimatedComponent from "../../AnimatedComponent";
-import Logo from "../../assets/images/logo/logo-leaf.svg";
 import Icon from "../../assets/images/logo/ms.svg";
+import Logo from "../../assets/images/logo/logo-leaf.svg";
 import Quadrafort from "../../assets/images/logo/quadrafort-dark.png";
+import { Link } from "react-router-dom";
+import AnimatedComponent from "../../AnimatedComponent";
 
-function Login() {
+export const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -20,6 +21,11 @@ function Login() {
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
     setPasswordError("");
+  };
+
+  const handleConfirmPasswordChange = (e) => {
+    setConfirmPassword(e.target.value);
+    setConfirmPasswordError("");
   };
 
   const handleSubmit = (e) => {
@@ -39,14 +45,20 @@ function Login() {
       setPasswordError("Password must be at least 6 characters long");
     }
 
-    // Handle authentication with email and password if no errors
-    if (!emailError && !passwordError) {
-      // Authentication logic
+    // Confirm password validation
+    if (!confirmPassword) {
+      setConfirmPasswordError("Please confirm password");
+    } else if (confirmPassword !== password) {
+      setConfirmPasswordError("Passwords do not match");
+    }
+
+    // Handle registration with email and password if no errors
+    if (!emailError && !passwordError && !confirmPasswordError) {
+      // Registration logic
     }
   };
 
   return (
-    // Adding animated component to make the route change animated -- Adarsh(19-Apr)
     <AnimatedComponent>
       <div className="login-container">
         <div className="login-card">
@@ -55,6 +67,7 @@ function Login() {
 
             <h1 className="heading-s">LeafLog</h1>
             <p className="para">Stay connected to your Work and Nature</p>
+
             <div className="branding">
               a solution by
               <img src={Quadrafort} alt="Quadrafort" className="quadra-logo" />
@@ -62,7 +75,7 @@ function Login() {
           </div>
 
           <form className="form">
-            <h1 className="heading-s">Login</h1>
+            <h1 className="heading-s">Register</h1>
             <div className="input-row">
               <div className="form-group">
                 <div className="input__group">
@@ -74,7 +87,6 @@ function Login() {
                     id="email"
                     placeholder="@Quadrafort.com"
                     className="form__input"
-					name="email"
                     value={email}
                     onChange={handleEmailChange}
                     required
@@ -88,7 +100,7 @@ function Login() {
                   <input
                     type="password"
                     id="password"
-					name="password"
+                    name="password"
                     placeholder="Enter Your Password"
                     className="form__input"
                     value={password}
@@ -99,20 +111,36 @@ function Login() {
                     <div className="error">{passwordError}</div>
                   )}
                 </div>
+                <div className="input__group">
+                  <label htmlFor="confirm-password" className="input__label">
+                    Confirm Password
+                  </label>
+                  <input
+                    type="password"
+                    id="confirm-password"
+                    placeholder="Confirm Your Password"
+                    className="form__input"
+                    value={confirmPassword}
+                    onChange={handleConfirmPasswordChange}
+                    required
+                  />
+                  {confirmPasswordError && (
+                    <div className="error">{confirmPasswordError}</div>
+                  )}
+                </div>
               </div>
             </div>
-            {/* <Link to="/" className="align-self"> */}
             <button
               type="submit"
               className="btn btn-dark"
               onClick={(e) => handleSubmit(e)}
             >
-              Sign in
+              Register
             </button>
-            <Link to={"/register"}>
-              <p className="goto-register">New User? Register</p>
+            <Link to={"/login"}>
+              <p className="goto-register">Already Register? Sign in</p>
             </Link>
-            <p className="align-self">Or</p>
+
             {/* </Link> */}
             <div className="btn btn-primary btn-light-shadow micro">
               <img src={Icon} alt="ms-login" />
@@ -124,6 +152,4 @@ function Login() {
       </div>
     </AnimatedComponent>
   );
-}
-
-export default Login;
+};

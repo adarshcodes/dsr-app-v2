@@ -8,37 +8,37 @@ export const transferData = createContext();
 export const takeData = createContext();
 
 function Dashboard({ theme, themeSwitch }) {
-	const location = useLocation();
-	const [ham, setHam] = useState(false);
-	const [useDraft, setUseDraft] = React.useState({});
+  const location = useLocation();
+  const [ham, setHam] = useState(false);
+  const [useDraft, setUseDraft] = React.useState({});
 
-	// variable to store data of the draft to provide it to newDsr comp.
+  // variable to store data of the draft to provide it to newDsr comp.
 
-	const [draftValue, setDraftData] = useState();
-	const [isUse, setIsUse] = useState(false);
+  const [draftValue, setDraftData] = useState();
+  const [isUse, setIsUse] = useState(false);
 
-	return (
-		<transferData.Provider value={{ draftValue, setDraftData }}>
-			<takeData.Provider value={{ isUse, setIsUse }}>
-				<div className="dashboard">
-					<Sidebar
-						location={location}
-						theme={theme}
-						ham={ham}
-						setHam={setHam}
-					/>
+  return (
+    <transferData.Provider value={{ draftValue, setDraftData }}>
+      <takeData.Provider value={{ isUse, setIsUse }}>
+        <div className="dashboard">
+          <Sidebar
+            location={location}
+            theme={theme}
+            ham={ham}
+            setHam={setHam}
+          />
 
-					<section className="main-content">
-						<Topbar ham={ham} setHam={setHam} themeSwitch={themeSwitch} />
+          <section className="main-content">
+            <Topbar ham={ham} setHam={setHam} themeSwitch={themeSwitch} />
 
-						<div className="container">
-							<Outlet context={[useDraft, setUseDraft]} />
-						</div>
-					</section>
-				</div>
-			</takeData.Provider>
-		</transferData.Provider>
-	);
+            <div className="container">
+              <Outlet context={[useDraft, setUseDraft]} />
+            </div>
+          </section>
+        </div>
+      </takeData.Provider>
+    </transferData.Provider>
+  );
 }
 
 export default Dashboard;

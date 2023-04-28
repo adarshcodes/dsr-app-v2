@@ -1,0 +1,9 @@
+.login-container {
+  .login-card {
+    @include flex-row-center;
+    gap: 2.5rem;
+    .heading-s {
+      text-align: center;
+    }
+  }
+}

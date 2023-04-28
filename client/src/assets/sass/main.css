@@ -98,13 +98,18 @@
   outline: none;
 }
 .form .input-row .form__input:focus:invalid {
-  border-bottom: 2px solid #FA7161;
+  border-bottom: 2px solid #fa7161;
 }
-.form .input-row .form__input::-webkit-input-placeholder {
+.form .input-row .form__input::-moz-placeholder {
   color: #232323;
 }
 .form .input-row .form__input::placeholder {
   color: #232323;
+}
+.form .input-row .form-input:-moz-placeholder-shown + .input-label {
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(0rem, -4rem);
 }
 .form .input-row .form-input:placeholder-shown + .input-label {
   opacity: 0;
@@ -290,7 +295,9 @@ p {
   justify-content: center;
   align-items: center;
   font-family: inherit;
-  user-select: none;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
 }
 .btn:active {
   transform: scale(0.9);
@@ -549,7 +556,8 @@ p {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  object-fit: cover;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 
 .active-ham {
@@ -588,7 +596,9 @@ p {
 
 .toggle {
   --size: 1.7rem;
-  appearance: none;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
   outline: none;
   cursor: pointer;
   width: var(--size);
@@ -675,7 +685,8 @@ p {
   top: 0;
   left: 0;
   background-color: rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+          backdrop-filter: blur(3px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -734,37 +745,73 @@ p {
   justify-content: center;
   align-items: center;
 }
-
-.login-card {
-  padding: 5rem;
+.login-container .login-card {
+  padding: 5rem 5rem;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   background-color: #fff;
   border-radius: 0.4rem;
 }
 @media screen and (max-width: 500px) {
-  .login-card {
+  .login-container .login-card {
     padding: 3rem;
   }
 }
-.login-card .top-part {
+.login-container .login-card .top-part {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 1rem;
+  padding: 0rem 2rem;
   margin-bottom: 3rem;
 }
-.login-card .top-part .logo {
+.login-container .login-card .top-part .logo {
   width: 4rem;
 }
-.login-card .top-part .heading-s {
+.login-container .login-card .top-part .heading-s {
   font-family: "Tenor Sans", sans-serif;
 }
-.login-card .top-part .para {
+.login-container .login-card .top-part .para {
   text-align: center;
   font-weight: 500;
 }
-.login-card .branding {
+.login-container .login-card .form {
+  padding: 0rem 2rem;
+}
+.login-container .login-card .form .input-row .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  justify-content: space-between;
+  width: 100%;
+}
+.login-container .login-card .form .input-row .form-group .input__group input::-moz-placeholder {
+  font-weight: 100;
+  font-size: 1.5rem;
+  color: var(--secondary-text);
+}
+.login-container .login-card .form .input-row .form-group .input__group input::placeholder {
+  font-weight: 100;
+  font-size: 1.5rem;
+  color: var(--secondary-text);
+}
+.login-container .login-card .form .input-row .form-group .input__group .error {
+  color: #DF5656;
+  font-size: 1.2rem;
+}
+.login-container .login-card .form .micro .small {
+  font-size: 1.2rem;
+  font-weight: 100;
+}
+.login-container .login-card .form p.align-self {
+  text-align: center;
+}
+.login-container .login-card .form p.goto-register {
+  font-size: 1.45rem;
+  text-decoration: underline;
+  color: #018171;
+}
+.login-container .login-card .branding {
   margin-top: 5rem;
   display: flex;
   flex-direction: column;
@@ -774,9 +821,19 @@ p {
   font-weight: 500;
   font-size: 1.5rem;
 }
-.login-card .branding img {
+.login-container .login-card .branding img {
   width: 13rem;
   height: auto;
+}
+
+.login-container .login-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2.5rem;
+}
+.login-container .login-card .heading-s {
+  text-align: center;
 }
 
 .dashboard {
