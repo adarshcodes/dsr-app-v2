@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
 import AnimatedComponent from "../../AnimatedComponent";
 import Logo from "../../assets/images/logo/logo-leaf.svg";
@@ -7,43 +7,76 @@ import Icon from "../../assets/images/logo/ms.svg";
 import Quadrafort from "../../assets/images/logo/quadrafort-dark.png";
 
 function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [userDetail, setUserDetail] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [userData, setUserData] = useState();
+
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-    setEmailError("");
+  const navigate = useNavigate();
+
+  const handleNavigation = () => navigate("/");
+  const handleLogin = async (e) => {
+    console.log("handlelogin started");
+    try {
+      // e.preventDefault();
+      const response = await fetch("https://new-web-app.onrender.com/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userDetail),
+      });
+
+      const data = await response.json();
+      console.log(data);
+
+      // handleNavigation();
+      setUserData(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-    setPasswordError("");
+  const handleChange = (e) => {
+    const value = e.target.value;
+
+    setUserDetail({
+      ...userDetail,
+      [e.target.name]: value,
+    });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     // Email validation
-    if (!email) {
-      setEmailError("Email is required");
-    } else if (!email.endsWith("@Quadrafort.com")) {
-      setEmailError("Invalid email domain");
-    }
+    // if (!email) {
+    //   setEmailError("Email is required");
+    // } else if (!email.endsWith("@Quadrafort.com")) {
+    //   setEmailError("Invalid email domain");
+    // }
 
-    // Password validation
-    if (!password) {
-      setPasswordError("Password is required");
-    } else if (password.length < 6) {
-      setPasswordError("Password must be at least 6 characters long");
-    }
+    // // Password validation
+    // if (!password) {
+    //   setPasswordError("Password is required");
+    // } else if (password.length < 6) {
+    //   setPasswordError("Password must be at least 6 characters long");
+    // }
 
     // Handle authentication with email and password if no errors
-    if (!emailError && !passwordError) {
-      // Authentication logic
-    }
+    // if (!emailError && !passwordError) {
+    console.log("submit button pressed");
+    handleLogin();
+    // }
   };
+  useEffect(() => {
+    handleLogin();
+  }, []);
 
   return (
     // Adding animated component to make the route change animated -- Adarsh(19-Apr)
@@ -74,9 +107,9 @@ function Login() {
                     id="email"
                     placeholder="@Quadrafort.com"
                     className="form__input"
-					name="email"
-                    value={email}
-                    onChange={handleEmailChange}
+                    name="email"
+                    value={userDetail.email}
+                    onChange={handleChange}
                     required
                   />
                   {emailError && <div className="error">{emailError}</div>}
@@ -88,11 +121,11 @@ function Login() {
                   <input
                     type="password"
                     id="password"
-					name="password"
+                    name="password"
                     placeholder="Enter Your Password"
                     className="form__input"
-                    value={password}
-                    onChange={handlePasswordChange}
+                    value={userDetail.password}
+                    onChange={handleChange}
                     required
                   />
                   {passwordError && (
