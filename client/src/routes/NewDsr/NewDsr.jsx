@@ -90,7 +90,20 @@ function NewDsr() {
 	// Setting data from input in the state for both the DSR data and Draft data --20-April-2023--Adarsh
 
 	function storeData(e) {
-		const value = e.target.value;
+		const name = e.target.name;
+		let value = e.target.value;
+
+		if (name === "hoursWorked") {
+			// Remove any non-digit characters
+			value = value.replace(/\D/g, "");
+
+			// Limit to a range between 1 and 15
+			if (value < 1) {
+				value = 1;
+			} else if (value > 12) {
+				value = 12;
+			}
+		}
 
 		setDsrData({
 			...dsrData,
@@ -338,6 +351,10 @@ function NewDsr() {
 	});
 
 	const validateForm = () => {
+		function isNumberInRange(num, min, max) {
+			return !isNaN(num) && num >= min && num <= max;
+		}
+
 		let isValid = true;
 
 		const newErrors = {
@@ -359,7 +376,7 @@ function NewDsr() {
 			isValid = false;
 		}
 
-		if (!dsrData.hoursWorked) {
+		if (!dsrData.hoursWorked || !isNumberInRange(dsrData.hoursWorked, 1, 10)) {
 			newErrors.hoursWorked = "Hours Worked is required.";
 			isValid = false;
 		} else if (dsrData.hoursWorked < 0) {
@@ -452,7 +469,20 @@ function NewDsr() {
 	};
 
 	function handleEdit(e) {
-		const value = e.target.value;
+		const name = e.target.name;
+		let value = e.target.value;
+
+		if (name === "hoursWorked") {
+			// Remove any non-digit characters
+			value = value.replace(/\D/g, "");
+
+			// Limit to a range between 1 and 15
+			if (value < 1) {
+				value = 1;
+			} else if (value > 12) {
+				value = 12;
+			}
+		}
 
 		setLastDsr({
 			...lastDsr,
@@ -609,6 +639,8 @@ function NewDsr() {
 												className={`form__input form-input ${
 													errors.hoursWorked ? "invalid-input" : "valid-input"
 												}`}
+												min="1"
+												max="12"
 												value={dsrData.hoursWorked}
 											/>
 
