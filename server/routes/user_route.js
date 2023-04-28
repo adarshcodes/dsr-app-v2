@@ -31,15 +31,27 @@ app.post("/login", async (req,res)=>{
   try{
     if (i > -1) {
       if(user[i].password===password){
-          res.send("logged in");
+        console.log("logged in");
+        res.json({
+          id:user[i]._id,
+          name:user[i].name,
+          email:user[i].email,
+          isAdmin:user[i].isAdmin
+        });
       }
       else{
-          res.send("incorrect password");
+        console.log("wrong password");
+        res.json({
+          msg:"incorect password"
+        });
       }
     }
     else{
-          res.send("incorrect username/email");
-        }  
+      console.log("wrong username/email");
+      res.json({
+        msg:"incorrect username/email"
+      });
+    }  
   }catch (error) {
     response.status(500).send(error);
   }
