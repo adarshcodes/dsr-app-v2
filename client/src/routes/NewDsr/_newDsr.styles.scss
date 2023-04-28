@@ -119,11 +119,19 @@
 .edit-card {
   height: 100% !important;
   padding: 5rem 0 !important;
+
+  @media screen and (max-width: 700px) {
+    padding: 0 !important;
+  }
 }
 
 .dsr-edit-page {
   @include flex-column;
   gap: 3rem;
+
+  @media screen and (max-width: 700px) {
+    padding: 0 !important;
+  }
 
   .preview-edit {
     width: 60rem;
@@ -132,6 +140,15 @@
     padding: 3rem 5rem;
     border-radius: .4rem;
     border: 1px solid var(--border-color);
+
+    @media screen and (max-width:1000px) {
+      width: 90%;
+    }
+
+    @media screen and (max-width: 600px) {
+      width: 100%;
+      padding: 3rem;
+    }
 
     .heading-s {
       font-size: 1.8rem;
@@ -157,6 +174,12 @@
         @include flex-row-spacebetween;
         gap: 2rem;
 
+        @media screen and (max-width: 450px) {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 1rem;
+        }
+
         label {
           font-size: 1.6rem;
           color: var(--primary-text);
@@ -167,13 +190,15 @@
         input,
         textarea {
           width: 50%;
-          padding: .5rem 1rem;
           outline: none;
           border: 1px solid var(--swatch-2);
           border-radius: .4rem;
           font-family: inherit;
           font-size: 1.6rem;
+          padding: .5rem 1rem;
           transition: all .3s $bez-1;
+          color: var(--primary-text);
+          background: var(--light-section);
         }
 
         textarea {
@@ -184,6 +209,8 @@
           color: $noEditable;
           border: none;
           width: 40%;
+          padding: .5rem 0rem;
+          background: transparent;
         }
       }
     }

@@ -4,12 +4,10 @@ import AnimatedComponent from "../../AnimatedComponent";
 import Modal from "../../components/Modal/Modal";
 import { takeData, transferData } from "../../parts/Dashboard/Dashboard";
 import NewDsrSkeleton from "../../components/Skeleton/NewDsrSkeleton";
-// import sabash from "../../assets/images/meme.jpg";
-import kkr from "../../assets/images/meme.jpg";
 /*
   Written the Code of NewDSR and made it responsive --- Ayush
 */
-let userId = "6448cde109f1d7a9cc85ba34";
+let userId = "644b7073f061871077936f79";
 function NewDsr() {
 	// adding a loading part which renders if api is slows down
 	const [loading, setLoading] = useState(true);
@@ -37,6 +35,7 @@ function NewDsr() {
 			const data = await response.json();
 			setIsLeave(data);
 			setLoading(false);
+			console.log("dsr status updated");
 		} catch (error) {
 			console.error("Error:", error);
 		}
@@ -143,7 +142,6 @@ function NewDsr() {
 	// --Handle data post for new DSR to API--
 	const handlePost = async (event) => {
 		try {
-			event.preventDefault();
 			const response = await fetch(
 				"https://new-web-app.onrender.com/add_dsr/",
 				{
@@ -166,15 +164,15 @@ function NewDsr() {
 			setMsgToShow("DSR-Not-Saved");
 			errorMsg();
 			setTimeout(closeMsg, 2500);
+			console.log(error);
 		}
 	};
 
-	const handleSubmit = (event) => {
-		event.preventDefault();
+	function handleSubmit(event) {
 		if (validateForm()) {
 			handlePost(event);
 		}
-	};
+	}
 
 	// --End of Posting New DSR Data--
 
@@ -351,10 +349,6 @@ function NewDsr() {
 	});
 
 	const validateForm = () => {
-		function isNumberInRange(num, min, max) {
-			return !isNaN(num) && num >= min && num <= max;
-		}
-
 		let isValid = true;
 
 		const newErrors = {
@@ -376,7 +370,7 @@ function NewDsr() {
 			isValid = false;
 		}
 
-		if (!dsrData.hoursWorked || !isNumberInRange(dsrData.hoursWorked, 1, 10)) {
+		if (!dsrData.hoursWorked) {
 			newErrors.hoursWorked = "Hours Worked is required.";
 			isValid = false;
 		} else if (dsrData.hoursWorked < 0) {
@@ -522,8 +516,6 @@ function NewDsr() {
 								{msgToShow === "DSR-Saved" && "DSR successfully Submitted! 🎉"}
 								{msgToShow === "Draft-Saved" && "Draft saved successfully!🎉"}
 								{msgToShow === "Marked-Leave" && "Leave Marked for today! 🎉"}
-								{msgToShow === "Updated-Dsr" &&
-									"DSR is updated successfully! 🎉"}
 							</h3>
 						</div>
 
@@ -539,8 +531,6 @@ function NewDsr() {
 									"Draft was not Saved! We are experiencing some problems! 💀"}
 								{msgToShow === "Unmarked-Leave" &&
 									"Unable to mark leave due to some internal issues! 💀"}
-								{msgToShow === "Noupdated-Dsr" &&
-									"Unable to edit DSR due to some internal issues! 💀"}
 							</h3>
 						</div>
 
@@ -823,6 +813,9 @@ function NewDsr() {
 							className={`verification-cta ${msg ? "show-verification" : ""}`}
 						>
 							<h3 className="heading-xs">
+								{msgToShow === "DSR-Saved" && "DSR successfully Submitted! 🎉"}
+								{msgToShow === "Draft-Saved" && "Draft saved successfully!🎉"}
+								{msgToShow === "Marked-Leave" && "Leave Marked for today! 🎉"}
 								{msgToShow === "Updated-Dsr" &&
 									"DSR is updated successfully! 🎉"}
 							</h3>
@@ -834,6 +827,12 @@ function NewDsr() {
 							}`}
 						>
 							<h3 className="heading-xs">
+								{msgToShow === "DSR-Not-Saved" &&
+									"DSR was not Saved! We are experiencing some problems! 💀"}
+								{msgToShow === "Draft-Not-Saved" &&
+									"Draft was not Saved! We are experiencing some problems! 💀"}
+								{msgToShow === "Unmarked-Leave" &&
+									"Unable to mark leave due to some internal issues! 💀"}
 								{msgToShow === "Noupdated-Dsr" &&
 									"Unable to edit DSR due to some internal issues! 💀"}
 							</h3>
@@ -841,8 +840,8 @@ function NewDsr() {
 
 						<div className="blank-page dsr-edit-page">
 							<h1 className="heading-m">
-								<img src={kkr} alt="meme" />
-								{/* <i className="fa-solid fa-person-hiking"></i> */}
+								<i className="fa-solid fa-person-hiking"></i>
+
 								<br />
 								{`${
 									!isUpdated
@@ -992,6 +991,36 @@ function NewDsr() {
 
 				{isLeave === 2 && (
 					<div className="blank-container card-container">
+						{/* Notification messages */}
+						<div
+							className={`verification-cta ${msg ? "show-verification" : ""}`}
+						>
+							<h3 className="heading-xs">
+								{msgToShow === "DSR-Saved" && "DSR successfully Submitted! 🎉"}
+								{msgToShow === "Draft-Saved" && "Draft saved successfully!🎉"}
+								{msgToShow === "Marked-Leave" && "Leave Marked for today! 🎉"}
+								{msgToShow === "Updated-Dsr" &&
+									"DSR is updated successfully! 🎉"}
+							</h3>
+						</div>
+
+						<div
+							className={`verification-cta error-cta ${
+								errMsg ? "show-verification" : ""
+							}`}
+						>
+							<h3 className="heading-xs">
+								{msgToShow === "DSR-Not-Saved" &&
+									"DSR was not Saved! We are experiencing some problems! 💀"}
+								{msgToShow === "Draft-Not-Saved" &&
+									"Draft was not Saved! We are experiencing some problems! 💀"}
+								{msgToShow === "Unmarked-Leave" &&
+									"Unable to mark leave due to some internal issues! 💀"}
+								{msgToShow === "Noupdated-Dsr" &&
+									"Unable to edit DSR due to some internal issues! 💀"}
+							</h3>
+						</div>
+
 						<div className="blank-page">
 							<h1 className="heading-m">
 								{/* <img src={kkr} alt="meme" /> */}
