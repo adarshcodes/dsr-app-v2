@@ -40,7 +40,7 @@
                 color: #fff;
 
                 &::before {
-                    background-color: $swatch_3;
+                    background-color: var(--swatch-3);
                     transform: scaleY(1);
                     width: 100%;
                 }
@@ -58,7 +58,7 @@
                 transition: all .1s $bez-1;
                 position: relative;
                 z-index: 1;
-                color: $swatch_1;
+                color: var(--swatch-1);
                 color: var(--primary-text);
 
                 &::before {
@@ -68,7 +68,7 @@
                     left: 0;
                     height: 100%;
                     width: 3px;
-                    background-color: $swatch_2;
+                    background-color: var(--swatch-5);
                     transform: scaleY(0);
                     transition: transform 0.1s, width 0.1s $bez-3 0.1s, background-color 0.1s;
                     z-index: -1;
@@ -81,7 +81,7 @@
                 }
 
                 &:hover {
-                    color: $swatch_1;
+                    color: var(--swatch-1);
                 }
 
                 .route-link {

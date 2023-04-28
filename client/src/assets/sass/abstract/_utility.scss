@@ -108,7 +108,7 @@
 }
 
 .highlight {
-  color: $swatch_3;
+  color: var(--swatch-3);
 }
 
 .circle-cta {
@@ -133,4 +133,11 @@
 .btn-row {
   flex-direction: row !important;
   gap: 1.5rem !important;
+}
+
+input,
+textarea {
+  &::placeholder {
+    color: var(--primary-text) !important;
+  }
 }

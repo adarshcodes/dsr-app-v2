@@ -5,7 +5,7 @@ import Logo from "../../assets/images/logo/logo-leaf.svg";
 import Avatar from "../../assets/images/avatar.jpg";
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
 
-function Topbar({ ham, setHam, themeSwitch }) {
+function Topbar({ ham, setHam, themeSwitch, theme }) {
 	// To show greeting message based on time
 	const hour = new Date().getHours();
 	const greet = ["Good morning", "Good afternoon", "Good evening"];
@@ -41,7 +41,7 @@ function Topbar({ ham, setHam, themeSwitch }) {
 
 			<div className="topbar-ctas">
 				<div className="circle-cta">
-					<ThemeToggle themeSwitch={themeSwitch} />
+					<ThemeToggle themeSwitch={themeSwitch} theme={theme} />
 				</div>
 
 				<div className="avatar circle-cta">

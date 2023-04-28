@@ -4,12 +4,10 @@ import AnimatedComponent from "../../AnimatedComponent";
 import Modal from "../../components/Modal/Modal";
 import { takeData, transferData } from "../../parts/Dashboard/Dashboard";
 import NewDsrSkeleton from "../../components/Skeleton/NewDsrSkeleton";
-// import sabash from "../../assets/images/sabash.jpeg";
-// import kkr from "../../assets/images/meme.jpg";
 /*
   Written the Code of NewDSR and made it responsive --- Ayush
 */
-let userId = "6448cde109f1d7a9cc85ba34";
+let userId = "644b7073f061871077936f79";
 function NewDsr() {
 	// adding a loading part which renders if api is slows down
 	const [loading, setLoading] = useState(true);
@@ -37,6 +35,7 @@ function NewDsr() {
 			const data = await response.json();
 			setIsLeave(data);
 			setLoading(false);
+			console.log("dsr status updated");
 		} catch (error) {
 			console.error("Error:", error);
 		}
@@ -90,7 +89,20 @@ function NewDsr() {
 	// Setting data from input in the state for both the DSR data and Draft data --20-April-2023--Adarsh
 
 	function storeData(e) {
-		const value = e.target.value;
+		const name = e.target.name;
+		let value = e.target.value;
+
+		if (name === "hoursWorked") {
+			// Remove any non-digit characters
+			value = value.replace(/\D/g, "");
+
+			// Limit to a range between 1 and 15
+			if (value < 1) {
+				value = 1;
+			} else if (value > 12) {
+				value = 12;
+			}
+		}
 
 		setDsrData({
 			...dsrData,
@@ -130,7 +142,6 @@ function NewDsr() {
 	// --Handle data post for new DSR to API--
 	const handlePost = async (event) => {
 		try {
-			event.preventDefault();
 			const response = await fetch(
 				"https://new-web-app.onrender.com/add_dsr/",
 				{
@@ -153,15 +164,15 @@ function NewDsr() {
 			setMsgToShow("DSR-Not-Saved");
 			errorMsg();
 			setTimeout(closeMsg, 2500);
+			console.log(error);
 		}
 	};
 
-	const handleSubmit = (event) => {
-		event.preventDefault();
+	function handleSubmit(event) {
 		if (validateForm()) {
 			handlePost(event);
 		}
-	};
+	}
 
 	// --End of Posting New DSR Data--
 
@@ -191,7 +202,7 @@ function NewDsr() {
 			openIssues: "",
 		});
 
-		setErrMsg({
+		setErrors({
 			...errors,
 			projectName: "",
 			clientManager: "",
@@ -199,8 +210,6 @@ function NewDsr() {
 			activitiesPlanned: "",
 			hoursWorked: "",
 			status: "",
-			comment: "",
-			openIssues: "",
 		});
 
 		setIsUse(false);
@@ -337,8 +346,6 @@ function NewDsr() {
 		status: "",
 		activitiesCompleted: "",
 		activitiesPlanned: "",
-		openIssues: "",
-		comment: "",
 	});
 
 	const validateForm = () => {
@@ -351,8 +358,6 @@ function NewDsr() {
 			status: "",
 			activitiesCompleted: "",
 			activitiesPlanned: "",
-			openIssues: "",
-			comment: "",
 		};
 
 		if (!dsrData.projectName) {
@@ -386,16 +391,6 @@ function NewDsr() {
 		if (!dsrData.activitiesPlanned) {
 			newErrors.activitiesPlanned =
 				"Activities planned for tomorrow is required.";
-			isValid = false;
-		}
-
-		if (!dsrData.openIssues) {
-			newErrors.openIssues = "Open Issues is required.";
-			isValid = false;
-		}
-
-		if (!dsrData.comment) {
-			newErrors.comment = "Any Other Comments is required.";
 			isValid = false;
 		}
 
@@ -468,7 +463,20 @@ function NewDsr() {
 	};
 
 	function handleEdit(e) {
-		const value = e.target.value;
+		const name = e.target.name;
+		let value = e.target.value;
+
+		if (name === "hoursWorked") {
+			// Remove any non-digit characters
+			value = value.replace(/\D/g, "");
+
+			// Limit to a range between 1 and 15
+			if (value < 1) {
+				value = 1;
+			} else if (value > 12) {
+				value = 12;
+			}
+		}
 
 		setLastDsr({
 			...lastDsr,
@@ -508,8 +516,6 @@ function NewDsr() {
 								{msgToShow === "DSR-Saved" && "DSR successfully Submitted! 🎉"}
 								{msgToShow === "Draft-Saved" && "Draft saved successfully!🎉"}
 								{msgToShow === "Marked-Leave" && "Leave Marked for today! 🎉"}
-								{msgToShow === "Updated-Dsr" &&
-									"DSR is updated successfully! 🎉"}
 							</h3>
 						</div>
 
@@ -525,8 +531,6 @@ function NewDsr() {
 									"Draft was not Saved! We are experiencing some problems! 💀"}
 								{msgToShow === "Unmarked-Leave" &&
 									"Unable to mark leave due to some internal issues! 💀"}
-								{msgToShow === "Noupdated-Dsr" &&
-									"Unable to edit DSR due to some internal issues! 💀"}
 							</h3>
 						</div>
 
@@ -618,6 +622,7 @@ function NewDsr() {
 										<div className="input__group">
 											<input
 												type="number"
+												inputMode="numeric"
 												placeholder="Hours Worked"
 												id="hours-worked"
 												name="hoursWorked"
@@ -625,6 +630,8 @@ function NewDsr() {
 												className={`form__input form-input ${
 													errors.hoursWorked ? "invalid-input" : "valid-input"
 												}`}
+												min="1"
+												max="12"
 												value={dsrData.hoursWorked}
 											/>
 
@@ -737,9 +744,7 @@ function NewDsr() {
 												placeholder="Open Issues"
 												name="openIssues"
 												onChange={storeData}
-												className={`form__input form-input ${
-													errors.openIssues ? "invalid-input" : "valid-input"
-												}`}
+												className={`form__input form-input`}
 												value={dsrData.openIssues}
 											/>
 
@@ -747,14 +752,8 @@ function NewDsr() {
 												htmlFor="open-issues"
 												className="input__label input__label__area input-label"
 											>
-												Open Issues <sup style={{ color: "red" }}>*</sup>
+												Open Issues
 											</label>
-
-											{errors.openIssues && (
-												<div className="validation-error textarea-error">
-													{errors.openIssues}
-												</div>
-											)}
 										</div>
 
 										<div className="input__group input__group__area">
@@ -763,9 +762,7 @@ function NewDsr() {
 												placeholder="Any Other Comments"
 												name="comment"
 												onChange={storeData}
-												className={`form__input form-input ${
-													errors.comment ? "invalid-input" : "valid-input"
-												}`}
+												className={`form__input form-input`}
 												value={dsrData.comment}
 											/>
 
@@ -773,14 +770,8 @@ function NewDsr() {
 												htmlFor="comment"
 												className="input__label input__label__area input-label"
 											>
-												Any Other Comments <sup style={{ color: "red" }}>*</sup>
+												Any Other Comments
 											</label>
-
-											{errors.comment && (
-												<div className="validation-error textarea-error">
-													{errors.comment}
-												</div>
-											)}
 										</div>
 									</div>
 
@@ -822,6 +813,9 @@ function NewDsr() {
 							className={`verification-cta ${msg ? "show-verification" : ""}`}
 						>
 							<h3 className="heading-xs">
+								{msgToShow === "DSR-Saved" && "DSR successfully Submitted! 🎉"}
+								{msgToShow === "Draft-Saved" && "Draft saved successfully!🎉"}
+								{msgToShow === "Marked-Leave" && "Leave Marked for today! 🎉"}
 								{msgToShow === "Updated-Dsr" &&
 									"DSR is updated successfully! 🎉"}
 							</h3>
@@ -833,6 +827,12 @@ function NewDsr() {
 							}`}
 						>
 							<h3 className="heading-xs">
+								{msgToShow === "DSR-Not-Saved" &&
+									"DSR was not Saved! We are experiencing some problems! 💀"}
+								{msgToShow === "Draft-Not-Saved" &&
+									"Draft was not Saved! We are experiencing some problems! 💀"}
+								{msgToShow === "Unmarked-Leave" &&
+									"Unable to mark leave due to some internal issues! 💀"}
 								{msgToShow === "Noupdated-Dsr" &&
 									"Unable to edit DSR due to some internal issues! 💀"}
 							</h3>
@@ -840,8 +840,8 @@ function NewDsr() {
 
 						<div className="blank-page dsr-edit-page">
 							<h1 className="heading-m">
-								{/* <img src={sabash} alt="meme" /> */}
 								<i className="fa-solid fa-person-hiking"></i>
+
 								<br />
 								{`${
 									!isUpdated
@@ -991,6 +991,36 @@ function NewDsr() {
 
 				{isLeave === 2 && (
 					<div className="blank-container card-container">
+						{/* Notification messages */}
+						<div
+							className={`verification-cta ${msg ? "show-verification" : ""}`}
+						>
+							<h3 className="heading-xs">
+								{msgToShow === "DSR-Saved" && "DSR successfully Submitted! 🎉"}
+								{msgToShow === "Draft-Saved" && "Draft saved successfully!🎉"}
+								{msgToShow === "Marked-Leave" && "Leave Marked for today! 🎉"}
+								{msgToShow === "Updated-Dsr" &&
+									"DSR is updated successfully! 🎉"}
+							</h3>
+						</div>
+
+						<div
+							className={`verification-cta error-cta ${
+								errMsg ? "show-verification" : ""
+							}`}
+						>
+							<h3 className="heading-xs">
+								{msgToShow === "DSR-Not-Saved" &&
+									"DSR was not Saved! We are experiencing some problems! 💀"}
+								{msgToShow === "Draft-Not-Saved" &&
+									"Draft was not Saved! We are experiencing some problems! 💀"}
+								{msgToShow === "Unmarked-Leave" &&
+									"Unable to mark leave due to some internal issues! 💀"}
+								{msgToShow === "Noupdated-Dsr" &&
+									"Unable to edit DSR due to some internal issues! 💀"}
+							</h3>
+						</div>
+
 						<div className="blank-page">
 							<h1 className="heading-m">
 								{/* <img src={kkr} alt="meme" /> */}
