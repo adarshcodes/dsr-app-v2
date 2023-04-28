@@ -1021,16 +1021,18 @@ p {
   font-size: 1.6rem;
   color: var(--primary-text);
   font-weight: 600;
+  transition: all 0.3s cubic-bezier(0.5, 0, 0.5, 1.5);
 }
 .dsr-edit-page .preview-edit .preview-card .edit-input-row input,
 .dsr-edit-page .preview-edit .preview-card .edit-input-row textarea {
-  width: 30%;
+  width: 50%;
   padding: 0.5rem 1rem;
   outline: none;
   border: 1px solid #a7cfca;
   border-radius: 0.4rem;
   font-family: inherit;
   font-size: 1.6rem;
+  transition: all 0.3s cubic-bezier(0.5, 0, 0.5, 1.5);
 }
 .dsr-edit-page .preview-edit .preview-card .edit-input-row textarea {
   resize: none;
@@ -1038,6 +1040,7 @@ p {
 .dsr-edit-page .preview-edit .preview-card .edit-input-row .non-editable {
   color: #c0c0c0;
   border: none;
+  width: 40%;
 }
 
 .recents {

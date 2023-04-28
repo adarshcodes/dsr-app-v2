@@ -157,17 +157,19 @@
           font-size: 1.6rem;
           color: var(--primary-text);
           font-weight: 600;
+          transition: all .3s $bez-1;
         }
 
         input,
         textarea {
-          width: 30%;
+          width: 50%;
           padding: .5rem 1rem;
           outline: none;
           border: 1px solid $swatch_2;
           border-radius: .4rem;
           font-family: inherit;
           font-size: 1.6rem;
+          transition: all .3s $bez-1;
         }
 
         textarea {
@@ -177,6 +179,7 @@
         .non-editable {
           color: $noEditable;
           border: none;
+          width: 40%;
         }
       }
     }
