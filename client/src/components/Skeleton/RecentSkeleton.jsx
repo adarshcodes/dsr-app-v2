@@ -1,8 +1,8 @@
 import React from "react";
 
-function RecentSkeleton() {
+function RecentSkeleton({ id }) {
 	return (
-		<div className="skeleton skeleton-card recents-card card">
+		<div className="skeleton skeleton-card recents-card card" key={id}>
 			<div className="info">
 				<div className="data date">
 					<div className="skeleton-text"></div>

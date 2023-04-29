@@ -1,10 +1,7 @@
-function getist(){
-  
-  var currentTime = new Date();
-  var currentOffSet = currentTime.getTimezoneOffset();
-  var ISTOffSet = 330;
-  var ISTTime = new Date(currentTime.getTime() + (ISTOffSet + currentOffSet)*60000);
-  return ISTTime;
+function getist() {
+  const options = { timeZone: "Asia/Kolkata" };
+  const myDate = new Date().toLocaleString("en-US", options);
+  return myDate;
 }
 
-console.log(getist().getDate());
+console.log(getist());

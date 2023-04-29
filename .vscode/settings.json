@@ -1,0 +1,4 @@
+{
+    "docify.commentService.docstringFormat": "JsDoc",
+    "docify.commentService.moreExpressiveComments": true
+}

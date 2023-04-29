@@ -28,6 +28,10 @@
     color: hsl(240, 20%, 32%);
     transition: all 500ms;
 
+    @media screen and (max-width: 400px) {
+        --size: 1.4rem;
+    }
+
     &:checked {
         --ray-size: calc(var(--size) * -0.4);
         --offset-orthogonal: calc(var(--size) * 0.8);
