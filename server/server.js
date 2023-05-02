@@ -8,8 +8,13 @@ const dsr_fetch_route = require("./routes/dsr_fetch_route");
 const dsr_save_route = require("./routes/dsr_save_route");
 const user_route = require("./routes/user_route");
 const web_route = require("./routes/web_route");
+const helper = require("./helper.js")
 const cron = require("node-cron");
-const nodemailer = require("nodemailer");
+
+
+const userModel = require("./models/usermodel");
+const { ClientConfigurationError } = require("@azure/msal-node");
+// const nodemailer = require("nodemailer");
 
 // Adds the service limits to the app. This is a convenience function to allow developers to add more services
 const app = express();
@@ -42,55 +47,50 @@ db.once("open", function () {
 });
 
 
-const userMail="atuleshsharma5@gmail.com";
-// Creates a transport that sends messages to Gmail. We do this by setting the transport's flags to allow HTTPS
-let transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 465,
-  secure: true, // use SSL
-  auth: {
-    user: "dhruv.ria@gmail.com",
-    pass: "cjtcotzmdhjnhkvt",
-  },
-});
 
-/**
- * Send email to DASHRAE RIABUV and UPAD HyayY
- */
-function sendEmail() {
-  let mailOptions = {
-    from: "dhruv.ria@gmail.com",
-    to: userMail,
-    subject: "Your daily DSR is not submitted",
-    text: "Hello, you have not submitted your daily DSR. Please do the same by end of day. Ignore if submitted.",
-  };
 
-  /**
-   * @param error
-   * @param info
-   */
-  transporter.sendMail(mailOptions, function (error, info) {
-    // Send the email to the server.
-    if (error) {
-      console.log(error);
-    } else {
-      console.log("Email sent: " + info.response);
+
+
+
+
+//getting email of users who have not submitted dsrs today
+async function findEmail() {
+  const user = await userModel.find({ isAdmin: false });
+  var todayDate = new Date();
+  var emailArray = [];
+  for (let i of user) {
+    if (i.lastdsrtime.getFullYear() == todayDate.getFullYear()) {
+      if ((i.lastdsrtime.getMonth()) != todayDate.getMonth() + 1) {
+        if (i.lastdsrtime.getDate() != todayDate.getDate()) {
+          emailArray.push(i.email)
+        }
+      }
     }
-  });
+
+  }
+  return emailArray;
 }
+
+
+
 
 // Schedule a cron job to send a daily email. This is a convenience function for use with services that don't need to worry about cron scheduling
 cron.schedule(
   "0 22 * * *",
-  () => {
-    console.log("Sending daily email...");
-    sendEmail();
+  async () => {
+    let arr = await findEmail();
+    console.log(arr);
+    console.log("Sending daily remainder email...");
+    for (let i = 0; i < arr.length; i++) {
+      helper(arr[i]);
+    }
   },
   {
     scheduled: true,
     timezone: "Asia/Kolkata",
   }
 );
+
 
 // Adds routes to the app based on the configuration. This is called after all routes have been added
 app.use(admin_route);
