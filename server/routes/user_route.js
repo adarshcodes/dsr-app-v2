@@ -3,7 +3,7 @@ const userModel = require("../models/usermodel");
 const app = express();
 
 // Adds a user to the service. This is a POST request and will return a response
-app.post("/add_user", async (request, response) => {
+app.post("/register", async (request, response) => {
   let adm = false;
   if (request.body.isAdmin == true) {
     adm = true;
