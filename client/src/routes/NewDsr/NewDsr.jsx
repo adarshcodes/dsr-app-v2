@@ -4,10 +4,11 @@ import AnimatedComponent from "../../AnimatedComponent";
 import Modal from "../../components/Modal/Modal";
 import { takeData, transferData } from "../../parts/Dashboard/Dashboard";
 import NewDsrSkeleton from "../../components/Skeleton/NewDsrSkeleton";
+import Dropdown from "../../components/Dropdown/Dropdown";
 /*
   Written the Code of NewDSR and made it responsive --- Ayush
 */
-let userId = "644b7073f061871077936f79";
+let userId = "644bb0506ac61ebbc9d5d38e";
 function NewDsr() {
 	// adding a loading part which renders if api is slows down
 	const [loading, setLoading] = useState(true);
@@ -98,7 +99,7 @@ function NewDsr() {
 
 			// Limit to a range between 1 and 15
 			if (value < 1) {
-				value = 1;
+				value = 0;
 			} else if (value > 12) {
 				value = 12;
 			}
@@ -118,6 +119,8 @@ function NewDsr() {
 			...errors,
 			[e.target.name]: "",
 		});
+
+		console.log(dsrData);
 	}
 
 	//changing the state of dsrData if draftValue exist :------Ayush
@@ -496,6 +499,30 @@ function NewDsr() {
 		saveUpdate();
 	}
 
+	// Custom Dropdown
+	const [selectedOption, setSelectedOption] = useState("Project health");
+	const [isOpen, setIsOpen] = useState(false);
+	const options = [
+		{ label: "Green", color: "#00cc00" },
+		{ label: "Amber", color: "#ffcc00" },
+		{ label: "Red", color: "#ff0000" },
+	];
+
+	const handleOptionClick = (option) => {
+		setSelectedOption(option.label);
+		setIsOpen(false);
+
+		setDsrData({
+			...dsrData,
+			status: option.label,
+		});
+
+		setDraftData({
+			...draftData,
+			status: option.label,
+		});
+	};
+
 	return (
 		// Adding animated component to make the route change animated -- Adarsh(19-Apr)
 		<HelmetProvider>
@@ -592,7 +619,7 @@ function NewDsr() {
 										<div className="input__group">
 											<input
 												type="text"
-												placeholder="Client Manager Name"
+												placeholder="Project Manager Name"
 												id="client-manager-name"
 												name="clientManager"
 												onChange={storeData}
@@ -614,63 +641,6 @@ function NewDsr() {
 												<div className="validation-error">
 													{errors.clientManager}
 												</div>
-											)}
-										</div>
-									</div>
-
-									<div className="input-row">
-										<div className="input__group">
-											<input
-												type="number"
-												inputMode="numeric"
-												placeholder="Hours Worked"
-												id="hours-worked"
-												name="hoursWorked"
-												onChange={storeData}
-												className={`form__input form-input ${
-													errors.hoursWorked ? "invalid-input" : "valid-input"
-												}`}
-												min="1"
-												max="12"
-												value={dsrData.hoursWorked}
-											/>
-
-											<label
-												htmlFor="hours-worked"
-												className="input__label input-label"
-											>
-												Hours Worked <sup style={{ color: "red" }}>*</sup>
-											</label>
-
-											{errors.hoursWorked && (
-												<div className="validation-error">
-													{errors.hoursWorked}
-												</div>
-											)}
-										</div>
-
-										<div className="input__group">
-											<input
-												type="text"
-												placeholder="Project Status"
-												id="status"
-												name="status"
-												onChange={storeData}
-												className={`form__input form-input ${
-													errors.status ? "invalid-input" : "valid-input"
-												}`}
-												value={dsrData.status}
-											/>
-
-											<label
-												htmlFor="status"
-												className="input__label input-label"
-											>
-												Project Status <sup style={{ color: "red" }}>*</sup>
-											</label>
-
-											{errors.status && (
-												<div className="validation-error">{errors.status}</div>
 											)}
 										</div>
 									</div>
@@ -738,10 +708,52 @@ function NewDsr() {
 									</div>
 
 									<div className="input-row">
+										<div className="input__group">
+											<input
+												type="number"
+												inputMode="numeric"
+												placeholder="Hours Worked"
+												id="hours-worked"
+												name="hoursWorked"
+												onChange={storeData}
+												className={`form__input form-input ${
+													errors.hoursWorked ? "invalid-input" : "valid-input"
+												}`}
+												min="1"
+												max="12"
+												value={dsrData.hoursWorked}
+											/>
+
+											<label
+												htmlFor="hours-worked"
+												className="input__label input-label"
+											>
+												Hours Worked <sup style={{ color: "red" }}>*</sup>
+											</label>
+
+											{errors.hoursWorked && (
+												<div className="validation-error">
+													{errors.hoursWorked}
+												</div>
+											)}
+										</div>
+
+										<div className="input__group">
+											<Dropdown
+												selectedOption={selectedOption}
+												isOpen={isOpen}
+												setIsOpen={setIsOpen}
+												options={options}
+												handleOptionClick={handleOptionClick}
+											/>
+										</div>
+									</div>
+
+									<div className="input-row">
 										<div className="input__group input__group__area">
 											<textarea
 												id="open-issues"
-												placeholder="Open Issues"
+												placeholder="Today's Open Issues"
 												name="openIssues"
 												onChange={storeData}
 												className={`form__input form-input`}
