@@ -5,7 +5,7 @@ import Logo from "../../assets/images/logo/logo-leaf.svg";
 import Avatar from "../../assets/images/avatar.jpg";
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
 
-function Topbar({ ham, setHam, themeSwitch }) {
+function Topbar({ ham, setHam, themeSwitch, theme }) {
 	const navigate = useNavigate();
 	const handleLogout = () => {
 		localStorage.removeItem("usercred");

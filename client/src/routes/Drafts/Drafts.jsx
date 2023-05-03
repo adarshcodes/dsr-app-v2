@@ -134,7 +134,9 @@ function Drafts() {
 					headers: {
 						"Content-Type": "application/json",
 					},
-					body: JSON.stringify({ user: userId }),
+					body: JSON.stringify({
+						user: JSON.parse(localStorage.getItem("usercred")).id,
+					}),
 				}
 			);
 			const data = await response.json();
@@ -147,8 +149,6 @@ function Drafts() {
 	useEffect(() => {
 		fetchStatus();
 	}, []);
-
-	console.log(isLeave);
 
 	// Mapping drafts in to React component
 	const cardDraft = drafts.map((data, index) => {

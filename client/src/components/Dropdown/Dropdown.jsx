@@ -2,7 +2,6 @@ import React from "react";
 
 const Dropdown = ({
 	selectedOption,
-	setSelectedOption,
 	isOpen,
 	setIsOpen,
 	options,

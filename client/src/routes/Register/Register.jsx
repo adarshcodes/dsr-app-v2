@@ -69,8 +69,6 @@ function Register() {
 			isValid = false;
 		}
 
-		console.log(isValid);
-
 		setErrors(newErrors);
 		return isValid;
 	}
@@ -111,7 +109,6 @@ function Register() {
 			data.errors ? errMsg() : verificationMsg();
 			setTimeout(closeMsg, 2500);
 			clearFields();
-			// console.log(data);
 		} catch (err) {
 			console.log(err);
 			setMsgToShow("UnRegister");

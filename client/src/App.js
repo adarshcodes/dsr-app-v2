@@ -13,14 +13,13 @@ function App() {
 	// Authentication
 
 	// Theme Switching
+	const [userdata, setUserData] = useState();
 	const [theme, setTheme] = useState(false);
-	const [userdet, setUserdet] = useState();
 
 	function themeSwitch() {
 		const newTheme = !theme;
 		setTheme(newTheme);
 		localStorage.setItem("theme", newTheme ? "dark" : "light");
-		console.log(theme);
 	}
 
 	useEffect(() => {
@@ -34,10 +33,19 @@ function App() {
 		}
 	}, [theme]);
 
+	function PrivateRoute({ element }) {
+		const user = localStorage.getItem("usercred");
+		setUserData(user);
+		if (userdata) {
+			return element;
+		}
+	}
+
 	return (
 		<Routes>
 			<>
 				<Route path="/login" element={<Login />} />
+				<Route path="/register" element={<Register />} />
 			</>
 			<Route
 				path="/"

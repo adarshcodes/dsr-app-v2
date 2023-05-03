@@ -10,7 +10,6 @@ import Dropdown from "../../components/Dropdown/Dropdown";
 */
 const userdet = localStorage.getItem("usercred");
 let userId = null;
-console.log("TTTT");
 userdet && (userId = JSON.parse(userdet).id);
 function NewDsr() {
 	// adding a loading part which renders if api is slows down
@@ -39,7 +38,6 @@ function NewDsr() {
 			const data = await response.json();
 			setIsLeave(data);
 			setLoading(false);
-			console.log("dsr status updated");
 		} catch (error) {
 			console.error("Error:", error);
 		}
@@ -122,8 +120,6 @@ function NewDsr() {
 			...errors,
 			[e.target.name]: "",
 		});
-
-		console.log(dsrData);
 	}
 
 	//changing the state of dsrData if draftValue exist :------Ayush
@@ -286,14 +282,8 @@ function NewDsr() {
 	// handling leave mark
 	async function handleLeave() {
 		try {
-			console.log("before leave running");
-
 			const deletedData = await markLeave();
-
-			console.log("after leave running");
-
 			await fetchStatus();
-			console.log("reloaded");
 			return deletedData;
 		} catch (error) {
 			console.error("Error:", error);
