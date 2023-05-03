@@ -880,7 +880,7 @@ function NewDsr() {
 										</div>
 
 										<div className="edit-input-row">
-											<label htmlFor="status-edit">Project Status:</label>
+											<label htmlFor="status-edit">Project Health:</label>
 											<input
 												type="text"
 												name="status"
