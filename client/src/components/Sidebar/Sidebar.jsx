@@ -48,7 +48,7 @@ function Sidebar({ location, ham, setHam, theme }) {
 	return (
 		<div className={`sidebar ${ham ? "show-sidebar" : ""}`}>
 			<div className="sidebar__logo">
-				<img src={Logo} alt="logo" className="logo" />
+				<img src={Logo} alt="logo" className="logo" width="640" height="360" />
 			</div>
 
 			<div className="sidebar__tabs">
@@ -56,7 +56,12 @@ function Sidebar({ location, ham, setHam, theme }) {
 			</div>
 
 			<div className="bottom-branding">
-				<img src={`${!theme ? Quadrafort : QuadrafortLight}`} alt="logo" />
+				<img
+					src={`${!theme ? Quadrafort : QuadrafortLight}`}
+					alt="logo"
+					width="640"
+					height="360"
+				/>
 			</div>
 		</div>
 	);

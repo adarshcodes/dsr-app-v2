@@ -6,7 +6,7 @@ import RecentSkeleton from "../../components/Skeleton/RecentSkeleton";
 import Modal from "../../components/Modal/Modal";
 import { Link } from "react-router-dom";
 
-let userId = "644b7073f061871077936f79";
+let userId = "6450f960d77f618ac811074b";
 function Drafts() {
 	// State to save drafts from API call
 	const [drafts, setDrafts] = useState([]);
@@ -120,6 +120,35 @@ function Drafts() {
 		setMsg(false);
 	}
 
+	// Checking if DSR is marked as Leave
+	const [isLeave, setIsLeave] = useState("");
+
+	const fetchStatus = async () => {
+		setLoading(true);
+		try {
+			const response = await fetch(
+				"https://new-web-app.onrender.com/todaystatus",
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({ user: userId }),
+				}
+			);
+			const data = await response.json();
+			setIsLeave(data);
+		} catch (error) {
+			console.error("Error:", error);
+		}
+	};
+
+	useEffect(() => {
+		fetchStatus();
+	}, []);
+
+	console.log(isLeave);
+
 	// Mapping drafts in to React component
 	const cardDraft = drafts.map((data, index) => {
 		// formatting date and time from API data
@@ -127,14 +156,6 @@ function Drafts() {
 		let year = date.getFullYear();
 		let month = date.getMonth();
 		let day = date.getDate();
-
-		// let hour = date.getHours();
-		// let min = date.getMinutes();
-		// let ampm = hour >= 12 ? "PM" : "AM";
-		// hour = hour % 12;
-		// hour = hour ? hour : 12; // the hour '0' should be '12'
-		// min = min < 10 ? "0" + min : min;
-		// let time = hour + ":" + min + " " + ampm;
 
 		let monthArray = [
 			"Jan",
@@ -180,13 +201,17 @@ function Drafts() {
 					</div>
 
 					<div className="cta">
-						<Link
-							to="/"
-							className="btn btn-dark btn-view"
-							onClick={() => handleUse(index)}
-						>
-							Use
-						</Link>
+						{isLeave === 0 ? (
+							<Link
+								to="/"
+								className="btn btn-dark btn-view"
+								onClick={() => handleUse(index)}
+							>
+								Use
+							</Link>
+						) : (
+							""
+						)}
 
 						<button className="btn btn-dark btn-error" onClick={showModal}>
 							Delete
