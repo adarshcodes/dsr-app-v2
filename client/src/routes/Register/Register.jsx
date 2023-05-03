@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Logo from "../../assets/images/logo/favicon-1.png";
 import Quadrafort from "../../assets/images/logo/quadrafort-light.png";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import AnimatedComponent from "../../AnimatedComponent";
 
 function Register() {
@@ -90,6 +90,7 @@ function Register() {
 		setErrMsg(false);
 	}
 
+	const navigate = useNavigate();
 	const handleRegistration = async (e) => {
 		try {
 			const response = await fetch(
@@ -107,13 +108,16 @@ function Register() {
 			// Clearing form after Submission
 			setMsgToShow("Register");
 			data.errors ? errMsg() : verificationMsg();
-			setTimeout(closeMsg, 2500);
+			setTimeout(closeMsg, 3000);
+			setTimeout(function () {
+				navigate("/login");
+			}, 1000);
 			clearFields();
 		} catch (err) {
 			console.log(err);
 			setMsgToShow("UnRegister");
 			errorMsg();
-			setTimeout(closeMsg, 2500);
+			setTimeout(closeMsg, 3000);
 		}
 	};
 
@@ -125,9 +129,9 @@ function Register() {
 		});
 
 		setErrors({
-			nameError: "",
-			emailError: "",
-			passwordError: "",
+			name: "",
+			email: "",
+			password: "",
 		});
 	}
 
@@ -151,12 +155,14 @@ function Register() {
 					</h3>
 				</div>
 
-				<div className="login-card">
+				<div className="login-card register-card">
 					<div className="part text-part">
 						<div className="top-part">
-							<img src={Logo} alt="logo" className="logo" />
+							<div className="logo-part">
+								<img src={Logo} alt="logo" className="logo" />
+								<h1 className="heading-s">LeafLog</h1>
+							</div>
 
-							<h1 className="heading-s">LeafLog</h1>
 							<p className="para">Stay connected to your Work and Nature</p>
 
 							<div className="branding">

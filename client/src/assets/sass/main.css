@@ -883,7 +883,6 @@ p {
   align-items: center;
 }
 .login-container .login-card {
-  padding: 5rem 5rem;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   background-color: #fff;
   border-radius: 0.4rem;
@@ -894,7 +893,7 @@ p {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
+  gap: 2rem;
   padding: 0rem 2rem;
 }
 .login-container .login-card .top-part .logo {
@@ -963,9 +962,11 @@ p {
   font-size: 1.2rem;
   margin-top: 0.4rem;
 }
-.login-container .login-card .form .micro .small {
-  font-size: 1.2rem;
-  font-weight: 100;
+.login-container .login-card .form .small {
+  font-size: 1.4rem;
+  font-weight: 400;
+  text-align: center;
+  margin-bottom: 0.5rem;
 }
 .login-container .login-card .form p.align-self {
   text-align: center;
@@ -999,6 +1000,9 @@ p {
   text-align: center;
   margin-bottom: 2rem;
 }
+.login-container .register-card {
+  flex-direction: row-reverse;
+}
 
 .part {
   width: 50%;
@@ -1016,6 +1020,9 @@ p {
 }
 .form-part .form__input {
   font-size: 1.6rem !important;
+}
+.form-part .input__label {
+  font-weight: 500 !important;
 }
 
 .text-part {
@@ -1040,6 +1047,13 @@ p {
 }
 .text-part .top-part .logo {
   width: 5rem !important;
+}
+.text-part .logo-part {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .dashboard {
