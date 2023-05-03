@@ -69,6 +69,15 @@
     flex-direction: column;
   }
 }
+.form .input-row .input__group-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  gap: 3rem;
+  flex: 1;
+  align-items: flex-start;
+}
 .form .input-row .input__group {
   position: relative;
   display: flex;
@@ -90,12 +99,9 @@
   background-color: var(--primary-text);
   border-radius: 0.1rem;
 }
-.form .input-row .input__group__area {
-  height: 10rem;
-}
 .form .input-row .input__label {
   font-size: 1.6rem;
-  font-weight: 300;
+  font-weight: 400;
   color: var(--primary-text);
   transition: all 0.3s cubic-bezier(0.5, 0, 0.5, 1.5);
   transform: translateX(0rem);
@@ -106,8 +112,7 @@
   }
 }
 .form .input-row .form__input {
-  font-weight: 400;
-  flex: 1 1;
+  font-weight: 500;
   background-color: var(--light-section);
   border: none;
   font-family: inherit;
@@ -124,7 +129,7 @@
   }
 }
 .form .input-row textarea {
-  padding-bottom: 0rem !important;
+  padding: 0.15rem 0 !important;
 }
 .form .input-row .form__input:focus {
   outline: none;
@@ -137,6 +142,7 @@
 }
 .form .input-row .form__input::placeholder {
   color: #232323;
+  text-transform: capitalize;
 }
 .form .input-row .form-input:placeholder-shown + .input-label {
   opacity: 0;
@@ -671,6 +677,9 @@ p {
   padding: 2rem;
   border-radius: 0.4rem;
 }
+.skeleton .input__group__area {
+  height: 6rem;
+}
 
 .btn-skeleton {
   width: 8rem;
@@ -704,7 +713,7 @@ p {
 .modal {
   z-index: 1;
   width: 100%;
-  height: 100vh;
+  height: 91.4vh;
   position: absolute;
   top: 0;
   left: 0;
@@ -761,7 +770,7 @@ p {
 
 .dropdown {
   position: relative;
-  width: 200px;
+  width: 100%;
   font-size: 16px;
   user-select: none;
   cursor: pointer;
@@ -775,10 +784,9 @@ p {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px;
+  padding: 1.2rem 0rem 0.8rem 0;
   background-color: var(--light-section);
-  border: 2px solid #084b3e;
-  border-radius: 4px;
+  border-bottom: 2px solid #084b3e;
 }
 .dropdown .dropdown-toggle .selected-color {
   width: 1.5rem;
@@ -1045,10 +1053,6 @@ p {
   color: var(--color-error);
   font-size: 1.5rem;
   font-weight: 400;
-}
-
-.textarea-error {
-  top: 55% !important;
 }
 
 .invalid-input {

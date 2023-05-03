@@ -3,7 +3,7 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 import AnimatedComponent from "../../AnimatedComponent";
 import RecentSkeleton from "../../components/Skeleton/RecentSkeleton";
 
-let userId = "644bb0506ac61ebbc9d5d38e";
+let userId = "6450f960d77f618ac811074b";
 function WeeklyDsr() {
 	// Adding animated component to make the route change animated -- Adarsh(19-Apr)
 
@@ -146,7 +146,9 @@ function WeeklyDsr() {
 
 							<div className="data">
 								<h4 className="heading-xs">Project Health:</h4>
-								<p className="para">{data.status}</p>
+								<p className="para" style={{ color: `${data.status}` }}>
+									{data.status}
+								</p>
 							</div>
 
 							<div className="data">
