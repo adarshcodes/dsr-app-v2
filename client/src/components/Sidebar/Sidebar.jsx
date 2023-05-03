@@ -1,7 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Logo from "../../assets/images/logo/logo.svg";
+import Logo from "../../assets/images/logo/logo-light.svg";
 import Quadrafort from "../../assets/images/logo/quadrafort-dark-2.png";
+import QuadrafortLight from "../../assets/images/logo/quadrafort-light.png";
 
 const tabs = [
 	{
@@ -26,7 +27,7 @@ const tabs = [
 	},
 ];
 
-function Sidebar({ location, ham, setHam }) {
+function Sidebar({ location, ham, setHam, theme }) {
 	const routeTab = tabs.map((data) => {
 		return (
 			<li
@@ -47,7 +48,7 @@ function Sidebar({ location, ham, setHam }) {
 	return (
 		<div className={`sidebar ${ham ? "show-sidebar" : ""}`}>
 			<div className="sidebar__logo">
-				<img src={Logo} alt="logo" className="logo" />
+				<img src={Logo} alt="logo" className="logo" width="640" height="360" />
 			</div>
 
 			<div className="sidebar__tabs">
@@ -55,7 +56,12 @@ function Sidebar({ location, ham, setHam }) {
 			</div>
 
 			<div className="bottom-branding">
-				<img src={Quadrafort} alt="logo" />
+				<img
+					src={`${!theme ? Quadrafort : QuadrafortLight}`}
+					alt="logo"
+					width="640"
+					height="360"
+				/>
 			</div>
 		</div>
 	);

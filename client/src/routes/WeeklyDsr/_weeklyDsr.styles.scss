@@ -93,7 +93,7 @@
         }
 
         .heading-s {
-            color: $color-success;
+            color: var(--color-success);
             text-align: center;
             line-height: 3rem;
 
@@ -138,7 +138,7 @@
         height: 3rem;
         border-radius: 100%;
         @include flex-row-center;
-        color: $color-error;
+        color: var(--color-error);
         @include shadow-2;
         cursor: pointer;
         background-color: var(--light-section);
@@ -183,7 +183,7 @@
 }
 
 .leave-cta {
-    color: $color-error;
+    color: var(--color-error);
     text-align: center;
 
     i {

@@ -12,11 +12,11 @@
 @import "../../components/ThemeToggle/themeToggle.styles";
 @import "../../components/Skeleton/recentSkeleton";
 @import "../../components/Modal/modal.styles.scss";
+@import "../../components/Dropdown/dropdown.styles";
 
 @import "../../routes/Login/login.styles";
 @import "../../routes/Register/register.styles";
 @import "../../parts/Dashboard/dashboard.styles";
-@import "../../app.styles";
 @import "../../routes/NewDsr/newDsr.styles";
 @import "../../routes/WeeklyDsr/weeklyDsr.styles";
 @import "../../routes/Drafts/drafts.styles";
