@@ -8,9 +8,7 @@ import Dropdown from "../../components/Dropdown/Dropdown";
 /*
   Written the Code of NewDSR and made it responsive --- Ayush
 */
-const userdet = localStorage.getItem("usercred");
-let userId = null;
-userdet && (userId = JSON.parse(userdet).id);
+
 function NewDsr() {
 	// adding a loading part which renders if api is slows down
 	const [loading, setLoading] = useState(true);
@@ -32,7 +30,9 @@ function NewDsr() {
 					headers: {
 						"Content-Type": "application/json",
 					},
-					body: JSON.stringify({ user: userId }),
+					body: JSON.stringify({
+						user: JSON.parse(localStorage.getItem("usercred")).id,
+					}),
 				}
 			);
 			const data = await response.json();
@@ -85,7 +85,7 @@ function NewDsr() {
 		comment: "",
 		openIssues: "",
 		isOnLeave: false,
-		user: userId,
+		user: JSON.parse(localStorage.getItem("usercred")).id,
 	});
 
 	// Setting data from input in the state for both the DSR data and Draft data --20-April-2023--Adarsh
@@ -137,7 +137,7 @@ function NewDsr() {
 				comment: draftValue.comment,
 				openIssues: draftValue.openIssues,
 				isOnLeave: false,
-				user: userId,
+				user: JSON.parse(localStorage.getItem("usercred")).id,
 			});
 	}, [isUse, draftValue]);
 
@@ -248,7 +248,7 @@ function NewDsr() {
 		comment: "",
 		openIssues: "",
 		isOnLeave: false,
-		user: userId,
+		user: JSON.parse(localStorage.getItem("usercred")).id,
 	});
 
 	// Handle Draft Save
@@ -297,7 +297,9 @@ function NewDsr() {
 				headers: {
 					"Content-Type": "application/json",
 				},
-				body: JSON.stringify({ user: userId }),
+				body: JSON.stringify({
+					user: JSON.parse(localStorage.getItem("usercred")).id,
+				}),
 			});
 
 			const data = await response.json();
@@ -420,7 +422,9 @@ function NewDsr() {
 				headers: {
 					"Content-Type": "application/json",
 				},
-				body: JSON.stringify({ user: userId }),
+				body: JSON.stringify({
+					user: JSON.parse(localStorage.getItem("usercred")).id,
+				}),
 			});
 
 			const data = await response.json();
