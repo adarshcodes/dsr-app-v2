@@ -18,14 +18,24 @@ function App() {
   const [userdet, setUserdet] = useState();
 
   function themeSwitch() {
-    setTheme(!theme);
+    const newTheme = !theme;
+
+    setTheme(newTheme);
+
+    localStorage.setItem("theme", newTheme ? "dark" : "light");
   }
 
   useEffect(() => {
-    if (theme) {
+    const savedTheme = localStorage.getItem("theme");
+
+    if (savedTheme === "dark") {
       document.documentElement.classList.add("dark");
+
+      setTheme(true);
     } else {
       document.documentElement.classList.remove("dark");
+
+      setTheme(false);
     }
   }, [theme]);
 

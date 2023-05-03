@@ -10,26 +10,31 @@ function WeeklyDsr() {
   const [recents, setRecents] = useState([]);
   const [slider, setSlider] = useState("");
   const [loading, setLoading] = useState(true);
+  const [userLoggedData, setUserLoggedData] = useState(
+    JSON.parse(localStorage.getItem("usercred"))
+  );
 
-  const fetchData = () => {
+  const fetchData = async () => {
     setLoading(true);
-    return fetch("https://new-web-app.onrender.com/users/dsr", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        user: JSON.parse(localStorage.getItem("usercred")).id,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setRecents(data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+    try {
+      const response = await fetch(
+        "https://new-web-app.onrender.com/users/dsr",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            user: JSON.parse(localStorage.getItem("usercred")),
+          }),
+        }
+      );
+      const data = await response.json();
+      setRecents(data);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   useEffect(() => {
