@@ -101,15 +101,10 @@
 }
 .form .input-row .input__label {
   font-size: 1.7rem;
-  font-weight: 500;
+  font-weight: 300;
   color: var(--primary-text);
   transition: all 0.3s cubic-bezier(0.5, 0, 0.5, 1.5);
   transform: translateX(0rem);
-}
-@media screen and (max-width: 600px) {
-  .form .input-row .input__label {
-    font-weight: 400;
-  }
 }
 .form .input-row .form__input {
   font-weight: 400;
@@ -135,7 +130,7 @@
   outline: none;
 }
 .form .input-row .form__input:focus:invalid {
-  border-bottom: 2px solid #FA7161;
+  border-bottom: 2px solid #fa7161;
 }
 .form .input-row .form__input::-webkit-input-placeholder {
   color: #232323;
@@ -572,6 +567,7 @@ p {
 }
 .topbar-ctas .logout {
   font-size: 1.5rem;
+  cursor: pointer;
 }
 @media screen and (max-width: 400px) {
   .topbar-ctas .logout {
@@ -875,14 +871,21 @@ p {
   width: 100%;
   background-color: #f3f8f4;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23a7cfca' fill-opacity='0.2'%3E%3Cpath d='M0 38.59l2.83-2.83 1.41 1.41L1.41 40H0v-1.41zM0 1.4l2.83 2.83 1.41-1.41L1.41 0H0v1.41zM38.59 40l-2.83-2.83 1.41-1.41L40 38.59V40h-1.41zM40 1.41l-2.83 2.83-1.41-1.41L38.59 0H40v1.41zM20 18.6l2.83-2.83 1.41 1.41L21.41 20l2.83 2.83-1.41 1.41L20 21.41l-2.83 2.83-1.41-1.41L18.59 20l-2.83-2.83 1.41-1.41L20 18.59z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  min-height: 100vh;
+  width: 100%;
+  background-color: #f3f8f4;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23a7cfca' fill-opacity='0.2'%3E%3Cpath d='M0 38.59l2.83-2.83 1.41 1.41L1.41 40H0v-1.41zM0 1.4l2.83 2.83 1.41-1.41L1.41 0H0v1.41zM38.59 40l-2.83-2.83 1.41-1.41L40 38.59V40h-1.41zM40 1.41l-2.83 2.83-1.41-1.41L38.59 0H40v1.41zM20 18.6l2.83-2.83 1.41 1.41L21.41 20l2.83 2.83-1.41 1.41L20 21.41l-2.83 2.83-1.41-1.41L18.59 20l-2.83-2.83 1.41-1.41L20 18.59z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  display: flex;
+  justify-content: center;
+  align-items: center;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .login-container .login-card {
-  padding: 0;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   background-color: #fff;
+  border-radius: 0.4rem;
   border-radius: 0.4rem;
 }
 .login-container .login-card .top-part {
@@ -890,7 +893,7 @@ p {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
+  gap: 2rem;
   padding: 0rem 2rem;
 }
 .login-container .login-card .top-part .logo {
@@ -939,6 +942,40 @@ p {
   color: #018171;
   text-align: center;
 }
+.login-container .login-card .form {
+  padding: 0rem 2rem;
+}
+.login-container .login-card .form .input-row .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  justify-content: space-between;
+  width: 100%;
+}
+.login-container .login-card .form .input-row .form-group .input__group input::placeholder {
+  font-weight: 100;
+  font-size: 1.5rem;
+  color: var(--secondary-text);
+}
+.login-container .login-card .form .input-row .form-group .input__group .error {
+  color: #DF5656;
+  font-size: 1.2rem;
+  margin-top: 0.4rem;
+}
+.login-container .login-card .form .small {
+  font-size: 1.4rem;
+  font-weight: 400;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+.login-container .login-card .form p.align-self {
+  text-align: center;
+}
+.login-container .login-card .form p.goto-register {
+  font-size: 1.45rem;
+  text-decoration: underline;
+  color: #018171;
+}
 .login-container .login-card .branding {
   margin-top: 2rem;
   display: flex;
@@ -963,6 +1000,9 @@ p {
   text-align: center;
   margin-bottom: 2rem;
 }
+.login-container .register-card {
+  flex-direction: row-reverse;
+}
 
 .part {
   width: 50%;
@@ -980,6 +1020,9 @@ p {
 }
 .form-part .form__input {
   font-size: 1.6rem !important;
+}
+.form-part .input__label {
+  font-weight: 500 !important;
 }
 
 .text-part {
@@ -1004,6 +1047,13 @@ p {
 }
 .text-part .top-part .logo {
   width: 5rem !important;
+}
+.text-part .logo-part {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .dashboard {
@@ -1232,6 +1282,7 @@ p {
   font-family: inherit;
   font-size: 1.6rem;
   padding: 0.5rem 1rem;
+  font-weight: 500;
   transition: all 0.3s cubic-bezier(0.5, 0, 0.5, 1.5);
   color: var(--primary-text);
   background: var(--light-section);

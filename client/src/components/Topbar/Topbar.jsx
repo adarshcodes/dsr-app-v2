@@ -1,12 +1,23 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import Logo from "../../assets/images/logo/logo-leaf.svg";
 import Avatar from "../../assets/images/avatar.jpg";
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
 
 function Topbar({ ham, setHam, themeSwitch, theme }) {
+	const navigate = useNavigate();
+	const handleLogout = () => {
+		localStorage.removeItem("usercred");
+		localStorage.clear();
+		navigate("/login");
+	};
 	// To show greeting message based on time
+
+	//   const { usercred } = useContext(transfer);
+
+	const [userName] = useState(JSON.parse(localStorage.getItem("usercred")));
+
 	const hour = new Date().getHours();
 	const greet = ["Good morning", "Good afternoon", "Good evening"];
 	let welcomeText = "";
@@ -35,7 +46,8 @@ function Topbar({ ham, setHam, themeSwitch, theme }) {
 				</div>
 
 				<h4 className="heading-tiny">
-					{welcomeText}, <span className="highlight">Adarsh!</span>
+					{welcomeText},{" "}
+					<span className="highlight">{`${userName.name}!`}</span>
 				</h4>
 			</div>
 
@@ -48,11 +60,9 @@ function Topbar({ ham, setHam, themeSwitch, theme }) {
 					<img src={Avatar} alt="avatar" />
 				</div>
 
-				<Link to="/login">
-					<div className="logout circle-cta">
-						<i className="fa-solid fa-arrow-right-from-bracket"></i>
-					</div>
-				</Link>
+				<div className="logout circle-cta" onClick={() => handleLogout()}>
+					<i className="fa-solid fa-arrow-right-from-bracket"></i>
+				</div>
 			</div>
 		</div>
 	);

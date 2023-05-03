@@ -3,7 +3,6 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 import AnimatedComponent from "../../AnimatedComponent";
 import RecentSkeleton from "../../components/Skeleton/RecentSkeleton";
 
-let userId = "6450f960d77f618ac811074b";
 function WeeklyDsr() {
 	// Adding animated component to make the route change animated -- Adarsh(19-Apr)
 
@@ -19,7 +18,9 @@ function WeeklyDsr() {
 			headers: {
 				"Content-Type": "application/json",
 			},
-			body: JSON.stringify({ user: userId }),
+			body: JSON.stringify({
+				user: JSON.parse(localStorage.getItem("usercred")).id,
+			}),
 		})
 			.then((response) => response.json())
 			.then((data) => {

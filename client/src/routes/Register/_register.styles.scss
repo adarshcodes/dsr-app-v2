@@ -8,6 +8,10 @@
       margin-bottom: 2rem;
     }
   }
+
+  .register-card {
+    flex-direction: row-reverse;
+  }
 }
 
 .part {
@@ -25,6 +29,10 @@
 
   .form__input {
     font-size: 1.6rem !important;
+  }
+
+  .input__label {
+    font-weight: 500 !important;
   }
 }
 
@@ -50,5 +58,10 @@
     .logo {
       width: 5rem !important;
     }
+  }
+
+  .logo-part {
+    @include flex-column-center;
+    gap: .5rem;
   }
 }

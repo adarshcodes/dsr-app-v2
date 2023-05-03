@@ -8,7 +8,7 @@ import Dropdown from "../../components/Dropdown/Dropdown";
 /*
   Written the Code of NewDSR and made it responsive --- Ayush
 */
-let userId = "6450f960d77f618ac811074b";
+
 function NewDsr() {
 	// adding a loading part which renders if api is slows down
 	const [loading, setLoading] = useState(true);
@@ -30,13 +30,14 @@ function NewDsr() {
 					headers: {
 						"Content-Type": "application/json",
 					},
-					body: JSON.stringify({ user: userId }),
+					body: JSON.stringify({
+						user: JSON.parse(localStorage.getItem("usercred")).id,
+					}),
 				}
 			);
 			const data = await response.json();
 			setIsLeave(data);
 			setLoading(false);
-			console.log("dsr status updated");
 		} catch (error) {
 			console.error("Error:", error);
 		}
@@ -84,7 +85,7 @@ function NewDsr() {
 		comment: "",
 		openIssues: "",
 		isOnLeave: false,
-		user: userId,
+		user: JSON.parse(localStorage.getItem("usercred")).id,
 	});
 
 	// Setting data from input in the state for both the DSR data and Draft data --20-April-2023--Adarsh
@@ -119,8 +120,6 @@ function NewDsr() {
 			...errors,
 			[e.target.name]: "",
 		});
-
-		console.log(dsrData);
 	}
 
 	//changing the state of dsrData if draftValue exist :------Ayush
@@ -138,7 +137,7 @@ function NewDsr() {
 				comment: draftValue.comment,
 				openIssues: draftValue.openIssues,
 				isOnLeave: false,
-				user: userId,
+				user: JSON.parse(localStorage.getItem("usercred")).id,
 			});
 	}, [isUse, draftValue]);
 
@@ -249,7 +248,7 @@ function NewDsr() {
 		comment: "",
 		openIssues: "",
 		isOnLeave: false,
-		user: userId,
+		user: JSON.parse(localStorage.getItem("usercred")).id,
 	});
 
 	// Handle Draft Save
@@ -283,14 +282,8 @@ function NewDsr() {
 	// handling leave mark
 	async function handleLeave() {
 		try {
-			console.log("before leave running");
-
 			const deletedData = await markLeave();
-
-			console.log("after leave running");
-
 			await fetchStatus();
-			console.log("reloaded");
 			return deletedData;
 		} catch (error) {
 			console.error("Error:", error);
@@ -304,7 +297,9 @@ function NewDsr() {
 				headers: {
 					"Content-Type": "application/json",
 				},
-				body: JSON.stringify({ user: userId }),
+				body: JSON.stringify({
+					user: JSON.parse(localStorage.getItem("usercred")).id,
+				}),
 			});
 
 			const data = await response.json();
@@ -427,7 +422,9 @@ function NewDsr() {
 				headers: {
 					"Content-Type": "application/json",
 				},
-				body: JSON.stringify({ user: userId }),
+				body: JSON.stringify({
+					user: JSON.parse(localStorage.getItem("usercred")).id,
+				}),
 			});
 
 			const data = await response.json();
@@ -883,7 +880,7 @@ function NewDsr() {
 										</div>
 
 										<div className="edit-input-row">
-											<label htmlFor="status-edit">Project Status:</label>
+											<label htmlFor="status-edit">Project Health:</label>
 											<input
 												type="text"
 												name="status"
