@@ -7,6 +7,7 @@ import NewDsr from "./routes/NewDsr/NewDsr";
 import WeeklyDsr from "./routes/WeeklyDsr/WeeklyDsr";
 import Drafts from "./routes/Drafts/Drafts";
 import Login from "./routes/Login/Login";
+import Register from "./routes/Register/Register";
 
 function App() {
 	// Theme Switching
@@ -33,7 +34,7 @@ function App() {
 	return (
 		<Routes>
 			<Route path="/login" element={<Login />} />
-
+			<Route path="/register" element={<Register />} />;
 			<Route
 				path="/"
 				element={
@@ -48,7 +49,6 @@ function App() {
 				<Route path="recents" element={<WeeklyDsr />} />
 				<Route path="drafts" element={<Drafts />} />
 			</Route>
-
 			{/* <Route path="/*" element={<ErrorPage />} /> */}
 		</Routes>
 	);

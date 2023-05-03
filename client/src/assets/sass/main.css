@@ -100,8 +100,8 @@
   border-radius: 0.1rem;
 }
 .form .input-row .input__label {
-  font-size: 1.6rem;
-  font-weight: 400;
+  font-size: 1.7rem;
+  font-weight: 500;
   color: var(--primary-text);
   transition: all 0.3s cubic-bezier(0.5, 0, 0.5, 1.5);
   transform: translateX(0rem);
@@ -112,7 +112,7 @@
   }
 }
 .form .input-row .form__input {
-  font-weight: 500;
+  font-weight: 400;
   background-color: var(--light-section);
   border: none;
   font-family: inherit;
@@ -879,38 +879,68 @@ p {
   justify-content: center;
   align-items: center;
 }
-
-.login-card {
-  padding: 5rem;
+.login-container .login-card {
+  padding: 0;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   background-color: #fff;
   border-radius: 0.4rem;
 }
-@media screen and (max-width: 500px) {
-  .login-card {
-    padding: 3rem;
-  }
-}
-.login-card .top-part {
+.login-container .login-card .top-part {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 1rem;
-  margin-bottom: 3rem;
+  padding: 0rem 2rem;
 }
-.login-card .top-part .logo {
+.login-container .login-card .top-part .logo {
   width: 4rem;
 }
-.login-card .top-part .heading-s {
+.login-container .login-card .top-part .heading-s {
   font-family: "Tenor Sans", sans-serif;
 }
-.login-card .top-part .para {
+.login-container .login-card .top-part .para {
   text-align: center;
   font-weight: 500;
+  font-weight: 400;
+  letter-spacing: 0.2rem;
 }
-.login-card .branding {
-  margin-top: 5rem;
+.login-container .login-card .form {
+  padding: 0rem 2rem;
+  width: 50%;
+}
+.login-container .login-card .form .input-row .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  justify-content: space-between;
+  width: 100%;
+}
+.login-container .login-card .form .input-row .form-group .input__group input::placeholder {
+  font-weight: 100;
+  font-size: 1.5rem;
+  color: var(--secondary-text);
+}
+.login-container .login-card .form .input-row .form-group .input__group .error {
+  color: #DF5656;
+  font-size: 1.4rem;
+  margin-top: 0.5rem;
+}
+.login-container .login-card .form .micro .small {
+  font-size: 1.2rem;
+  font-weight: 100;
+}
+.login-container .login-card .form p.align-self {
+  text-align: center;
+}
+.login-container .login-card .form p.goto-register {
+  font-size: 1.45rem;
+  text-decoration: underline;
+  color: #018171;
+  text-align: center;
+}
+.login-container .login-card .branding {
+  margin-top: 2rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -919,9 +949,61 @@ p {
   font-weight: 500;
   font-size: 1.5rem;
 }
-.login-card .branding img {
+.login-container .login-card .branding img {
   width: 13rem;
   height: auto;
+}
+
+.login-container .login-card {
+  display: flex;
+  flex-direction: row;
+  width: 50%;
+}
+.login-container .login-card .heading-s {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.part {
+  width: 50%;
+  padding: 5rem 0rem;
+}
+
+.form-part {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.form-part .form {
+  width: 80% !important;
+  padding: 0 !important;
+}
+.form-part .form__input {
+  font-size: 1.6rem !important;
+}
+
+.text-part {
+  background: url("../../assets/images/img-5.jpg") no-repeat;
+  background-size: cover;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: rgba(149, 157, 165, 0.1) 0px 8px 24px;
+}
+.text-part .top-part {
+  height: 100%;
+  width: 80%;
+  backdrop-filter: blur(3px);
+  border-radius: 0.5rem;
+}
+.text-part .top-part .heading-s {
+  color: #fff;
+  letter-spacing: 0.3rem;
+  font-size: 2.5rem;
+}
+.text-part .top-part .logo {
+  width: 5rem !important;
 }
 
 .dashboard {
@@ -1009,6 +1091,7 @@ p {
   padding: 1.5rem 2rem;
   border-radius: 0.4rem 0 0 0.4rem;
   right: 0;
+  top: 7rem;
   border-left: 4px solid var(--color-success);
   transition: all 0.2s cubic-bezier(0.55, 0.055, 0.675, 0.19);
   transform: translateX(200%);
