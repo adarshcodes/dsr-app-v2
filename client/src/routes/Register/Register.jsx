@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Logo from "../../assets/images/logo/favicon-1.png";
 import Quadrafort from "../../assets/images/logo/quadrafort-light.png";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AnimatedComponent from "../../AnimatedComponent";
 
 function Register() {
