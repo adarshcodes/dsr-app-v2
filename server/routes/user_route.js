@@ -4,17 +4,21 @@ const app = express();
 
 // Adds a user to the service. This is a POST request and will return a response
 app.post("/register", async (request, response) => {
-  let adm = false;
-  if (request.body.isAdmin == true) {
-    adm = true;
-  }
-  const myDate = new Date(1950, 0, 1, 0, 0, 0);
-  const user = new userModel({
-    ...request.body,
-    isAdmin: adm,
-    lastdsrtime: myDate,
-  });
   try {
+    const existingUser = await userModel.findOne({ email: request.body.email });
+    if (existingUser) {
+      return response.status(710).send();
+    }
+    let adm = false;
+    if (request.body.isAdmin == true) {
+      adm = true;
+    }
+    const myDate = new Date(1950, 0, 1, 0, 0, 0);
+    const user = new userModel({
+      ...request.body,
+      isAdmin: adm,
+      lastdsrtime: myDate,
+    });
     await user.save();
     response.send(user);
   } catch (error) {
