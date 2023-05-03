@@ -8,9 +8,8 @@ const dsr_fetch_route = require("./routes/dsr_fetch_route");
 const dsr_save_route = require("./routes/dsr_save_route");
 const user_route = require("./routes/user_route");
 const web_route = require("./routes/web_route");
-const helper = require("./helper.js")
+const helper = require("./helper.js");
 const cron = require("node-cron");
-
 
 const userModel = require("./models/usermodel");
 const { ClientConfigurationError } = require("@azure/msal-node");
@@ -46,32 +45,26 @@ db.once("open", function () {
   console.log("Connected successfully");
 });
 
-
-
-
-
-
-
-
 //getting email of users who have not submitted dsrs today
 async function findEmail() {
   const user = await userModel.find({ isAdmin: false });
   var todayDate = new Date();
   var emailArray = [];
   for (let i of user) {
-    if (i.lastdsrtime.getFullYear() == todayDate.getFullYear()) {
-      if ((i.lastdsrtime.getMonth()) != todayDate.getMonth() + 1) {
-        if (i.lastdsrtime.getDate() != todayDate.getDate()) {
-          emailArray.push(i.email)
+    if (i.lastdsrtime.getDate() != todayDate.getDate()) {
+      emailArray.push(i.email);
+    } else {
+      if (i.lastdsrtime.getMonth() != todayDate.getMonth()) {
+        emailArray.push(i.email);
+      } else {
+        if (i.lastdsrtime.getFullYear() != todayDate.getFullYear()) {
+          emailArray.push(i.email);
         }
       }
     }
-
   }
   return emailArray;
 }
-
-
 
 
 // Schedule a cron job to send a daily email. This is a convenience function for use with services that don't need to worry about cron scheduling
@@ -90,7 +83,6 @@ cron.schedule(
     timezone: "Asia/Kolkata",
   }
 );
-
 
 // Adds routes to the app based on the configuration. This is called after all routes have been added
 app.use(admin_route);
