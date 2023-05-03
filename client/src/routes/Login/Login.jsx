@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import AnimatedComponent from "../../AnimatedComponent";
 import Logo from "../../assets/images/logo/logo-leaf.svg";
@@ -7,28 +7,19 @@ import Icon from "../../assets/images/logo/ms.svg";
 import Quadrafort from "../../assets/images/logo/quadrafort-dark.png";
 
 function Login() {
-  const [userData, setUserData] = useState();
-
   const [userDetail, setUserDetail] = useState({
     email: "",
     password: "",
   });
 
-  const handleDataInput = (data) => {
+  const handleDataInput = async (data) => {
     if (data) {
       localStorage.setItem("usercred", JSON.stringify(data));
-      setUserData(data);
-    } else {
-      const storedUserData = localStorage.getItem("usercred");
-      if (storedUserData) {
-        setUserData(JSON.parse(storedUserData));
-      }
     }
-    navigate("/");
+    if (localStorage.getItem("usercred")) {
+      navigate("/");
+    }
   };
-
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
 
   const navigate = useNavigate();
 
@@ -48,7 +39,7 @@ function Login() {
 
       // console.log(data);
       if (data.id) {
-        handleDataInput(data);
+        await handleDataInput(data);
       } else {
         // handle login failure here, e.g. show an error message
         console.log("Login failed.");
@@ -125,7 +116,6 @@ function Login() {
                     onChange={handleChange}
                     required
                   />
-                  {emailError && <div className="error">{emailError}</div>}
                 </div>
                 <div className="input__group">
                   <label htmlFor="password" className="input__label">
@@ -141,9 +131,6 @@ function Login() {
                     onChange={handleChange}
                     required
                   />
-                  {passwordError && (
-                    <div className="error">{passwordError}</div>
-                  )}
                 </div>
               </div>
             </div>
@@ -155,9 +142,9 @@ function Login() {
             >
               Sign in
             </button>
-            <Link to={"/register"}>
-              <p className="goto-register">New User? Register</p>
-            </Link>
+            {/* <Link to={"/register"}> */}
+            <p className="goto-register">New User? Register</p>
+            {/* </Link> */}
             <p className="align-self">Or</p>
             {/* </Link> */}
             <div className="btn btn-primary btn-light-shadow micro">

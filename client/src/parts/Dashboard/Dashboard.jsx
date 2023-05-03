@@ -10,7 +10,7 @@ export const takeData = createContext();
 function Dashboard({ theme, themeSwitch }) {
   const location = useLocation();
   const [ham, setHam] = useState(false);
-  const [useDraft, setUseDraft] = React.useState({});
+  const [useDraft, setUseDraft] = useState({});
 
   // variable to store data of the draft to provide it to newDsr comp.
 

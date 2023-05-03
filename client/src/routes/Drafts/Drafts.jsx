@@ -6,9 +6,6 @@ import RecentSkeleton from "../../components/Skeleton/RecentSkeleton";
 import Modal from "../../components/Modal/Modal";
 import { Link } from "react-router-dom";
 
-const userdet = localStorage.getItem("usercred");
-const userId = JSON.parse(userdet).id;
-console.log(userId);
 function Drafts() {
   // State to save drafts from API call
   const [drafts, setDrafts] = useState([]);
@@ -35,7 +32,9 @@ function Drafts() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ user: userId }),
+          body: JSON.stringify({
+            user: JSON.parse(localStorage.getItem("usercred")).id,
+          }),
         }
       );
       const data = await response.json();

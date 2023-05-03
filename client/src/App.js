@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 import "./assets/sass/main.css";
 import Dashboard from "./parts/Dashboard/Dashboard";
@@ -7,11 +7,15 @@ import NewDsr from "./routes/NewDsr/NewDsr";
 import WeeklyDsr from "./routes/WeeklyDsr/WeeklyDsr";
 import Drafts from "./routes/Drafts/Drafts";
 import Login from "./routes/Login/Login";
-import { Register } from "./routes/Register/Register";
+
+// const userdet = localStorage.getItem("usercred");
 
 function App() {
+  // Authentication
+
   // Theme Switching
   const [theme, setTheme] = useState(false);
+  const [userdet, setUserdet] = useState();
 
   function themeSwitch() {
     setTheme(!theme);
@@ -25,27 +29,39 @@ function App() {
     }
   }, [theme]);
 
+  // Private Route Component
+  function PrivateRoute({ path, element }) {
+    setUserdet(localStorage.getItem("usercred"));
+    if (userdet) {
+      return element;
+    }
+  }
+
   return (
     <Routes>
-      <Route path="/register" element={<Register />} />
-      <Route path="/login" element={<Login />} />
-
+      <>
+        <Route path="/login" element={<Login />} />
+      </>
       <Route
         path="/"
         element={
-          <Dashboard
-            theme={theme}
-            setTheme={setTheme}
-            themeSwitch={themeSwitch}
+          <PrivateRoute
+            element={
+              <Dashboard
+                theme={theme}
+                setTheme={setTheme}
+                themeSwitch={themeSwitch}
+              />
+            }
           />
         }
       >
-        <Route index element={<NewDsr />} />
-        <Route path="recents" element={<WeeklyDsr />} />
-        <Route path="drafts" element={<Drafts />} />
+        <Route path="/" element={<NewDsr />} />
+        <Route path="/recents" element={<WeeklyDsr />} />
+        <Route path="/drafts" element={<Drafts />} />
       </Route>
 
-      {/* <Route path="/*" element={<ErrorPage />} /> */}
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 }

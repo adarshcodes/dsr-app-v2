@@ -10,9 +10,9 @@ import NewDsrSkeleton from "../../components/Skeleton/NewDsrSkeleton";
   Written the Code of NewDSR and made it responsive --- Ayush
 */
 const userdet = localStorage.getItem("usercred");
-const userId = JSON.parse(userdet).id;
-console.log(userId);
-
+let userId = null;
+console.log("TTTT");
+userdet && (userId = JSON.parse(userdet).id);
 function NewDsr() {
   // adding a loading part which renders if api is slows down
   const [loading, setLoading] = useState(true);
