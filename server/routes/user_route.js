@@ -9,7 +9,7 @@ app.post("/register", async (request, response) => {
     const existingUser = await userModel.findOne({ email: request.body.email });
     if (existingUser) {
       return response.sendStatus(710);
-    }
+    } 
     let adm = false;
     if (request.body.isAdmin == true) {
       adm = true;
