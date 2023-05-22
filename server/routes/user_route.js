@@ -5,10 +5,11 @@ const app = express();
 // Adds a user to the service. This is a POST request and will return a response
 app.post("/register", async (request, response) => {
   try {
+    request.body.email=request.body.email.toLowerCase();
     const existingUser = await userModel.findOne({ email: request.body.email });
     if (existingUser) {
       return response.sendStatus(710);
-    }
+    } 
     let adm = false;
     if (request.body.isAdmin == true) {
       adm = true;
