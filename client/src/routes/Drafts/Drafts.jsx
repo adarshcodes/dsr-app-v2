@@ -196,7 +196,7 @@ function Drafts() {
 						</div>
 
 						<div className="data client-manager">
-							<h4 className="heading-xs">Client Manager</h4>
+							<h4 className="heading-xs">Project Manager</h4>
 							<p className="para">{data.clientManager}</p>
 						</div>
 					</div>

@@ -7,7 +7,7 @@ import Topbar from "../../components/Topbar/Topbar";
 export const transferData = createContext();
 export const takeData = createContext();
 
-function Dashboard({ theme, themeSwitch }) {
+function Dashboard({ theme, themeSwitch, setTheme }) {
 	const location = useLocation();
 	const [ham, setHam] = useState(false);
 	const [useDraft, setUseDraft] = useState({});
@@ -34,6 +34,7 @@ function Dashboard({ theme, themeSwitch }) {
 							setHam={setHam}
 							themeSwitch={themeSwitch}
 							theme={theme}
+							setTheme={setTheme}
 						/>
 
 						<div className="container">

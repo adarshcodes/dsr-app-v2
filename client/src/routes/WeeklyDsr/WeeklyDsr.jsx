@@ -154,12 +154,22 @@ function WeeklyDsr() {
 
 							<div className="data">
 								<h4 className="heading-xs">Activities Completed:</h4>
-								<p className="para">{data.activitiesCompleted}</p>
+								<p
+									className="para"
+									dangerouslySetInnerHTML={{
+										__html: data.activitiesCompleted,
+									}}
+								></p>
 							</div>
 
 							<div className="data">
 								<h4 className="heading-xs">Activities Planned:</h4>
-								<p className="para">{data.activitiesPlanned}</p>
+								<p
+									className="para"
+									dangerouslySetInnerHTML={{
+										__html: data.activitiesPlanned,
+									}}
+								></p>
 							</div>
 
 							<div className="data">

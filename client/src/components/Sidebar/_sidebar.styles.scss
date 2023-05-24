@@ -8,6 +8,10 @@
     transition: all .3s $bez-1;
     z-index: 1002;
 
+    li {
+        list-style: none !important;
+    }
+
     @media screen and (max-width: 750px) {
         position: absolute;
         transform: translateX(-100%);

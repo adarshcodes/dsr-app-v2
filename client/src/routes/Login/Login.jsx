@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-
 import AnimatedComponent from "../../AnimatedComponent";
 import Logo from "../../assets/images/logo/favicon-1.png";
 import Quadrafort from "../../assets/images/logo/quadrafort-light.png";
@@ -18,7 +17,7 @@ function Login() {
 	});
 
 	const handleChange = (e) => {
-		const value = e.target.value;
+		const value = e.target.value.toLowerCase();
 
 		setUserDetail({
 			...userDetail,
@@ -50,8 +49,8 @@ function Login() {
 		if (!userDetail.email) {
 			newErrors.email = "Email is required";
 			isValid = false;
-		} else if (!userDetail.email.endsWith("@Quadrafort.com")) {
-			newErrors.email = "Use @Quadrafort.com only!";
+		} else if (!userDetail.email.toLowerCase().endsWith("@quadrafort.com")) {
+			newErrors.email = "Use @Quadrafort domain instead!";
 			isValid = false;
 		}
 
@@ -92,6 +91,7 @@ function Login() {
 			const data = await response.json();
 			if (data.id) {
 				await handleDataInput(data);
+				console.log(data);
 				setMsgToShow("Login");
 				data.errors ? errMsg() : verificationMsg();
 				setTimeout(closeMsg, 2500);

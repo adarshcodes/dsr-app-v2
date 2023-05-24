@@ -3,6 +3,11 @@
   flex-direction: column;
   gap: 2rem;
 
+  ul,
+  ol {
+    margin: .5rem 0;
+  }
+
   .uid-date {
     @include flex-column;
     gap: 2rem;
@@ -76,6 +81,14 @@
 .blank-container {
   height: 86vh !important;
 
+  ul,
+  ol {
+    margin: .8rem 0;
+    @include flex-column;
+    gap: .8rem;
+    margin-left: 1.8rem;
+  }
+
   .heading-m {
     line-height: 4rem;
     text-align: center;
@@ -94,10 +107,10 @@
 
 .validation-error {
   position: absolute;
-  top: 27%;
+  bottom: -1.6rem;
   right: 0;
   color: var(--color-error);
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-weight: 400;
 }
 
@@ -132,7 +145,7 @@
   }
 
   .preview-edit {
-    width: 60rem;
+    width: 60%;
     @include flex-column;
     gap: 2rem;
     padding: 3rem 5rem;
@@ -170,7 +183,27 @@
       .edit-input-row {
         width: 100%;
         @include flex-row-spacebetween;
+        align-items: flex-start;
         gap: 2rem;
+
+        .quill {
+          width: 50% !important;
+        }
+
+        .dropdown {
+          width: 50% !important;
+          border: #ccc 1px solid;
+          border-radius: .4rem;
+          padding: 0 1.2rem;
+        }
+
+        .dropdown-menu {
+          border-top: #ccc 1px solid;
+        }
+
+        .dropdown-toggle {
+          border-bottom: 0;
+        }
 
         @media screen and (max-width: 450px) {
           flex-direction: column;
@@ -186,10 +219,11 @@
         }
 
         input,
-        textarea {
+        textarea,
+        .rte {
           width: 50%;
           outline: none;
-          border: 1px solid var(--swatch-2);
+          border: 1px solid #ccc;
           border-radius: .4rem;
           font-family: inherit;
           font-size: 1.6rem;
@@ -198,6 +232,10 @@
           transition: all .3s $bez-1;
           color: var(--primary-text);
           background: var(--light-section);
+
+          &:focus {
+            border-color: $color-success;
+          }
         }
 
         textarea {
@@ -211,6 +249,26 @@
           padding: .5rem 0rem;
           background: transparent;
         }
+      }
+    }
+  }
+}
+
+.login-form {
+  .input-row {
+
+    .form__input,
+    textarea,
+    .dropdown .dropdown-toggle {
+      padding: 1.2rem !important;
+      border: 1px solid #ccc;
+      border-radius: .4rem;
+    }
+
+    .form__input,
+    textarea {
+      &:focus {
+        border-color: $color-success !important;
       }
     }
   }
