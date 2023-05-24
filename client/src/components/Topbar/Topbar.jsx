@@ -5,16 +5,15 @@ import Logo from "../../assets/images/logo/logo-leaf.svg";
 import Avatar from "../../assets/images/avatar.jpg";
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
 
-function Topbar({ ham, setHam, themeSwitch, theme }) {
+function Topbar({ ham, setHam, themeSwitch, theme, setTheme }) {
 	const navigate = useNavigate();
 	const handleLogout = () => {
 		localStorage.removeItem("usercred");
 		localStorage.clear();
+		setTheme(false);
 		navigate("/login");
 	};
 	// To show greeting message based on time
-
-	//   const { usercred } = useContext(transfer);
 
 	const [userName] = useState(JSON.parse(localStorage.getItem("usercred")));
 
@@ -47,7 +46,7 @@ function Topbar({ ham, setHam, themeSwitch, theme }) {
 
 				<h4 className="heading-tiny">
 					{welcomeText},{" "}
-					<span className="highlight">{`${userName.name}!`}</span>
+					<span className="highlight">{`${userName.name.split(" ")[0]}!`}</span>
 				</h4>
 			</div>
 

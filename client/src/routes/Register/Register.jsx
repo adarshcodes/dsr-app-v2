@@ -18,7 +18,8 @@ function Register() {
 	});
 
 	const handleInput = (e) => {
-		let value = e.target.value;
+		let value = e.target.value; // Convert value to lowercase
+
 		setRegistration({
 			...registration,
 			[e.target.name]: value,
@@ -50,8 +51,8 @@ function Register() {
 		if (!registration.email) {
 			newErrors.email = "Email is required";
 			isValid = false;
-		} else if (!registration.email.endsWith("@Quadrafort.com")) {
-			newErrors.email = "Use @Quadrafort.com only!";
+		} else if (!registration.email.toLowerCase().endsWith("@quadrafort.com")) {
+			newErrors.email = "Use @Quadrafort.com domain instead!";
 			isValid = false;
 		}
 
