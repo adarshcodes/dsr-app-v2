@@ -42,6 +42,7 @@
   color: #fff;
   @include flex-row-center;
   @include shadow-1;
+  border-radius: 0.4rem 0 0 0.4rem;
 
   .top-part {
     height: 100%;

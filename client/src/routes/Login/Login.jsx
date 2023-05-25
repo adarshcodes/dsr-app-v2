@@ -5,7 +5,82 @@ import Logo from "../../assets/images/logo/favicon-1.png";
 import Quadrafort from "../../assets/images/logo/quadrafort-light.png";
 import Icon from "../../assets/images/logo/ms.svg";
 
+// import * as msal from "msal";
+import { PublicClientApplication } from "@azure/msal-browser";
+import { InteractionRequiredAuthError } from "@azure/msal-browser"; // Import the InteractionRequiredAuthError class from MSAL
+
+const config = {
+	auth: {
+		clientId: "427bf882-77ea-49c0-853e-1676532387a7",
+		authority:
+			"https://login.microsoftonline.com/de7de043-fa62-4bc0-83e5-0466b479d2b7",
+		redirectUri: "http://localhost:3000/",
+		postLogoutRedirectUri: "http://localhost:3000/login",
+	},
+};
+
+const msalInstance = new PublicClientApplication(config);
+const loginRequest = {
+	scopes: ["openid", "profile", "user.read"],
+	prompt: "select_account",
+};
+
 function Login() {
+	// msal auth
+	const [account, setAccount] = useState(null);
+	const [error, setError] = useState(null);
+
+	// Check if there is already an interaction in progress
+
+	const login = async () => {
+		try {
+			// Try to get the user account silently
+			const accounts = await msalInstance.getAllAccounts();
+			const account = accounts[0];
+
+			// If an account is found, set the active account
+			if (account) {
+				msalInstance.setActiveAccount(account);
+				// ... do something with the authenticated user
+			} else {
+				// If no account is found, initiate an interactive login request
+				msalInstance
+					.loginPopup(loginRequest)
+					.then((response) => {
+						setAccount(response.account);
+					})
+					.catch((error) => {
+						console.log(error);
+						setError(error);
+					});
+			}
+		} catch (error) {
+			// Check if the error is an InteractionRequiredAuthError
+			if (error instanceof InteractionRequiredAuthError) {
+				// Wait for the current interaction to complete before initiating a new one
+				setTimeout(() => {
+					login();
+				}, 1000);
+			} else {
+				// Handle other errors
+				// ...
+			}
+		}
+	};
+
+	const logout = () => {
+		const logoutRequest = {
+			account: msalInstance.getAccountByHomeId(),
+			mainWindowRedirectUri: "http://localhost:3000/",
+		};
+
+		msalInstance.logoutPopup(logoutRequest);
+	};
+
+	if (account) {
+		console.log(account.name);
+	}
+
 	const [userDetail, setUserDetail] = useState({
 		email: "",
 		password: "",
@@ -205,6 +280,7 @@ function Login() {
 											<div className="error">{errors.email}</div>
 										)}
 									</div>
+
 									<div className="input__group">
 										<label htmlFor="password" className="input__label">
 											Password
@@ -234,6 +310,7 @@ function Login() {
 							>
 								Sign in
 							</button>
+
 							<Link to={"/register"}>
 								<p className="goto-register">New User? Register</p>
 							</Link>
@@ -242,8 +319,10 @@ function Login() {
 							<p className="align-self">Or</p>
 
 							<div className="ms">
-								<p className="small">(Comming Soon...)</p>
-								<div className="btn btn-primary btn-light-shadow micro">
+								<div
+									className="btn btn-primary btn-light-shadow micro"
+									onClick={login}
+								>
 									<img src={Icon} alt="ms-login" />
 									<p>Sign in with Microsoft</p>
 								</div>
