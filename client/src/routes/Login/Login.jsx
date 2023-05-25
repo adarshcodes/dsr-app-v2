@@ -125,7 +125,7 @@ function Login() {
 			newErrors.email = "Email is required";
 			isValid = false;
 		} else if (!userDetail.email.toLowerCase().endsWith("@quadrafort.com")) {
-			newErrors.email = "Use @Quadrafort domain instead!";
+			newErrors.email = "Use @quadrafort domain instead!";
 			isValid = false;
 		}
 
@@ -280,7 +280,6 @@ function Login() {
 											<div className="error">{errors.email}</div>
 										)}
 									</div>
-
 									<div className="input__group">
 										<label htmlFor="password" className="input__label">
 											Password
@@ -310,7 +309,6 @@ function Login() {
 							>
 								Sign in
 							</button>
-
 							<Link to={"/register"}>
 								<p className="goto-register">New User? Register</p>
 							</Link>
