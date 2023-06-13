@@ -169,10 +169,12 @@ function NewDsr() {
 				isOnLeave: false,
 				user: JSON.parse(localStorage.getItem("usercred")).id,
 			});
+		isUse && draftValue && setSelectedOption(draftValue.status);
 	}, [isUse, draftValue]);
 
 	// --Handle data post for new DSR to API--
 	const handlePost = async (event) => {
+		console.log("run ho ja");
 		try {
 			const response = await fetch(
 				"https://new-web-app.onrender.com/add_dsr/",
@@ -194,6 +196,7 @@ function NewDsr() {
 			setIsLeave("");
 			await fetchLastDsr();
 			await fetchStatus();
+			console.log(response, "api response");
 		} catch (error) {
 			setMsgToShow("DSR-Not-Saved");
 			errorMsg();
@@ -203,10 +206,14 @@ function NewDsr() {
 	};
 
 	function handleSubmit(event) {
+		console.log("before validateForm");
 		event.preventDefault();
+
 		if (validateForm()) {
+			console.log("validateForm");
 			handlePost(event);
 		}
+		console.log("after validateForm");
 	}
 
 	// --End of Posting New DSR Data--
@@ -308,6 +315,25 @@ function NewDsr() {
 			setMsgToShow("Draft-Not-Saved");
 			errorMsg();
 			setTimeout(closeMsg, 2500);
+		}
+	};
+
+	// Draft Validation
+	const handleDraftSave = () => {
+		// Check if at least one field is filled
+		const isAnyFieldFilled = Object.values(draftData).some(
+			(value) => value !== ""
+		);
+
+		if (isAnyFieldFilled) {
+			handleDraft();
+			console.log("saved");
+		} else {
+			// Display validation error message
+			console.log("Please fill at least one field.");
+			setMsgToShow("Fill atleast one field to save the Draft 💀");
+			setTimeout(closeMsg, 2500);
+			console.log("not saved");
 		}
 	};
 
@@ -427,7 +453,7 @@ function NewDsr() {
 		}
 
 		setErrors(newErrors);
-
+		console.log(isValid, "isVlid");
 		return isValid;
 	};
 
@@ -444,10 +470,12 @@ function NewDsr() {
 		openIssues: "",
 	});
 
-	const [isUpdated, setIsUpdated] = useState(false);
+	console.log("This is:", lastDsr);
 
-	const fetchLastDsr = async (event) => {
-		// event.preventDefault();
+	const [isUpdated, setIsUpdated] = useState(false);
+	const [isEditable, setIsEditable] = useState(false);
+
+	const fetchLastDsr = async () => {
 		try {
 			const response = await fetch("https://new-web-app.onrender.com/lastdsr", {
 				method: "POST",
@@ -467,9 +495,15 @@ function NewDsr() {
 		}
 	};
 
+	// useEffect(() => {
+	// 	fetchLastDsr();
+	// }, []);
+
 	useEffect(() => {
-		fetchLastDsr();
-	}, []);
+		if (!isEditable) {
+			fetchLastDsr();
+		}
+	}, [isEditable]);
 
 	const saveUpdate = async () => {
 		try {
@@ -532,10 +566,9 @@ function NewDsr() {
 		});
 	};
 
-	const [isEditable, setIsEditable] = useState(false);
-
 	function editDsr() {
 		setIsEditable(true);
+		fetchLastDsr();
 	}
 
 	function updateDsr() {
@@ -840,7 +873,7 @@ function NewDsr() {
 										<button
 											className="btn btn-dark btn-warning"
 											type="button"
-											onClick={handleDraft}
+											onClick={handleDraftSave}
 										>
 											Save as Draft
 										</button>
@@ -1015,14 +1048,14 @@ function NewDsr() {
 										!isEditable ? (
 											<button
 												className="btn btn-dark btn-edit"
-												onClick={(e) => editDsr()}
+												onClick={editDsr}
 											>
 												Edit
 											</button>
 										) : (
 											<button
 												className="btn btn-dark btn-edit"
-												onClick={(e) => updateDsr()}
+												onClick={updateDsr}
 											>
 												Update
 											</button>
