@@ -13,7 +13,6 @@ function Dashboard({ theme, themeSwitch, setTheme }) {
 	const [useDraft, setUseDraft] = useState({});
 
 	// variable to store data of the draft to provide it to newDsr comp.
-
 	const [draftValue, setDraftData] = useState();
 	const [isUse, setIsUse] = useState(false);
 
