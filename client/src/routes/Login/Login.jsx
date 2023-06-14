@@ -68,14 +68,14 @@ function Login() {
 		}
 	};
 
-	const logout = () => {
-		const logoutRequest = {
-			account: msalInstance.getAccountByHomeId(),
-			mainWindowRedirectUri: "http://localhost:3000/",
-		};
+	// const logout = () => {
+	// 	const logoutRequest = {
+	// 		account: msalInstance.getAccountByHomeId(),
+	// 		mainWindowRedirectUri: "http://localhost:3000/",
+	// 	};
 
-		msalInstance.logoutPopup(logoutRequest);
-	};
+	// 	msalInstance.logoutPopup(logoutRequest);
+	// };
 
 	if (account) {
 		console.log(account.name);
@@ -212,6 +212,8 @@ function Login() {
 			email: "",
 			password: "",
 		});
+
+		console.log(error);
 	}
 
 	return (
