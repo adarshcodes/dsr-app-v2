@@ -1662,10 +1662,29 @@ p {
   position: relative;
 }
 .dashboard .container .card-container {
+  gap: 2rem;
+  display: flex;
+  overflow: scroll;
+  flex-direction: column;
+  padding: 2rem;
+}
+.dashboard .container .card-container h1 {
+  font-weight: 400;
+}
+.dashboard .container .card-container .today-dsr-container {
+  display: flex;
+  justify-content: space-around;
+  border-radius: 0.4rem;
+  border: 0.15rem solid var(--border-color);
+  padding: 1rem;
+}
+.dashboard .container .card-container .today-dsr-container div {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
   padding: 1rem;
 }
 .dashboard .container .card-container .stats-data {
-  margin-bottom: 1rem;
   display: flex;
   min-width: 100%;
   padding: 1rem;

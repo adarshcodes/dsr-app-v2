@@ -25,7 +25,7 @@ const MemoizedPrivateRoute = memo(PrivateRoute);
 
 function App() {
   // Authentication
-  console.log(JSON.parse(localStorage.getItem("usercred")));
+  // console.log(JSON.parse(localStorage.getItem("usercred")));
 
   // Theme Switching
   const [theme, setTheme] = useState(false);

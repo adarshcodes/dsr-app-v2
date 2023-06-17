@@ -4,9 +4,29 @@
     gap: 3rem;
     position: relative;
     .card-container {
-      padding: 1rem;
+      gap: 2rem;
+      display: flex;
+      overflow: scroll;
+      flex-direction: column;
+      padding: 2rem;
+      h1 {
+        font-weight: 400;
+      }
+      .today-dsr-container {
+        div {
+          display: flex;
+          flex-direction: column;
+          gap: 2.5rem;
+          padding: 1rem;
+        }
+
+        display: flex;
+        justify-content: space-around;
+        border-radius: 0.4rem;
+        border: 0.15rem solid var(--border-color);
+        padding: 1rem;
+      }
       .stats-data {
-        margin-bottom: 1rem;
         display: flex;
         min-width: 100%;
         padding: 1rem;

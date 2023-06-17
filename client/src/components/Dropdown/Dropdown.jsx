@@ -14,8 +14,7 @@ const Dropdown = ({
         onClick={() => setIsOpen(!isOpen)}
       >
         {selectedOption}
-        {(selectedOption !== "Project health" ||
-          selectedOption !== "Select Manager") && (
+        {selectedOption !== "Project health" && (
           <div
             className="selected-color"
             style={{
