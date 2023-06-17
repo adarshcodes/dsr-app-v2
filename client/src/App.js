@@ -28,12 +28,14 @@ function App() {
   // console.log(JSON.parse(localStorage.getItem("usercred")));
 
   // Theme Switching
-  const [theme, setTheme] = useState(false);
+  let [theme, setTheme] = useState(false);
 
+  let newTheme = false;
   function themeSwitch() {
-    const newTheme = !theme;
+    newTheme = !theme;
     setTheme(newTheme);
     localStorage.setItem("theme", newTheme ? "dark" : "light");
+    console.log(newTheme);
   }
 
   useEffect(() => {
@@ -43,7 +45,7 @@ function App() {
     } else {
       setTheme(false);
     }
-  }, []);
+  }, [theme]);
 
   useEffect(() => {
     if (theme) {
