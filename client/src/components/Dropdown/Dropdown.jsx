@@ -14,13 +14,12 @@ const Dropdown = ({
         onClick={() => setIsOpen(!isOpen)}
       >
         {selectedOption}
-        {selectedOption !== "Project health" && (
+        {selectedOption !== "Project health" && selectedOption !== "Select" && (
           <div
             className="selected-color"
             style={{
-              backgroundColor: options.find(
-                (o) => o.label === selectedOption.color
-              ),
+              backgroundColor: options.find((o) => o.label === selectedOption)
+                .color,
             }}
           />
         )}
