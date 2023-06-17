@@ -9,7 +9,7 @@
     flex: 1;
     @include flex-row;
     gap: 3rem;
-
+    flex-wrap: wrap;
     @media screen and (max-width: 500px) {
       flex-wrap: wrap;
       flex-direction: column;
@@ -28,11 +28,10 @@
       @include flex-column;
       flex-direction: column-reverse;
       gap: 1rem;
-      flex: 1;
+      flex: auto;
 
       textarea {
         resize: none;
-
         // @include customScroll;
         &::-webkit-scrollbar {
           width: 0.3rem;
@@ -59,7 +58,7 @@
 
     .form__input {
       font-weight: 400;
-      // flex: 1;
+      flex: 1;
       background-color: var(--light-section);
       border: none;
       font-family: inherit;
@@ -156,7 +155,6 @@ textarea {
 }
 
 .quill {
-
   &:focus-within .ql-container.ql-snow,
   &:focus-within .ql-toolbar.ql-snow {
     border-color: $color-success !important;
@@ -164,11 +162,11 @@ textarea {
 }
 
 .ql-toolbar.ql-snow {
-  border-radius: .4rem .4rem 0 0;
+  border-radius: 0.4rem 0.4rem 0 0;
 }
 
 .ql-container.ql-snow {
-  border-radius: 0 0 .4rem .4rem;
+  border-radius: 0 0 0.4rem 0.4rem;
 }
 
 .ql-snow.ql-toolbar button,
