@@ -11,12 +11,12 @@ import Dashboard from "./parts/Dashboard/Dashboard";
 import Admindashboard from "./parts/Admin_dashboard/Admindashboard";
 
 function PrivateRoute({ element }) {
-  const user = localStorage.getItem("usercred");
-  if (user) {
-    return element;
-  } else {
-    return <Navigate to="/login" replace />;
-  }
+	const user = localStorage.getItem("usercred");
+	if (user) {
+		return element;
+	} else {
+		return <Navigate to="/login" replace />;
+	}
 }
 
 //dark mode issue resolved and routing and authentications of client and admin conditional routing :----- Ayush Mishra.
@@ -24,6 +24,7 @@ function PrivateRoute({ element }) {
 const MemoizedPrivateRoute = memo(PrivateRoute);
 
 function App() {
+
   // Authentication
   // console.log(JSON.parse(localStorage.getItem("usercred")));
 
@@ -35,7 +36,6 @@ function App() {
     newTheme = !theme;
     setTheme(newTheme);
     localStorage.setItem("theme", newTheme ? "dark" : "light");
-    console.log(newTheme);
   }
 
   useEffect(() => {
@@ -47,13 +47,14 @@ function App() {
     }
   }, [theme]);
 
-  useEffect(() => {
-    if (theme) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  }, [theme]);
+
+	useEffect(() => {
+		if (theme) {
+			document.documentElement.classList.add("dark");
+		} else {
+			document.documentElement.classList.remove("dark");
+		}
+	}, [theme]);
 
   const user = JSON.parse(localStorage.getItem("usercred"));
   const isAdmin = user && user.isAdmin;
