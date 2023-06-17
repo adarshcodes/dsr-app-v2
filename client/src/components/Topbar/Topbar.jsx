@@ -15,11 +15,11 @@ function Topbar({ ham, setHam, themeSwitch, theme, setTheme }) {
     navigate("/login");
   };
 
-  const [showProfile, setShowProfile] = useState(false);
+  // const [showProfile, setShowProfile] = useState(false);
 
-  function handleProfile() {
-    setShowProfile(true); 
-  }
+  // function handleProfile() {
+  //   setShowProfile(true);
+  // }
   // To show greeting message based on time
 
   const [userName] = useState(JSON.parse(localStorage.getItem("usercred")));
@@ -39,13 +39,13 @@ function Topbar({ ham, setHam, themeSwitch, theme, setTheme }) {
           onClick={() => setHam(!ham)}
         >
           <Modal
-            // btnValue={"Delete"}
-            // modalHead={"Are you sure to delete this Draft?"}
-            // action={handleDeleteBtn}
-            // state={modal}
-            // setState={setModal}
-            // hideModal={hideModal}
-            // draftId={draftId}
+          // btnValue={"Delete"}
+          // modalHead={"Are you sure to delete this Draft?"}
+          // action={handleDeleteBtn}
+          // state={modal}
+          // setState={setModal}
+          // hideModal={hideModal}
+          // draftId={draftId}
           />
 
           <label htmlFor="ham-click" id="ham">
@@ -72,7 +72,7 @@ function Topbar({ ham, setHam, themeSwitch, theme, setTheme }) {
           <ThemeToggle themeSwitch={themeSwitch} theme={theme} />
         </div>
 
-        <div className="avatar circle-cta" onClick={() => handleProfile()}>
+        <div className="avatar circle-cta">
           <img src={Avatar} alt="avatar" />
         </div>
 
