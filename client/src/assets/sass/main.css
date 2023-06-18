@@ -102,7 +102,7 @@
   border-radius: 0.1rem;
 }
 .form .input-row .input__label {
-  font-size: 1.8rem;
+  font-size: 2rem;
   font-weight: 400;
   color: var(--primary-text);
   transition: all 0.3s cubic-bezier(0.5, 0, 0.5, 1.5);
@@ -116,12 +116,12 @@
   color: var(--secondary-text);
   border-bottom: 2px solid #018171;
   padding: 1.2rem 0rem 0.8rem 0;
-  font-size: 1.7rem;
+  font-size: 1.8rem;
   transition: all 0.3s cubic-bezier(0.5, 0, 0.5, 1.5);
 }
 @media screen and (max-width: 600px) {
   .form .input-row .form__input {
-    font-size: 1.6rem;
+    font-size: 1.8rem;
     font-weight: 500;
   }
 }
@@ -315,7 +315,7 @@ p {
 }
 @media screen and (max-width: 750px) {
   .heading-s {
-    font-size: 2rem;
+    font-size: 2.5rem;
   }
 }
 
@@ -326,11 +326,6 @@ p {
 .para {
   font-size: 1.8rem;
   font-weight: 400;
-}
-@media screen and (max-width: 750px) {
-  .para {
-    font-size: 1.7rem;
-  }
 }
 
 @keyframes float {
@@ -365,7 +360,7 @@ p {
   border-radius: 0.4rem;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.5, 0, 0.5, 1.5);
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   font-weight: 500;
   padding: 1.2rem 2.2rem;
   outline: none;
@@ -956,6 +951,7 @@ p {
   font-weight: 500;
   font-weight: 400;
   letter-spacing: 0.2rem;
+  line-height: 2.5rem;
 }
 .login-container .login-card .form {
   padding: 0rem 2rem;
@@ -1064,6 +1060,7 @@ p {
 .login-container .login-card .heading-s {
   text-align: center;
   margin-bottom: 2rem;
+  font-size: 2.8rem;
 }
 @media screen and (max-width: 550px) {
   .login-container .login-card {
@@ -1094,7 +1091,7 @@ p {
   padding: 0 !important;
 }
 .form-part .form__input {
-  font-size: 1.6rem !important;
+  font-size: 2rem !important;
 }
 .form-part .input__label {
   font-weight: 500 !important;
@@ -1198,7 +1195,7 @@ p {
 .new-dsr .uid-date p span {
   color: var(--secondary-text);
   font-weight: 500;
-  font-size: 1.5rem;
+  font-size: 1.8rem;
 }
 .new-dsr .uid-date h3 {
   text-align: center;
