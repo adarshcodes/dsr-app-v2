@@ -34,7 +34,7 @@ app.post("/login", async (req, res) => {
   const user = await userModel.find({});
   var userName = req.body.email;
   var password = req.body.password;
-  const i = user.findIndex(e => e.email === userName);
+  const i = user.findIndex((e) => e.email === userName);
   try {
     if (i > -1) {
       if (user[i].password === password) {
@@ -43,20 +43,18 @@ app.post("/login", async (req, res) => {
           id: user[i]._id,
           name: user[i].name,
           email: user[i].email,
-          isAdmin: user[i].isAdmin
+          isAdmin: user[i].isAdmin,
         });
-      }
-      else {
+      } else {
         console.log("wrong password");
         res.json({
-          msg: "incorect password"
+          msg: "incorect password",
         });
       }
-    }
-    else {
+    } else {
       console.log("wrong username/email");
       res.json({
-        msg: "incorrect username/email"
+        msg: "incorrect username/email",
       });
     }
   } catch (error) {
@@ -70,36 +68,27 @@ app.post("/microsoft", async (req, res) => {
   var userName = req.body.username;
   var name = req.body.name;
 
-  const user = await userModel.find({ email: userName });
+  const user = await userModel.findOne({ email: userName });
 
   try {
     if (!user) {
+      const myDate = new Date(1950,0,1,0,0,0);
       const newuser = new userModel({
         name: name,
         email: userName,
+        isAdmin: false,
+        lastdsrtime: myDate
       });
       await newuser.save();
-      const saveduser = await userModel.find({ email: userName });
-      res.json({
-        id: saveduser._id,
-        name: saveduser.name,
-        email: saveduser.email,
-        isAdmin: saveduser.isAdmin
-      });
+      const saveduser = await userModel.findOne({ email: userName });
+      res.send(saveduser);
+    } else {
+      res.send(user);
     }
-    else {
-      res.json({
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        isAdmin: user.isAdmin
-      });
-    }
-  }
-  catch (error) {
+  } catch (error) {
     response.status(500).send(error);
   }
-})
+});
 
 // Returns all users that are in the database. This is a GET request and should be used to make sure that we don't get an error from the service
 app.get("/users", async (request, response) => {
