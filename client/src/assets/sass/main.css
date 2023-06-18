@@ -365,7 +365,7 @@ p {
   border-radius: 0.4rem;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.5, 0, 0.5, 1.5);
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   font-weight: 500;
   padding: 1.2rem 2.2rem;
   outline: none;
@@ -956,6 +956,7 @@ p {
   font-weight: 500;
   font-weight: 400;
   letter-spacing: 0.2rem;
+  line-height: 2.5rem;
 }
 .login-container .login-card .form {
   padding: 0rem 2rem;
@@ -1064,6 +1065,7 @@ p {
 .login-container .login-card .heading-s {
   text-align: center;
   margin-bottom: 2rem;
+  font-size: 2.8rem;
 }
 @media screen and (max-width: 550px) {
   .login-container .login-card {
@@ -1094,7 +1096,7 @@ p {
   padding: 0 !important;
 }
 .form-part .form__input {
-  font-size: 1.6rem !important;
+  font-size: 1.8rem !important;
 }
 .form-part .input__label {
   font-weight: 500 !important;

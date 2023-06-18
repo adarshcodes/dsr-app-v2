@@ -10,6 +10,7 @@
     @include flex-row;
     gap: 3rem;
     flex-wrap: wrap;
+
     @media screen and (max-width: 500px) {
       flex-wrap: wrap;
       flex-direction: column;
@@ -32,6 +33,7 @@
 
       textarea {
         resize: none;
+
         // @include customScroll;
         &::-webkit-scrollbar {
           width: 0.3rem;
@@ -155,6 +157,7 @@ textarea {
 }
 
 .quill {
+
   &:focus-within .ql-container.ql-snow,
   &:focus-within .ql-toolbar.ql-snow {
     border-color: $color-success !important;
