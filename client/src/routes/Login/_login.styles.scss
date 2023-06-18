@@ -152,3 +152,12 @@
     }
   }
 }
+
+.logo-part {
+  @include flex-column;
+  align-items: center;
+
+  .favicon {
+    width: 6rem;
+  }
+}

@@ -7,13 +7,13 @@ function Modal({ btnValue, action, hideModal, modalHead, state, draftId }) {
 				<h3 className="heading-s">{modalHead}</h3>
 
 				<div className="ctas">
-					<button className="btn btn-dark" onClick={(e) => action(draftId)}>
-						{btnValue}
-					</button>
 					<button
 						className="btn btn-dark btn-error"
-						onClick={(e) => hideModal()}
+						onClick={(e) => action(draftId)}
 					>
+						{btnValue}
+					</button>
+					<button className="btn btn-dark" onClick={(e) => hideModal()}>
 						Cancel
 					</button>
 				</div>

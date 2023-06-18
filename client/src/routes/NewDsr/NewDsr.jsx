@@ -169,12 +169,11 @@ function NewDsr() {
 				isOnLeave: false,
 				user: JSON.parse(localStorage.getItem("usercred")).id,
 			});
-		isUse && draftValue && setSelectedOption(draftValue.status);
+		isUse && draftValue && setSelectedOption(draftValue["status"]);
 	}, [isUse, draftValue]);
 
 	// --Handle data post for new DSR to API--
 	const handlePost = async (event) => {
-		console.log("run ho ja");
 		try {
 			const response = await fetch(
 				"https://new-web-app.onrender.com/add_dsr/",
@@ -196,7 +195,6 @@ function NewDsr() {
 			setIsLeave("");
 			await fetchLastDsr();
 			await fetchStatus();
-			console.log(response, "api response");
 		} catch (error) {
 			setMsgToShow("DSR-Not-Saved");
 			errorMsg();
@@ -206,14 +204,11 @@ function NewDsr() {
 	};
 
 	function handleSubmit(event) {
-		console.log("before validateForm");
 		event.preventDefault();
 
 		if (validateForm()) {
-			console.log("validateForm");
 			handlePost(event);
 		}
-		console.log("after validateForm");
 	}
 
 	// --End of Posting New DSR Data--
@@ -291,9 +286,8 @@ function NewDsr() {
 	});
 
 	// Handle Draft Save
-	const handleDraft = async (event) => {
+	const handleDraft = async () => {
 		try {
-			event.preventDefault();
 			const response = await fetch(
 				"https://new-web-app.onrender.com/add_draft/",
 				{
@@ -312,6 +306,7 @@ function NewDsr() {
 			data.errors ? errMsg() : verificationMsg();
 			setTimeout(closeMsg, 2500);
 		} catch (error) {
+			console.error("Error occurred:", error);
 			setMsgToShow("Draft-Not-Saved");
 			errorMsg();
 			setTimeout(closeMsg, 2500);
@@ -320,20 +315,20 @@ function NewDsr() {
 
 	// Draft Validation
 	const handleDraftSave = () => {
-		// Check if at least one field is filled
-		const isAnyFieldFilled = Object.values(draftData).some(
-			(value) => value !== ""
-		);
+		const isAnyFieldFilled = Object.keys(draftData).some((key) => {
+			if (key === "user") {
+				return false; // Ignore the "user" field
+			}
+			const value = dsrData[key];
+			return value !== "" && value !== false;
+		});
 
 		if (isAnyFieldFilled) {
 			handleDraft();
-			console.log("saved");
 		} else {
-			// Display validation error message
-			console.log("Please fill at least one field.");
-			setMsgToShow("Fill atleast one field to save the Draft 💀");
+			setMsgToShow("Draft-Empty");
+			errorMsg();
 			setTimeout(closeMsg, 2500);
-			console.log("not saved");
 		}
 	};
 
@@ -362,7 +357,7 @@ function NewDsr() {
 
 			const data = await response.json();
 			setMsgToShow("Marked-Leave");
-			!data ? errMsg() : verificationMsg();
+			!data ? errorMsg() : verificationMsg();
 			setTimeout(closeMsg, 2500);
 		} catch (error) {
 			setMsgToShow("Unmarked-Leave");
@@ -453,7 +448,6 @@ function NewDsr() {
 		}
 
 		setErrors(newErrors);
-		console.log(isValid, "isVlid");
 		return isValid;
 	};
 
@@ -469,8 +463,6 @@ function NewDsr() {
 		comment: "",
 		openIssues: "",
 	});
-
-	console.log("This is:", lastDsr);
 
 	const [isUpdated, setIsUpdated] = useState(false);
 	const [isEditable, setIsEditable] = useState(false);
@@ -495,15 +487,9 @@ function NewDsr() {
 		}
 	};
 
-	// useEffect(() => {
-	// 	fetchLastDsr();
-	// }, []);
-
 	useEffect(() => {
-		if (!isEditable) {
-			fetchLastDsr();
-		}
-	}, [isEditable]);
+		fetchLastDsr();
+	}, []);
 
 	const saveUpdate = async () => {
 		try {
@@ -580,6 +566,7 @@ function NewDsr() {
 	// Custom Dropdown
 	const [selectedOption, setSelectedOption] = useState("Project health");
 	const [isOpen, setIsOpen] = useState(false);
+
 	const options = [
 		{ label: "Green", color: "#00cc00" },
 		{ label: "Orange", color: "#FFBF00" },
@@ -587,8 +574,6 @@ function NewDsr() {
 	];
 
 	const handleOptionClick = (option) => {
-		console.log(option.label);
-
 		setSelectedOption(option.label);
 		setIsOpen(false);
 
@@ -639,6 +624,8 @@ function NewDsr() {
 										"DSR was not Saved! We are experiencing some problems! 💀"}
 									{msgToShow === "Draft-Not-Saved" &&
 										"Draft was not Saved! We are experiencing some problems! 💀"}
+									{msgToShow === "Draft-Empty" &&
+										"Fill atleast one field to save the draft! 💀"}
 									{msgToShow === "Unmarked-Leave" &&
 										"Unable to mark leave due to some internal issues! 💀"}
 									{msgToShow === "Noupdated-Dsr" &&
@@ -775,9 +762,9 @@ function NewDsr() {
 										</div>
 									</div>
 
-									<div className="input-row">
+									<div className="input-row input-row-spcl">
 										<div className="input__group-box">
-											<div className="input__group">
+											<div className="input__group row-group">
 												<input
 													type="number"
 													inputMode="numeric"
@@ -806,7 +793,7 @@ function NewDsr() {
 												)}
 											</div>
 
-											<div className="input__group">
+											<div className="input__group row-group">
 												<Dropdown
 													selectedOption={selectedOption}
 													isOpen={isOpen}
@@ -820,7 +807,8 @@ function NewDsr() {
 													htmlFor="health"
 													className="input__label input__label__area input-label"
 												>
-													Select Project Health <sup>&nbsp;</sup>
+													Select Project Health{" "}
+													<sup style={{ color: `red` }}>*</sup>
 												</label>
 											</div>
 										</div>
