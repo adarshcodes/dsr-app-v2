@@ -3,15 +3,18 @@
     @include flex-column;
     gap: 3rem;
     position: relative;
+
     .card-container {
       gap: 2rem;
       display: flex;
       overflow: scroll;
       flex-direction: column;
       padding: 2rem;
+
       h1 {
         font-weight: 400;
       }
+
       .today-dsr-container {
         div {
           display: flex;
@@ -26,6 +29,7 @@
         border: 0.15rem solid var(--border-color);
         padding: 1rem;
       }
+
       .stats-data {
         display: flex;
         min-width: 100%;
@@ -34,12 +38,14 @@
         justify-content: center;
         border: 0.15rem solid var(--border-color);
         border-radius: 0.4rem;
+
         section {
           flex-wrap: wrap;
           display: flex;
           justify-content: center;
           width: 100%;
           align-items: center;
+
           div {
             // border-right: 0.15rem solid var(--border-color);
             flex: 1;
@@ -50,15 +56,18 @@
             gap: 2rem;
             flex-direction: column;
             justify-content: space-between;
+
             h1 {
               font-size: 5rem;
               color: $swatch_3;
             }
+
             small {
               font-size: 1.9rem;
               color: $bez-1;
             }
           }
+
           div:last-child {
             border-right: none;
           }
