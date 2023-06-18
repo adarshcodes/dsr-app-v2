@@ -1060,7 +1060,7 @@ p {
 .login-container .login-card .heading-s {
   text-align: center;
   margin-bottom: 2rem;
-  font-size: 2.8rem;
+  font-size: 2.2rem;
 }
 @media screen and (max-width: 550px) {
   .login-container .login-card {
@@ -1091,7 +1091,7 @@ p {
   padding: 0 !important;
 }
 .form-part .form__input {
-  font-size: 1.8rem !important;
+  font-size: 1.7rem !important;
   font-weight: 400;
 }
 .form-part .input__label {
