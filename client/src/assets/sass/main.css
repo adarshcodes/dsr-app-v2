@@ -1091,7 +1091,8 @@ p {
   padding: 0 !important;
 }
 .form-part .form__input {
-  font-size: 2rem !important;
+  font-size: 1.8rem !important;
+  font-weight: 400;
 }
 .form-part .input__label {
   font-weight: 500 !important;
