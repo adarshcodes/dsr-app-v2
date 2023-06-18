@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import AnimatedComponent from "../../AnimatedComponent";
 import Logo from "../../assets/images/logo/favicon-1.png";
 import Quadrafort from "../../assets/images/logo/quadrafort-light.png";
+import LogoFavi from "../../assets/images/logo/favicon-1.png";
 import Icon from "../../assets/images/logo/ms.svg";
 
 // import * as msal from "msal";
@@ -260,7 +261,11 @@ function Login() {
 
 					<div className="part form-part">
 						<form className="form">
-							<h1 className="heading-s">Login</h1>
+							<div className="logo-part">
+								<img src={LogoFavi} alt="icon" className="favicon" />
+								<h1 className="heading-s">Login</h1>
+							</div>
+
 							<div className="input-row">
 								<div className="form-group">
 									<div className="input__group">
