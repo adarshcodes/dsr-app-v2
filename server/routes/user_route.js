@@ -5,11 +5,11 @@ const app = express();
 // Adds a user to the service. This is a POST request and will return a response
 app.post("/register", async (request, response) => {
   try {
-    request.body.email=request.body.email.toLowerCase();
+    request.body.email = request.body.email.toLowerCase();
     const existingUser = await userModel.findOne({ email: request.body.email });
     if (existingUser) {
       return response.sendStatus(710);
-    } 
+    }
     let adm = false;
     if (request.body.isAdmin == true) {
       adm = true;
@@ -27,40 +27,79 @@ app.post("/register", async (request, response) => {
   }
 });
 
+//
+
 // verify user when using custom login method
-app.post("/login", async (req,res)=>{
-  const user=await userModel.find({});
-  var userName=req.body.email;
-  var password=req.body.password;
+app.post("/login", async (req, res) => {
+  const user = await userModel.find({});
+  var userName = req.body.email;
+  var password = req.body.password;
   const i = user.findIndex(e => e.email === userName);
-  try{
+  try {
     if (i > -1) {
-      if(user[i].password===password){
+      if (user[i].password === password) {
         console.log("logged in");
         res.json({
-          id:user[i]._id,
-          name:user[i].name,
-          email:user[i].email,
-          isAdmin:user[i].isAdmin
+          id: user[i]._id,
+          name: user[i].name,
+          email: user[i].email,
+          isAdmin: user[i].isAdmin
         });
       }
-      else{
+      else {
         console.log("wrong password");
         res.json({
-          msg:"incorect password"
+          msg: "incorect password"
         });
       }
     }
-    else{
+    else {
       console.log("wrong username/email");
       res.json({
-        msg:"incorrect username/email"
+        msg: "incorrect username/email"
       });
-    }  
-  }catch (error) {
+    }
+  } catch (error) {
     response.status(500).send(error);
   }
 });
+
+//login with m,icrosoft
+
+app.post("/microsoft", async (req, res) => {
+  var userName = req.body.username;
+  var name = req.body.name;
+
+  const user = await userModel.find({ email: userName });
+
+  try {
+    if (!user) {
+      const newuser = new userModel({
+        name: name,
+        email: userName,
+      });
+      await newuser.save();
+      const saveduser = await userModel.find({ email: userName });
+      res.json({
+        id: saveduser._id,
+        name: saveduser.name,
+        email: saveduser.email,
+        isAdmin: saveduser.isAdmin
+      });
+    }
+    else {
+      res.json({
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        isAdmin: user.isAdmin
+      });
+    }
+  }
+  catch (error) {
+    response.status(500).send(error);
+  }
+})
 
 // Returns all users that are in the database. This is a GET request and should be used to make sure that we don't get an error from the service
 app.get("/users", async (request, response) => {
