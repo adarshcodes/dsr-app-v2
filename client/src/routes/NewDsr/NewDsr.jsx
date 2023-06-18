@@ -35,7 +35,7 @@ function NewDsr() {
 						"Content-Type": "application/json",
 					},
 					body: JSON.stringify({
-						user: JSON.parse(localStorage.getItem("usercred")).id,
+						user: JSON.parse(localStorage.getItem("usercred"))._id,
 					}),
 				}
 			);
@@ -89,7 +89,7 @@ function NewDsr() {
 		comment: "",
 		openIssues: "",
 		isOnLeave: false,
-		user: JSON.parse(localStorage.getItem("usercred")).id,
+		user: JSON.parse(localStorage.getItem("usercred"))._id,
 	});
 
 	// Setting data from input in the state for both the DSR data and Draft data --20-April-2023--Adarsh
@@ -167,7 +167,7 @@ function NewDsr() {
 				comment: draftValue.comment,
 				openIssues: draftValue.openIssues,
 				isOnLeave: false,
-				user: JSON.parse(localStorage.getItem("usercred")).id,
+				user: JSON.parse(localStorage.getItem("usercred"))._id,
 			});
 		isUse && draftValue && setSelectedOption(draftValue["status"]);
 	}, [isUse, draftValue]);
@@ -284,7 +284,7 @@ function NewDsr() {
 		comment: "",
 		openIssues: "",
 		isOnLeave: false,
-		user: JSON.parse(localStorage.getItem("usercred")).id,
+		user: JSON.parse(localStorage.getItem("usercred"))._id,
 	});
 
 	// Handle Draft Save
@@ -354,7 +354,7 @@ function NewDsr() {
 					"Content-Type": "application/json",
 				},
 				body: JSON.stringify({
-					user: JSON.parse(localStorage.getItem("usercred")).id,
+					user: JSON.parse(localStorage.getItem("usercred"))._id,
 				}),
 			});
 
@@ -479,7 +479,7 @@ function NewDsr() {
 					"Content-Type": "application/json",
 				},
 				body: JSON.stringify({
-					user: JSON.parse(localStorage.getItem("usercred")).id,
+					user: JSON.parse(localStorage.getItem("usercred"))._id,
 				}),
 			});
 
