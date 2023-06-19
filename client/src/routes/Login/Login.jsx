@@ -33,15 +33,49 @@ function Login() {
 
 	// Check if there is already an interaction in progress
 
+	async function handleMicrosoftLogin(account) {
+		try {
+			const response = await fetch(
+				"https://new-web-app.onrender.com/microsoft",
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify(account),
+				}
+			);
+
+			const data = await response.json();
+			if (data._id) {
+				await handleDataInput(data);
+				console.log(data);
+				setMsgToShow("Login");
+				data.errors ? errMsg() : verificationMsg();
+				setTimeout(closeMsg, 2500);
+				clearFields();
+			} else {
+				// handle login failure here, e.g. show an error message
+				setMsgToShow("LoginFailed");
+				errorMsg();
+				setTimeout(closeMsg, 2500);
+				console.log("Login failed.");
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
 	const login = async () => {
 		try {
 			// Try to get the user account silently
-			const accounts = await msalInstance.getAllAccounts();
+			const accounts = msalInstance.getAllAccounts();
 			const account = accounts[0];
 
 			// If an account is found, set the active account
 			if (account) {
 				msalInstance.setActiveAccount(account);
+				handleMicrosoftLogin(account);
 				// ... do something with the authenticated user
 			} else {
 				// If no account is found, initiate an interactive login request
