@@ -4,13 +4,13 @@ import { useNavigate } from "react-router-dom";
 import Logo from "../../assets/images/logo/logo-leaf.svg";
 import Avatar from "../../assets/images/avatar.jpg";
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
-import Modal from "../Modal/Modal";
 
 function Topbar({ ham, setHam, themeSwitch, theme, setTheme }) {
+  const [logout, setLogout] = useState(false);
   const navigate = useNavigate();
   const handleLogout = () => {
     localStorage.removeItem("usercred");
-    // localStorage.clear();
+    setLogout(true);
     setTheme(false);
     navigate("/login");
   };
@@ -38,16 +38,6 @@ function Topbar({ ham, setHam, themeSwitch, theme, setTheme }) {
           className={`ham ${ham ? "active-ham" : ""}`}
           onClick={() => setHam(!ham)}
         >
-          <Modal
-          // btnValue={"Delete"}
-          // modalHead={"Are you sure to delete this Draft?"}
-          // action={handleDeleteBtn}
-          // state={modal}
-          // setState={setModal}
-          // hideModal={hideModal}
-          // draftId={draftId}
-          />
-
           <label htmlFor="ham-click" id="ham">
             <div className="menu-icons">
               <div className="line line1"></div>

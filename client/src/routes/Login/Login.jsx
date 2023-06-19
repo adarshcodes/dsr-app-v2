@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import AnimatedComponent from "../../AnimatedComponent";
 import Logo from "../../assets/images/logo/favicon-1.png";
@@ -8,6 +8,7 @@ import Icon from "../../assets/images/logo/ms.svg";
 // import * as msal from "msal";
 import { PublicClientApplication } from "@azure/msal-browser";
 import { InteractionRequiredAuthError } from "@azure/msal-browser"; // Import the InteractionRequiredAuthError class from MSAL
+import { logOutMicrosoft } from "../../App";
 
 const config = {
   auth: {
@@ -27,7 +28,6 @@ const loginRequest = {
 
 function Login() {
   // msal auth
-  const [account, setAccount] = useState(null);
   const [error, setError] = useState(null);
 
   // Check if there is already an interaction in progress
@@ -48,6 +48,7 @@ function Login() {
       const data = await response.json();
       if (data._id) {
         await handleDataInput(data);
+        navigate("/");
         console.log(data);
         setMsgToShow("Login");
         data.errors ? errMsg() : verificationMsg();
@@ -74,14 +75,14 @@ function Login() {
       // If an account is found, set the active account
       if (account) {
         msalInstance.setActiveAccount(account);
-        handleMicrosoftLogin(account);
+        await handleMicrosoftLogin(account);
         // ... do something with the authenticated user
       } else {
         // If no account is found, initiate an interactive login request
         msalInstance
           .loginPopup(loginRequest)
           .then((response) => {
-            setAccount(response.account);
+            return response;
           })
           .catch((error) => {
             console.log(error);
@@ -102,18 +103,16 @@ function Login() {
     }
   };
 
-  // const logout = () => {
-  // 	const logoutRequest = {
-  // 		account: msalInstance.getAccountByHomeId(),
-  // 		mainWindowRedirectUri: "http://localhost:3000/",
-  // 	};
+  const logoutMicro = useContext(logOutMicrosoft);
 
-  // 	msalInstance.logoutPopup(logoutRequest);
-  // };
+  const logout = () => {
+    const logoutRequest = {
+      account: msalInstance.getAccountByHomeId(),
+      mainWindowRedirectUri: "http://localhost:3000/",
+    };
 
-  if (account) {
-    console.log(account.name);
-  }
+    msalInstance.logoutPopup(logoutRequest);
+  };
 
   const [userDetail, setUserDetail] = useState({
     email: "",
@@ -139,42 +138,42 @@ function Login() {
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (validateForm()) {
-      handleLogin(e);
-    }
-  };
+  //   const handleSubmit = (e) => {
+  //     e.preventDefault();
+  //     if (validateForm()) {
+  //       handleLogin(e);
+  //     }
+  //   };
 
-  function validateForm() {
-    let isValid = true;
+  //   function validateForm() {
+  //     let isValid = true;
 
-    const newErrors = {
-      email: "",
-      password: "",
-    };
+  //     const newErrors = {
+  //       email: "",
+  //       password: "",
+  //     };
 
-    // Email validation
-    if (!userDetail.email) {
-      newErrors.email = "Email is required";
-      isValid = false;
-    } else if (!userDetail.email.toLowerCase().endsWith("@quadrafort.com")) {
-      newErrors.email = "Use @quadrafort domain instead!";
-      isValid = false;
-    }
+  //     // Email validation
+  //     if (!userDetail.email) {
+  //       newErrors.email = "Email is required";
+  //       isValid = false;
+  //     } else if (!userDetail.email.toLowerCase().endsWith("@quadrafort.com")) {
+  //       newErrors.email = "Use @quadrafort domain instead!";
+  //       isValid = false;
+  //     }
 
-    // Password validation
-    if (!userDetail.password) {
-      newErrors.password = "Password is required";
-      isValid = false;
-    } else if (userDetail.password.length < 6) {
-      newErrors.password = "Password must be at least 6 characters long";
-      isValid = false;
-    }
+  //     // Password validation
+  //     if (!userDetail.password) {
+  //       newErrors.password = "Password is required";
+  //       isValid = false;
+  //     } else if (userDetail.password.length < 6) {
+  //       newErrors.password = "Password must be at least 6 characters long";
+  //       isValid = false;
+  //     }
 
-    setErrors(newErrors);
-    return isValid;
-  }
+  //     setErrors(newErrors);
+  //     return isValid;
+  //   }
 
   const handleDataInput = async (data) => {
     if (data) {
@@ -187,35 +186,35 @@ function Login() {
 
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
-    try {
-      const response = await fetch("https://new-web-app.onrender.com/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userDetail),
-      });
+  //   const handleLogin = async (e) => {
+  //     try {
+  //       const response = await fetch("https://new-web-app.onrender.com/login", {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify(userDetail),
+  //       });
 
-      const data = await response.json();
-      if (data.id) {
-        await handleDataInput(data);
-        console.log(data);
-        setMsgToShow("Login");
-        data.errors ? errMsg() : verificationMsg();
-        setTimeout(closeMsg, 2500);
-        clearFields();
-      } else {
-        // handle login failure here, e.g. show an error message
-        setMsgToShow("LoginFailed");
-        errorMsg();
-        setTimeout(closeMsg, 2500);
-        console.log("Login failed.");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //       const data = await response.json();
+  //       if (data.id) {
+  //         await handleDataInput(data);
+  //         console.log(data);
+  //         setMsgToShow("Login");
+  //         data.errors ? errMsg() : verificationMsg();
+  //         setTimeout(closeMsg, 2500);
+  //         clearFields();
+  //       } else {
+  //         // handle login failure here, e.g. show an error message
+  //         setMsgToShow("LoginFailed");
+  //         errorMsg();
+  //         setTimeout(closeMsg, 2500);
+  //         console.log("Login failed.");
+  //       }
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
 
   // Show message notification
   const [msgToShow, setMsgToShow] = useState();
@@ -341,7 +340,7 @@ function Login() {
               <button
                 type="submit"
                 className="btn btn-dark"
-                onClick={(e) => handleSubmit(e)}
+                // onClick={(e) => handleSubmit(e)}
               >
                 Sign in
               </button>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, memo } from "react";
+import React, { useEffect, useState, memo, createContext } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 import "./assets/sass/main.css";
@@ -24,12 +24,16 @@ function PrivateRoute({ element }) {
 
 const MemoizedPrivateRoute = memo(PrivateRoute);
 
-function App() {
+const logOutMicrosoft = createContext();
+
+export default function App() {
   // Authentication
   // console.log(JSON.parse(localStorage.getItem("usercred")));
 
   // Theme Switching
   let [theme, setTheme] = useState(false);
+
+  const [microFun, setMicrofun] = useState();
 
   let newTheme = false;
   function themeSwitch() {
@@ -61,7 +65,9 @@ function App() {
   return (
     <Routes>
       <>
-        <Route path="/login" element={<Login />} />
+        <logOutMicrosoft.Provider setMicrofun>
+          <Route path="/login" element={<Login />} />
+        </logOutMicrosoft.Provider>
         <Route path="/register" element={<Register />} />
       </>
 
@@ -95,5 +101,4 @@ function App() {
     </Routes>
   );
 }
-
-export default App;
+export { logOutMicrosoft };
