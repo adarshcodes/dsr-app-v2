@@ -7,7 +7,6 @@ const Dropdown = ({
 	options,
 	handleOptionClick,
 }) => {
-	console.log(selectedOption);
 	return (
 		<div className="dropdown">
 			<div

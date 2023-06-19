@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Logo from "../../assets/images/logo/logo-leaf.svg";
-import Avatar from "../../assets/images/avatar.jpg";
+// import Avatar from "../../assets/images/avatar.jpg";
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
 
 function Topbar({ ham, setHam, themeSwitch, theme, setTheme }) {
@@ -16,15 +16,21 @@ function Topbar({ ham, setHam, themeSwitch, theme, setTheme }) {
   };
 
   // To show greeting message based on time
+	// const [showProfile, setShowProfile] = useState(false);
 
-  const [userName] = useState(JSON.parse(localStorage.getItem("usercred")));
+	// function handleProfile() {
+	//   setShowProfile(true);
+	// }
+	// To show greeting message based on time
 
-  const hour = new Date().getHours();
-  const greet = ["Good morning", "Good afternoon", "Good evening"];
-  let welcomeText = "";
-  if (hour < 12) welcomeText = greet[0];
-  else if (hour < 18) welcomeText = greet[1];
-  else welcomeText = greet[2];
+	const [userName] = useState(JSON.parse(localStorage.getItem("usercred")));
+
+	const hour = new Date().getHours();
+	const greet = ["Good morning", "Good afternoon", "Good evening"];
+	let welcomeText = "";
+	if (hour < 12) welcomeText = greet[0];
+	else if (hour < 18) welcomeText = greet[1];
+	else welcomeText = greet[2];
 
   return (
     <div className="topbar">
@@ -42,31 +48,31 @@ function Topbar({ ham, setHam, themeSwitch, theme, setTheme }) {
           </label>
         </div>
 
-        <div className="logo-phone">
-          <img src={Logo} alt="Logo" />
-        </div>
+				<div className="logo-phone">
+					<img src={Logo} alt="Logo" />
+				</div>
 
-        <h4 className="heading-tiny">
-          {welcomeText},{" "}
-          <span className="highlight">{`${userName.name.split(" ")[0]}!`}</span>
-        </h4>
-      </div>
+				<h4 className="heading-tiny">
+					{welcomeText},{" "}
+					<span className="highlight">{`${userName.name.split(" ")[0]}!`}</span>
+				</h4>
+			</div>
 
-      <div className="topbar-ctas">
-        <div className="circle-cta">
-          <ThemeToggle themeSwitch={themeSwitch} theme={theme} />
-        </div>
+			<div className="topbar-ctas">
+				<div className="circle-cta">
+					<ThemeToggle themeSwitch={themeSwitch} theme={theme} />
+				</div>
 
-        <div className="avatar circle-cta">
-          <img src={Avatar} alt="avatar" />
-        </div>
+				{/* <div className="avatar circle-cta">
+					<img src={Avatar} alt="avatar" />
+				</div> */}
 
-        <div className="logout circle-cta" onClick={() => handleLogout()}>
-          <i className="fa-solid fa-arrow-right-from-bracket"></i>
-        </div>
-      </div>
-    </div>
-  );
+				<div className="logout circle-cta" onClick={() => handleLogout()}>
+					<i className="fa-solid fa-arrow-right-from-bracket"></i>
+				</div>
+			</div>
+		</div>
+	);
 }
 
 export default Topbar;

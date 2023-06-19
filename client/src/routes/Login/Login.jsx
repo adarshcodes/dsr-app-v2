@@ -28,6 +28,7 @@ const loginRequest = {
 
 function Login() {
   // msal auth
+  const [setAccount] = useState(null);
   const [error, setError] = useState(null);
 
   // Check if there is already an interaction in progress
@@ -48,7 +49,6 @@ function Login() {
       const data = await response.json();
       if (data._id) {
         await handleDataInput(data);
-        navigate("/");
         console.log(data);
         setMsgToShow("Login");
         data.errors ? errMsg() : verificationMsg();

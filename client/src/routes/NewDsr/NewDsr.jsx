@@ -195,7 +195,6 @@ function NewDsr() {
 			setIsLeave("");
 			await fetchLastDsr();
 			await fetchStatus();
-			console.log(response, "api response");
 		} catch (error) {
 			setMsgToShow("DSR-Not-Saved");
 			errorMsg();
@@ -208,7 +207,6 @@ function NewDsr() {
 		event.preventDefault();
 
 		if (validateForm()) {
-			console.log("validateForm");
 			handlePost(event);
 		}
 	}
@@ -303,7 +301,6 @@ function NewDsr() {
 
 			const data = await response.json();
 			// Clearing form after Submission
-			console.log("working here");
 			handleClear();
 			setMsgToShow("Draft-Saved");
 			data.errors ? errMsg() : verificationMsg();
@@ -451,7 +448,6 @@ function NewDsr() {
 		}
 
 		setErrors(newErrors);
-		console.log(isValid, "isVlid");
 		return isValid;
 	};
 
@@ -491,15 +487,9 @@ function NewDsr() {
 		}
 	};
 
-	// useEffect(() => {
-	// 	fetchLastDsr();
-	// }, []);
-
 	useEffect(() => {
-		if (!isEditable) {
-			fetchLastDsr();
-		}
-	}, [isEditable]);
+		fetchLastDsr();
+	}, []);
 
 	const saveUpdate = async () => {
 		try {
@@ -772,9 +762,9 @@ function NewDsr() {
 										</div>
 									</div>
 
-									<div className="input-row">
+									<div className="input-row input-row-spcl">
 										<div className="input__group-box">
-											<div className="input__group">
+											<div className="input__group row-group">
 												<input
 													type="number"
 													inputMode="numeric"
@@ -803,7 +793,7 @@ function NewDsr() {
 												)}
 											</div>
 
-											<div className="input__group">
+											<div className="input__group row-group">
 												<Dropdown
 													selectedOption={selectedOption}
 													isOpen={isOpen}
@@ -817,7 +807,8 @@ function NewDsr() {
 													htmlFor="health"
 													className="input__label input__label__area input-label"
 												>
-													Select Project Health <sup>&nbsp;</sup>
+													Select Project Health{" "}
+													<sup style={{ color: `red` }}>*</sup>
 												</label>
 											</div>
 										</div>
