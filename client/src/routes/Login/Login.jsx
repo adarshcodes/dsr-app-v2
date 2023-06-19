@@ -33,6 +33,7 @@ function Login() {
   // Check if there is already an interaction in progress
 
   async function handleMicrosoftLogin(account) {
+    console.log("handleMicrosoftLogin");
     try {
       const response = await fetch(
         "https://new-web-app.onrender.com/microsoft",
@@ -54,6 +55,8 @@ function Login() {
         setTimeout(closeMsg, 2500);
         clearFields();
       } else {
+        console.log("handleMiscrosoft Else");
+
         // handle login failure here, e.g. show an error message
         setMsgToShow("LoginFailed");
         errorMsg();
@@ -70,6 +73,7 @@ function Login() {
       // Try to get the user account silently
       const accounts = msalInstance.getAllAccounts();
       const account = accounts[0];
+      console.log(msalInstance.getAllAccounts());
 
       // If an account is found, set the active account
       if (account) {
@@ -77,10 +81,15 @@ function Login() {
         await handleMicrosoftLogin(account);
         // ... do something with the authenticated user
       } else {
+        console.log("login Else");
+
         // If no account is found, initiate an interactive login request
-        msalInstance
+        await msalInstance
           .loginPopup(loginRequest)
           .then((response) => {
+            if (response.account) {
+              login();
+            }
             return response;
           })
           .catch((error) => {
@@ -164,6 +173,7 @@ function Login() {
   }
 
   const handleDataInput = async (data) => {
+    console.log("handleDataInput");
     if (data) {
       localStorage.setItem("usercred", JSON.stringify(data));
     }
@@ -176,6 +186,8 @@ function Login() {
 
   const handleLogin = async (e) => {
     try {
+      console.log("handleLogin");
+
       const response = await fetch("https://new-web-app.onrender.com/login", {
         method: "POST",
         headers: {
