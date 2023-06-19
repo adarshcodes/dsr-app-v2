@@ -46,7 +46,7 @@ function Login() {
       );
 
       const data = await response.json();
-      if (data._id) {
+      if (data) {
         await handleDataInput(data);
         // console.log(data);
         setMsgToShow("Login");
@@ -101,15 +101,6 @@ function Login() {
       }
     }
   };
-
-  //   const logout = () => {
-  //     const logoutRequest = {
-  //       account: msalInstance.getAccountByHomeId(),
-  //       mainWindowRedirectUri: "http://localhost:3000/",
-  //     };
-
-  //     msalInstance.logoutPopup(logoutRequest);
-  //   };
 
   const [userDetail, setUserDetail] = useState({
     email: "",
@@ -355,7 +346,7 @@ function Login() {
               <div className="ms">
                 <div
                   className="btn btn-primary btn-light-shadow micro"
-                  onClick={login}
+                  onClick={() => login()}
                 >
                   <img src={Icon} alt="ms-login" />
                   <p>Sign in with Microsoft</p>
