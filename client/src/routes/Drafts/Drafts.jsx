@@ -5,246 +5,271 @@ import { transferData, takeData } from "../../parts/Dashboard/Dashboard";
 import RecentSkeleton from "../../components/Skeleton/RecentSkeleton";
 import Modal from "../../components/Modal/Modal";
 import { Link } from "react-router-dom";
+// import NewDsrSkeleton from "../../components/Skeleton/NewDsrSkeleton";
 
-let userId = "6448cd7e09f1d7a9cc85ba1e";
 function Drafts() {
-	// State to save drafts from API call
-	const [drafts, setDrafts] = useState([]);
-	// State to set the Loading skeleton
-	const [loading, setLoading] = useState(true);
+  // State to save drafts from API call
+  const [drafts, setDrafts] = useState([]);
+  // State to set the Loading skeleton
+  const [loading, setLoading] = useState(true);
 
-	// using the useContext to set the draftdata into the setDraftData function for newDSr.
-	const { setDraftData } = useContext(transferData);
-	const { setIsUse } = useContext(takeData);
+  // using the useContext to set the draftdata into the setDraftData function for newDSr.
+  const { setDraftData } = useContext(transferData);
+  const { setIsUse } = useContext(takeData);
 
-	function handleUse(index) {
-		setDraftData(drafts[index]);
-		setIsUse(true);
-	}
+  function handleUse(index) {
+    setDraftData(drafts[index]);
+    setIsUse(true);
+  }
 
-	// Fetching drafts data from API using Async
-	const fetchDrafts = async () => {
-		try {
-			setLoading(true);
-			const response = await fetch(
-				"https://new-web-app.onrender.com/users/draft",
-				{
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({ user: userId }),
-				}
-			);
-			const data = await response.json();
-			setDrafts(data);
-			setLoading(false);
-		} catch (error) {
-			console.error("Error:", error);
-		}
-	};
+  // Fetching drafts data from API using Async
+  const fetchDrafts = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch(
+        "https://new-web-app.onrender.com/users/draft",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            user: JSON.parse(localStorage.getItem("usercred"))._id,
+          }),
+        }
+      );
+      const data = await response.json();
+      setDrafts(data);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
-	useEffect(() => {
-		fetchDrafts();
-	}, []);
+  useEffect(() => {
+    fetchDrafts();
+  }, []);
 
-	// Deleting Drafts
-	async function deleteDraft(id) {
-		try {
-			const response = await fetch(
-				"https://new-web-app.onrender.com/draftdelete",
-				{
-					method: "DELETE",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({ draft: id }),
-				}
-			);
+  // Deleting Drafts
+  async function deleteDraft(id) {
+    try {
+      const response = await fetch(
+        "https://new-web-app.onrender.com/draftdelete",
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ draft: id }),
+        }
+      );
 
-			if (!response.ok) {
-				throw new Error("Network response was not ok");
-			}
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
 
-			const data = await response.json();
-			return data;
-		} catch (error) {
-			console.error("There was an error deleting the data:", error);
-		}
-	}
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("There was an error deleting the data:", error);
+    }
+  }
 
-	// Call deleteDraft and then fetchDrafts in sequence
-	async function handleDelete(draftId) {
-		try {
-			const deletedData = await deleteDraft(draftId);
-			verificationMsg();
-			setTimeout(closeMsg, 3000);
-			await fetchDrafts();
-			return deletedData;
-		} catch (error) {
-			console.error("Error:", error);
-		}
-	}
+  // Call deleteDraft and then fetchDrafts in sequence
+  async function handleDelete(draftId) {
+    try {
+      const deletedData = await deleteDraft(draftId);
+      verificationMsg();
+      setTimeout(closeMsg, 3000);
+      await fetchDrafts();
+      return deletedData;
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
 
-	function handleDeleteBtn(draftId) {
-		hideModal();
-		handleDelete(draftId);
-	}
+  function handleDeleteBtn(draftId) {
+    hideModal();
+    handleDelete(draftId);
+  }
 
-	const [modal, setModal] = useState(false);
+  const [modal, setModal] = useState(false);
 
-	useEffect(() => {
-		const container = document.querySelector(".container");
-		modal
-			? container.classList.add("remove-scroll")
-			: container.classList.remove("remove-scroll");
-	}, [modal]);
+  useEffect(() => {
+    const container = document.querySelector(".container");
+    modal
+      ? container.classList.add("remove-scroll")
+      : container.classList.remove("remove-scroll");
+  }, [modal]);
 
-	function showModal() {
-		setModal(true);
-	}
+  function showModal() {
+    setModal(true);
+  }
 
-	function hideModal() {
-		setModal(false);
-	}
+  function hideModal() {
+    setModal(false);
+  }
 
-	let draftId = 0;
+  let draftId = 0;
 
-	const [msg, setMsg] = useState(false);
+  const [msg, setMsg] = useState(false);
 
-	function verificationMsg() {
-		setMsg(true);
-	}
+  function verificationMsg() {
+    setMsg(true);
+  }
 
-	function closeMsg() {
-		setMsg(false);
-	}
+  function closeMsg() {
+    setMsg(false);
+  }
 
-	// Mapping drafts in to React component
-	const cardDraft = drafts.map((data, index) => {
-		// formatting date and time from API data
-		let date = new Date(data.date);
-		let year = date.getFullYear();
-		let month = date.getMonth();
-		let day = date.getDate();
+  // Checking if DSR is marked as Leave
+  const [isLeave, setIsLeave] = useState("");
 
-		// let hour = date.getHours();
-		// let min = date.getMinutes();
-		// let ampm = hour >= 12 ? "PM" : "AM";
-		// hour = hour % 12;
-		// hour = hour ? hour : 12; // the hour '0' should be '12'
-		// min = min < 10 ? "0" + min : min;
-		// let time = hour + ":" + min + " " + ampm;
+  const fetchStatus = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(
+        "https://new-web-app.onrender.com/todaystatus",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            user: JSON.parse(localStorage.getItem("usercred"))._id,
+          }),
+        }
+      );
+      const data = await response.json();
+      setIsLeave(data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
-		let monthArray = [
-			"Jan",
-			"Feb",
-			"March",
-			"April",
-			"May",
-			"June",
-			"July",
-			"Aug",
-			"Sept",
-			"Oct",
-			"Nov",
-			"Dec",
-		];
+  useEffect(() => {
+    fetchStatus();
+  }, []);
 
-		let dateOfCreation = day + " " + monthArray[month] + " " + year;
-		draftId = data._id;
+  // Mapping drafts in to React component
+  const cardDraft = drafts.map((data, index) => {
+    // formatting date and time from API data
+    let date = new Date(data.date);
+    let year = date.getFullYear();
+    let month = date.getMonth();
+    let day = date.getDate();
 
-		return (
-			<div key={data._id}>
-				<div className="draft-card recents-card card">
-					<div className="info">
-						<div className="data date">
-							<h4 className="heading-xs">Date of Creation</h4>
-							<p className="para date">{dateOfCreation}</p>
-						</div>
+    let monthArray = [
+      "Jan",
+      "Feb",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "Aug",
+      "Sept",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
 
-						<div className="data project-name">
-							<h4 className="heading-xs">Project Name</h4>
-							<p className="para para-bold">{data.projectName}</p>
-						</div>
+    let dateOfCreation = day + " " + monthArray[month] + " " + year;
+    draftId = data._id;
 
-						<div className="data hrs-worked">
-							<h4 className="heading-xs">Hours Worked</h4>
-							<p className="para">{data.hoursWorked} hrs</p>
-						</div>
+    return (
+      <div key={data._id}>
+        <div className="draft-card recents-card card">
+          <div className="info">
+            <div className="data date">
+              <h4 className="heading-xs">Date of Creation</h4>
+              <p className="para date">{dateOfCreation}</p>
+            </div>
 
-						<div className="data client-manager">
-							<h4 className="heading-xs">Client Manager</h4>
-							<p className="para">{data.clientManager}</p>
-						</div>
-					</div>
+            <div className="data project-name">
+              <h4 className="heading-xs">Project Name</h4>
+              <p className="para para-bold">{data.projectName}</p>
+            </div>
 
-					<div className="cta">
-						<Link
-							to="/"
-							className="btn btn-dark btn-view"
-							onClick={() => handleUse(data(index))}
-						>
-							Use
-						</Link>
+            <div className="data hrs-worked">
+              <h4 className="heading-xs">Hours Worked</h4>
+              <p className="para">{data.hoursWorked} hrs</p>
+            </div>
 
-						<button className="btn btn-dark btn-error" onClick={showModal}>
-							Delete
-						</button>
-					</div>
-				</div>
-			</div>
-		);
-	});
+            <div className="data client-manager">
+              <h4 className="heading-xs">Project Manager</h4>
+              <p className="para">{data.clientManager}</p>
+            </div>
+          </div>
 
-	return (
-		// Adding animated component to make the route change animated -- Adarsh(19-Apr)
-		<HelmetProvider>
-			<AnimatedComponent>
-				<Helmet>
-					<title>Your Saved Drafts | LeafLog-Quadrafort</title>
-				</Helmet>
-				<div className={`verification-cta ${msg ? "show-verification" : ""}`}>
-					<h3 className="heading-xs">Draft Deleted Successfully! 🎉</h3>
-				</div>
+          <div className="cta">
+            {isLeave === 0 ? (
+              <Link
+                to="/"
+                className="btn btn-dark btn-view"
+                onClick={() => handleUse(index)}
+              >
+                Use
+              </Link>
+            ) : (
+              ""
+            )}
 
-				{/* Modal confirmation */}
-				<Modal
-					btnValue={"Delete"}
-					modalHead={"Are you sure to delete this Draft?"}
-					action={handleDeleteBtn}
-					state={modal}
-					setState={setModal}
-					hideModal={hideModal}
-					draftId={draftId}
-				/>
+            <button className="btn btn-dark btn-error" onClick={showModal}>
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  });
 
-				<div className="recents">
-					<h3 className="heading-s">Your Saved Drafts</h3>
+  return (
+    // Adding animated component to make the route change animated -- Adarsh(19-Apr)
+    <HelmetProvider>
+      <AnimatedComponent>
+        <Helmet>
+          <title>Your Saved Drafts | LeafLog-Quadrafort</title>
+        </Helmet>
+        <div className={`verification-cta ${msg ? "show-verification" : ""}`}>
+          <h3 className="heading-xs">Draft Deleted Successfully! 🎉</h3>
+        </div>
 
-					<div className="recents-card-container card-container">
-						{cardDraft.length > 0 ? (
-							<div className="scroll-parent">
-								{loading
-									? Array.from({ length: 10 }, (_, i) => (
-											<RecentSkeleton key={i} />
-									  ))
-									: cardDraft}
-							</div>
-						) : (
-							<div className="blank-page">
-								<h3 className="heading-s">
-									<i className="fa-solid fa-mug-hot"></i>
-									<br /> There is no saved Drafts. <br />
-									You can save the draft from the New DSR page!
-								</h3>
-							</div>
-						)}
-					</div>
-				</div>
-			</AnimatedComponent>
-		</HelmetProvider>
-	);
+        {/* Modal confirmation */}
+        <Modal
+          btnValue={"Delete"}
+          modalHead={"Are you sure to delete this Draft?"}
+          action={handleDeleteBtn}
+          state={modal}
+          setState={setModal}
+          hideModal={hideModal}
+          draftId={draftId}
+        />
+
+        <div className="recents">
+          <h3 className="heading-s">Your Saved Drafts</h3>
+
+          <div className="recents-card-container card-container">
+            <div className="scroll-parent">
+              {loading ? (
+                Array.from({ length: 10 }, (_, i) => <RecentSkeleton key={i} />)
+              ) : cardDraft.length > 0 ? (
+                cardDraft
+              ) : (
+                <div className="blank-page">
+                  <h3 className="heading-s">
+                    <i className="fa-solid fa-mug-hot"></i>
+                    <br /> There is no saved Drafts. <br />
+                    You can save the draft from the New DSR page!
+                  </h3>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </AnimatedComponent>
+    </HelmetProvider>
+  );
 }
 
 export default Drafts;

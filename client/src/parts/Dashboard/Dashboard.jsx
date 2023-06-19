@@ -7,13 +7,12 @@ import Topbar from "../../components/Topbar/Topbar";
 export const transferData = createContext();
 export const takeData = createContext();
 
-function Dashboard({ theme, themeSwitch }) {
+function Dashboard({ theme, themeSwitch, setTheme }) {
 	const location = useLocation();
 	const [ham, setHam] = useState(false);
-	const [useDraft, setUseDraft] = React.useState({});
+	const [useDraft, setUseDraft] = useState({});
 
 	// variable to store data of the draft to provide it to newDsr comp.
-
 	const [draftValue, setDraftData] = useState();
 	const [isUse, setIsUse] = useState(false);
 
@@ -29,7 +28,13 @@ function Dashboard({ theme, themeSwitch }) {
 					/>
 
 					<section className="main-content">
-						<Topbar ham={ham} setHam={setHam} themeSwitch={themeSwitch} />
+						<Topbar
+							ham={ham}
+							setHam={setHam}
+							themeSwitch={themeSwitch}
+							theme={theme}
+							setTheme={setTheme}
+						/>
 
 						<div className="container">
 							<Outlet context={[useDraft, setUseDraft]} />

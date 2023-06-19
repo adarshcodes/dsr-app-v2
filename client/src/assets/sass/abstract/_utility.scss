@@ -3,27 +3,35 @@
 
 .form {
   @include flex-column;
-  gap: 2rem;
+  gap: 2.5rem;
 
   .input-row {
     flex: 1;
     @include flex-row;
     gap: 3rem;
-
+    flex-wrap: wrap;
     @media screen and (max-width: 500px) {
       flex-wrap: wrap;
       flex-direction: column;
     }
 
+    .input__group-box {
+      @include flex-row-spacebetween;
+      position: relative;
+      gap: 3rem;
+      flex: 1;
+      align-items: flex-start;
+    }
+
     .input__group {
       position: relative;
       @include flex-column;
-      gap: .2rem;
-      flex: 1;
+      flex-direction: column-reverse;
+      gap: 1rem;
+      flex: auto;
 
       textarea {
         resize: none;
-
         // @include customScroll;
         &::-webkit-scrollbar {
           width: 0.3rem;
@@ -31,46 +39,33 @@
 
         &::-webkit-scrollbar-track {
           background-color: var(--border-color);
-          border-radius: .1rem;
+          border-radius: 0.1rem;
         }
 
         &::-webkit-scrollbar-thumb {
           background-color: var(--primary-text);
-          border-radius: .1rem;
+          border-radius: 0.1rem;
         }
       }
     }
 
-    .input__group__area {
-      height: 10rem;
-    }
-
     .input__label {
-      font-size: 1.6rem;
-      font-weight: 300;
+      font-size: 1.8rem;
+      font-weight: 400;
       color: var(--primary-text);
       transition: all 0.3s $bez-1;
-      transform: translateX(0rem);
-
-      @media screen and (max-width: 600px) {
-        font-weight: 400;
-      }
     }
-
-    // .input__label__area {
-    //   transform: translate(0rem, -9rem);
-    // }
 
     .form__input {
       font-weight: 400;
-      flex: 1 1;
+      flex: 1;
       background-color: var(--light-section);
       border: none;
       font-family: inherit;
-      color: var(--primary-text);
-      border-bottom: 2px solid #084b3e;
+      color: var(--secondary-text);
+      border-bottom: 2px solid #018171;
       padding: 1.2rem 0rem 0.8rem 0;
-      font-size: 1.8rem;
+      font-size: 1.7rem;
       transition: all 0.3s cubic-bezier(0.5, 0, 0.5, 1.5);
 
       @media screen and (max-width: 600px) {
@@ -80,7 +75,7 @@
     }
 
     textarea {
-      padding-bottom: 0rem !important;
+      padding: 0.15rem 0 !important;
     }
 
     .form__input:focus {
@@ -88,7 +83,7 @@
     }
 
     .form__input:focus:invalid {
-      border-bottom: 2px solid #FA7161;
+      border-bottom: 1px solid #fa7161;
     }
 
     .form__input::-webkit-input-placeholder {
@@ -97,18 +92,20 @@
 
     .form__input::placeholder {
       color: #232323;
+      text-transform: capitalize;
     }
 
-    .form-input:placeholder-shown+.input-label {
-      opacity: 0;
-      visibility: hidden;
-      transform: translate(0rem, -4rem);
-    }
+    // .form-input:placeholder-shown+.input-label {
+    //   opacity: 0;
+    //   visibility: hidden;
+    //   transform: translate(0rem, -4rem);
+    // }
   }
 }
 
 .highlight {
-  color: $swatch_3;
+  text-transform: capitalize;
+  color: var(--swatch-3);
 }
 
 .circle-cta {
@@ -133,4 +130,59 @@
 .btn-row {
   flex-direction: row !important;
   gap: 1.5rem !important;
+}
+
+input,
+textarea {
+  &::placeholder {
+    color: var(--primary-text) !important;
+  }
+}
+
+.ql-container {
+  height: auto !important;
+
+  &:focus {
+    border-color: $color-success !important;
+  }
+}
+
+.ql-editor {
+  height: 15rem !important;
+  @include customScroll;
+  font-family: "League Spartan", sans-serif !important;
+  font-size: 1.7rem;
+}
+
+.quill {
+  &:focus-within .ql-container.ql-snow,
+  &:focus-within .ql-toolbar.ql-snow {
+    border-color: $color-success !important;
+  }
+}
+
+.ql-toolbar.ql-snow {
+  border-radius: 0.4rem 0.4rem 0 0;
+}
+
+.ql-container.ql-snow {
+  border-radius: 0 0 0.4rem 0.4rem;
+}
+
+.ql-snow.ql-toolbar button,
+.ql-snow .ql-toolbar button,
+.ql-snow.ql-toolbar button,
+.ql-snow .ql-toolbar button,
+.ql-snow.ql-toolbar button.ql-active,
+.ql-snow .ql-toolbar button.ql-active,
+.ql-snow.ql-toolbar .ql-picker-label,
+.ql-snow .ql-toolbar .ql-picker-label,
+.ql-snow.ql-toolbar .ql-picker-label.ql-active,
+.ql-snow .ql-toolbar .ql-picker-label.ql-active,
+.ql-snow.ql-toolbar .ql-picker-item,
+.ql-snow .ql-toolbar .ql-picker-item,
+.ql-snow.ql-toolbar .ql-picker-item.ql-selected,
+.ql-snow .ql-toolbar .ql-picker-item.ql-selected {
+  color: var(--primary-text) !important;
+  filter: contrast(0);
 }

@@ -93,7 +93,7 @@
         }
 
         .heading-s {
-            color: $color-success;
+            color: var(--color-success);
             text-align: center;
             line-height: 3rem;
 
@@ -118,7 +118,7 @@
     width: 40rem;
     height: 91.4vh;
     @include shadow-1;
-    top: 6rem;
+    top: 5.9rem;
     right: 0rem;
     transform: translateX(105%);
     transition: all .2s $bez-3;
@@ -138,7 +138,7 @@
         height: 3rem;
         border-radius: 100%;
         @include flex-row-center;
-        color: $color-error;
+        color: var(--color-error);
         @include shadow-2;
         cursor: pointer;
         background-color: var(--light-section);
@@ -165,7 +165,7 @@
                 padding: 0.6rem 1.5rem;
                 @include flex-row-spacebetween;
                 flex-wrap: wrap;
-                align-items: center;
+                align-items: flex-start;
                 gap: .5rem;
                 background-color: var(--background-hover);
 
@@ -183,7 +183,7 @@
 }
 
 .leave-cta {
-    color: $color-error;
+    color: var(--color-error);
     text-align: center;
 
     i {

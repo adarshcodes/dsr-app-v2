@@ -1,12 +1,12 @@
 import React from "react";
 
-function ThemeToggle({ themeSwitch }) {
+function ThemeToggle({ themeSwitch, theme }) {
 	return (
 		<div className="toggle-bx">
 			<input
 				id="toggle"
 				type="checkbox"
-				className="toggle modeSwitch"
+				className={`toggle modeSwitch ${theme ? "checked" : ""}`}
 				onClick={themeSwitch}
 			/>
 			<label htmlFor="toggle" className="toggle-label"></label>

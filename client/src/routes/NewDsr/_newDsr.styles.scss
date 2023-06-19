@@ -3,9 +3,18 @@
   flex-direction: column;
   gap: 2rem;
 
+  ul,
+  ol {
+    margin: .5rem 0;
+  }
+
   .uid-date {
     @include flex-column;
     gap: 2rem;
+
+    @media screen and (max-width: 500px) {
+      gap: 3rem;
+    }
 
     p {
       font-weight: 500;
@@ -45,22 +54,23 @@
   padding: 1.5rem 2rem;
   border-radius: .4rem 0 0 .4rem;
   right: 0;
-  border-left: 4px solid $color-success;
+  top: 7rem;
+  border-left: 4px solid var(--color-success);
   transition: all .2s $bez-3;
   transform: translateX(200%);
   z-index: 1000;
 
   .heading-xs {
     font-weight: 500;
-    color: $color-success;
+    color: var(--color-success);
   }
 }
 
 .error-cta {
-  border-left: 4px solid $color-error;
+  border-left: 4px solid var(--color-error);
 
   .heading-xs {
-    color: $color-error;
+    color: var(--color-error);
   }
 }
 
@@ -71,10 +81,18 @@
 .blank-container {
   height: 86vh !important;
 
+  ul,
+  ol {
+    margin: .8rem 0;
+    @include flex-column;
+    gap: .8rem;
+    margin-left: 1.8rem;
+  }
+
   .heading-m {
     line-height: 4rem;
     text-align: center;
-    color: $color-success;
+    color: var(--color-success);
     font-size: 2.2rem;
 
     i {
@@ -89,24 +107,21 @@
 
 .validation-error {
   position: absolute;
-  top: 27%;
+  bottom: -1.6rem;
   right: 0;
-  color: $color-error;
-  font-size: 1.5rem;
+  color: var(--color-error);
+  font-size: 1.4rem;
   font-weight: 400;
 }
 
-.textarea-error {
-  top: 55% !important;
-}
 
 .invalid-input {
-  border-color: $color-error !important;
+  border-color: var(--color-error) !important;
 }
 
 .valid-input {
   &:focus {
-    border-color: $color-success !important;
+    border-color: var(--color-success) !important;
   }
 }
 
@@ -115,19 +130,36 @@
 .edit-card {
   height: 100% !important;
   padding: 5rem 0 !important;
+
+  @media screen and (max-width: 700px) {
+    padding: 0 !important;
+  }
 }
 
 .dsr-edit-page {
   @include flex-column;
   gap: 3rem;
 
+  @media screen and (max-width: 700px) {
+    padding: 0 !important;
+  }
+
   .preview-edit {
-    width: 60rem;
+    width: 60%;
     @include flex-column;
     gap: 2rem;
     padding: 3rem 5rem;
     border-radius: .4rem;
     border: 1px solid var(--border-color);
+
+    @media screen and (max-width:1000px) {
+      width: 90%;
+    }
+
+    @media screen and (max-width: 600px) {
+      width: 100%;
+      padding: 3rem;
+    }
 
     .heading-s {
       font-size: 1.8rem;
@@ -138,7 +170,7 @@
     }
 
     .para {
-      color: $color-error;
+      color: var(--color-error);
       font-size: 1.7rem;
       text-align: center;
       font-weight: 500;
@@ -151,7 +183,33 @@
       .edit-input-row {
         width: 100%;
         @include flex-row-spacebetween;
+        align-items: flex-start;
         gap: 2rem;
+
+        .quill {
+          width: 50% !important;
+        }
+
+        .dropdown {
+          width: 50% !important;
+          border: #ccc 1px solid;
+          border-radius: .4rem;
+          padding: 0 1.2rem;
+        }
+
+        .dropdown-menu {
+          border-top: #ccc 1px solid;
+        }
+
+        .dropdown-toggle {
+          border-bottom: 0;
+        }
+
+        @media screen and (max-width: 450px) {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 1rem;
+        }
 
         label {
           font-size: 1.6rem;
@@ -161,15 +219,23 @@
         }
 
         input,
-        textarea {
+        textarea,
+        .rte {
           width: 50%;
-          padding: .5rem 1rem;
           outline: none;
-          border: 1px solid $swatch_2;
+          border: 1px solid #ccc;
           border-radius: .4rem;
           font-family: inherit;
           font-size: 1.6rem;
+          padding: .5rem 1rem;
+          font-weight: 500;
           transition: all .3s $bez-1;
+          color: var(--primary-text);
+          background: var(--light-section);
+
+          &:focus {
+            border-color: $color-success;
+          }
         }
 
         textarea {
@@ -180,7 +246,29 @@
           color: $noEditable;
           border: none;
           width: 40%;
+          padding: .5rem 0rem;
+          background: transparent;
         }
+      }
+    }
+  }
+}
+
+.login-form {
+  .input-row {
+
+    .form__input,
+    textarea,
+    .dropdown .dropdown-toggle {
+      padding: 1.2rem !important;
+      border: 1px solid #ccc;
+      border-radius: .4rem;
+    }
+
+    .form__input,
+    textarea {
+      &:focus {
+        border-color: $color-success !important;
       }
     }
   }

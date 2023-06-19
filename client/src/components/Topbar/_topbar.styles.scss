@@ -79,13 +79,14 @@
 
     .logout {
       font-size: 1.5rem;
+      cursor: pointer;
 
       @media screen and (max-width: 400px) {
         font-size: 1.2rem;
       }
 
       &:hover {
-        color: $color-error;
+        color: var(--color-error);
       }
     }
 
@@ -108,7 +109,7 @@
   .line1 {
     transform: rotate(-405deg) translate(-5.4px, 6.6px);
     width: 2.5rem !important;
-    background-color: $color-error;
+    background-color: var(--color-error);
   }
 
   .line2 {
@@ -118,6 +119,6 @@
   .line3 {
     transform: rotate(405deg) translate(-5px, -7.1px);
     width: 2.5rem !important;
-    background-color: $color-error;
+    background-color: var(--color-error);
   }
 }

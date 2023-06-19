@@ -9,13 +9,13 @@ h1,
 h2,
 h3,
 h4 {
-    color: $swatch_1;
+    color: var(--swatch-1);
     font-weight: 600;
 }
 
 p {
     font-weight: 500;
-    line-height: 2.4rem;
+    line-height: 1.6rem;
 }
 
 .heading-l {
@@ -51,10 +51,6 @@ p {
 
     @media screen and (max-width: 750px) {
         font-size: 2rem;
-    }
-
-    @media screen and (max-width: 450px) {
-        font-size: 1.8rem;
     }
 }
 
