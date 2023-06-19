@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Logo from "../../assets/images/logo/logo-leaf.svg";
-import Avatar from "../../assets/images/avatar.jpg";
+// import Avatar from "../../assets/images/avatar.jpg";
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
 import Modal from "../Modal/Modal";
 
@@ -72,9 +72,9 @@ function Topbar({ ham, setHam, themeSwitch, theme, setTheme }) {
 					<ThemeToggle themeSwitch={themeSwitch} theme={theme} />
 				</div>
 
-				<div className="avatar circle-cta">
+				{/* <div className="avatar circle-cta">
 					<img src={Avatar} alt="avatar" />
-				</div>
+				</div> */}
 
 				<div className="logout circle-cta" onClick={() => handleLogout()}>
 					<i className="fa-solid fa-arrow-right-from-bracket"></i>
