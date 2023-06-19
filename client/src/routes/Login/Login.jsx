@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import AnimatedComponent from "../../AnimatedComponent";
 import Logo from "../../assets/images/logo/favicon-1.png";
 import Quadrafort from "../../assets/images/logo/quadrafort-light.png";
@@ -28,7 +28,6 @@ const loginRequest = {
 
 function Login() {
 	// msal auth
-	const [account, setAccount] = useState(null);
 	const [error, setError] = useState(null);
 
 	// Check if there is already an interaction in progress
