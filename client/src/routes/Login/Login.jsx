@@ -112,10 +112,6 @@ function Login() {
 	// 	msalInstance.logoutPopup(logoutRequest);
 	// };
 
-	if (account) {
-		console.log(account.name);
-	}
-
 	const [userDetail, setUserDetail] = useState({
 		email: "",
 		password: "",
@@ -350,9 +346,9 @@ function Login() {
 							>
 								Sign in
 							</button>
-							<Link to={"/register"}>
+							{/* <Link to={"/register"}>
 								<p className="goto-register">New User? Register</p>
-							</Link>
+							</Link> */}
 
 							{/* Register using Microsoft */}
 							<p className="align-self">Or</p>

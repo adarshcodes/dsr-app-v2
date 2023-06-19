@@ -1261,13 +1261,18 @@ p {
   line-height: 4rem;
   text-align: center;
   color: var(--color-success);
-  font-size: 1.6rem;
+  font-size: 2.5rem;
 }
 .blank-container .heading-m i {
   font-size: 3.5rem;
 }
 .blank-container .heading-m img {
   width: 50%;
+}
+@media screen and (max-width: 750px) {
+  .blank-container .heading-m {
+    font-size: 2rem;
+  }
 }
 
 .validation-error {
