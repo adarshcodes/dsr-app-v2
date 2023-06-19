@@ -15,11 +15,6 @@ function Topbar({ ham, setHam, themeSwitch, theme, setTheme }) {
     navigate("/login");
   };
 
-  // const [showProfile, setShowProfile] = useState(false);
-
-  // function handleProfile() {
-  //   setShowProfile(true);
-  // }
   // To show greeting message based on time
 
   const [userName] = useState(JSON.parse(localStorage.getItem("usercred")));
