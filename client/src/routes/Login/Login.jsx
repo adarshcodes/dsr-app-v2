@@ -81,7 +81,7 @@ function Login() {
 				msalInstance
 					.loginPopup(loginRequest)
 					.then((response) => {
-						setAccount(response.account);
+						return response;
 					})
 					.catch((error) => {
 						console.log(error);
