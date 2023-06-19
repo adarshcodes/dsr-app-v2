@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import AnimatedComponent from "../../AnimatedComponent";
 import Logo from "../../assets/images/logo/favicon-1.png";
 import Quadrafort from "../../assets/images/logo/quadrafort-light.png";
@@ -28,27 +28,60 @@ const loginRequest = {
 
 function Login() {
 	// msal auth
-	const [account, setAccount] = useState(null);
 	const [error, setError] = useState(null);
 
 	// Check if there is already an interaction in progress
 
+	async function handleMicrosoftLogin(account) {
+		try {
+			const response = await fetch(
+				"https://new-web-app.onrender.com/microsoft",
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify(account),
+				}
+			);
+
+			const data = await response.json();
+			if (data._id) {
+				await handleDataInput(data);
+				console.log(data);
+				setMsgToShow("Login");
+				data.errors ? errMsg() : verificationMsg();
+				setTimeout(closeMsg, 2500);
+				clearFields();
+			} else {
+				// handle login failure here, e.g. show an error message
+				setMsgToShow("LoginFailed");
+				errorMsg();
+				setTimeout(closeMsg, 2500);
+				console.log("Login failed.");
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
 	const login = async () => {
 		try {
 			// Try to get the user account silently
-			const accounts = await msalInstance.getAllAccounts();
+			const accounts = msalInstance.getAllAccounts();
 			const account = accounts[0];
 
 			// If an account is found, set the active account
 			if (account) {
 				msalInstance.setActiveAccount(account);
+				handleMicrosoftLogin(account);
 				// ... do something with the authenticated user
 			} else {
 				// If no account is found, initiate an interactive login request
 				msalInstance
 					.loginPopup(loginRequest)
 					.then((response) => {
-						setAccount(response.account);
+						return response;
 					})
 					.catch((error) => {
 						console.log(error);
@@ -77,10 +110,6 @@ function Login() {
 
 	// 	msalInstance.logoutPopup(logoutRequest);
 	// };
-
-	if (account) {
-		console.log(account.name);
-	}
 
 	const [userDetail, setUserDetail] = useState({
 		email: "",
@@ -316,9 +345,9 @@ function Login() {
 							>
 								Sign in
 							</button>
-							<Link to={"/register"}>
+							{/* <Link to={"/register"}>
 								<p className="goto-register">New User? Register</p>
-							</Link>
+							</Link> */}
 
 							{/* Register using Microsoft */}
 							<p className="align-self">Or</p>

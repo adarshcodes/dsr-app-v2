@@ -27,46 +27,46 @@ const tabs = [
   },
 ];
 
-const adminTabs = [
-  {
-    id: 0,
+// const adminTabs = [
+//   {
+//     id: 0,
 
-    icon: <i className="fa-solid fa-tachograph-digital"></i>,
+//     icon: <i className="fa-solid fa-tachograph-digital"></i>,
 
-    tab: "Dashboard",
+//     tab: "Dashboard",
 
-    route: "/",
-  },
+//     route: "/",
+//   },
 
-  {
-    id: 1,
+//   {
+//     id: 1,
 
-    icon: <i className="fa-solid fa-sliders"></i>,
+//     icon: <i className="fa-solid fa-sliders"></i>,
 
-    tab: "Control",
+//     tab: "Control",
 
-    route: "/control",
-  },
-];
+//     route: "/control",
+//   },
+// ];
 
 function Sidebar({ location, ham, setHam, theme }) {
-  const adminRouteTab = adminTabs.map((data) => {
-    return (
-      <li
-        className={`route-list__items ${
-          data.route === location.pathname ? "active" : null
-        }`}
-        key={data.id}
-        onClick={(e) => setHam(!ham)}
-      >
-        <Link to={data.route} className="route-link">
-          {data.icon}
+  //   const adminRouteTab = adminTabs.map((data) => {
+  //     return (
+  //       <li
+  //         className={`route-list__items ${
+  //           data.route === location.pathname ? "active" : null
+  //         }`}
+  //         key={data.id}
+  //         onClick={(e) => setHam(!ham)}
+  //       >
+  //         <Link to={data.route} className="route-link">
+  //           {data.icon}
 
-          {data.tab}
-        </Link>
-      </li>
-    );
-  });
+  //           {data.tab}
+  //         </Link>
+  //       </li>
+  //     );
+  //   });
 
   const routeTab = tabs.map((data) => {
     return (
@@ -92,11 +92,7 @@ function Sidebar({ location, ham, setHam, theme }) {
       </div>
 
       <div className="sidebar__tabs">
-        <ul className="route-list">
-          {JSON.parse(localStorage.getItem("usercred")).isAdmin
-            ? adminRouteTab
-            : routeTab}
-        </ul>
+        <ul className="route-list">{routeTab}</ul>
       </div>
 
       <div className="bottom-branding">

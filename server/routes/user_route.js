@@ -5,11 +5,11 @@ const app = express();
 // Adds a user to the service. This is a POST request and will return a response
 app.post("/register", async (request, response) => {
   try {
-    request.body.email=request.body.email.toLowerCase();
+    request.body.email = request.body.email.toLowerCase();
     const existingUser = await userModel.findOne({ email: request.body.email });
     if (existingUser) {
       return response.sendStatus(710);
-    } 
+    }
     let adm = false;
     if (request.body.isAdmin == true) {
       adm = true;
@@ -27,37 +27,65 @@ app.post("/register", async (request, response) => {
   }
 });
 
+//
+
 // verify user when using custom login method
-app.post("/login", async (req,res)=>{
-  const user=await userModel.find({});
-  var userName=req.body.email;
-  var password=req.body.password;
-  const i = user.findIndex(e => e.email === userName);
-  try{
+app.post("/login", async (req, res) => {
+  const user = await userModel.find({});
+  var userName = req.body.email;
+  var password = req.body.password;
+  const i = user.findIndex((e) => e.email === userName);
+  try {
     if (i > -1) {
-      if(user[i].password===password){
+      if (user[i].password === password) {
         console.log("logged in");
         res.json({
-          id:user[i]._id,
-          name:user[i].name,
-          email:user[i].email,
-          isAdmin:user[i].isAdmin
+          id: user[i]._id,
+          name: user[i].name,
+          email: user[i].email,
+          isAdmin: user[i].isAdmin,
         });
-      }
-      else{
+      } else {
         console.log("wrong password");
         res.json({
-          msg:"incorect password"
+          msg: "incorect password",
         });
       }
-    }
-    else{
+    } else {
       console.log("wrong username/email");
       res.json({
-        msg:"incorrect username/email"
+        msg: "incorrect username/email",
       });
-    }  
-  }catch (error) {
+    }
+  } catch (error) {
+    response.status(500).send(error);
+  }
+});
+
+//login with m,icrosoft
+
+app.post("/microsoft", async (req, res) => {
+  var userName = req.body.username;
+  var name = req.body.name;
+
+  const user = await userModel.findOne({ email: userName });
+
+  try {
+    if (!user) {
+      const myDate = new Date(1950,0,1,0,0,0);
+      const newuser = new userModel({
+        name: name,
+        email: userName,
+        isAdmin: false,
+        lastdsrtime: myDate
+      });
+      await newuser.save();
+      const saveduser = await userModel.findOne({ email: userName });
+      res.send(saveduser);
+    } else {
+      res.send(user);
+    }
+  } catch (error) {
     response.status(500).send(error);
   }
 });
