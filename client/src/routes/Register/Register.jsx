@@ -3,6 +3,7 @@ import Logo from "../../assets/images/logo/favicon-1.png";
 import Quadrafort from "../../assets/images/logo/quadrafort-light.png";
 import { Link, useNavigate } from "react-router-dom";
 import AnimatedComponent from "../../AnimatedComponent";
+import LogoFavi from "../../assets/images/logo/favicon-1.png";
 
 function Register() {
 	const [registration, setRegistration] = useState({
@@ -178,7 +179,11 @@ function Register() {
 
 					<div className="part form-part">
 						<form className="form">
-							<h1 className="heading-s">Create an Account</h1>
+							<div className="logo-part">
+								<img src={LogoFavi} alt="icon" className="favicon" />
+								<h1 className="heading-s">Create an Account</h1>
+							</div>
+
 							<div className="input-row">
 								<div className="form-group">
 									<div className="input__group">

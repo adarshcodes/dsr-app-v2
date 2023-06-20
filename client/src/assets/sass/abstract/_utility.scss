@@ -10,6 +10,7 @@
     @include flex-row;
     gap: 3rem;
     flex-wrap: wrap;
+
     @media screen and (max-width: 500px) {
       flex-wrap: wrap;
       flex-direction: column;
@@ -32,6 +33,7 @@
 
       textarea {
         resize: none;
+
         // @include customScroll;
         &::-webkit-scrollbar {
           width: 0.3rem;
@@ -50,7 +52,7 @@
     }
 
     .input__label {
-      font-size: 1.8rem;
+      font-size: 2rem;
       font-weight: 400;
       color: var(--primary-text);
       transition: all 0.3s $bez-1;
@@ -65,11 +67,11 @@
       color: var(--secondary-text);
       border-bottom: 2px solid #018171;
       padding: 1.2rem 0rem 0.8rem 0;
-      font-size: 1.7rem;
+      font-size: 1.8rem;
       transition: all 0.3s cubic-bezier(0.5, 0, 0.5, 1.5);
 
       @media screen and (max-width: 600px) {
-        font-size: 1.6rem;
+        font-size: 1.8rem;
         font-weight: 500;
       }
     }
@@ -155,6 +157,7 @@ textarea {
 }
 
 .quill {
+
   &:focus-within .ql-container.ql-snow,
   &:focus-within .ql-toolbar.ql-snow {
     border-color: $color-success !important;

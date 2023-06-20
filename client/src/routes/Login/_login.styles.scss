@@ -36,6 +36,7 @@
         font-weight: 500;
         font-weight: 400;
         letter-spacing: .2rem;
+        line-height: 2.5rem;
       }
     }
 
@@ -113,7 +114,7 @@
 
             .error {
               color: $color-error;
-              font-size: 1.2rem;
+              font-size: 1.5rem;
               margin-top: 0.4rem;
             }
           }
@@ -150,5 +151,14 @@
         height: auto;
       }
     }
+  }
+}
+
+.logo-part {
+  @include flex-column;
+  align-items: center;
+
+  .favicon {
+    width: 6rem;
   }
 }

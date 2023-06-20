@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import AnimatedComponent from "../../AnimatedComponent";
 import Logo from "../../assets/images/logo/favicon-1.png";
 import Quadrafort from "../../assets/images/logo/quadrafort-light.png";
+import LogoFavi from "../../assets/images/logo/favicon-1.png";
 import Icon from "../../assets/images/logo/ms.svg";
 
 // import * as msal from "msal";
@@ -27,12 +28,12 @@ const loginRequest = {
 
 function Login() {
   // msal auth
-  const [account, setAccount] = useState(null);
   const [error, setError] = useState(null);
 
   // Check if there is already an interaction in progress
 
   async function handleMicrosoftLogin(account) {
+    console.log("handleMicrosoftLogin");
     try {
       const response = await fetch(
         "https://new-web-app.onrender.com/microsoft",
@@ -46,14 +47,16 @@ function Login() {
       );
 
       const data = await response.json();
-      if (data._id) {
+      if (data) {
         await handleDataInput(data);
-        console.log(data);
+        // console.log(data);
         setMsgToShow("Login");
         data.errors ? errMsg() : verificationMsg();
         setTimeout(closeMsg, 2500);
         clearFields();
       } else {
+        console.log("handleMiscrosoft Else");
+
         // handle login failure here, e.g. show an error message
         setMsgToShow("LoginFailed");
         errorMsg();
@@ -70,18 +73,24 @@ function Login() {
       // Try to get the user account silently
       const accounts = msalInstance.getAllAccounts();
       const account = accounts[0];
+      console.log(msalInstance.getAllAccounts());
 
       // If an account is found, set the active account
       if (account) {
         msalInstance.setActiveAccount(account);
-        handleMicrosoftLogin(account);
+        await handleMicrosoftLogin(account);
         // ... do something with the authenticated user
       } else {
+        console.log("login Else");
+
         // If no account is found, initiate an interactive login request
-        msalInstance
+        await msalInstance
           .loginPopup(loginRequest)
           .then((response) => {
-            setAccount(response.account);
+            if (response.account) {
+              login();
+            }
+            return response;
           })
           .catch((error) => {
             console.log(error);
@@ -101,19 +110,6 @@ function Login() {
       }
     }
   };
-
-  // const logout = () => {
-  // 	const logoutRequest = {
-  // 		account: msalInstance.getAccountByHomeId(),
-  // 		mainWindowRedirectUri: "http://localhost:3000/",
-  // 	};
-
-  // 	msalInstance.logoutPopup(logoutRequest);
-  // };
-
-  if (account) {
-    console.log(account.name);
-  }
 
   const [userDetail, setUserDetail] = useState({
     email: "",
@@ -177,6 +173,7 @@ function Login() {
   }
 
   const handleDataInput = async (data) => {
+    console.log("handleDataInput");
     if (data) {
       localStorage.setItem("usercred", JSON.stringify(data));
     }
@@ -189,6 +186,8 @@ function Login() {
 
   const handleLogin = async (e) => {
     try {
+      console.log("handleLogin");
+
       const response = await fetch("https://new-web-app.onrender.com/login", {
         method: "POST",
         headers: {
@@ -200,7 +199,7 @@ function Login() {
       const data = await response.json();
       if (data.id) {
         await handleDataInput(data);
-        console.log(data);
+        // console.log(data);
         setMsgToShow("Login");
         data.errors ? errMsg() : verificationMsg();
         setTimeout(closeMsg, 2500);
@@ -247,7 +246,7 @@ function Login() {
       password: "",
     });
 
-    console.log(error);
+    error && console.log(error);
   }
 
   return (
@@ -294,7 +293,11 @@ function Login() {
 
           <div className="part form-part">
             <form className="form">
-              <h1 className="heading-s">Login</h1>
+              <div className="logo-part">
+                <img src={LogoFavi} alt="icon" className="favicon" />
+                <h1 className="heading-s">Login</h1>
+              </div>
+
               <div className="input-row">
                 <div className="form-group">
                   <div className="input__group">
@@ -345,9 +348,9 @@ function Login() {
               >
                 Sign in
               </button>
-              <Link to={"/register"}>
-                <p className="goto-register">New User? Register</p>
-              </Link>
+              {/* <Link to={"/register"}>
+								<p className="goto-register">New User? Register</p>
+							</Link> */}
 
               {/* Register using Microsoft */}
               <p className="align-self">Or</p>
@@ -355,7 +358,7 @@ function Login() {
               <div className="ms">
                 <div
                   className="btn btn-primary btn-light-shadow micro"
-                  onClick={login}
+                  onClick={() => login()}
                 >
                   <img src={Icon} alt="ms-login" />
                   <p>Sign in with Microsoft</p>
