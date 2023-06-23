@@ -17,7 +17,7 @@ function WeeklyDsr() {
   const fetchData = async () => {
     setLoading(true);
     try {
-      setRecents(Api("users/dsr", "POST"));
+      setRecents(await Api("users/dsr", "POST"));
       setLoading(false);
     } catch (error) {
       console.error("Error:", error);
