@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import AnimatedComponent from "../../AnimatedComponent";
 import RecentSkeleton from "../../components/Skeleton/RecentSkeleton";
+import Api from "../../api/Api";
 
 // import { useOutletContext } from "react-router-dom";
 
@@ -16,20 +17,7 @@ function WeeklyDsr() {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const response = await fetch(
-        "https://new-web-app.onrender.com/users/dsr",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            user: JSON.parse(localStorage.getItem("usercred"))._id,
-          }),
-        }
-      );
-      const data = await response.json();
-      setRecents(data);
+      setRecents(Api("users/dsr", "POST"));
       setLoading(false);
     } catch (error) {
       console.error("Error:", error);
