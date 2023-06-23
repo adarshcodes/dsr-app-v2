@@ -5,6 +5,7 @@ import { transferData, takeData } from "../../parts/Dashboard/Dashboard";
 import RecentSkeleton from "../../components/Skeleton/RecentSkeleton";
 import Modal from "../../components/Modal/Modal";
 import { Link } from "react-router-dom";
+import Api from "../../api/Api";
 // import NewDsrSkeleton from "../../components/Skeleton/NewDsrSkeleton";
 
 function Drafts() {
@@ -24,22 +25,9 @@ function Drafts() {
 
   // Fetching drafts data from API using Async
   const fetchDrafts = async () => {
+    setLoading(true);
     try {
-      setLoading(true);
-      const response = await fetch(
-        "https://new-web-app.onrender.com/users/draft",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            user: JSON.parse(localStorage.getItem("usercred"))._id,
-          }),
-        }
-      );
-      const data = await response.json();
-      setDrafts(data);
+      setDrafts(await Api("/users/draft", "POST"));
       setLoading(false);
     } catch (error) {
       console.error("Error:", error);
@@ -53,23 +41,23 @@ function Drafts() {
   // Deleting Drafts
   async function deleteDraft(id) {
     try {
-      const response = await fetch(
-        "https://new-web-app.onrender.com/draftdelete",
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ draft: id }),
-        }
-      );
+      // const response = await fetch(
+      //   "https://new-web-app.onrender.com/draftdelete",
+      //   {
+      //     method: "DELETE",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //     },
+      //     body: JSON.stringify({ draft: id }),
+      //   }
+      // );
 
-      if (!response.ok) {
+      if (!(await Api("draftdelete", "POST").ok)) {
         throw new Error("Network response was not ok");
       }
 
-      const data = await response.json();
-      return data;
+      // const data = await response.json();
+      return await Api("draftdelete", "POST");
     } catch (error) {
       console.error("There was an error deleting the data:", error);
     }

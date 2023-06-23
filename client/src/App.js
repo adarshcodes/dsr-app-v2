@@ -8,6 +8,7 @@ import Drafts from "./routes/Drafts/Drafts";
 import Login from "./routes/Login/Login";
 import Register from "./routes/Register/Register";
 import Dashboard from "./parts/Dashboard/Dashboard";
+import Admindashboard from "./parts/Admin_dashboard/Admindashboard";
 
 function PrivateRoute({ element }) {
   const user = localStorage.getItem("usercred");
@@ -46,6 +47,7 @@ function App() {
     }
   }, [theme]);
 
+
   useEffect(() => {
     if (theme) {
       document.documentElement.classList.add("dark");
@@ -53,6 +55,12 @@ function App() {
       document.documentElement.classList.remove("dark");
     }
   }, [theme]);
+
+  const isAdmin =
+    localStorage.getItem("usercred") &&
+    JSON.parse(localStorage.getItem("usercred")).isAdmin;
+
+  // useEffect(() => {});
 
   return (
     <Routes>
@@ -66,19 +74,19 @@ function App() {
         element={
           <MemoizedPrivateRoute
             element={
-              // isAdmin ? (
-              //   <Admindashboard
-              //     theme={theme}
-              //     themeSwitch={themeSwitch}
-              //     setTheme={setTheme}
-              //   />
-              // ) : (
-              <Dashboard
-                theme={theme}
-                themeSwitch={themeSwitch}
-                setTheme={setTheme}
-              />
-              // )
+              isAdmin ? (
+                <Admindashboard
+                  theme={theme}
+                  themeSwitch={themeSwitch}
+                  setTheme={setTheme}
+                />
+              ) : (
+                <Dashboard
+                  theme={theme}
+                  themeSwitch={themeSwitch}
+                  setTheme={setTheme}
+                />
+              )
             }
           />
         }

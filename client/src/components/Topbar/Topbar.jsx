@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 import { PublicClientApplication } from "@azure/msal-browser";
 
@@ -9,13 +8,11 @@ import ThemeToggle from "../ThemeToggle/ThemeToggle";
 import Modal from "../Modal/Modal";
 
 function Topbar({ ham, setHam, themeSwitch, theme, setTheme }) {
-  const navigate = useNavigate();
   const handleLogout = () => {
     localStorage.removeItem("usercred");
     localStorage.clear();
     logout();
     setTheme(false);
-    navigate("/login");
   };
 
   //   const loginRequest = {
