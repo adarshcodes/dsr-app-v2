@@ -5,6 +5,7 @@ import { transferData, takeData } from "../../parts/Dashboard/Dashboard";
 import RecentSkeleton from "../../components/Skeleton/RecentSkeleton";
 import Modal from "../../components/Modal/Modal";
 import { Link } from "react-router-dom";
+import Api from "../../api/Api";
 // import NewDsrSkeleton from "../../components/Skeleton/NewDsrSkeleton";
 
 function Drafts() {
@@ -26,20 +27,7 @@ function Drafts() {
   const fetchDrafts = async () => {
     try {
       setLoading(true);
-      const response = await fetch(
-        "https://new-web-app.onrender.com/users/draft",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            user: JSON.parse(localStorage.getItem("usercred"))._id,
-          }),
-        }
-      );
-      const data = await response.json();
-      setDrafts(data);
+      setDrafts(await Api("users/draft", "POST"));
       setLoading(false);
     } catch (error) {
       console.error("Error:", error);
@@ -71,7 +59,7 @@ function Drafts() {
       const data = await response.json();
       return data;
     } catch (error) {
-      console.error("There was an error deleting the data:", error);
+      // console.error("There was an error deleting the data:", error);
     }
   }
 
