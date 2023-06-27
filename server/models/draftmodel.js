@@ -58,6 +58,6 @@ const DraftSchema = new mongoose.Schema({
   },
 });
 
-const Draft = mongoose.model("draft", DraftSchema);
+const Draft = mongoose.model("dsrDraft", DraftSchema);
 
 module.exports = Draft;

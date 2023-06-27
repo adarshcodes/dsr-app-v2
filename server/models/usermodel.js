@@ -12,10 +12,10 @@ const UserSchema = new mongoose.Schema({
   password: {
     type: String,
   },
-  lastdsrtime: {
+  lastDsrTime: {
     type: Date,
   },
-  isAdmin: {
+  dsr: {
     type: Boolean,
   },
 });

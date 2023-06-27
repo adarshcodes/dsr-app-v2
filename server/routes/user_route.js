@@ -1,6 +1,9 @@
 const express = require("express");
+const {generateToken, decodeToken} = require("../helpers/webToken.js");
 const userModel = require("../models/usermodel");
 const app = express();
+
+
 
 // Adds a user to the service. This is a POST request and will return a response
 app.post("/register", async (request, response) => {
@@ -10,15 +13,11 @@ app.post("/register", async (request, response) => {
     if (existingUser) {
       return response.sendStatus(710);
     }
-    let adm = false;
-    if (request.body.isAdmin == true) {
-      adm = true;
-    }
     const myDate = new Date(1950, 0, 1, 0, 0, 0);
     const user = new userModel({
       ...request.body,
-      isAdmin: adm,
-      lastdsrtime: myDate,
+      dsr: true,
+      lastDsrTime: myDate,
     });
     await user.save();
     response.send(user);
@@ -43,7 +42,7 @@ app.post("/login", async (req, res) => {
           id: user[i]._id,
           name: user[i].name,
           email: user[i].email,
-          isAdmin: user[i].isAdmin,
+          dsr: user[i].dsr,
         });
       } else {
         console.log("wrong password");
@@ -63,30 +62,32 @@ app.post("/login", async (req, res) => {
 });
 
 //login with m,icrosoft
-
 app.post("/microsoft", async (req, res) => {
   var userName = req.body.username;
   var name = req.body.name;
-
   const user = await userModel.findOne({ email: userName });
-
   try {
     if (!user) {
       const myDate = new Date(1950,0,1,0,0,0);
       const newuser = new userModel({
         name: name,
         email: userName,
-        isAdmin: false,
-        lastdsrtime: myDate
+        dsr: true,
+        lastDsrTime: myDate
       });
       await newuser.save();
-      const saveduser = await userModel.findOne({ email: userName });
-      res.send(saveduser);
+      const savedUser = await userModel.findOne({ email: userName });
+      const token=generateToken(savedUser);
+      console.log('jwt token',token);
+      console.log('id',savedUser._id);
+      res.send(token);
     } else {
-      res.send(user);
+      const token=generateToken(user);
+      console.log('jwt token',token);
+      res.send(token);
     }
   } catch (error) {
-    response.status(500).send(error);
+    res.status(500).send(error);
   }
 });
 
@@ -122,12 +123,12 @@ app.post("/finduser", async (request, response) => {
 app.post("/changedate", async (request, response) => {
   try {
     // Find all non-admin users
-    const users = await userModel.find({ isAdmin: false });
+    const users = await userModel.find({ dsr: true });
     const myDate = new Date(1950, 0, 1, 0, 0, 0);
 
     // Update lastdsrtime field for each user
     for (const user of users) {
-      user.lastdsrtime = myDate;
+      user.lastDsrTime = myDate;
       await user.save();
     }
 

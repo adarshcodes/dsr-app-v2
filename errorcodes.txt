@@ -7,3 +7,6 @@
 708 : Draft id not found
 709 : Dsr was deleted
 710 : user already exists
+
+deployment database: mongodb+srv://shivam:Qu%40dr%40fort%402023@quadrafortmgmt.dqshe2v.mongodb.net/
+test database: mongodb+srv://catalyst16812:nikhil11111@origindb.ginrwdp.mongodb.net/
