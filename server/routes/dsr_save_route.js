@@ -15,30 +15,41 @@ app.post("/add_dsr/", async (request, response) => {
   try {
     if (!uservalid) {
       return response.status(702).send("User id not found in database");
+    } else if (
+      !(
+        request.body.activitiesCompleted &&
+        request.body.activitiesPlanned &&
+        request.body.health &&
+        request.body.hoursWorked
+      )
+    ) {
+      return response.send("Please fill mandatory fields");
     } else {
       const date1 = new Date();
       const date2 = new Date(uservalid.lastDsrTime);
-      if ( date2.getDate() != date1.getDate() ||
+      if (
+        date2.getDate() != date1.getDate() ||
         (date2.getDate() == date1.getDate() &&
           date2.getMonth() != date1.getMonth()) ||
         (date2.getDate() == date1.getDate() &&
           date2.getMonth() == date1.getMonth() &&
-          date2.getFullYear() != date1.getFullYear())) {
-          const dsr = new dsrModel({
-            ...request.body,
-            created_by: decoded.user._id,
-            isUpdated: false,
-            dsrDate: date1,
-            isDraft: false,
-          });
-          await dsr.save();
-          uservalid.lastDsrTime = date1;
-          await uservalid.save();
-          response.send(dsr);
+          date2.getFullYear() != date1.getFullYear())
+      ) {
+        const dsr = new dsrModel({
+          ...request.body,
+          created_by: decoded.user._id,
+          isUpdated: false,
+          dsrDate: date1,
+          isDraft: false,
+        });
+        await dsr.save();
+        uservalid.lastDsrTime = date1;
+        await uservalid.save();
+        response.send(dsr);
       } else {
-            return response.status(703).send("Dsr is already saved for today");  
-        }
+        return response.status(703).send("Dsr is already saved for today");
       }
+    }
   } catch (error) {
     response.status(500).send(error);
   }
@@ -59,12 +70,14 @@ app.post("/onleave", async (request, response) => {
       const date1 = new Date();
       const date2 = new Date(uservalid.lastDsrTime);
       let savetime = date1;
-      if (date2.getDate() != date1.getDate() ||
-      (date2.getDate() == date1.getDate() &&
-        date2.getMonth() != date1.getMonth()) ||
-      (date2.getDate() == date1.getDate() &&
-        date2.getMonth() == date1.getMonth() &&
-        date2.getFullYear() != date1.getFullYear())) {
+      if (
+        date2.getDate() != date1.getDate() ||
+        (date2.getDate() == date1.getDate() &&
+          date2.getMonth() != date1.getMonth()) ||
+        (date2.getDate() == date1.getDate() &&
+          date2.getMonth() == date1.getMonth() &&
+          date2.getFullYear() != date1.getFullYear())
+      ) {
         uservalid.lastDsrTime = savetime;
         const dsr = new dsrModel({
           isUpdated: true,
@@ -83,12 +96,11 @@ app.post("/onleave", async (request, response) => {
         await dsr.save();
         await uservalid.save();
         response.send(dsr);
-      }else {
-            return response.status(703).send("Already Marked Leave for today");
-          }
-        }
+      } else {
+        return response.status(703).send("Already Marked Leave for today");
       }
-    catch (error) {
+    }
+  } catch (error) {
     response.status(500).send(error);
   }
 });
