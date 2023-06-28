@@ -9,6 +9,7 @@ import Icon from "../../assets/images/logo/ms.svg";
 // import * as msal from "msal";
 import { PublicClientApplication } from "@azure/msal-browser";
 import { InteractionRequiredAuthError } from "@azure/msal-browser"; // Import the InteractionRequiredAuthError class from MSAL
+import { base_url } from "../../api/base_url";
 
 const config = {
   auth: {
@@ -34,22 +35,24 @@ function Login() {
 
   async function handleMicrosoftLogin(account) {
     console.log("handleMicrosoftLogin");
+    const userData = { name: account.name, email: account.username };
+
+    localStorage.setItem("userdetails", JSON.stringify(userData));
+    console.log(userData);
+
     try {
-      const response = await fetch(
-        "https://new-web-app.onrender.com/microsoft",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(account),
-        }
-      );
+      const response = await fetch(base_url + "/user/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: account.username }),
+      });
 
       const data = await response.json();
       if (data) {
-        await handleDataInput(data);
-        // console.log(data);
+        await handleDataInput(data.authToken);
+        console.log(data.authToken);
         setMsgToShow("Login");
         data.errors ? errMsg() : verificationMsg();
         setTimeout(closeMsg, 2500);
@@ -73,7 +76,7 @@ function Login() {
       // Try to get the user account silently
       const accounts = msalInstance.getAllAccounts();
       const account = accounts[0];
-      console.log(msalInstance.getAllAccounts());
+      // console.log(msalInstance.getAllAccounts());
 
       // If an account is found, set the active account
       if (account) {
@@ -175,10 +178,10 @@ function Login() {
   const handleDataInput = async (data) => {
     console.log("handleDataInput");
     if (data) {
-      localStorage.setItem("usercred", JSON.stringify(data));
+      localStorage.setItem("authToken", data);
     }
-    if (localStorage.getItem("usercred")) {
-      navigate("/");
+    if (localStorage.getItem("authToken")) {
+      navigate("/newdsr");
     }
   };
 

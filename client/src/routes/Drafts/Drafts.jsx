@@ -5,7 +5,8 @@ import { transferData, takeData } from "../../parts/Dashboard/Dashboard";
 import RecentSkeleton from "../../components/Skeleton/RecentSkeleton";
 import Modal from "../../components/Modal/Modal";
 import { Link } from "react-router-dom";
-import Api from "../../api/Api";
+// import Api from "../../api/Api";
+import { base_url } from "../../api/base_url";
 // import NewDsrSkeleton from "../../components/Skeleton/NewDsrSkeleton";
 
 function Drafts() {
@@ -26,8 +27,18 @@ function Drafts() {
   // Fetching drafts data from API using Async
   const fetchDrafts = async () => {
     try {
-      setLoading(true);
-      setDrafts(await Api("users/draft", "POST"));
+      const response = await fetch(base_url + "/draft", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("authToken"),
+        },
+        //  body: JSON.stringify(lastDsr),
+      });
+
+      const data = await response.json();
+
+      setDrafts(data);
       setLoading(false);
     } catch (error) {
       console.error("Error:", error);
@@ -42,11 +53,12 @@ function Drafts() {
   async function deleteDraft(id) {
     try {
       const response = await fetch(
-        "https://new-web-app.onrender.com/draftdelete",
+        base_url + "/dsr/draft/delete/6499aeb450eaadba1eed3981",
         {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("authToken"),
           },
           body: JSON.stringify({ draft: id }),
         }
@@ -116,18 +128,16 @@ function Drafts() {
   const fetchStatus = async () => {
     setLoading(true);
     try {
-      const response = await fetch(
-        "https://new-web-app.onrender.com/todaystatus",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            user: JSON.parse(localStorage.getItem("usercred"))._id,
-          }),
-        }
-      );
+      const response = await fetch(base_url + "/dsr/today/status", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("authToken"),
+        },
+        // body: JSON.stringify({
+        //   user: JSON.parse(localStorage.getItem("usercred"))._id,
+        // }),
+      });
       const data = await response.json();
       setIsLeave(data);
     } catch (error) {
@@ -191,7 +201,7 @@ function Drafts() {
           </div>
 
           <div className="cta">
-            {isLeave === 0 ? (
+            {!isLeave ? (
               <Link
                 to="/"
                 className="btn btn-dark btn-view"

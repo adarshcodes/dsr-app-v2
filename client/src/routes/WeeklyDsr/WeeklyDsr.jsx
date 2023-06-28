@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import AnimatedComponent from "../../AnimatedComponent";
 import RecentSkeleton from "../../components/Skeleton/RecentSkeleton";
-import Api from "../../api/Api";
+// import Api from "../../api/Api";
+import { base_url } from "../../api/base_url";
 
 // import { useOutletContext } from "react-router-dom";
 
@@ -17,7 +18,18 @@ function WeeklyDsr() {
   const fetchData = async () => {
     setLoading(true);
     try {
-      setRecents(await Api("users/dsr", "POST"));
+      const response = await fetch(base_url + "/dsr/recent", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("authToken"),
+        },
+        // body: localStorage.getItem("authToken"),
+      });
+      const data = await response.json();
+      console.log(data.data);
+
+      setRecents(data.data);
       setLoading(false);
     } catch (error) {
       console.error("Error:", error);
@@ -31,7 +43,7 @@ function WeeklyDsr() {
   // Mapping fetched DSR to display as a card in recents tab
   const cardDsr = recents.map((data) => {
     // formatting date and time from API data
-    let date = new Date(data.date);
+    let date = new Date(data.createdAt);
     let year = date.getFullYear();
     let month = date.getMonth();
     let day = date.getDate();
@@ -77,7 +89,7 @@ function WeeklyDsr() {
 
               <div className="data project-name">
                 <h4 className="heading-xs">Project Name</h4>
-                <p className="para para-bold">{data.projectName}</p>
+                {/* <p className="para para-bold">{data.project}</p> */}
               </div>
 
               <div className="data hrs-worked">

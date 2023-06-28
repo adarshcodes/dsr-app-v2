@@ -1,3 +1,3 @@
-const base_url = "https://new-web-app.onrender.com/";
+const base_url = "http://10.10.120.17:6001/api";
 
 export { base_url };

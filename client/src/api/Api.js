@@ -4,11 +4,12 @@ async function Api(main, method, body) {
     method: method,
     headers: {
       "Content-Type": "application/json",
+      Authorization: localStorage.getItem("authToken"),
     },
     body: body
       ? JSON.stringify(body)
       : JSON.stringify({
-          user: JSON.parse(localStorage.getItem("usercred"))._id,
+          user: localStorage.getItem("authToken"),
         }),
   });
 
