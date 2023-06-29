@@ -37,7 +37,6 @@ function NewDsr() {
         // body: localStorage.getItem("authToken"),
       });
       const data = await response.json();
-      // console.log(data);
 
       setIsLeave(data);
       setLoading(false);
@@ -156,25 +155,30 @@ function NewDsr() {
     isUse &&
       draftValue &&
       setDsrData({
-        project: draftValue.project,
-        clientManager: draftValue.clientManager,
+        project: draftValue.project.name,
         activitiesCompleted: draftValue.activitiesCompleted,
         activitiesPlanned: draftValue.activitiesPlanned,
         hoursWorked: draftValue.hoursWorked,
-        status: draftValue.status,
+        health: draftValue.health,
         comment: draftValue.comment,
         openIssues: draftValue.openIssues,
-        isOnLeave: false,
+        // isOnLeave: false,
         // user: localStorage.getItem("authToken"),
       });
-    isUse && draftValue && setSelectedOption(draftValue["status"]);
-  }, [isUse, draftValue]);
+    isUse && draftValue && setSelectedOption(draftValue["health"]);
 
+    isUse &&
+      draftValue &&
+      setSelectedProject({
+        value: draftValue.project.name,
+        label: draftValue.project.name,
+        manager: draftValue.project.manager,
+        _id: draftValue._id,
+      });
+  }, [isUse, draftValue]);
   // --Handle data post for new DSR to API--
   const handlePost = async (event) => {
     try {
-      // console.log(dsrData);
-
       const response = await fetch(base_url + "/dsr/create", {
         method: "POST",
         headers: {
@@ -205,7 +209,6 @@ function NewDsr() {
     event.preventDefault();
 
     if (validateForm()) {
-      console.log("validating");
       handlePost(event);
     }
   }
@@ -229,7 +232,7 @@ function NewDsr() {
 
     setDraftData({
       ...dsrData,
-      project: "",
+      project: null,
       other_project: "",
       other_manager: "",
       activitiesCompleted: "",
@@ -251,6 +254,7 @@ function NewDsr() {
       hoursWorked: "",
     });
     setSelectedOption("Project health");
+    setSelectedProject("");
 
     setIsUse(false);
   };
@@ -300,6 +304,7 @@ function NewDsr() {
 
       const data = await response.json();
       // Clearing form after Submission
+
       handleClear();
       setMsgToShow("Draft-Saved");
       data.errors ? errMsg() : verificationMsg();
@@ -623,7 +628,7 @@ function NewDsr() {
       value: data.name,
       label: data.name,
       manager: data.manager,
-      id: data._id,
+      _id: data._id,
     };
   });
 
@@ -633,11 +638,13 @@ function NewDsr() {
     setSelectedProject(selectedOption);
     setDsrData({
       ...dsrData,
-      project: selectedOption ? selectedOption.id : null,
+      project: selectedOption ? selectedOption._id : null,
+    });
+    setDraftData({
+      ...draftData,
+      project: selectedOption ? selectedOption._id : null,
     });
   };
-
-  // console.log("dsr data:", dsrData);
 
   return (
     // Adding animated component to make the route change animated -- Adarsh(19-Apr)
@@ -713,7 +720,7 @@ function NewDsr() {
                   <div className="input-row">
                     <div className="input__group">
                       <Select
-                        value={selectedProject ? selectedProject : ""}
+                        value={selectedProject}
                         defaultValue="Select Project"
                         isMulti={false}
                         name="colors"

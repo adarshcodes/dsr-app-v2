@@ -27,7 +27,6 @@ function WeeklyDsr() {
         // body: localStorage.getItem("authToken"),
       });
       const data = await response.json();
-      console.log(data.data);
 
       setRecents(data.data);
       setLoading(false);

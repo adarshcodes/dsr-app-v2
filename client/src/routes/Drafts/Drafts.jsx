@@ -27,7 +27,7 @@ function Drafts() {
   // Fetching drafts data from API using Async
   const fetchDrafts = async () => {
     try {
-      const response = await fetch(base_url + "/draft", {
+      const response = await fetch(base_url + "/dsr/draft", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -38,7 +38,7 @@ function Drafts() {
 
       const data = await response.json();
 
-      setDrafts(data);
+      setDrafts(data.data);
       setLoading(false);
     } catch (error) {
       console.error("Error:", error);
@@ -52,17 +52,14 @@ function Drafts() {
   // Deleting Drafts
   async function deleteDraft(id) {
     try {
-      const response = await fetch(
-        base_url + "/dsr/draft/delete/6499aeb450eaadba1eed3981",
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + localStorage.getItem("authToken"),
-          },
-          body: JSON.stringify({ draft: id }),
-        }
-      );
+      const response = await fetch(base_url + `/dsr/draft/delete/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("authToken"),
+        },
+        body: JSON.stringify({ draft: id }),
+      });
 
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -139,7 +136,7 @@ function Drafts() {
         // }),
       });
       const data = await response.json();
-      setIsLeave(data);
+      setIsLeave(data.data);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -152,7 +149,7 @@ function Drafts() {
   // Mapping drafts in to React component
   const cardDraft = drafts.map((data, index) => {
     // formatting date and time from API data
-    let date = new Date(data.date);
+    let date = new Date(data.createdAt);
     let year = date.getFullYear();
     let month = date.getMonth();
     let day = date.getDate();
@@ -186,7 +183,7 @@ function Drafts() {
 
             <div className="data project-name">
               <h4 className="heading-xs">Project Name</h4>
-              <p className="para para-bold">{data.projectName}</p>
+              <p className="para para-bold">{data.project.name}</p>
             </div>
 
             <div className="data hrs-worked">
@@ -196,7 +193,7 @@ function Drafts() {
 
             <div className="data client-manager">
               <h4 className="heading-xs">Project Manager</h4>
-              <p className="para">{data.clientManager}</p>
+              <p className="para">{data.project.manager}</p>
             </div>
           </div>
 
