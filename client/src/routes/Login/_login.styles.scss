@@ -157,8 +157,9 @@
 .logo-part {
   @include flex-column;
   align-items: center;
+  gap: 1rem;
 
   .favicon {
-    width: 6rem;
+    width: 4.5rem;
   }
 }
