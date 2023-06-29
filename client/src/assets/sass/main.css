@@ -331,6 +331,7 @@ p {
 .para {
   font-size: 1.8rem;
   font-weight: 400;
+  word-wrap: break-word;
 }
 
 @keyframes float {
@@ -1692,12 +1693,14 @@ p {
   align-items: center;
   flex-wrap: wrap;
   align-items: flex-start;
-  gap: 0.5rem;
+  gap: 1rem;
   background-color: var(--background-hover);
 }
 .view-slider .dsr-details .details .data h4,
 .view-slider .dsr-details .details .data p {
   font-size: 1.6rem;
+  line-height: 2rem;
+  word-break: break-all;
 }
 
 .show-slider {
