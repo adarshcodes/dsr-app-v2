@@ -39,6 +39,8 @@ function WeeklyDsr() {
     fetchData();
   }, []);
 
+  console.log("recents", recents);
+
   // Mapping fetched DSR to display as a card in recents tab
   const cardDsr = recents.map((data) => {
     // formatting date and time from API data
@@ -70,6 +72,7 @@ function WeeklyDsr() {
       "Dec",
     ];
     let dateOfCreation = day + " " + monthArray[month] + " " + year;
+    console.log("dataProject", data);
 
     return (
       <div key={data._id}>
@@ -88,7 +91,11 @@ function WeeklyDsr() {
 
               <div className="data project-name">
                 <h4 className="heading-xs">Project</h4>
-                <p className="para para-bold">{data.project.name}</p>
+                <p className="para para-bold">
+                  {data.project !== undefined
+                    ? data.project.other_project
+                    : "Na"}
+                </p>
               </div>
 
               <div className="data hrs-worked">
@@ -98,7 +105,9 @@ function WeeklyDsr() {
 
               <div className="data client-manager">
                 <h4 className="heading-xs">Manager</h4>
-                <p className="para">{data.project.manager}</p>
+                <p className="para">
+                  {data.project !== undefined ? data.project.name : "Na"}
+                </p>
               </div>
             </div>
           )}
@@ -135,12 +144,20 @@ function WeeklyDsr() {
 
               <div className="data">
                 <h4 className="heading-xs">Project:</h4>
-                <p className="para">{data.project.name}</p>
+                <p className="para">
+                  {data.project !== undefined
+                    ? data.project.other_project
+                    : "Na"}
+                </p>
               </div>
 
               <div className="data">
                 <h4 className="heading-xs">Manager:</h4>
-                <p className="para">{data.project.manager}</p>
+                <p className="para">
+                  {data.project !== undefined
+                    ? data.project.other_manager
+                    : "Na"}
+                </p>
               </div>
 
               <div className="data">

@@ -8,7 +8,7 @@ import Modal from "../Modal/Modal";
 
 function Topbar({ ham, setHam, themeSwitch, theme, setTheme }) {
   const handleLogout = () => {
-    localStorage.removeItem("usercred");
+    // localStorage.removeItem("usercred");
     localStorage.clear();
     logout();
     setTheme(false);
