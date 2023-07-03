@@ -3,373 +3,376 @@ import { useNavigate } from "react-router-dom";
 import AnimatedComponent from "../../AnimatedComponent";
 import Logo from "../../assets/images/logo/favicon-1.png";
 import Quadrafort from "../../assets/images/logo/quadrafort-light.png";
-import LogoFavi from "../../assets/images/logo/favicon-1.png";
+import LogoFavi from "../../assets/images/logo/quadrafort-logo.png";
 import Icon from "../../assets/images/logo/ms.svg";
 
 // import * as msal from "msal";
 import { PublicClientApplication } from "@azure/msal-browser";
 import { InteractionRequiredAuthError } from "@azure/msal-browser"; // Import the InteractionRequiredAuthError class from MSAL
+import { base_url } from "../../api/base_url";
 
 const config = {
-  auth: {
-    clientId: "427bf882-77ea-49c0-853e-1676532387a7",
-    authority:
-      "https://login.microsoftonline.com/de7de043-fa62-4bc0-83e5-0466b479d2b7",
-    redirectUri: "http://localhost:3000/",
-    postLogoutRedirectUri: "http://localhost:3000/login",
-  },
+	auth: {
+		clientId: "427bf882-77ea-49c0-853e-1676532387a7",
+		authority:
+			"https://login.microsoftonline.com/de7de043-fa62-4bc0-83e5-0466b479d2b7",
+		redirectUri: "http://localhost:3000/",
+		postLogoutRedirectUri: "http://localhost:3000/login",
+	},
 };
 
 const msalInstance = new PublicClientApplication(config);
 const loginRequest = {
-  scopes: ["openid", "profile", "user.read"],
-  prompt: "select_account",
+	scopes: ["openid", "profile", "user.read"],
+	prompt: "select_account",
 };
 
 function Login() {
-  // msal auth
-  const [error, setError] = useState(null);
+	// msal auth
+	const [error, setError] = useState(null);
 
-  // Check if there is already an interaction in progress
+	// Check if there is already an interaction in progress
 
-  async function handleMicrosoftLogin(account) {
-    console.log("handleMicrosoftLogin");
-    try {
-      const response = await fetch(
-        "https://new-web-app.onrender.com/microsoft",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(account),
-        }
-      );
+	async function handleMicrosoftLogin(account) {
+		console.log("handleMicrosoftLogin");
+		const userData = { name: account.name, email: account.username };
 
-      const data = await response.json();
-      if (data) {
-        await handleDataInput(data);
-        // console.log(data);
-        setMsgToShow("Login");
-        data.errors ? errMsg() : verificationMsg();
-        setTimeout(closeMsg, 2500);
-        clearFields();
-      } else {
-        console.log("handleMiscrosoft Else");
+		localStorage.setItem("userdetails", JSON.stringify(userData));
+		console.log(userData);
 
-        // handle login failure here, e.g. show an error message
-        setMsgToShow("LoginFailed");
-        errorMsg();
-        setTimeout(closeMsg, 2500);
-        console.log("Login failed.");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
+		try {
+			const response = await fetch(base_url + "/user/login", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ email: account.username }),
+			});
 
-  const login = async () => {
-    try {
-      // Try to get the user account silently
-      const accounts = msalInstance.getAllAccounts();
-      const account = accounts[0];
-      console.log(msalInstance.getAllAccounts());
+			const data = await response.json();
+			if (data) {
+				await handleDataInput(data.authToken);
+				console.log(data.authToken);
+				setMsgToShow("Login");
+				data.errors ? errMsg() : verificationMsg();
+				setTimeout(closeMsg, 2500);
+				clearFields();
+			} else {
+				console.log("handleMiscrosoft Else");
 
-      // If an account is found, set the active account
-      if (account) {
-        msalInstance.setActiveAccount(account);
-        await handleMicrosoftLogin(account);
-        // ... do something with the authenticated user
-      } else {
-        console.log("login Else");
+				// handle login failure here, e.g. show an error message
+				setMsgToShow("LoginFailed");
+				errorMsg();
+				setTimeout(closeMsg, 2500);
+				console.log("Login failed.");
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	}
 
-        // If no account is found, initiate an interactive login request
-        await msalInstance
-          .loginPopup(loginRequest)
-          .then((response) => {
-            if (response.account) {
-              login();
-            }
-            return response;
-          })
-          .catch((error) => {
-            console.log(error);
-            setError(error);
-          });
-      }
-    } catch (error) {
-      // Check if the error is an InteractionRequiredAuthError
-      if (error instanceof InteractionRequiredAuthError) {
-        // Wait for the current interaction to complete before initiating a new one
-        setTimeout(() => {
-          login();
-        }, 1000);
-      } else {
-        // Handle other errors
-        // ...
-      }
-    }
-  };
+	const login = async () => {
+		try {
+			// Try to get the user account silently
+			const accounts = msalInstance.getAllAccounts();
+			const account = accounts[0];
+			// console.log(msalInstance.getAllAccounts());
 
-  const [userDetail, setUserDetail] = useState({
-    email: "",
-    password: "",
-  });
+			// If an account is found, set the active account
+			if (account) {
+				msalInstance.setActiveAccount(account);
+				await handleMicrosoftLogin(account);
+				// ... do something with the authenticated user
+			} else {
+				console.log("login Else");
 
-  const [errors, setErrors] = useState({
-    email: "",
-    password: "",
-  });
+				// If no account is found, initiate an interactive login request
+				await msalInstance
+					.loginPopup(loginRequest)
+					.then((response) => {
+						if (response.account) {
+							login();
+						}
+						return response;
+					})
+					.catch((error) => {
+						console.log(error);
+						setError(error);
+					});
+			}
+		} catch (error) {
+			// Check if the error is an InteractionRequiredAuthError
+			if (error instanceof InteractionRequiredAuthError) {
+				// Wait for the current interaction to complete before initiating a new one
+				setTimeout(() => {
+					login();
+				}, 1000);
+			} else {
+				// Handle other errors
+				// ...
+			}
+		}
+	};
 
-  const handleChange = (e) => {
-    const value = e.target.value.toLowerCase();
+	const [userDetail, setUserDetail] = useState({
+		email: "",
+		password: "",
+	});
 
-    setUserDetail({
-      ...userDetail,
-      [e.target.name]: value,
-    });
+	const [errors, setErrors] = useState({
+		email: "",
+		password: "",
+	});
 
-    setErrors({
-      ...errors,
-      [e.target.name]: "",
-    });
-  };
+	const handleChange = (e) => {
+		const value = e.target.value.toLowerCase();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (validateForm()) {
-      handleLogin(e);
-    }
-  };
+		setUserDetail({
+			...userDetail,
+			[e.target.name]: value,
+		});
 
-  function validateForm() {
-    let isValid = true;
+		setErrors({
+			...errors,
+			[e.target.name]: "",
+		});
+	};
 
-    const newErrors = {
-      email: "",
-      password: "",
-    };
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		if (validateForm()) {
+			handleLogin(e);
+		}
+	};
 
-    // Email validation
-    if (!userDetail.email) {
-      newErrors.email = "Email is required";
-      isValid = false;
-    } else if (!userDetail.email.toLowerCase().endsWith("@quadrafort.com")) {
-      newErrors.email = "Use @quadrafort domain instead!";
-      isValid = false;
-    }
+	function validateForm() {
+		let isValid = true;
 
-    // Password validation
-    if (!userDetail.password) {
-      newErrors.password = "Password is required";
-      isValid = false;
-    } else if (userDetail.password.length < 6) {
-      newErrors.password = "Password must be at least 6 characters long";
-      isValid = false;
-    }
+		const newErrors = {
+			email: "",
+			password: "",
+		};
 
-    setErrors(newErrors);
-    return isValid;
-  }
+		// Email validation
+		if (!userDetail.email) {
+			newErrors.email = "Email is required";
+			isValid = false;
+		} else if (!userDetail.email.toLowerCase().endsWith("@quadrafort.com")) {
+			newErrors.email = "Use @quadrafort domain instead!";
+			isValid = false;
+		}
 
-  const handleDataInput = async (data) => {
-    console.log("handleDataInput");
-    if (data) {
-      localStorage.setItem("usercred", JSON.stringify(data));
-    }
-    if (localStorage.getItem("usercred")) {
-      navigate("/");
-    }
-  };
+		// Password validation
+		if (!userDetail.password) {
+			newErrors.password = "Password is required";
+			isValid = false;
+		} else if (userDetail.password.length < 6) {
+			newErrors.password = "Password must be at least 6 characters long";
+			isValid = false;
+		}
 
-  const navigate = useNavigate();
+		setErrors(newErrors);
+		return isValid;
+	}
 
-  const handleLogin = async (e) => {
-    try {
-      console.log("handleLogin");
+	const handleDataInput = async (data) => {
+		console.log("handleDataInput");
+		if (data) {
+			localStorage.setItem("authToken", data);
+		}
+		if (localStorage.getItem("authToken")) {
+			navigate("/newdsr");
+		}
+	};
 
-      const response = await fetch("https://new-web-app.onrender.com/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userDetail),
-      });
+	const navigate = useNavigate();
 
-      const data = await response.json();
-      if (data.id) {
-        await handleDataInput(data);
-        // console.log(data);
-        setMsgToShow("Login");
-        data.errors ? errMsg() : verificationMsg();
-        setTimeout(closeMsg, 2500);
-        clearFields();
-      } else {
-        // handle login failure here, e.g. show an error message
-        setMsgToShow("LoginFailed");
-        errorMsg();
-        setTimeout(closeMsg, 2500);
-        console.log("Login failed.");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+	const handleLogin = async (e) => {
+		try {
+			console.log("handleLogin");
 
-  // Show message notification
-  const [msgToShow, setMsgToShow] = useState();
-  const [msg, setMsg] = useState(false);
-  const [errMsg, setErrMsg] = useState(false);
+			const response = await fetch("https://new-web-app.onrender.com/login", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(userDetail),
+			});
 
-  function verificationMsg() {
-    setMsg(true);
-  }
+			const data = await response.json();
+			if (data.id) {
+				await handleDataInput(data);
+				// console.log(data);
+				setMsgToShow("Login");
+				data.errors ? errMsg() : verificationMsg();
+				setTimeout(closeMsg, 2500);
+				clearFields();
+			} else {
+				// handle login failure here, e.g. show an error message
+				setMsgToShow("LoginFailed");
+				errorMsg();
+				setTimeout(closeMsg, 2500);
+				console.log("Login failed.");
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
 
-  function errorMsg() {
-    setErrMsg(true);
-  }
+	// Show message notification
+	const [msgToShow, setMsgToShow] = useState();
+	const [msg, setMsg] = useState(false);
+	const [errMsg, setErrMsg] = useState(false);
 
-  function closeMsg() {
-    setMsg(false);
-    setErrMsg(false);
-  }
+	function verificationMsg() {
+		setMsg(true);
+	}
 
-  // Clearing State
-  function clearFields() {
-    setUserDetail({
-      email: "",
-      password: "",
-    });
+	function errorMsg() {
+		setErrMsg(true);
+	}
 
-    setErrors({
-      email: "",
-      password: "",
-    });
+	function closeMsg() {
+		setMsg(false);
+		setErrMsg(false);
+	}
 
-    error && console.log(error);
-  }
+	// Clearing State
+	function clearFields() {
+		setUserDetail({
+			email: "",
+			password: "",
+		});
 
-  return (
-    // Adding animated component to make the route change animated -- Adarsh(19-Apr)
-    <AnimatedComponent>
-      <div className="login-container">
-        <div className={`verification-cta ${msg ? "show-verification" : ""}`}>
-          <h3 className="heading-xs">
-            {msgToShow === "Login" && "Welcome Back! 🎉"}
-          </h3>
-        </div>
+		setErrors({
+			email: "",
+			password: "",
+		});
 
-        <div
-          className={`verification-cta error-cta ${
-            errMsg ? "show-verification" : ""
-          }`}
-        >
-          <h3 className="heading-xs">
-            {msgToShow === "LoginFailed" &&
-              "Please check your Email and Password! 💀"}
-          </h3>
-        </div>
+		error && console.log(error);
+	}
 
-        <div className="login-card">
-          <div className="part text-part">
-            <div className="top-part">
-              <div className="logo-part">
-                <img src={Logo} alt="logo" className="logo" />
-                <h1 className="heading-s">LeafLog</h1>
-              </div>
+	return (
+		// Adding animated component to make the route change animated -- Adarsh(19-Apr)
+		<AnimatedComponent>
+			<div className="login-container">
+				<div className={`verification-cta ${msg ? "show-verification" : ""}`}>
+					<h3 className="heading-xs">
+						{msgToShow === "Login" && "Welcome Back! 🎉"}
+					</h3>
+				</div>
 
-              <p className="para">
-                Welcome Back! <br /> Sign In to Manage your DSR.
-              </p>
-              <div className="branding">
-                <img
-                  src={Quadrafort}
-                  alt="Quadrafort"
-                  className="quadra-logo"
-                />
-              </div>
-            </div>
-          </div>
+				<div
+					className={`verification-cta error-cta ${
+						errMsg ? "show-verification" : ""
+					}`}
+				>
+					<h3 className="heading-xs">
+						{msgToShow === "LoginFailed" &&
+							"Please check your Email and Password! 💀"}
+					</h3>
+				</div>
 
-          <div className="part form-part">
-            <form className="form">
-              <div className="logo-part">
-                <img src={LogoFavi} alt="icon" className="favicon" />
-                <h1 className="heading-s">Login</h1>
-              </div>
+				<div className="login-card">
+					<div className="part text-part">
+						<div className="top-part">
+							<div className="logo-part">
+								<img src={Logo} alt="logo" className="logo" />
+								<h1 className="heading-s">LeafLog</h1>
+							</div>
 
-              <div className="input-row">
-                <div className="form-group">
-                  <div className="input__group">
-                    <label htmlFor="email" className="input__label">
-                      Email
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      placeholder="@Quadrafort.com"
-                      className="form__input"
-                      name="email"
-                      value={userDetail.email}
-                      onChange={handleChange}
-                      required
-                    />
+							<p className="para">
+								Welcome Back! <br /> Sign In to Manage your DSR.
+							</p>
+							<div className="branding">
+								<img
+									src={Quadrafort}
+									alt="Quadrafort"
+									className="quadra-logo"
+								/>
+							</div>
+						</div>
+					</div>
 
-                    {errors.email && (
-                      <div className="error">{errors.email}</div>
-                    )}
-                  </div>
-                  <div className="input__group">
-                    <label htmlFor="password" className="input__label">
-                      Password
-                    </label>
-                    <input
-                      type="password"
-                      id="password"
-                      name="password"
-                      placeholder="Enter Your Password"
-                      className="form__input"
-                      value={userDetail.password}
-                      onChange={handleChange}
-                      required
-                    />
+					<div className="part form-part">
+						<form className="form">
+							<div className="logo-part">
+								<img src={LogoFavi} alt="icon" className="favicon" />
+								<h1 className="heading-s">Login</h1>
+							</div>
 
-                    {errors.password && (
-                      <div className="error">{errors.password}</div>
-                    )}
-                  </div>
-                </div>
-              </div>
-              {/* <Link to="/" className="align-self"> */}
-              <button
-                type="submit"
-                className="btn btn-dark"
-                onClick={(e) => handleSubmit(e)}
-              >
-                Sign in
-              </button>
-              {/* <Link to={"/register"}>
+							<div className="input-row">
+								<div className="form-group">
+									<div className="input__group">
+										<label htmlFor="email" className="input__label">
+											Email
+										</label>
+										<input
+											type="email"
+											id="email"
+											placeholder="@Quadrafort.com"
+											className="form__input"
+											name="email"
+											value={userDetail.email}
+											onChange={handleChange}
+											required
+										/>
+
+										{errors.email && (
+											<div className="error">{errors.email}</div>
+										)}
+									</div>
+									<div className="input__group">
+										<label htmlFor="password" className="input__label">
+											Password
+										</label>
+										<input
+											type="password"
+											id="password"
+											name="password"
+											placeholder="Enter Your Password"
+											className="form__input"
+											value={userDetail.password}
+											onChange={handleChange}
+											required
+										/>
+
+										{errors.password && (
+											<div className="error">{errors.password}</div>
+										)}
+									</div>
+								</div>
+							</div>
+							{/* <Link to="/" className="align-self"> */}
+							<button
+								type="submit"
+								className="btn btn-dark"
+								onClick={(e) => handleSubmit(e)}
+							>
+								Sign in
+							</button>
+							{/* <Link to={"/register"}>
 								<p className="goto-register">New User? Register</p>
 							</Link> */}
 
-              {/* Register using Microsoft */}
-              <p className="align-self">Or</p>
+							{/* Register using Microsoft */}
+							<p className="align-self">Or</p>
 
-              <div className="ms">
-                <div
-                  className="btn btn-primary btn-light-shadow micro"
-                  onClick={() => login()}
-                >
-                  <img src={Icon} alt="ms-login" />
-                  <p>Sign in with Microsoft</p>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </AnimatedComponent>
-  );
+							<div className="ms">
+								<div
+									className="btn btn-primary btn-light-shadow micro"
+									onClick={() => login()}
+								>
+									<img src={Icon} alt="ms-login" />
+									<p>Sign in with Microsoft</p>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</AnimatedComponent>
+	);
 }
 
 export default Login;

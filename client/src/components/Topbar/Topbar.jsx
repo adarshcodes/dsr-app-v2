@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-
 import { PublicClientApplication } from "@azure/msal-browser";
 
 import Logo from "../../assets/images/logo/logo-leaf.svg";
@@ -9,19 +7,13 @@ import ThemeToggle from "../ThemeToggle/ThemeToggle";
 import Modal from "../Modal/Modal";
 
 function Topbar({ ham, setHam, themeSwitch, theme, setTheme }) {
-  const navigate = useNavigate();
   const handleLogout = () => {
-    localStorage.removeItem("usercred");
+    // localStorage.removeItem("usercred");
     localStorage.clear();
     logout();
     setTheme(false);
-    navigate("/login");
+    // navigate("/login");
   };
-
-  //   const loginRequest = {
-  //     scopes: ["openid", "profile", "user.read"],
-  //     prompt: "select_account",
-  //   };
 
   const config = {
     auth: {
@@ -50,7 +42,7 @@ function Topbar({ ham, setHam, themeSwitch, theme, setTheme }) {
   // }
   // To show greeting message based on time
 
-  const [userName] = useState(JSON.parse(localStorage.getItem("usercred")));
+  const [userName] = useState(JSON.parse(localStorage.getItem("userdetails")));
 
   const hour = new Date().getHours();
   const greet = ["Good morning", "Good afternoon", "Good evening"];

@@ -10,9 +10,9 @@ import Register from "./routes/Register/Register";
 import Dashboard from "./parts/Dashboard/Dashboard";
 
 function PrivateRoute({ element }) {
-  const user = localStorage.getItem("usercred");
-  const microsoftUser = localStorage.getItem("MicrosoftUserData");
-  if (user || microsoftUser) {
+  const user = localStorage.getItem("authToken");
+  // const microsoftUser = localStorage.getItem("MicrosoftUserData");
+  if (user) {
     return element;
   } else {
     return <Navigate to="/login" replace />;
@@ -66,19 +66,11 @@ function App() {
         element={
           <MemoizedPrivateRoute
             element={
-              // isAdmin ? (
-              //   <Admindashboard
-              //     theme={theme}
-              //     themeSwitch={themeSwitch}
-              //     setTheme={setTheme}
-              //   />
-              // ) : (
               <Dashboard
                 theme={theme}
                 themeSwitch={themeSwitch}
                 setTheme={setTheme}
               />
-              // )
             }
           />
         }

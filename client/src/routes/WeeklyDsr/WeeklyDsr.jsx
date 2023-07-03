@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import AnimatedComponent from "../../AnimatedComponent";
 import RecentSkeleton from "../../components/Skeleton/RecentSkeleton";
+// import Api from "../../api/Api";
+import { base_url } from "../../api/base_url";
 
 // import { useOutletContext } from "react-router-dom";
 
@@ -16,20 +18,17 @@ function WeeklyDsr() {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const response = await fetch(
-        "https://new-web-app.onrender.com/users/dsr",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            user: JSON.parse(localStorage.getItem("usercred"))._id,
-          }),
-        }
-      );
+      const response = await fetch(base_url + "/dsr/recent", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("authToken"),
+        },
+        // body: localStorage.getItem("authToken"),
+      });
       const data = await response.json();
-      setRecents(data);
+
+      setRecents(data.data);
       setLoading(false);
     } catch (error) {
       console.error("Error:", error);
@@ -40,10 +39,12 @@ function WeeklyDsr() {
     fetchData();
   }, []);
 
+  console.log("recents", recents);
+
   // Mapping fetched DSR to display as a card in recents tab
   const cardDsr = recents.map((data) => {
     // formatting date and time from API data
-    let date = new Date(data.date);
+    let date = new Date(data.createdAt);
     let year = date.getFullYear();
     let month = date.getMonth();
     let day = date.getDate();
@@ -71,6 +72,7 @@ function WeeklyDsr() {
       "Dec",
     ];
     let dateOfCreation = day + " " + monthArray[month] + " " + year;
+    console.log("dataProject", data);
 
     return (
       <div key={data._id}>
@@ -88,8 +90,12 @@ function WeeklyDsr() {
               </div>
 
               <div className="data project-name">
-                <h4 className="heading-xs">Project Name</h4>
-                <p className="para para-bold">{data.projectName}</p>
+                <h4 className="heading-xs">Project</h4>
+                <p className="para para-bold">
+                  {data.project !== undefined
+                    ? data.project.other_project
+                    : "Na"}
+                </p>
               </div>
 
               <div className="data hrs-worked">
@@ -98,8 +104,10 @@ function WeeklyDsr() {
               </div>
 
               <div className="data client-manager">
-                <h4 className="heading-xs">Client Manager</h4>
-                <p className="para">{data.clientManager}</p>
+                <h4 className="heading-xs">Manager</h4>
+                <p className="para">
+                  {data.project !== undefined ? data.project.name : "Na"}
+                </p>
               </div>
             </div>
           )}
@@ -136,12 +144,20 @@ function WeeklyDsr() {
 
               <div className="data">
                 <h4 className="heading-xs">Project:</h4>
-                <p className="para">{data.projectName}</p>
+                <p className="para">
+                  {data.project !== undefined
+                    ? data.project.other_project
+                    : "Na"}
+                </p>
               </div>
 
               <div className="data">
-                <h4 className="heading-xs">Client Manager:</h4>
-                <p className="para">{data.clientManager}</p>
+                <h4 className="heading-xs">Manager:</h4>
+                <p className="para">
+                  {data.project !== undefined
+                    ? data.project.other_manager
+                    : "Na"}
+                </p>
               </div>
 
               <div className="data">
@@ -151,8 +167,8 @@ function WeeklyDsr() {
 
               <div className="data">
                 <h4 className="heading-xs">Project Health:</h4>
-                <p className="para" style={{ color: `${data.status}` }}>
-                  {data.status}
+                <p className="para" style={{ color: `${data.health}` }}>
+                  {data.health}
                 </p>
               </div>
 
