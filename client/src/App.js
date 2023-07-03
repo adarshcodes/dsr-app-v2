@@ -1,5 +1,5 @@
 import React, { useEffect, useState, memo } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, HashRouter } from "react-router-dom";
 
 import "./assets/sass/main.css";
 import NewDsr from "./routes/NewDsr/NewDsr";
@@ -55,32 +55,34 @@ function App() {
   }, [theme]);
 
   return (
-    <Routes>
-      <>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-      </>
+    <HashRouter>
+      <Routes>
+        <>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </>
 
-      <Route
-        path="/"
-        element={
-          <MemoizedPrivateRoute
-            element={
-              <Dashboard
-                theme={theme}
-                themeSwitch={themeSwitch}
-                setTheme={setTheme}
-              />
-            }
-          />
-        }
-      >
-        <Route path="/" element={<NewDsr />} />
-        <Route path="/recents" element={<WeeklyDsr />} />
-        <Route path="/drafts" element={<Drafts />} />
-      </Route>
-      <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
+        <Route
+          path="/"
+          element={
+            <MemoizedPrivateRoute
+              element={
+                <Dashboard
+                  theme={theme}
+                  themeSwitch={themeSwitch}
+                  setTheme={setTheme}
+                />
+              }
+            />
+          }
+        >
+          <Route path="/" element={<NewDsr />} />
+          <Route path="/recents" element={<WeeklyDsr />} />
+          <Route path="/drafts" element={<Drafts />} />
+        </Route>
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </HashRouter>
   );
 }
 
