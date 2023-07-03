@@ -55,34 +55,32 @@ function App() {
   }, [theme]);
 
   return (
-    <HashRouter>
-      <Routes>
-        <>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-        </>
+    <Routes>
+      <>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+      </>
 
-        <Route
-          path="/"
-          element={
-            <MemoizedPrivateRoute
-              element={
-                <Dashboard
-                  theme={theme}
-                  themeSwitch={themeSwitch}
-                  setTheme={setTheme}
-                />
-              }
-            />
-          }
-        >
-          <Route path="/" element={<NewDsr />} />
-          <Route path="/recents" element={<WeeklyDsr />} />
-          <Route path="/drafts" element={<Drafts />} />
-        </Route>
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-    </HashRouter>
+      <Route
+        path="/"
+        element={
+          <MemoizedPrivateRoute
+            element={
+              <Dashboard
+                theme={theme}
+                themeSwitch={themeSwitch}
+                setTheme={setTheme}
+              />
+            }
+          />
+        }
+      >
+        <Route path="/" element={<NewDsr />} />
+        <Route path="/recents" element={<WeeklyDsr />} />
+        <Route path="/drafts" element={<Drafts />} />
+      </Route>
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
   );
 }
 
