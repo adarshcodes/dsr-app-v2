@@ -53,6 +53,7 @@ function Login() {
       if (data) {
         await handleDataInput(data.authToken);
         console.log(data.authToken);
+        console.log(data);
         setMsgToShow("Login");
         data.errors ? errMsg() : verificationMsg();
         setTimeout(closeMsg, 2500);

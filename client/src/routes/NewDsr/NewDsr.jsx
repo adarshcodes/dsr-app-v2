@@ -9,6 +9,7 @@ import Select from "react-select";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { base_url } from "../../api/base_url";
+import { Navigate } from "react-router-dom";
 
 /*
 Written the Code of NewDSR and made it responsive --- Ayush
@@ -37,10 +38,11 @@ function NewDsr() {
         // body: localStorage.getItem("authToken"),
       });
       const data = await response.json();
-
+      if (data.status === 403) return <Navigate to="/login" replace />;
       setIsLeave(data);
       console.log(data);
       setLoading(false);
+      // !data && <Navigate to="/login" replace />;
     } catch (error) {
       console.error("Error:", error);
     }
