@@ -260,9 +260,11 @@
           color: $noEditable;
           border: none;
           width: 40%;
+
           @media screen and (max-width: 450px) {
             width: 100%;
           }
+
           padding: 0.5rem 0rem;
           background: transparent;
         }
@@ -273,6 +275,7 @@
 
 .login-form {
   .input-row {
+
     .form__input,
     textarea,
     .dropdown .dropdown-toggle {
@@ -304,4 +307,71 @@
       }
     }
   }
+}
+
+
+.new-dsr-card {
+
+  .input__group,
+  .input__group__area {
+    width: 48%;
+
+    @media screen and (max-width: 500px) {
+      width: 100%;
+    }
+  }
+
+  @media screen and (max-width: 1200px) {
+    .input__group__area__spcl {
+      width: 100% !important;
+    }
+  }
+
+  .disabled {
+    background-color: var(--message-box-border) !important;
+  }
+}
+
+.login-form .input-row .disabled:focus {
+  border-color: #ccc !important;
+}
+
+.css-13cymwt-control {
+  padding: .5rem;
+}
+
+.uid-date {
+  gap: 5rem !important;
+
+  .heading-s {
+    font-size: 2.2rem;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .quill {
+    max-width: calc(60vw + 14.5rem) !important;
+  }
+}
+
+@media screen and (max-width: 585px) {
+  .quill {
+    max-width: calc(60vw + 12.5rem) !important;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .quill {
+    max-width: calc(60vw + 8.5rem) !important;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .quill {
+    max-width: calc(60vw + 6rem) !important;
+  }
+}
+
+.quill {
+  max-width: 70vw;
 }
