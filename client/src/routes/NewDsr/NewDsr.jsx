@@ -39,6 +39,7 @@ function NewDsr() {
       const data = await response.json();
 
       setIsLeave(data);
+      console.log(data);
       setLoading(false);
     } catch (error) {
       console.error("Error:", error);
@@ -651,7 +652,7 @@ function NewDsr() {
           <title>Create New DSR | LeafLog-Quadrafort</title>
         </Helmet>
         <div className="container-box">
-          {isLeave && loading && <NewDsrSkeleton />}
+          {loading && <NewDsrSkeleton />}
 
           {!isLeave.submitted && (
             <div className="new-dsr">

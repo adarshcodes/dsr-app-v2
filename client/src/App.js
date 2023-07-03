@@ -66,19 +66,11 @@ function App() {
         element={
           <MemoizedPrivateRoute
             element={
-              // isAdmin ? (
-              //   <Admindashboard
-              //     theme={theme}
-              //     themeSwitch={themeSwitch}
-              //     setTheme={setTheme}
-              //   />
-              // ) : (
               <Dashboard
                 theme={theme}
                 themeSwitch={themeSwitch}
                 setTheme={setTheme}
               />
-              // )
             }
           />
         }
