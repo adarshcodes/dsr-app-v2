@@ -654,7 +654,7 @@ function NewDsr() {
         <div className="container-box">
           {loading && <NewDsrSkeleton />}
 
-          {!isLeave.submitted && (
+          {!loading && !isLeave.submitted && !isLeave.leave && (
             <div className="new-dsr">
               {/* Notification Messages */}
               <div
@@ -996,17 +996,17 @@ function NewDsr() {
             </div>
           )}
 
-          {isLeave.submitted && (
+          {!loading && isLeave.submitted && !isLeave.leave && (
             <div className="blank-container card-container edit-card">
               <div className="blank-page dsr-edit-page">
                 <h1 className="heading-m">
                   <i className="fa-solid fa-person-hiking"></i>
                   <br />
-                  {`${
-                    !isUpdated
-                      ? "You've already filled the DSR. Do you want to edit?"
-                      : "You've already edited the DSR. You can't edit again!"
-                  }`}
+                  {/* {`${
+										!isUpdated
+											? "You've already filled the DSR. Do you want to edit?"
+											: "You've already edited the DSR. You can't edit again!"
+									}`} */}
                   You've already filled the DSR.
                 </h1>
 
@@ -1152,39 +1152,40 @@ function NewDsr() {
 
                   {/* Showing edit or update button based on if it is edited once or not */}
 
-                  {!isUpdated ? (
-                    !isEditable ? (
-                      <button
-                        className="btn btn-dark btn-edit"
-                        onClick={editDsr}
-                      >
-                        Edit
-                      </button>
-                    ) : (
-                      <button
-                        className="btn btn-dark btn-edit"
-                        onClick={updateDsr}
-                      >
-                        Update
-                      </button>
-                    )
-                  ) : (
-                    ""
-                  )}
+                  {/* {!isUpdated ? (
+										!isEditable ? (
+											<button
+												className="btn btn-dark btn-edit"
+												onClick={editDsr}
+											>
+												Edit
+											</button>
+										) : (
+											<button
+												className="btn btn-dark btn-edit"
+												onClick={updateDsr}
+											>
+												Update
+											</button>
+										)
+									) : (
+										""
+									)}
 
-                  {!isUpdated ? (
-                    <p className="para warning-cta">
-                      Once you edit the DSR, you won't be able to edit again!
-                    </p>
-                  ) : (
-                    ""
-                  )}
+
+									{!isUpdated ? (
+										<p className="para warning-cta">
+											Once you edit the DSR, you won't be able to edit again!
+										</p>
+									) : (
+										""
+									)} */}
                 </div>
               </div>
             </div>
           )}
 
-          {isLeave.leave && (
+          {!loading && isLeave.leave && (
             <div className="blank-container card-container">
               <div
                 className={`verification-cta error-cta ${
