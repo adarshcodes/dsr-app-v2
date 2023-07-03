@@ -1,5 +1,5 @@
 import React, { useEffect, useState, memo } from "react";
-import { Routes, Route, Navigate, HashRouter } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 import "./assets/sass/main.css";
 import NewDsr from "./routes/NewDsr/NewDsr";
