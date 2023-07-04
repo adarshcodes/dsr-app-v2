@@ -80,6 +80,7 @@
     .logout {
       font-size: 1.5rem;
       cursor: pointer;
+      position: relative;
 
       @media screen and (max-width: 400px) {
         font-size: 1.2rem;
@@ -87,7 +88,24 @@
 
       &:hover {
         color: var(--color-error);
+
+        &::after {
+          visibility: visible;
+        }
       }
+
+      &::after {
+        padding: 0.5rem 1rem;
+        content: "Logout";
+        position: absolute;
+        top: 4rem;
+        background-color: var(--light-section);
+        border-radius: 0.4rem;
+        box-shadow: 0 0.5rem 1rem rgba(26, 39, 61, 0.03);
+        visibility: hidden;
+      }
+
+
     }
 
     .avatar {
