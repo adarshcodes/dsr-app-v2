@@ -473,7 +473,7 @@ function NewDsr() {
 	});
 
 	// const [isUpdated, setIsUpdated] = useState(false);
-	// const [isEditable, setIsEditable] = useState(false);
+	const [isEditable] = useState(false);
 
 	const fetchLastDsr = async () => {
 		try {
@@ -483,9 +483,6 @@ function NewDsr() {
 					"Content-Type": "application/json",
 					Authorization: "Bearer " + localStorage.getItem("authToken"),
 				},
-				// body: JSON.stringify({
-				//   // user: localStorage.getItem("authToken"),
-				// }),
 			});
 
 			const data = await response.json();
@@ -1023,8 +1020,8 @@ function NewDsr() {
 												id="project-edit"
 												value={lastDsr.project.name}
 												onChange={handleEdit}
-												// readOnly={!isEditable}
-												// className={`${!isEditable ? "non-editable" : ""}`}
+												readOnly={!isEditable}
+												className={`${!isEditable ? "non-editable" : ""}`}
 											/>
 										</div>
 
@@ -1038,9 +1035,8 @@ function NewDsr() {
 												id="manager-edit"
 												value={lastDsr.project.manager}
 												onChange={handleEdit}
-												// readOnly={!isEditable}
-												// className={`${!isEditable ? "non-editable" : ""}`}
-												className={"non-editable"}
+												readOnly={!isEditable}
+												className={`${!isEditable ? "non-editable" : ""}`}
 											/>
 										</div>
 
@@ -1052,33 +1048,33 @@ function NewDsr() {
 												id="hours-edit"
 												value={lastDsr.hoursWorked}
 												onChange={handleEdit}
-												// readOnly={!isEditable}
-												className={"non-editable"}
+												readOnly={!isEditable}
+												className={`${!isEditable ? "non-editable" : ""}`}
 											/>
 										</div>
 
 										<div className="edit-input-row">
 											<label htmlFor="status-edit">Project Health:</label>
-											{/* {isEditable ? ( */}
-											<Dropdown
-												selectedOption={selectedOption}
-												isOpen={isOpen}
-												setIsOpen={setIsOpen}
-												options={options}
-												handleOptionClick={handleOptionEdit}
-												id="health"
-											/>
+											{isEditable ? (
+												<Dropdown
+													selectedOption={selectedOption}
+													isOpen={isOpen}
+													setIsOpen={setIsOpen}
+													options={options}
+													handleOptionClick={handleOptionEdit}
+													id="health"
+												/>
 											) : (
-											<input
-												type="text"
-												name="health"
-												id="status-edit"
-												value={lastDsr.health}
-												onChange={handleEdit}
-												// readOnly={!isEditable}
-												className={"non-editable"}
-											/>
-											){/* } */}
+												<input
+													type="text"
+													name="health"
+													id="status-edit"
+													value={lastDsr.health}
+													onChange={handleEdit}
+													readOnly={!isEditable}
+													className={`${!isEditable ? "non-editable" : ""}`}
+												/>
+											)}
 										</div>
 
 										<div className="edit-input-row">
@@ -1086,22 +1082,22 @@ function NewDsr() {
 												Activities completed today:
 											</label>
 
-											{/* {isEditable ? ( */}
-											<ReactQuill
-												value={lastDsr.activitiesCompleted}
-												onChange={(value) =>
-													handleQuillEdit("activitiesCompleted", value)
-												}
-												modules={{ toolbar: true }}
-											/>
-											{/* ) : ( */}
-											<div
-												className="rte non-editable"
-												dangerouslySetInnerHTML={{
-													__html: lastDsr.activitiesCompleted,
-												}}
-											></div>
-											{/* ) */}
+											{isEditable ? (
+												<ReactQuill
+													value={lastDsr.activitiesCompleted}
+													onChange={(value) =>
+														handleQuillEdit("activitiesCompleted", value)
+													}
+													modules={{ toolbar: true }}
+												/>
+											) : (
+												<div
+													className="rte non-editable"
+													dangerouslySetInnerHTML={{
+														__html: lastDsr.activitiesCompleted,
+													}}
+												></div>
+											)}
 										</div>
 
 										<div className="edit-input-row">
@@ -1109,22 +1105,22 @@ function NewDsr() {
 												Activities planned for tomorrows:
 											</label>
 
-											{/* {isEditable ? ( */}
-											<ReactQuill
-												value={lastDsr.activitiesPlanned}
-												onChange={(value) =>
-													handleQuillEdit("activitiesPlanned", value)
-												}
-												modules={{ toolbar: true }}
-											/>
-											{/* ) : ( */}
-											<div
-												className="rte non-editable"
-												dangerouslySetInnerHTML={{
-													__html: lastDsr.activitiesPlanned,
-												}}
-											></div>
-											{/* )} */}
+											{isEditable ? (
+												<ReactQuill
+													value={lastDsr.activitiesPlanned}
+													onChange={(value) =>
+														handleQuillEdit("activitiesPlanned", value)
+													}
+													modules={{ toolbar: true }}
+												/>
+											) : (
+												<div
+													className="rte non-editable"
+													dangerouslySetInnerHTML={{
+														__html: lastDsr.activitiesPlanned,
+													}}
+												></div>
+											)}
 										</div>
 
 										<div className="edit-input-row">
@@ -1134,8 +1130,8 @@ function NewDsr() {
 												id="issues-edit"
 												value={lastDsr.openIssues}
 												onChange={handleEdit}
-												// readOnly={!isEditable}
-												className={"non-editable"}
+												readOnly={!isEditable}
+												className={`${!isEditable ? "non-editable" : ""}`}
 											></textarea>
 										</div>
 
@@ -1146,8 +1142,8 @@ function NewDsr() {
 												id="comment-edit"
 												value={lastDsr.comment}
 												onChange={handleEdit}
-												// readOnly={!isEditable}
-												className={"non-editable"}
+												readOnly={!isEditable}
+												className={`${!isEditable ? "non-editable" : ""}`}
 											></textarea>
 										</div>
 									</div>
