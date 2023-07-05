@@ -40,7 +40,6 @@ function NewDsr() {
       const data = await response.json();
       if (data.status === 403) return <Navigate to="/login" replace />;
       setIsLeave(data);
-      console.log(data);
       setLoading(false);
       // !data && <Navigate to="/login" replace />;
     } catch (error) {
@@ -180,6 +179,7 @@ function NewDsr() {
       });
   }, [isUse, draftValue]);
   // --Handle data post for new DSR to API--
+  console.log("dsrdata bhai:", dsrData);
   const handlePost = async (event) => {
     try {
       const response = await fetch(base_url + "/dsr/create", {
