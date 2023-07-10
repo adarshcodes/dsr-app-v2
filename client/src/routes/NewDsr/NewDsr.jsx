@@ -26,26 +26,31 @@ function NewDsr() {
 	const { draftValue } = useContext(transferData);
 	const { isUse, setIsUse } = useContext(takeData);
 
-	const fetchStatus = async () => {
-		setLoading(true);
-		try {
-			const response = await fetch(base_url + "/dsr/today/status", {
-				method: "GET",
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: "Bearer " + localStorage.getItem("authToken"),
-				},
-				// body: localStorage.getItem("authToken"),
-			});
-			const data = await response.json();
-			if (data.status === 403) return <Navigate to="/login" replace />;
-			setIsLeave(data);
-			setLoading(false);
-			// !data && <Navigate to="/login" replace />;
-		} catch (error) {
-			console.error("Error:", error);
-		}
-	};
+  const fetchStatus = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(base_url + "/dsr/today/status", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("authToken"),
+        },
+        // body: localStorage.getItem("authToken"),
+      });
+      const data = await response.json();
+      if (data.status === 403) {
+        localStorage.clear();
+        <Navigate to="/login" replace />;
+      }
+      setIsLeave(data);
+      setLoading(false);
+      // !data && <Navigate to="/login" replace />;
+    } catch (error) {
+      localStorage.clear();
+      <Navigate to="/login" replace />;
+      console.error("Error:", error);
+    }
+  };
 
 	useEffect(() => {
 		fetchStatus();
@@ -191,22 +196,28 @@ function NewDsr() {
 				body: JSON.stringify(dsrData),
 			});
 
-			const data = await response.json();
-			// Clearing form after Submission
-			setMsgToShow("DSR-Saved");
-			data.errors ? errMsg() : verificationMsg();
-			setTimeout(closeMsg, 2500);
-			handleClear();
-			setIsLeave("");
-			await fetchLastDsr();
-			await fetchStatus();
-		} catch (error) {
-			setMsgToShow("DSR-Not-Saved");
-			errorMsg();
-			setTimeout(closeMsg, 2500);
-			console.log(error);
-		}
-	};
+      const data = await response.json();
+      if (data.status === 403) {
+        localStorage.clear();
+        <Navigate to="/login" replace />;
+      }
+      // Clearing form after Submission
+      setMsgToShow("DSR-Saved");
+      data.errors ? errMsg() : verificationMsg();
+      setTimeout(closeMsg, 2500);
+      handleClear();
+      setIsLeave("");
+      await fetchLastDsr();
+      await fetchStatus();
+    } catch (error) {
+      setMsgToShow("DSR-Not-Saved");
+      errorMsg();
+      localStorage.clear();
+      <Navigate to="/login" replace />;
+      setTimeout(closeMsg, 2500);
+      console.log(error);
+    }
+  };
 
 	function handleSubmit(event) {
 		event.preventDefault();
@@ -305,20 +316,26 @@ function NewDsr() {
 				body: JSON.stringify(draftData),
 			});
 
-			const data = await response.json();
-			// Clearing form after Submission
+      const data = await response.json();
+      // Clearing form after Submission
+      if (data.status === 403) {
+        localStorage.clear();
+        <Navigate to="/login" replace />;
+      }
 
-			handleClear();
-			setMsgToShow("Draft-Saved");
-			data.errors ? errMsg() : verificationMsg();
-			setTimeout(closeMsg, 2500);
-		} catch (error) {
-			console.error("Error occurred:", error);
-			setMsgToShow("Draft-Not-Saved");
-			errorMsg();
-			setTimeout(closeMsg, 2500);
-		}
-	};
+      handleClear();
+      setMsgToShow("Draft-Saved");
+      data.errors ? errMsg() : verificationMsg();
+      setTimeout(closeMsg, 2500);
+    } catch (error) {
+      console.error("Error occurred:", error);
+      setMsgToShow("Draft-Not-Saved");
+      errorMsg();
+      localStorage.clear();
+      <Navigate to="/login" replace />;
+      setTimeout(closeMsg, 2500);
+    }
+  };
 
 	// Draft Validation
 	const handleDraftSave = () => {
@@ -360,15 +377,21 @@ function NewDsr() {
 				},
 			});
 
-			const data = await response.json();
-			setMsgToShow("Marked-Leave");
-			!data ? errorMsg() : verificationMsg();
-			setTimeout(closeMsg, 2500);
-		} catch (error) {
-			setMsgToShow("Unmarked-Leave");
-			errorMsg();
-			setTimeout(closeMsg, 2500);
-		}
+      const data = await response.json();
+      if (data.status === 403) {
+        localStorage.clear();
+        <Navigate to="/login" replace />;
+      }
+      setMsgToShow("Marked-Leave");
+      !data ? errorMsg() : verificationMsg();
+      setTimeout(closeMsg, 2500);
+    } catch (error) {
+      setMsgToShow("Unmarked-Leave");
+      errorMsg();
+      localStorage.clear();
+      <Navigate to="/login" replace />;
+      setTimeout(closeMsg, 2500);
+    }
 
 		setModal(false);
 	};
@@ -485,13 +508,20 @@ function NewDsr() {
 				},
 			});
 
-			const data = await response.json();
-			setLastDsr(data.data);
-			// setIsUpdated(data.data.isupdated);
-		} catch (error) {
-			return error;
-		}
-	};
+      const data = await response.json();
+
+      if (data.status === 403) {
+        localStorage.clear();
+        <Navigate to="/login" replace />;
+      }
+      setLastDsr(data.data);
+      // setIsUpdated(data.data.isupdated);
+    } catch (error) {
+      localStorage.clear();
+      <Navigate to="/login" replace />;
+      return error;
+    }
+  };
 
 	useEffect(() => {
 		fetchLastDsr();
@@ -595,24 +625,28 @@ function NewDsr() {
 	// fetch project list Api
 	const [projects, setProjects] = useState([]);
 
-	const ProjectList = async () => {
-		setLoading(true);
-		try {
-			const response = await fetch(base_url + "/dsr/project", {
-				method: "GET",
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: "Bearer " + localStorage.getItem("authToken"),
-				},
-				// body: localStorage.getItem("authToken"),
-			});
-			const data = await response.json();
-			setProjects(data.data);
-			setLoading(false);
-		} catch (error) {
-			console.error("Error:", error);
-		}
-	};
+  const ProjectList = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(base_url + "/dsr/project", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("authToken"),
+        },
+        // body: localStorage.getItem("authToken"),
+      });
+      const data = await response.json();
+      if (data.status === 403) {
+        localStorage.clear();
+        <Navigate to="/login" replace />;
+      }
+      setProjects(data.data);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
 	useEffect(() => {
 		ProjectList();
@@ -973,13 +1007,13 @@ function NewDsr() {
 											Submit
 										</button>
 
-										<button
-											className="btn btn-dark btn-warning"
-											type="button"
-											onClick={handleDraftSave}
-										>
-											Save as Draft
-										</button>
+                    <button
+                      className="btn btn-dark btn-warning"
+                      type="button"
+                      onClick={handleDraft}
+                    >
+                      Save as Draft
+                    </button>
 
 										<button
 											type="button"
