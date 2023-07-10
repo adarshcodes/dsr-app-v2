@@ -262,10 +262,16 @@ body {
   overflow-x: hidden;
   box-sizing: border-box;
   scroll-behavior: smooth;
+  /* Chrome, Safari, Edge, Opera */
 }
 body a {
   text-decoration: none;
   color: inherit;
+}
+body input::-webkit-outer-spin-button,
+body input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 body {
