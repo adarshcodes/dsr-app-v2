@@ -4,13 +4,14 @@ import AnimatedComponent from "../../AnimatedComponent";
 import RecentSkeleton from "../../components/Skeleton/RecentSkeleton";
 // import Api from "../../api/Api";
 import { base_url } from "../../api/base_url";
+import { Navigate } from "react-router-dom";
 
 // import { useOutletContext } from "react-router-dom";
 
 function WeeklyDsr() {
   // Adding animated component to make the route change animated -- Adarsh(19-Apr)
-
   // Using post method to send userID which return the Recents DSR of the user
+
   const [recents, setRecents] = useState([]);
   const [slider, setSlider] = useState("");
   const [loading, setLoading] = useState(true);
@@ -27,7 +28,10 @@ function WeeklyDsr() {
         // body: localStorage.getItem("authToken"),
       });
       const data = await response.json();
-
+      if (data.status === 403) {
+        localStorage.clear();
+        <Navigate to="/login" replace />;
+      }
       setRecents(data.data);
       setLoading(false);
     } catch (error) {

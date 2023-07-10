@@ -38,11 +38,16 @@ function NewDsr() {
         // body: localStorage.getItem("authToken"),
       });
       const data = await response.json();
-      if (data.status === 403) return <Navigate to="/login" replace />;
+      if (data.status === 403) {
+        localStorage.clear();
+        <Navigate to="/login" replace />;
+      }
       setIsLeave(data);
       setLoading(false);
       // !data && <Navigate to="/login" replace />;
     } catch (error) {
+      localStorage.clear();
+      <Navigate to="/login" replace />;
       console.error("Error:", error);
     }
   };
@@ -192,6 +197,10 @@ function NewDsr() {
       });
 
       const data = await response.json();
+      if (data.status === 403) {
+        localStorage.clear();
+        <Navigate to="/login" replace />;
+      }
       // Clearing form after Submission
       setMsgToShow("DSR-Saved");
       data.errors ? errMsg() : verificationMsg();
@@ -203,6 +212,8 @@ function NewDsr() {
     } catch (error) {
       setMsgToShow("DSR-Not-Saved");
       errorMsg();
+      localStorage.clear();
+      <Navigate to="/login" replace />;
       setTimeout(closeMsg, 2500);
       console.log(error);
     }
@@ -307,6 +318,10 @@ function NewDsr() {
 
       const data = await response.json();
       // Clearing form after Submission
+      if (data.status === 403) {
+        localStorage.clear();
+        <Navigate to="/login" replace />;
+      }
 
       handleClear();
       setMsgToShow("Draft-Saved");
@@ -316,28 +331,30 @@ function NewDsr() {
       console.error("Error occurred:", error);
       setMsgToShow("Draft-Not-Saved");
       errorMsg();
+      localStorage.clear();
+      <Navigate to="/login" replace />;
       setTimeout(closeMsg, 2500);
     }
   };
 
   // Draft Validation
-  const handleDraftSave = () => {
-    const isAnyFieldFilled = Object.keys(draftData).some((key) => {
-      if (key === "user") {
-        return false; // Ignore the "user" field
-      }
-      const value = dsrData[key];
-      return value !== "" && value !== false;
-    });
+  // const handleDraftSave = () => {
+  //   const isAnyFieldFilled = Object.keys(draftData).some((key) => {
+  //     if (key === "user") {
+  //       return false; // Ignore the "user" field
+  //     }
+  //     const value = dsrData[key];
+  //     return value !== "" && value !== false;
+  //   });
 
-    if (isAnyFieldFilled) {
-      handleDraft();
-    } else {
-      setMsgToShow("Draft-Empty");
-      errorMsg();
-      setTimeout(closeMsg, 2500);
-    }
-  };
+  //   if (isAnyFieldFilled) {
+  //     handleDraft();
+  //   } else {
+  //     setMsgToShow("Draft-Empty");
+  //     errorMsg();
+  //     setTimeout(closeMsg, 2500);
+  //   }
+  // };
 
   // handling leave mark
   async function handleLeave() {
@@ -361,12 +378,18 @@ function NewDsr() {
       });
 
       const data = await response.json();
+      if (data.status === 403) {
+        localStorage.clear();
+        <Navigate to="/login" replace />;
+      }
       setMsgToShow("Marked-Leave");
       !data ? errorMsg() : verificationMsg();
       setTimeout(closeMsg, 2500);
     } catch (error) {
       setMsgToShow("Unmarked-Leave");
       errorMsg();
+      localStorage.clear();
+      <Navigate to="/login" replace />;
       setTimeout(closeMsg, 2500);
     }
 
@@ -489,9 +512,16 @@ function NewDsr() {
       });
 
       const data = await response.json();
+
+      if (data.status === 403) {
+        localStorage.clear();
+        <Navigate to="/login" replace />;
+      }
       setLastDsr(data.data);
       // setIsUpdated(data.data.isupdated);
     } catch (error) {
+      localStorage.clear();
+      <Navigate to="/login" replace />;
       return error;
     }
   };
@@ -610,6 +640,10 @@ function NewDsr() {
         // body: localStorage.getItem("authToken"),
       });
       const data = await response.json();
+      if (data.status === 403) {
+        localStorage.clear();
+        <Navigate to="/login" replace />;
+      }
       setProjects(data.data);
       setLoading(false);
     } catch (error) {
@@ -979,7 +1013,7 @@ function NewDsr() {
                     <button
                       className="btn btn-dark btn-warning"
                       type="button"
-                      onClick={handleDraftSave}
+                      onClick={handleDraft}
                     >
                       Save as Draft
                     </button>
