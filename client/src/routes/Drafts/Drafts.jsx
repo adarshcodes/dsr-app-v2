@@ -4,7 +4,7 @@ import AnimatedComponent from "../../AnimatedComponent";
 import { transferData, takeData } from "../../parts/Dashboard/Dashboard";
 import RecentSkeleton from "../../components/Skeleton/RecentSkeleton";
 import Modal from "../../components/Modal/Modal";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 // import Api from "../../api/Api";
 import { base_url } from "../../api/base_url";
 // import NewDsrSkeleton from "../../components/Skeleton/NewDsrSkeleton";
@@ -39,7 +39,7 @@ function Drafts() {
       const data = await response.json();
       if (data.status === 403) {
         localStorage.clear();
-        <Navigate to="/login" replace />;
+        window.location.href = "/login";
       }
 
       setDrafts(data.data);
@@ -72,7 +72,7 @@ function Drafts() {
       const data = await response.json();
       if (data.status === 403) {
         localStorage.clear();
-        <Navigate to="/login" replace />;
+        window.location.href = "/login";
       }
       return data;
     } catch (error) {
@@ -146,7 +146,7 @@ function Drafts() {
       const data = await response.json();
       if (data.status === 403) {
         localStorage.clear();
-        <Navigate to="/login" replace />;
+        window.location.href = "/login";
       }
       setIsLeave(data.data);
     } catch (error) {

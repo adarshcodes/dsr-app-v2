@@ -4,7 +4,6 @@ import AnimatedComponent from "../../AnimatedComponent";
 import RecentSkeleton from "../../components/Skeleton/RecentSkeleton";
 // import Api from "../../api/Api";
 import { base_url } from "../../api/base_url";
-import { Navigate } from "react-router-dom";
 
 // import { useOutletContext } from "react-router-dom";
 
@@ -28,9 +27,12 @@ function WeeklyDsr() {
         // body: localStorage.getItem("authToken"),
       });
       const data = await response.json();
+      console.log("weak", data);
+
       if (data.status === 403) {
         localStorage.clear();
-        <Navigate to="/login" replace />;
+        window.location.href = "/login";
+        return;
       }
       setRecents(data.data);
       setLoading(false);
