@@ -650,6 +650,7 @@ p {
   border-radius: 0.4rem;
   box-shadow: 0 0.5rem 1rem rgba(26, 39, 61, 0.03);
   visibility: hidden;
+  z-index: 10000;
 }
 .topbar-ctas .avatar {
   overflow: hidden;
