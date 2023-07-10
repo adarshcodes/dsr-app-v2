@@ -9,8 +9,8 @@ import { base_url } from "../../api/base_url";
 
 function WeeklyDsr() {
   // Adding animated component to make the route change animated -- Adarsh(19-Apr)
-
   // Using post method to send userID which return the Recents DSR of the user
+
   const [recents, setRecents] = useState([]);
   const [slider, setSlider] = useState("");
   const [loading, setLoading] = useState(true);
@@ -27,7 +27,13 @@ function WeeklyDsr() {
         // body: localStorage.getItem("authToken"),
       });
       const data = await response.json();
+      console.log("weak", data);
 
+      if (data.status === 403) {
+        localStorage.clear();
+        window.location.href = "/login";
+        return;
+      }
       setRecents(data.data);
       setLoading(false);
     } catch (error) {

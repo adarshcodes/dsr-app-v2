@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AnimatedComponent from "../../AnimatedComponent";
-import Logo from "../../assets/images/logo/favicon-1.png";
-import Quadrafort from "../../assets/images/logo/quadrafort-light.png";
-import LogoFavi from "../../assets/images/logo/quadrafort-logo.png";
+import Logo from "../../assets/images/logo/favicon-1.webp";
+import Quadrafort from "../../assets/images/logo/quadrafort-light.webp";
+import LogoFavi from "../../assets/images/logo/quadrafort-logo.webp";
 import Icon from "../../assets/images/logo/ms.svg";
 
 // import * as msal from "msal";
@@ -16,8 +16,8 @@ const config = {
     clientId: "427bf882-77ea-49c0-853e-1676532387a7",
     authority:
       "https://login.microsoftonline.com/de7de043-fa62-4bc0-83e5-0466b479d2b7",
-    redirectUri: "http://localhost:3000/",
-    postLogoutRedirectUri: "http://localhost:3000/login",
+    redirectUri: "http://dsr.quadrafort.com/",
+    postLogoutRedirectUri: "http://dsr.quadrafort.com/login",
   },
 };
 

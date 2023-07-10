@@ -10,9 +10,12 @@ import Register from "./routes/Register/Register";
 import Dashboard from "./parts/Dashboard/Dashboard";
 
 function PrivateRoute({ element }) {
-  const user = localStorage.getItem("authToken");
-  // const microsoftUser = localStorage.getItem("MicrosoftUserData");
-  if (user) {
+  const userToken = localStorage.getItem("authToken");
+  // const tokenExpiration = localStorage.getItem("tokenExpiration");
+
+  // && tokenExpiration && new Date() < new Date(tokenExpiration)
+
+  if (userToken) {
     return element;
   } else {
     return <Navigate to="/login" replace />;

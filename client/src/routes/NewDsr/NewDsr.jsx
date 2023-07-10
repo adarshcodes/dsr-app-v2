@@ -9,7 +9,6 @@ import Select from "react-select";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { base_url } from "../../api/base_url";
-import { Navigate } from "react-router-dom";
 
 /*
 Written the Code of NewDSR and made it responsive --- Ayush
@@ -38,9 +37,12 @@ function NewDsr() {
         // body: localStorage.getItem("authToken"),
       });
       const data = await response.json();
-      if (data.status === 403) return <Navigate to="/login" replace />;
+      if (data.status === 403) {
+        localStorage.clear();
+        window.location.href = "/login";
+      }
+
       setIsLeave(data);
-      console.log(data);
       setLoading(false);
       // !data && <Navigate to="/login" replace />;
     } catch (error) {
@@ -180,6 +182,7 @@ function NewDsr() {
       });
   }, [isUse, draftValue]);
   // --Handle data post for new DSR to API--
+  console.log("dsrdata bhai:", dsrData);
   const handlePost = async (event) => {
     try {
       const response = await fetch(base_url + "/dsr/create", {
@@ -192,6 +195,10 @@ function NewDsr() {
       });
 
       const data = await response.json();
+      if (data.status === 403) {
+        localStorage.clear();
+        window.location.href = "/login";
+      }
       // Clearing form after Submission
       setMsgToShow("DSR-Saved");
       data.errors ? errMsg() : verificationMsg();
@@ -307,6 +314,10 @@ function NewDsr() {
 
       const data = await response.json();
       // Clearing form after Submission
+      if (data.status === 403) {
+        localStorage.clear();
+        window.location.href = "/login";
+      }
 
       handleClear();
       setMsgToShow("Draft-Saved");
@@ -321,23 +332,23 @@ function NewDsr() {
   };
 
   // Draft Validation
-  const handleDraftSave = () => {
-    const isAnyFieldFilled = Object.keys(draftData).some((key) => {
-      if (key === "user") {
-        return false; // Ignore the "user" field
-      }
-      const value = dsrData[key];
-      return value !== "" && value !== false;
-    });
+  // const handleDraftSave = () => {
+  //   const isAnyFieldFilled = Object.keys(draftData).some((key) => {
+  //     if (key === "user") {
+  //       return false; // Ignore the "user" field
+  //     }
+  //     const value = dsrData[key];
+  //     return value !== "" && value !== false;
+  //   });
 
-    if (isAnyFieldFilled) {
-      handleDraft();
-    } else {
-      setMsgToShow("Draft-Empty");
-      errorMsg();
-      setTimeout(closeMsg, 2500);
-    }
-  };
+  //   if (isAnyFieldFilled) {
+  //     handleDraft();
+  //   } else {
+  //     setMsgToShow("Draft-Empty");
+  //     errorMsg();
+  //     setTimeout(closeMsg, 2500);
+  //   }
+  // };
 
   // handling leave mark
   async function handleLeave() {
@@ -361,6 +372,10 @@ function NewDsr() {
       });
 
       const data = await response.json();
+      if (data.status === 403) {
+        localStorage.clear();
+        window.location.href = "/login";
+      }
       setMsgToShow("Marked-Leave");
       !data ? errorMsg() : verificationMsg();
       setTimeout(closeMsg, 2500);
@@ -473,7 +488,7 @@ function NewDsr() {
   });
 
   // const [isUpdated, setIsUpdated] = useState(false);
-  // const [isEditable, setIsEditable] = useState(false);
+  const [isEditable] = useState(false);
 
   const fetchLastDsr = async () => {
     try {
@@ -483,12 +498,14 @@ function NewDsr() {
           "Content-Type": "application/json",
           Authorization: "Bearer " + localStorage.getItem("authToken"),
         },
-        // body: JSON.stringify({
-        //   // user: localStorage.getItem("authToken"),
-        // }),
       });
 
       const data = await response.json();
+
+      if (data.status === 403) {
+        localStorage.clear();
+        window.location.href = "/login";
+      }
       setLastDsr(data.data);
       // setIsUpdated(data.data.isupdated);
     } catch (error) {
@@ -610,6 +627,12 @@ function NewDsr() {
         // body: localStorage.getItem("authToken"),
       });
       const data = await response.json();
+      console.log("projects", data);
+
+      if (data.status === 403) {
+        localStorage.clear();
+        window.location.href = "/login";
+      }
       setProjects(data.data);
       setLoading(false);
     } catch (error) {
@@ -979,7 +1002,7 @@ function NewDsr() {
                     <button
                       className="btn btn-dark btn-warning"
                       type="button"
-                      onClick={handleDraftSave}
+                      onClick={handleDraft}
                     >
                       Save as Draft
                     </button>
@@ -1023,8 +1046,8 @@ function NewDsr() {
                         id="project-edit"
                         value={lastDsr.project.name}
                         onChange={handleEdit}
-                        // readOnly={!isEditable}
-                        // className={`${!isEditable ? "non-editable" : ""}`}
+                        readOnly={!isEditable}
+                        className={`${!isEditable ? "non-editable" : ""}`}
                       />
                     </div>
 
@@ -1038,9 +1061,8 @@ function NewDsr() {
                         id="manager-edit"
                         value={lastDsr.project.manager}
                         onChange={handleEdit}
-                        // readOnly={!isEditable}
-                        // className={`${!isEditable ? "non-editable" : ""}`}
-                        className={"non-editable"}
+                        readOnly={!isEditable}
+                        className={`${!isEditable ? "non-editable" : ""}`}
                       />
                     </div>
 
@@ -1052,33 +1074,33 @@ function NewDsr() {
                         id="hours-edit"
                         value={lastDsr.hoursWorked}
                         onChange={handleEdit}
-                        // readOnly={!isEditable}
-                        className={"non-editable"}
+                        readOnly={!isEditable}
+                        className={`${!isEditable ? "non-editable" : ""}`}
                       />
                     </div>
 
                     <div className="edit-input-row">
                       <label htmlFor="status-edit">Project Health:</label>
-                      {/* {isEditable ? ( */}
-                      <Dropdown
-                        selectedOption={selectedOption}
-                        isOpen={isOpen}
-                        setIsOpen={setIsOpen}
-                        options={options}
-                        handleOptionClick={handleOptionEdit}
-                        id="health"
-                      />
+                      {isEditable ? (
+                        <Dropdown
+                          selectedOption={selectedOption}
+                          isOpen={isOpen}
+                          setIsOpen={setIsOpen}
+                          options={options}
+                          handleOptionClick={handleOptionEdit}
+                          id="health"
+                        />
                       ) : (
-                      <input
-                        type="text"
-                        name="health"
-                        id="status-edit"
-                        value={lastDsr.health}
-                        onChange={handleEdit}
-                        // readOnly={!isEditable}
-                        className={"non-editable"}
-                      />
-                      ){/* } */}
+                        <input
+                          type="text"
+                          name="health"
+                          id="status-edit"
+                          value={lastDsr.health}
+                          onChange={handleEdit}
+                          readOnly={!isEditable}
+                          className={`${!isEditable ? "non-editable" : ""}`}
+                        />
+                      )}
                     </div>
 
                     <div className="edit-input-row">
@@ -1086,22 +1108,22 @@ function NewDsr() {
                         Activities completed today:
                       </label>
 
-                      {/* {isEditable ? ( */}
-                      <ReactQuill
-                        value={lastDsr.activitiesCompleted}
-                        onChange={(value) =>
-                          handleQuillEdit("activitiesCompleted", value)
-                        }
-                        modules={{ toolbar: true }}
-                      />
-                      {/* ) : ( */}
-                      <div
-                        className="rte non-editable"
-                        dangerouslySetInnerHTML={{
-                          __html: lastDsr.activitiesCompleted,
-                        }}
-                      ></div>
-                      {/* ) */}
+                      {isEditable ? (
+                        <ReactQuill
+                          value={lastDsr.activitiesCompleted}
+                          onChange={(value) =>
+                            handleQuillEdit("activitiesCompleted", value)
+                          }
+                          modules={{ toolbar: true }}
+                        />
+                      ) : (
+                        <div
+                          className="rte non-editable"
+                          dangerouslySetInnerHTML={{
+                            __html: lastDsr.activitiesCompleted,
+                          }}
+                        ></div>
+                      )}
                     </div>
 
                     <div className="edit-input-row">
@@ -1109,22 +1131,22 @@ function NewDsr() {
                         Activities planned for tomorrows:
                       </label>
 
-                      {/* {isEditable ? ( */}
-                      <ReactQuill
-                        value={lastDsr.activitiesPlanned}
-                        onChange={(value) =>
-                          handleQuillEdit("activitiesPlanned", value)
-                        }
-                        modules={{ toolbar: true }}
-                      />
-                      {/* ) : ( */}
-                      <div
-                        className="rte non-editable"
-                        dangerouslySetInnerHTML={{
-                          __html: lastDsr.activitiesPlanned,
-                        }}
-                      ></div>
-                      {/* )} */}
+                      {isEditable ? (
+                        <ReactQuill
+                          value={lastDsr.activitiesPlanned}
+                          onChange={(value) =>
+                            handleQuillEdit("activitiesPlanned", value)
+                          }
+                          modules={{ toolbar: true }}
+                        />
+                      ) : (
+                        <div
+                          className="rte non-editable"
+                          dangerouslySetInnerHTML={{
+                            __html: lastDsr.activitiesPlanned,
+                          }}
+                        ></div>
+                      )}
                     </div>
 
                     <div className="edit-input-row">
@@ -1134,8 +1156,8 @@ function NewDsr() {
                         id="issues-edit"
                         value={lastDsr.openIssues}
                         onChange={handleEdit}
-                        // readOnly={!isEditable}
-                        className={"non-editable"}
+                        readOnly={!isEditable}
+                        className={`${!isEditable ? "non-editable" : ""}`}
                       ></textarea>
                     </div>
 
@@ -1146,8 +1168,8 @@ function NewDsr() {
                         id="comment-edit"
                         value={lastDsr.comment}
                         onChange={handleEdit}
-                        // readOnly={!isEditable}
-                        className={"non-editable"}
+                        readOnly={!isEditable}
+                        className={`${!isEditable ? "non-editable" : ""}`}
                       ></textarea>
                     </div>
                   </div>

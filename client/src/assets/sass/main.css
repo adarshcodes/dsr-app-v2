@@ -262,10 +262,16 @@ body {
   overflow-x: hidden;
   box-sizing: border-box;
   scroll-behavior: smooth;
+  /* Chrome, Safari, Edge, Opera */
 }
 body a {
   text-decoration: none;
   color: inherit;
+}
+body input::-webkit-outer-spin-button,
+body input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 body {
@@ -629,6 +635,7 @@ p {
 .topbar-ctas .logout {
   font-size: 1.5rem;
   cursor: pointer;
+  position: relative;
 }
 @media screen and (max-width: 400px) {
   .topbar-ctas .logout {
@@ -637,6 +644,20 @@ p {
 }
 .topbar-ctas .logout:hover {
   color: var(--color-error);
+}
+.topbar-ctas .logout:hover::after {
+  visibility: visible;
+}
+.topbar-ctas .logout::after {
+  padding: 0.5rem 1rem;
+  content: "Logout";
+  position: absolute;
+  top: 4rem;
+  background-color: var(--light-section);
+  border-radius: 0.4rem;
+  box-shadow: 0 0.5rem 1rem rgba(26, 39, 61, 0.03);
+  visibility: hidden;
+  z-index: 10000;
 }
 .topbar-ctas .avatar {
   overflow: hidden;
@@ -1129,7 +1150,7 @@ p {
 }
 
 .text-part {
-  background: url("../../assets/images/img-5.jpg") no-repeat;
+  background: url("../../assets/images/MicrosoftTeams-image.png") no-repeat;
   background-size: cover;
   color: #fff;
   display: flex;
