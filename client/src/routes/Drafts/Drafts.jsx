@@ -37,6 +37,7 @@ function Drafts() {
       });
 
       const data = await response.json();
+
       if (data.status === 403) {
         localStorage.clear();
         window.location.href = "/login";
@@ -144,6 +145,7 @@ function Drafts() {
         // }),
       });
       const data = await response.json();
+
       if (data.status === 403) {
         localStorage.clear();
         window.location.href = "/login";
@@ -195,17 +197,23 @@ function Drafts() {
 
             <div className="data project-name">
               <h4 className="heading-xs">Project Name</h4>
-              <p className="para para-bold">{data.project.name}</p>
+              <p className="para para-bold">
+                {data.other_project ? data.other_project : data.project.name}
+              </p>
             </div>
 
             <div className="data hrs-worked">
               <h4 className="heading-xs">Hours Worked</h4>
-              <p className="para">{data.hoursWorked} hrs</p>
+              <p className="para">
+                {data.hoursWorked} {`${data.hoursWorked ? "hrs" : ""}`}
+              </p>
             </div>
 
             <div className="data client-manager">
               <h4 className="heading-xs">Project Manager</h4>
-              <p className="para">{data.project.manager}</p>
+              <p className="para">
+                {data.other_manager ? data.other_manager : data.project.manager}
+              </p>
             </div>
           </div>
 
