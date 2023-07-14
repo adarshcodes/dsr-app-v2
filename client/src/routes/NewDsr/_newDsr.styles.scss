@@ -375,25 +375,55 @@
 
 .css-13cymwt-control {
   background-color: var(--light-section) !important;
-  color: #ccc !important;
+  color: var(--primary-text) !important;
+  padding: 0.3rem !important;
 }
 
 .css-1fdsijx-ValueContainer {
   background-color: var(--light-section) !important;
-  color: #ccc !important;
+  color: var(--primary-text) !important;
+}
+
+.css-t3ipsp-control {
+  background-color: var(--light-section) !important;
+  color: var(--primary-text) !important;
 }
 
 .select__control--menu-is-open {
-  padding: 0.5rem !important;
   background-color: var(--light-section) !important;
-  color: #ccc !important;
+  color: var(--primary-text) !important;
 }
 .select_menu {
   background-color: var(--light-section) !important;
-  color: #ccc !important;
+  color: var(--primary-text) !important;
+}
+
+.select__control {
+  padding: 0.3rem !important;
+}
+
+.css-1dimb5e-singleValue {
+  color: var(--primary-text) !important;
 }
 
 .css-1nmdiq5-menu {
   background-color: var(--light-section) !important;
-  color: #ccc !important;
+  border: 1.35px solid var(--secondary-text);
+  div {
+    cursor: pointer;
+    transition: 0.15s ease-in;
+    &:first-child {
+      background-color: var(--light-section) !important;
+    }
+    div {
+      &:hover,
+      &:focus,
+      &:target {
+        background-color: var(--border-color) !important;
+        color: var(--color-success) !important;
+      }
+    }
+    font-family: "League Spartan", sans-serif !important;
+    color: var(--secondary-text) !important;
+  }
 }
