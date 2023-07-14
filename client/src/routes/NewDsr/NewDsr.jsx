@@ -160,7 +160,7 @@ function NewDsr() {
     isUse &&
       draftValue &&
       setDsrData({
-        project: draftValue.project.name,
+        project: draftValue.project,
         activitiesCompleted: draftValue.activitiesCompleted,
         activitiesPlanned: draftValue.activitiesPlanned,
         hoursWorked: draftValue.hoursWorked,
@@ -182,7 +182,6 @@ function NewDsr() {
       });
   }, [isUse, draftValue]);
   // --Handle data post for new DSR to API--
-  console.log("dsrdata bhai:", dsrData);
   const handlePost = async (event) => {
     try {
       const response = await fetch(base_url + "/dsr/create", {
@@ -627,7 +626,6 @@ function NewDsr() {
         // body: localStorage.getItem("authToken"),
       });
       const data = await response.json();
-      console.log("projects", data);
 
       if (data.status === 403) {
         localStorage.clear();
