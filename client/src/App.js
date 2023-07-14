@@ -80,6 +80,7 @@ function App() {
       >
         <Route path="/" element={<NewDsr />} />
         <Route path="/recents" element={<WeeklyDsr />} />
+        <Route path="/drafts" element={<Drafts />}></Route>
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

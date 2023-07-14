@@ -16,8 +16,8 @@ const config = {
     clientId: "427bf882-77ea-49c0-853e-1676532387a7",
     authority:
       "https://login.microsoftonline.com/de7de043-fa62-4bc0-83e5-0466b479d2b7",
-    redirectUri: "http://dsr.quadrafort.com/",
-    postLogoutRedirectUri: "http://dsr.quadrafort.com/login",
+    redirectUri: "http://10.10.120.43:6001/#/",
+    postLogoutRedirectUri: "http://10.10.120.43:6001/#/login",
   },
 };
 

@@ -18,6 +18,12 @@ const tabs = [
     tab: "Recents",
     route: "/recents",
   },
+  {
+    id: 2,
+    icon: <i className="fa-brands fa-firstdraft"></i>,
+    tab: "Drafts",
+    route: "/drafts",
+  },
 ];
 
 // const adminTabs = [
