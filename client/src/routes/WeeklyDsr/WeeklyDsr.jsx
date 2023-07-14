@@ -27,7 +27,6 @@ function WeeklyDsr() {
         // body: localStorage.getItem("authToken"),
       });
       const data = await response.json();
-      console.log("weak", data);
 
       if (data.status === 403) {
         localStorage.clear();
@@ -44,8 +43,6 @@ function WeeklyDsr() {
   useEffect(() => {
     fetchData();
   }, []);
-
-  console.log("recents", recents);
 
   // Mapping fetched DSR to display as a card in recents tab
   const cardDsr = recents.map((data) => {
@@ -78,7 +75,6 @@ function WeeklyDsr() {
       "Dec",
     ];
     let dateOfCreation = day + " " + monthArray[month] + " " + year;
-    console.log("dataProject", data);
 
     return (
       <div key={data._id}>
@@ -98,9 +94,10 @@ function WeeklyDsr() {
               <div className="data project-name">
                 <h4 className="heading-xs">Project</h4>
                 <p className="para para-bold">
-                  {data.project !== undefined
-                    ? data.project.other_project
-                    : "Na"}
+                  {data.project !== undefined &&
+                    (data.other_project
+                      ? data.other_project
+                      : data.project.name)}
                 </p>
               </div>
 
@@ -110,9 +107,12 @@ function WeeklyDsr() {
               </div>
 
               <div className="data client-manager">
-                <h4 className="heading-xs">Manager</h4>
+                <h4 className="heading-xs">Managersss</h4>
                 <p className="para">
-                  {data.project !== undefined ? data.project.name : "Na"}
+                  {data.project !== undefined &&
+                    (data.other_manager
+                      ? data.other_manager
+                      : data.project.manager)}
                 </p>
               </div>
             </div>
@@ -151,18 +151,20 @@ function WeeklyDsr() {
               <div className="data">
                 <h4 className="heading-xs">Project:</h4>
                 <p className="para">
-                  {data.project !== undefined
-                    ? data.project.other_project
-                    : "Na"}
+                  {data.project !== undefined &&
+                    (data.other_project
+                      ? data.other_project
+                      : data.project.name)}
                 </p>
               </div>
 
               <div className="data">
                 <h4 className="heading-xs">Manager:</h4>
                 <p className="para">
-                  {data.project !== undefined
-                    ? data.project.other_manager
-                    : "Na"}
+                  {data.project !== undefined &&
+                    (data.other_manager
+                      ? data.other_manager
+                      : data.project.manager)}
                 </p>
               </div>
 
