@@ -139,8 +139,9 @@
 .form .input-row .form__input:focus:invalid {
   border-bottom: 1px solid #fa7161;
 }
-.form .input-row .form__input::-webkit-input-placeholder {
+.form .input-row .form__input::-moz-placeholder {
   color: #232323;
+  text-transform: capitalize;
 }
 .form .input-row .form__input::placeholder {
   color: #232323;
@@ -176,6 +177,10 @@
 .btn-row {
   flex-direction: row !important;
   gap: 1.5rem !important;
+}
+
+input::-moz-placeholder, textarea::-moz-placeholder {
+  color: var(--primary-text) !important;
 }
 
 input::placeholder,
@@ -380,7 +385,9 @@ p {
   justify-content: center;
   align-items: center;
   font-family: inherit;
-  user-select: none;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
 }
 .btn:active {
   transform: scale(0.9);
@@ -659,7 +666,8 @@ p {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  object-fit: cover;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 
 .active-ham {
@@ -685,6 +693,8 @@ p {
   justify-content: center;
   align-items: center;
   position: relative;
+  width: 100%;
+  height: 100%;
 }
 
 .toggle-label {
@@ -698,7 +708,9 @@ p {
 
 .toggle {
   --size: 1.7rem;
-  appearance: none;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
   outline: none;
   cursor: pointer;
   width: var(--size);
@@ -789,7 +801,8 @@ p {
   top: 0;
   left: 0;
   background-color: rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+          backdrop-filter: blur(3px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -843,7 +856,9 @@ p {
   position: relative;
   width: 100%;
   font-size: 16px;
-  user-select: none;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
   cursor: pointer;
   z-index: 10;
   font-family: inherit;
@@ -995,6 +1010,11 @@ p {
   flex-direction: column !important;
   gap: 0 !important;
 }
+.login-container .login-card .form .input-row .form-group .input__group input::-moz-placeholder {
+  font-weight: 100;
+  font-size: 1.5rem;
+  color: var(--secondary-text);
+}
 .login-container .login-card .form .input-row .form-group .input__group input::placeholder {
   font-weight: 100;
   font-size: 1.5rem;
@@ -1030,6 +1050,11 @@ p {
   gap: 2rem;
   justify-content: space-between;
   width: 100%;
+}
+.login-container .login-card .form .input-row .form-group .input__group input::-moz-placeholder {
+  font-weight: 100;
+  font-size: 1.5rem;
+  color: var(--secondary-text);
 }
 .login-container .login-card .form .input-row .form-group .input__group input::placeholder {
   font-weight: 100;
@@ -1144,7 +1169,8 @@ p {
 .text-part .top-part {
   height: 100%;
   width: 80%;
-  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+          backdrop-filter: blur(3px);
   border-radius: 0.5rem;
 }
 .text-part .top-part .heading-s {
@@ -1552,28 +1578,54 @@ p {
 
 .css-13cymwt-control {
   background-color: var(--light-section) !important;
-  color: #ccc !important;
+  color: var(--primary-text) !important;
+  padding: 0.3rem !important;
 }
 
 .css-1fdsijx-ValueContainer {
   background-color: var(--light-section) !important;
-  color: #ccc !important;
+  color: var(--primary-text) !important;
+}
+
+.css-t3ipsp-control {
+  background-color: var(--light-section) !important;
+  color: var(--primary-text) !important;
 }
 
 .select__control--menu-is-open {
-  padding: 0.5rem !important;
   background-color: var(--light-section) !important;
-  color: #ccc !important;
+  color: var(--primary-text) !important;
 }
 
 .select_menu {
   background-color: var(--light-section) !important;
-  color: #ccc !important;
+  color: var(--primary-text) !important;
+}
+
+.select__control {
+  padding: 0.3rem !important;
+}
+
+.css-1dimb5e-singleValue {
+  color: var(--primary-text) !important;
 }
 
 .css-1nmdiq5-menu {
   background-color: var(--light-section) !important;
-  color: #ccc !important;
+  border: 1.35px solid var(--secondary-text);
+}
+.css-1nmdiq5-menu div {
+  cursor: pointer;
+  transition: 0.15s ease-in;
+  font-family: "League Spartan", sans-serif !important;
+  color: var(--secondary-text) !important;
+}
+.css-1nmdiq5-menu div:first-child {
+  background-color: var(--light-section) !important;
+}
+.css-1nmdiq5-menu div div:hover, .css-1nmdiq5-menu div div:focus, .css-1nmdiq5-menu div div:target {
+  background-color: var(--border-color) !important;
+  color: var(--color-success) !important;
 }
 
 .recents {
