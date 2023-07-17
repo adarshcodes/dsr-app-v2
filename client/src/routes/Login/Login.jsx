@@ -16,8 +16,8 @@ const config = {
     clientId: "427bf882-77ea-49c0-853e-1676532387a7",
     authority:
       "https://login.microsoftonline.com/de7de043-fa62-4bc0-83e5-0466b479d2b7",
-    redirectUri: "http://localhost:3000/",
-    postLogoutRedirectUri: "http://localhost:3000/#/login",
+    redirectUri: "http://dsr.quadrafort.com/",
+    postLogoutRedirectUri: "http://dsr.quadrafort.com/#/login",
   },
 };
 
@@ -30,6 +30,7 @@ const loginRequest = {
 function Login() {
   // msal auth
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   // Check if there is already an interaction in progress
 
@@ -39,6 +40,7 @@ function Login() {
 
     localStorage.setItem("userdetails", JSON.stringify(userData));
     console.log(userData);
+    setLoading(true);
 
     try {
       const response = await fetch(base_url + "/user/login", {
@@ -50,6 +52,7 @@ function Login() {
       });
 
       const data = await response.json();
+      setLoading(false);
       if (data) {
         await handleDataInput(data.authToken);
         console.log(data.authToken);
@@ -365,7 +368,7 @@ function Login() {
                   onClick={() => login()}
                 >
                   <img src={Icon} alt="ms-login" />
-                  <p>Sign in with Microsoft</p>
+                  <p> {loading ? `Signing In..` : `Sign in with Microsoft`}</p>
                 </div>
               </div>
             </form>

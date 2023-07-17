@@ -183,6 +183,7 @@ function NewDsr() {
   }, [isUse, draftValue]);
   // --Handle data post for new DSR to API--
   const handlePost = async (event) => {
+    setLoading(true);
     try {
       const response = await fetch(base_url + "/dsr/create", {
         method: "POST",
@@ -194,6 +195,7 @@ function NewDsr() {
       });
 
       const data = await response.json();
+      setLoading(false);
       if (data.status === 403) {
         localStorage.clear();
         window.location.href = "/login";
@@ -302,6 +304,7 @@ function NewDsr() {
   // Handle Draft Save
   const handleDraft = async () => {
     try {
+      setLoading(true);
       const response = await fetch(base_url + "/dsr/draft/create", {
         method: "POST",
         headers: {
@@ -312,6 +315,7 @@ function NewDsr() {
       });
 
       const data = await response.json();
+      setLoading(false);
       // Clearing form after Submission
       if (data.status === 403) {
         localStorage.clear();
@@ -362,6 +366,7 @@ function NewDsr() {
 
   const markLeave = async () => {
     try {
+      setLoading(true);
       const response = await fetch(base_url + "/dsr/onleave", {
         method: "GET",
         headers: {
@@ -371,6 +376,7 @@ function NewDsr() {
       });
 
       const data = await response.json();
+      setLoading(false);
       if (data.status === 403) {
         localStorage.clear();
         window.location.href = "/login";
@@ -490,6 +496,7 @@ function NewDsr() {
   const [isEditable] = useState(false);
 
   const fetchLastDsr = async () => {
+    setLoading(true);
     try {
       const response = await fetch(base_url + "/dsr/last", {
         method: "GET",
@@ -500,7 +507,7 @@ function NewDsr() {
       });
 
       const data = await response.json();
-
+      setLoading(false);
       if (data.status === 403) {
         localStorage.clear();
         window.location.href = "/login";
@@ -1042,7 +1049,11 @@ function NewDsr() {
                         type="text"
                         name="project"
                         id="project-edit"
-                        value={lastDsr.project.name}
+                        value={
+                          lastDsr.other_project
+                            ? lastDsr.other_project
+                            : lastDsr.project.name
+                        }
                         onChange={handleEdit}
                         readOnly={!isEditable}
                         className={`${!isEditable ? "non-editable" : ""}`}
@@ -1057,7 +1068,11 @@ function NewDsr() {
                         type="text"
                         name="clientManager"
                         id="manager-edit"
-                        value={lastDsr.project.manager}
+                        value={
+                          lastDsr.other_manager
+                            ? lastDsr.other_manager
+                            : lastDsr.project.manager
+                        }
                         onChange={handleEdit}
                         readOnly={!isEditable}
                         className={`${!isEditable ? "non-editable" : ""}`}
