@@ -414,13 +414,14 @@
     transition: 0.15s ease-in;
     &:first-child {
       background-color: var(--light-section) !important;
-    }
-    div {
-      &:hover,
-      &:focus,
-      &:target {
-        background-color: var(--border-color) !important;
-        color: var(--color-success) !important;
+      div {
+        background-color: var(--light-section) !important;
+        &:hover,
+        &:focus,
+        &:active {
+          background-color: var(--border-color) !important;
+          color: var(--color-success) !important;
+        }
       }
     }
     font-family: "League Spartan", sans-serif !important;

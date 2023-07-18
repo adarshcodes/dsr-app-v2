@@ -1623,7 +1623,10 @@ p {
 .css-1nmdiq5-menu div:first-child {
   background-color: var(--light-section) !important;
 }
-.css-1nmdiq5-menu div div:hover, .css-1nmdiq5-menu div div:focus, .css-1nmdiq5-menu div div:target {
+.css-1nmdiq5-menu div:first-child div {
+  background-color: var(--light-section) !important;
+}
+.css-1nmdiq5-menu div:first-child div:hover, .css-1nmdiq5-menu div:first-child div:focus, .css-1nmdiq5-menu div:first-child div:active {
   background-color: var(--border-color) !important;
   color: var(--color-success) !important;
 }
