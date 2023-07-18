@@ -16,8 +16,8 @@ const config = {
     clientId: "427bf882-77ea-49c0-853e-1676532387a7",
     authority:
       "https://login.microsoftonline.com/de7de043-fa62-4bc0-83e5-0466b479d2b7",
-    redirectUri: "https://dsr.quadrafort.com/",
-    postLogoutRedirectUri: "https://dsr.quadrafort.com/#/login",
+    redirectUri: "http://localhost:3000/",
+    postLogoutRedirectUri: "http://localhost:3000/login",
   },
 };
 
@@ -35,11 +35,11 @@ function Login() {
   // Check if there is already an interaction in progress
 
   async function handleMicrosoftLogin(account) {
-    console.log("handleMicrosoftLogin");
+    // console.log("handleMicrosoftLogin");
     const userData = { name: account.name, email: account.username };
 
     localStorage.setItem("userdetails", JSON.stringify(userData));
-    console.log(userData);
+    // console.log(userData);
     setLoading(true);
 
     try {
@@ -55,14 +55,14 @@ function Login() {
       setLoading(false);
       if (data) {
         await handleDataInput(data.authToken);
-        console.log(data.authToken);
-        console.log(data);
+        // console.log(data.authToken);
+        // console.log(data);
         setMsgToShow("Login");
         data.errors ? errMsg() : verificationMsg();
         setTimeout(closeMsg, 2500);
         clearFields();
       } else {
-        console.log("handleMiscrosoft Else");
+        // console.log("handleMiscrosoft Else");
 
         // handle login failure here, e.g. show an error message
         setMsgToShow("LoginFailed");
@@ -88,7 +88,7 @@ function Login() {
         await handleMicrosoftLogin(account);
         // ... do something with the authenticated user
       } else {
-        console.log("login Else");
+        // console.log("login Else");
 
         // If no account is found, initiate an interactive login request
         await msalInstance
@@ -180,7 +180,7 @@ function Login() {
   }
 
   const handleDataInput = async (data) => {
-    console.log("handleDataInput");
+    // console.log("handleDataInput");
     if (data) {
       localStorage.setItem("authToken", data);
     }
@@ -193,7 +193,7 @@ function Login() {
 
   const handleLogin = async (e) => {
     try {
-      console.log("handleLogin");
+      // console.log("handleLogin");
 
       const response = await fetch("https://new-web-app.onrender.com/login", {
         method: "POST",
