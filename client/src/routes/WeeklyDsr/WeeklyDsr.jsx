@@ -30,7 +30,7 @@ function WeeklyDsr() {
 
       if (data.status === 403) {
         localStorage.clear();
-        window.location.href = "/login";
+        window.location.href = window.location.origin + "/#/login";
         return;
       }
       setRecents(data.data);
