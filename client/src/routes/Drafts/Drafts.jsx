@@ -40,7 +40,7 @@ function Drafts() {
 
       if (data.status === 403) {
         localStorage.clear();
-        window.location.href = "/login";
+        window.location.href = window.location.origin + "/#/login";
       }
 
       setDrafts(data.data);
@@ -73,7 +73,7 @@ function Drafts() {
       const data = await response.json();
       if (data.status === 403) {
         localStorage.clear();
-        window.location.href = "/login";
+        window.location.href = window.location.origin + "/#/login";
       }
       return data;
     } catch (error) {
@@ -148,7 +148,7 @@ function Drafts() {
 
       if (data.status === 403) {
         localStorage.clear();
-        window.location.href = "/login";
+        window.location.href = window.location.origin + "/#/login";
       }
       setIsLeave(data.data);
     } catch (error) {

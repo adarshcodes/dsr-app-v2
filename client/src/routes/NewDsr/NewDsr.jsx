@@ -39,7 +39,7 @@ function NewDsr() {
       const data = await response.json();
       if (data.status === 403) {
         localStorage.clear();
-        window.location.href = "/login";
+        window.location.href = window.location.origin + "/#/login";
       }
 
       setIsLeave(data);
@@ -198,7 +198,7 @@ function NewDsr() {
       setLoading(false);
       if (data.status === 403) {
         localStorage.clear();
-        window.location.href = "/login";
+        window.location.href = window.location.origin + "/#/login";
       }
       // Clearing form after Submission
       setMsgToShow("DSR-Saved");
@@ -319,7 +319,7 @@ function NewDsr() {
       // Clearing form after Submission
       if (data.status === 403) {
         localStorage.clear();
-        window.location.href = "/login";
+        window.location.href = window.location.origin + "/#/login";
       }
 
       handleClear();
@@ -379,7 +379,7 @@ function NewDsr() {
       setLoading(false);
       if (data.status === 403) {
         localStorage.clear();
-        window.location.href = "/login";
+        window.location.href = window.location.origin + "/#/login";
       }
       setMsgToShow("Marked-Leave");
       !data ? errorMsg() : verificationMsg();
@@ -510,7 +510,7 @@ function NewDsr() {
       setLoading(false);
       if (data.status === 403) {
         localStorage.clear();
-        window.location.href = "/login";
+        window.location.href = window.location.origin + "/#/login";
       }
       setLastDsr(data.data);
       // setIsUpdated(data.data.isupdated);
@@ -636,7 +636,7 @@ function NewDsr() {
 
       if (data.status === 403) {
         localStorage.clear();
-        window.location.href = "/login";
+        window.location.href = window.location.origin + "/#/login";
       }
       setProjects(data.data);
       setLoading(false);

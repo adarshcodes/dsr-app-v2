@@ -29,7 +29,7 @@ function Topbar({ ham, setHam, themeSwitch, theme, setTheme }) {
   const logout = () => {
     const logoutRequest = {
       account: msalInstance.getAccountByHomeId(),
-      mainWindowRedirectUri: "http://localhost:3000/",
+      mainWindowRedirectUri: "https://dsr.quadrafort.com/#/login",
     };
 
     msalInstance.logoutPopup(logoutRequest);
