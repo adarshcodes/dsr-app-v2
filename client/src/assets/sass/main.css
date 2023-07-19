@@ -1554,7 +1554,6 @@ p {
   display: flex;
   gap: 1rem;
   border-radius: 0.4rem;
-  width: 75vw;
   overflow-x: auto;
 }
 .new-dsr-card .tabs .tab {

@@ -1,4 +1,4 @@
-const base_url = "http://10.10.120.43:6001/api";
+const base_url = "https://assist.quadrafort.com/api";
 // latest api
 
 export { base_url };

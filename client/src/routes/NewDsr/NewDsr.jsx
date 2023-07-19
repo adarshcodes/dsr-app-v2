@@ -165,12 +165,6 @@ function NewDsr() {
 
   // Handle Quill data change
   const handleQuillChange = (name, value, index) => {
-    // setDsrData([
-    //   (prevDsrData) => ({
-    //     ...prevDsrData,
-    //     [name]: value,
-    //   }),
-    // ]);
     setDsrData((prevData) =>
       prevData.map((item, i) =>
         i === index ? { ...item, [name]: value } : item
@@ -650,14 +644,17 @@ function NewDsr() {
   const handleOptionClick = (option) => {
     setSelectedOption(option.label);
     setIsOpen(false);
-
     setDsrData((prevData) =>
-      prevData.map((item) => ({
-        ...item,
-        health: option.label,
-      }))
+      prevData.map((item, index) => {
+        if (index === activeTab) {
+          return {
+            ...item,
+            health: option.label,
+          };
+        }
+        return item;
+      })
     );
-
     // setDsrData([
     //   {
     //     ...dsrData,
