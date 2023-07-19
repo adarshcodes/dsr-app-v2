@@ -1,7 +1,27 @@
 .new-dsr {
   display: flex;
   flex-direction: column;
+  transition: 0.5s ease;
   gap: 2rem;
+  .tabs {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    overflow-x: auto;
+    .tab {
+      transition: 0.7s ease;
+      padding: 1rem 1.5rem;
+      display: flex;
+      cursor: pointer;
+      &.active {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: $swatch_3;
+        color: var(--light-section);
+      }
+    }
+  }
 
   ul,
   ol {
@@ -274,6 +294,7 @@
 }
 
 .login-form {
+  transition: 0.5s ease;
   .input-row {
     .form__input,
     textarea,
@@ -287,6 +308,7 @@
     textarea {
       &:focus {
         border-color: $color-success !important;
+        transition: 0.5s ease;
       }
     }
   }
@@ -309,6 +331,48 @@
 }
 
 .new-dsr-card {
+  .dynamic-form {
+    display: none;
+    &.active {
+      display: block;
+    }
+  }
+  .tabs {
+    display: flex;
+    gap: 2rem;
+    width: 75vw;
+    padding: 0 1rem;
+    overflow-x: auto;
+    .tab {
+      padding: 1rem 1.5rem;
+      display: flex;
+      gap: 1.5rem;
+      border-radius: 0.4rem;
+      span {
+        font-size: 1.25rem;
+        align-self: center;
+      }
+      cursor: pointer;
+      &.active {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: var(--border-color);
+        color: var(--secondary-text);
+      }
+    }
+  }
+  .add-more {
+    align-self: flex-end;
+    button {
+      background-color: $swatch_3;
+      border: none;
+      border-radius: 0.4rem;
+      font-size: medium;
+      color: var(--light-section);
+      padding: 1rem;
+    }
+  }
   .input__group,
   .input__group__area {
     width: 48%;

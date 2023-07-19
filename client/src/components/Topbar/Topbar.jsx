@@ -20,7 +20,7 @@ function Topbar({ ham, setHam, themeSwitch, theme, setTheme }) {
       clientId: "427bf882-77ea-49c0-853e-1676532387a7",
       authority:
         "https://login.microsoftonline.com/de7de043-fa62-4bc0-83e5-0466b479d2b7",
-      redirectUri: "https://dsr.quadrafort.com/",
+      redirectUri: "http://dsr.quadrafort.com/",
       postLogoutRedirectUri: "https://dsr.quadrafort.com/#/login",
     },
   };
@@ -29,7 +29,7 @@ function Topbar({ ham, setHam, themeSwitch, theme, setTheme }) {
   const logout = () => {
     const logoutRequest = {
       account: msalInstance.getAccountByHomeId(),
-      mainWindowRedirectUri: "http://localhost:3000/",
+      mainWindowRedirectUri: "https://dsr.quadrafort.com/#/login",
     };
 
     msalInstance.logoutPopup(logoutRequest);

@@ -1227,7 +1227,27 @@ p {
 .new-dsr {
   display: flex;
   flex-direction: column;
+  transition: 0.5s ease;
   gap: 2rem;
+}
+.new-dsr .tabs {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  overflow-x: auto;
+}
+.new-dsr .tabs .tab {
+  transition: 0.7s ease;
+  padding: 1rem 1.5rem;
+  display: flex;
+  cursor: pointer;
+}
+.new-dsr .tabs .tab.active {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #018171;
+  color: var(--light-section);
 }
 .new-dsr ul,
 .new-dsr ol {
@@ -1492,6 +1512,9 @@ p {
   }
 }
 
+.login-form {
+  transition: 0.5s ease;
+}
 .login-form .input-row .form__input,
 .login-form .input-row textarea,
 .login-form .input-row .dropdown .dropdown-toggle {
@@ -1502,6 +1525,7 @@ p {
 .login-form .input-row .form__input:focus,
 .login-form .input-row textarea:focus {
   border-color: #09C97F !important;
+  transition: 0.5s ease;
 }
 
 @media screen and (max-width: 1200px) {
@@ -1518,6 +1542,48 @@ p {
   }
 }
 
+.new-dsr-card .dynamic-form {
+  display: none;
+}
+.new-dsr-card .dynamic-form.active {
+  display: block;
+}
+.new-dsr-card .tabs {
+  display: flex;
+  gap: 2rem;
+  width: 75vw;
+  padding: 0 1rem;
+  overflow-x: auto;
+}
+.new-dsr-card .tabs .tab {
+  padding: 1rem 1.5rem;
+  display: flex;
+  gap: 1.5rem;
+  border-radius: 0.4rem;
+  cursor: pointer;
+}
+.new-dsr-card .tabs .tab span {
+  font-size: 1.25rem;
+  align-self: center;
+}
+.new-dsr-card .tabs .tab.active {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--border-color);
+  color: var(--secondary-text);
+}
+.new-dsr-card .add-more {
+  align-self: flex-end;
+}
+.new-dsr-card .add-more button {
+  background-color: #018171;
+  border: none;
+  border-radius: 0.4rem;
+  font-size: medium;
+  color: var(--light-section);
+  padding: 1rem;
+}
 .new-dsr-card .input__group,
 .new-dsr-card .input__group__area {
   width: 48%;
