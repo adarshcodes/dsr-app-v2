@@ -1232,12 +1232,11 @@ p {
 }
 .new-dsr .tabs {
   display: flex;
-  gap: 2rem;
   flex-wrap: wrap;
   overflow-x: auto;
 }
 .new-dsr .tabs .tab {
-  transition: 0.7s ease;
+  transition: 0.3s ease;
   padding: 1rem 1.5rem;
   display: flex;
   cursor: pointer;
@@ -1542,6 +1541,9 @@ p {
   }
 }
 
+.new-dsr-card {
+  transition: all 0.5s ease;
+}
 .new-dsr-card .dynamic-form {
   display: none;
 }
@@ -1550,17 +1552,26 @@ p {
 }
 .new-dsr-card .tabs {
   display: flex;
-  gap: 2rem;
+  gap: 1rem;
+  border-radius: 0.4rem;
   width: 75vw;
-  padding: 0 1rem;
   overflow-x: auto;
 }
 .new-dsr-card .tabs .tab {
-  padding: 1rem 1.5rem;
+  padding: 1.3rem 1.5rem;
+  background-color: var(--border-color);
   display: flex;
   gap: 1.5rem;
+  justify-content: space-between;
+  align-items: center;
   border-radius: 0.4rem;
   cursor: pointer;
+}
+.new-dsr-card .tabs .tab:hover, .new-dsr-card .tabs .tab:focus {
+  border-bottom: 0.5rem solid var(--secondary-text);
+  border: 0.1px solid var(--secondary-text);
+  border-bottom: 0.5rem solid var(--secondary-text);
+  background-color: var(--light-section);
 }
 .new-dsr-card .tabs .tab span {
   font-size: 1.25rem;
@@ -1570,7 +1581,8 @@ p {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: var(--border-color);
+  border-bottom: 0.5rem solid var(--color-success);
+  background-color: var(--light-section);
   color: var(--secondary-text);
 }
 .new-dsr-card .add-more {
@@ -1581,8 +1593,11 @@ p {
   border: none;
   border-radius: 0.4rem;
   font-size: medium;
-  color: var(--light-section);
-  padding: 1rem;
+  color: #fff;
+  padding: 1.2rem 2rem;
+}
+.new-dsr-card .add-more button:hover, .new-dsr-card .add-more button:focus {
+  background-color: #00584e;
 }
 .new-dsr-card .input__group,
 .new-dsr-card .input__group__area {

@@ -5,11 +5,10 @@
   gap: 2rem;
   .tabs {
     display: flex;
-    gap: 2rem;
     flex-wrap: wrap;
     overflow-x: auto;
     .tab {
-      transition: 0.7s ease;
+      transition: 0.3s ease;
       padding: 1rem 1.5rem;
       display: flex;
       cursor: pointer;
@@ -331,6 +330,7 @@
 }
 
 .new-dsr-card {
+  transition: all 0.5s ease;
   .dynamic-form {
     display: none;
     &.active {
@@ -339,15 +339,25 @@
   }
   .tabs {
     display: flex;
-    gap: 2rem;
+    gap: 1rem;
+    border-radius: 0.4rem;
     width: 75vw;
-    padding: 0 1rem;
     overflow-x: auto;
     .tab {
-      padding: 1rem 1.5rem;
+      padding: 1.3rem 1.5rem;
+      background-color: var(--border-color);
       display: flex;
       gap: 1.5rem;
+      justify-content: space-between;
+      align-items: center;
       border-radius: 0.4rem;
+      &:hover,
+      &:focus {
+        border-bottom: 0.5rem solid var(--secondary-text);
+        border: 0.1px solid var(--secondary-text);
+        border-bottom: 0.5rem solid var(--secondary-text);
+        background-color: var(--light-section);
+      }
       span {
         font-size: 1.25rem;
         align-self: center;
@@ -357,7 +367,8 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: var(--border-color);
+        border-bottom: 0.5rem solid var(--color-success);
+        background-color: var(--light-section);
         color: var(--secondary-text);
       }
     }
@@ -369,8 +380,12 @@
       border: none;
       border-radius: 0.4rem;
       font-size: medium;
-      color: var(--light-section);
-      padding: 1rem;
+      color: #fff;
+      &:hover,
+      &:focus {
+        background-color: $swatch_4;
+      }
+      padding: 1.2rem 2rem;
     }
   }
   .input__group,

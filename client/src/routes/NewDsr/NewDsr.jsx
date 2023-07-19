@@ -796,6 +796,11 @@ function NewDsr() {
               </button>
 
               <div className="new-dsr-card">
+                <div className="add-more">
+                  <button type="button" onClick={handleAddMore}>
+                    Add Project
+                  </button>
+                </div>
                 <div className="tabs">
                   {dsrData.map((entry, index) => (
                     <div
@@ -815,11 +820,6 @@ function NewDsr() {
                       )}
                     </div>
                   ))}
-                </div>
-                <div className="add-more">
-                  <button type="button" onClick={handleAddMore}>
-                    Add More
-                  </button>
                 </div>
                 <div className="uid-date">
                   <h3 className="heading-s">Please Fill Your DSR!</h3>
