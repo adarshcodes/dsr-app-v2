@@ -107,7 +107,7 @@ function WeeklyDsr() {
               </div>
 
               <div className="data client-manager">
-                <h4 className="heading-xs">Managersss</h4>
+                <h4 className="heading-xs">Manager</h4>
                 <p className="para">
                   {data.project !== undefined &&
                     (data.other_manager
