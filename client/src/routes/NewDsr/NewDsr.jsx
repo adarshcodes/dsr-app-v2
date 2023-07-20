@@ -641,19 +641,12 @@ function NewDsr() {
     { label: "Red", color: "#ff0000" },
   ];
 
-  const handleOptionClick = (option) => {
+  const handleOptionClick = (option, index) => {
     setSelectedOption(option.label);
-    setIsOpen(false);
     setDsrData((prevData) =>
-      prevData.map((item, index) => {
-        if (index === activeTab) {
-          return {
-            ...item,
-            health: option.label,
-          };
-        }
-        return item;
-      })
+      prevData.map((item, i) =>
+        i === index ? { ...item, health: option.value } : item
+      )
     );
     // setDsrData([
     //   {
@@ -714,16 +707,12 @@ function NewDsr() {
 
   const handleProjectSelect = (selectedOption, index) => {
     setSelectedProject(selectedOption);
-    const updatedDsrData = [...dsrData];
-    const entryIndex = activeTab;
-    if (entryIndex >= 0 && entryIndex < updatedDsrData.length) {
-      updatedDsrData[entryIndex] = {
-        ...updatedDsrData[entryIndex],
-        project: selectedOption ? selectedOption._id : null,
-      };
-    }
+    setDsrData((prevData) =>
+      prevData.map((item, i) =>
+        i === index ? { ...item, health: selectedOption.label } : item
+      )
+    );
 
-    setDsrData(updatedDsrData);
     setDraftData({
       ...draftData,
       project: selectedOption ? selectedOption._id : null,
@@ -843,7 +832,9 @@ function NewDsr() {
                             options={list}
                             className="basic-multi-select"
                             classNamePrefix="select"
-                            onChange={(e) => handleProjectSelect(e, index)}
+                            onChange={(option) =>
+                              handleProjectSelect(option, index)
+                            }
                           />
 
                           <label
@@ -1048,7 +1039,9 @@ function NewDsr() {
                               isOpen={isOpen}
                               setIsOpen={setIsOpen}
                               options={options}
-                              handleOptionClick={handleOptionClick}
+                              handleOptionClick={(option) =>
+                                handleOptionClick(option, index)
+                              }
                               id="health"
                             />
 
