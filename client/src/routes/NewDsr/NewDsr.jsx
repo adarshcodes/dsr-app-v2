@@ -96,9 +96,39 @@ function NewDsr() {
     },
   ]);
 
+  const [checkHours, setCheckHours] = useState(false);
   const handleAddMore = () => {
-    setDsrData([
-      ...dsrData,
+    let vall = Number(dsrData[0].hoursWorked);
+    if (vall >= 8) {
+      setCheckHours(true);
+    }
+    if (!checkHours) {
+      for (let i = 0; i < dsrData.length; i++) {
+        if (vall >= 8) {
+          setCheckHours(true);
+          break;
+        }
+        vall += Number(dsrData[i].hoursWorked);
+      }
+    }
+    !checkHours &&
+      setDsrData([
+        ...dsrData,
+        {
+          project: null,
+          other_project: "",
+          other_manager: "",
+          activitiesCompleted: "",
+          activitiesPlanned: "",
+          health: "",
+          hoursWorked: "",
+          comment: "",
+          openIssues: "",
+        },
+      ]);
+    setActiveTab(dsrData.length);
+    setDraftData([
+      ...draftData,
       {
         project: null,
         other_project: "",
@@ -120,10 +150,15 @@ function NewDsr() {
   };
 
   const handleTabDelete = (index) => {
-    const previousTab = activeTab === 0 ? 0 : activeTab - 1;
+    setActiveTab(dsrData.length - 1);
     const updatedFormEntries = dsrData.filter((entry, i) => i !== index);
     setDsrData(updatedFormEntries);
-    setActiveTab(previousTab);
+
+    console.log(activeTab);
+
+    // if (activeTab === index && dsrData.length > 1) {
+    //   setActiveTab(index > 0 ? index - 1 : 0); // Move to the previous tab if available
+    // }
   };
 
   // Setting data from input in the state for both the DSR data and Draft data --20-April-2023--Adarsh
@@ -151,11 +186,11 @@ function NewDsr() {
       )
     );
 
-    // setDraftData((prevDatal) =>
-    //   prevDatal.map((item, i) =>
-    //     i === index ? { ...item, [name]: value } : item
-    //   )
-    // );
+    setDraftData((prevDatap) =>
+      prevDatap.map((item, i) =>
+        i === index ? { ...item, [name]: value } : item
+      )
+    );
 
     setErrors({
       ...errors,
@@ -171,10 +206,11 @@ function NewDsr() {
       )
     );
 
-    setDraftData((prevDsrData) => ({
-      ...prevDsrData,
-      [name]: value,
-    }));
+    setDraftData((prevData) =>
+      prevData.map((item, i) =>
+        i === index ? { ...item, [name]: value } : item
+      )
+    );
 
     setErrors({
       ...errors,
@@ -279,18 +315,20 @@ function NewDsr() {
       }))
     );
 
-    setDraftData({
-      ...dsrData,
-      project: null,
-      other_project: "",
-      other_manager: "",
-      activitiesCompleted: "",
-      activitiesPlanned: "",
-      health: "",
-      hoursWorked: "",
-      comment: "",
-      openIssues: "",
-    });
+    setDraftData((prevData) =>
+      prevData.map((item) => ({
+        ...item,
+        project: "",
+        other_project: "",
+        other_manager: "",
+        activitiesCompleted: "",
+        activitiesPlanned: "",
+        health: "",
+        hoursWorked: "",
+        comment: "",
+        openIssues: "",
+      }))
+    );
 
     setErrors({
       ...errors,
@@ -327,17 +365,19 @@ function NewDsr() {
   }
 
   // Saving Draft
-  const [draftData, setDraftData] = useState({
-    project: null,
-    other_project: "",
-    other_manager: "",
-    activitiesCompleted: "",
-    activitiesPlanned: "",
-    health: "",
-    hoursWorked: "",
-    comment: "",
-    openIssues: "",
-  });
+  const [draftData, setDraftData] = useState([
+    {
+      project: null,
+      other_project: "",
+      other_manager: "",
+      activitiesCompleted: "",
+      activitiesPlanned: "",
+      health: "",
+      hoursWorked: "",
+      comment: "",
+      openIssues: "",
+    },
+  ]);
 
   // Handle Draft Save
   const handleDraft = async () => {
@@ -494,6 +534,9 @@ function NewDsr() {
     } else if (dsrData.hoursWorked < 0) {
       newErrors.hoursWorked = "Hours Worked must be a positive number.";
       isValid = false;
+    } else if (checkHours) {
+      newErrors.hoursWorked = "Your Hours limit is over, Now.";
+      isValid = false;
     }
 
     if (!dsrData.health) {
@@ -517,18 +560,20 @@ function NewDsr() {
   };
 
   // Updating DSR
-  const [lastDsr, setLastDsr] = useState({
-    project: "",
-    manager: "",
-    other_project: "",
-    other_manager: "",
-    activitiesCompleted: "",
-    activitiesPlanned: "",
-    health: "",
-    hoursWorked: "",
-    comment: "",
-    openIssues: "",
-  });
+  const [lastDsr, setLastDsr] = useState([
+    {
+      project: "",
+      manager: "",
+      other_project: "",
+      other_manager: "",
+      activitiesCompleted: "",
+      activitiesPlanned: "",
+      health: "",
+      hoursWorked: "",
+      comment: "",
+      openIssues: "",
+    },
+  ]);
 
   // const [isUpdated, setIsUpdated] = useState(false);
   const [isEditable] = useState(false);
@@ -705,18 +750,21 @@ function NewDsr() {
 
   const [selectedProject, setSelectedProject] = useState("");
 
+  // console.log(selectedProject);
+
   const handleProjectSelect = (selectedOption, index) => {
     setSelectedProject(selectedOption);
     setDsrData((prevData) =>
       prevData.map((item, i) =>
-        i === index ? { ...item, health: selectedOption.label } : item
+        i === index ? { ...item, health: selectedOption._id } : item
       )
     );
 
-    setDraftData({
-      ...draftData,
-      project: selectedOption ? selectedOption._id : null,
-    });
+    setDraftData((prevData) =>
+      prevData.map((item, i) =>
+        i === index ? { ...item, health: selectedOption._id } : item
+      )
+    );
   };
 
   return (
@@ -783,7 +831,11 @@ function NewDsr() {
 
               <div className="new-dsr-card">
                 <div className="add-more">
-                  <button type="button" onClick={handleAddMore}>
+                  <button
+                    type="button"
+                    className="AddProjectButton"
+                    onClick={handleAddMore}
+                  >
                     Add Project
                   </button>
                 </div>

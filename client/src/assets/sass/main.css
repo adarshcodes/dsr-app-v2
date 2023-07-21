@@ -1567,7 +1567,7 @@ p {
   cursor: pointer;
 }
 .new-dsr-card .tabs .tab:hover, .new-dsr-card .tabs .tab:focus {
-  border-bottom: 0.5rem solid var(--secondary-text);
+  border-bottom: 0.5rem solid initial var(--secondary-text);
   border: 0.1px solid var(--secondary-text);
   border-bottom: 0.5rem solid var(--secondary-text);
   background-color: var(--light-section);
