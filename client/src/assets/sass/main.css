@@ -582,6 +582,11 @@ p {
     font-size: 1.5rem;
   }
 }
+@media screen and (max-width: 300px) {
+  .topbar .greet h4 {
+    font-size: 1.4rem;
+  }
+}
 .topbar .logo-phone {
   width: 2.5rem;
   display: none;
@@ -1227,7 +1232,6 @@ p {
 .new-dsr {
   display: flex;
   flex-direction: column;
-  transition: 0.5s ease;
   gap: 2rem;
 }
 .new-dsr .tabs {
@@ -1236,7 +1240,7 @@ p {
   overflow-x: auto;
 }
 .new-dsr .tabs .tab {
-  transition: 0.3s ease;
+  transition: all 0.15s cubic-bezier(0.55, 0.055, 0.675, 0.19);
   padding: 1rem 1.5rem;
   display: flex;
   cursor: pointer;
@@ -1299,7 +1303,7 @@ p {
   right: 0;
   top: 7rem;
   border-left: 4px solid var(--color-success);
-  transition: all 0.2s cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  transition: all 0.4s cubic-bezier(0.55, 0.055, 0.675, 0.19);
   transform: translateX(200%);
   z-index: 1000;
 }
@@ -1466,7 +1470,7 @@ p {
   font-size: 1.6rem;
   color: var(--primary-text);
   font-weight: 600;
-  transition: all 0.3s cubic-bezier(0.5, 0, 0.5, 1.5);
+  transition: all 0.4s cubic-bezier(0.55, 0.055, 0.675, 0.19);
 }
 .dsr-edit-page .preview-edit .preview-card .edit-input-row input,
 .dsr-edit-page .preview-edit .preview-card .edit-input-row textarea,
@@ -1479,7 +1483,7 @@ p {
   font-size: 1.6rem;
   padding: 0.5rem 1rem;
   font-weight: 400;
-  transition: all 0.3s cubic-bezier(0.5, 0, 0.5, 1.5);
+  transition: all 0.4s cubic-bezier(0.55, 0.055, 0.675, 0.19);
   color: var(--primary-text);
   background: var(--light-section);
 }
@@ -1511,9 +1515,6 @@ p {
   }
 }
 
-.login-form {
-  transition: 0.5s ease;
-}
 .login-form .input-row .form__input,
 .login-form .input-row textarea,
 .login-form .input-row .dropdown .dropdown-toggle {
@@ -1524,7 +1525,7 @@ p {
 .login-form .input-row .form__input:focus,
 .login-form .input-row textarea:focus {
   border-color: #09C97F !important;
-  transition: 0.5s ease;
+  transition: all 0.4s cubic-bezier(0.55, 0.055, 0.675, 0.19);
 }
 
 @media screen and (max-width: 1200px) {
@@ -1542,7 +1543,12 @@ p {
 }
 
 .new-dsr-card {
-  transition: all 0.5s ease;
+  transition: all 0.3s cubic-bezier(0.5, 0, 0.5, 1.5);
+}
+@media screen and (max-width: 316px) {
+  .new-dsr-card {
+    padding: 4rem 1.2rem !important;
+  }
 }
 .new-dsr-card .dynamic-form {
   display: none;
@@ -1555,6 +1561,7 @@ p {
   gap: 1rem;
   border-radius: 0.4rem;
   overflow-x: auto;
+  margin-bottom: 4rem;
 }
 .new-dsr-card .tabs .tab {
   padding: 1.3rem 1.5rem;
@@ -1563,12 +1570,20 @@ p {
   gap: 1.5rem;
   justify-content: space-between;
   align-items: center;
+  border-bottom: 0.5rem solid transparent;
   border-radius: 0.4rem;
   cursor: pointer;
 }
+@media screen and (max-width: 480px) {
+  .new-dsr-card .tabs .tab {
+    padding: 1.2rem;
+    font-size: 1.45rem;
+    font-weight: 600;
+  }
+}
 .new-dsr-card .tabs .tab:hover, .new-dsr-card .tabs .tab:focus {
   border-bottom: 0.5rem solid initial var(--secondary-text);
-  border: 0.1px solid var(--secondary-text);
+  transform: scale(1.01);
   border-bottom: 0.5rem solid var(--secondary-text);
   background-color: var(--light-section);
 }
@@ -1677,6 +1692,10 @@ p {
   color: var(--primary-text) !important;
 }
 
+.rte {
+  line-height: 2rem;
+}
+
 .select_menu {
   background-color: var(--light-section) !important;
   color: var(--primary-text) !important;
@@ -1684,6 +1703,11 @@ p {
 
 .select__control {
   padding: 0.3rem !important;
+  cursor: pointer !important;
+}
+
+.select__input {
+  color: var(--primary-text) !important;
 }
 
 .css-1dimb5e-singleValue {
@@ -1696,7 +1720,7 @@ p {
 }
 .css-1nmdiq5-menu div {
   cursor: pointer;
-  transition: 0.15s ease-in;
+  transition: all 0.15s cubic-bezier(0.55, 0.055, 0.675, 0.19);
   font-family: "League Spartan", sans-serif !important;
   color: var(--secondary-text) !important;
 }
@@ -1711,11 +1735,39 @@ p {
   color: var(--color-success) !important;
 }
 
+.add-more .btn {
+  display: inline-flex;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.5, 0, 0.5, 1.5);
+  font-size: 1.8rem !important;
+  font-weight: 500;
+  padding: 1.2rem 2.2rem;
+  outline: none;
+  border: none;
+  justify-content: center;
+  align-items: center;
+  font-family: inherit;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+       user-select: none;
+}
+@media screen and (max-width: 500px) {
+  .add-more .btn {
+    font-size: 1.5rem !important;
+    padding: 1.2rem !important;
+  }
+}
+
 .recents {
   display: flex;
   flex-direction: column;
   gap: 3rem;
   position: relative;
+}
+
+.para {
+  line-height: 2rem;
 }
 
 .card-container {

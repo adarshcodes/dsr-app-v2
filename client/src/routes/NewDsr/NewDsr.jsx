@@ -127,6 +127,9 @@ function NewDsr() {
         },
       ]);
     setActiveTab(dsrData.length);
+    setSelectedProject((prev) => [...prev, ""]);
+    console.log("selectedProject", selectedProject);
+
     setDraftData([
       ...draftData,
       {
@@ -150,15 +153,13 @@ function NewDsr() {
   };
 
   const handleTabDelete = (index) => {
-    setActiveTab(dsrData.length - 1);
     const updatedFormEntries = dsrData.filter((entry, i) => i !== index);
     setDsrData(updatedFormEntries);
-
-    console.log(activeTab);
-
-    // if (activeTab === index && dsrData.length > 1) {
-    //   setActiveTab(index > 0 ? index - 1 : 0); // Move to the previous tab if available
-    // }
+    setActiveTab(1);
+    if (activeTab === dsrData.length - 1) {
+      // If it was, set the activeTab to the new last tab (if it exists)
+      setActiveTab(dsrData.length - 2);
+    }
   };
 
   // Setting data from input in the state for both the DSR data and Draft data --20-April-2023--Adarsh
@@ -290,10 +291,10 @@ function NewDsr() {
 
   function handleSubmit(event) {
     event.preventDefault();
-
-    if (validateForm()) {
-      handlePost(event);
-    }
+    showModal("Are you sure you want to Submit?", "Mark DSR");
+    // if (validateForm()) {
+    handlePost(event);
+    // }
   }
 
   // --End of Posting New DSR Data--
@@ -486,8 +487,10 @@ function NewDsr() {
       : container.classList.remove("remove-scroll");
   }, [modal]);
 
-  function showModal() {
+  function showModal(modalHead, btnValue) {
     setModal(true);
+    setModalHead(modalHead);
+    setBtnValue(btnValue);
   }
 
   function hideModal() {
@@ -686,6 +689,8 @@ function NewDsr() {
     { label: "Red", color: "#ff0000" },
   ];
 
+  // console.log(dsrData);
+
   const handleOptionClick = (option, index) => {
     setSelectedOption(option.label);
     setDsrData((prevData) =>
@@ -700,10 +705,10 @@ function NewDsr() {
     //   },
     // ]);
 
-    setDraftData({
-      ...draftData,
-      health: option.label,
-    });
+    // setDraftData({
+    //   ...draftData,
+    //   health: option.label,
+    // });
   };
 
   // fetch project list Api
@@ -748,24 +753,33 @@ function NewDsr() {
     };
   });
 
-  const [selectedProject, setSelectedProject] = useState("");
-
-  // console.log(selectedProject);
+  const [selectedProject, setSelectedProject] = useState([]);
 
   const handleProjectSelect = (selectedOption, index) => {
-    setSelectedProject(selectedOption);
+    console.log(selectedOption);
+    setSelectedProject((prevSelectedProject) => {
+      const updatedSelectedProject = [...prevSelectedProject];
+      updatedSelectedProject[index] = selectedOption;
+      // console.log("handleProjectSelect", updatedSelectedProject);
+
+      return updatedSelectedProject;
+    });
+
     setDsrData((prevData) =>
       prevData.map((item, i) =>
-        i === index ? { ...item, health: selectedOption._id } : item
+        i === index ? { ...item, project: selectedOption._id } : item
       )
     );
 
     setDraftData((prevData) =>
       prevData.map((item, i) =>
-        i === index ? { ...item, health: selectedOption._id } : item
+        i === index ? { ...item, project: selectedOption._id } : item
       )
     );
   };
+
+  const [modalHead, setModalHead] = useState("");
+  const [btnValue, setBtnValue] = useState("");
 
   return (
     // Adding animated component to make the route change animated -- Adarsh(19-Apr)
@@ -814,8 +828,8 @@ function NewDsr() {
 
               {/* Modal confirmation */}
               <Modal
-                btnValue={"Mark Leave"}
-                modalHead={"Are you sure to mark leave today?"}
+                btnValue={btnValue}
+                modalHead={modalHead}
                 action={handleLeaveBtn}
                 state={modal}
                 setState={setModal}
@@ -824,7 +838,12 @@ function NewDsr() {
 
               <button
                 className="btn btn-dark btn-error"
-                onClick={(e) => showModal()}
+                onClick={(e) =>
+                  showModal(
+                    "Are you sure you want to take Leave?",
+                    "Mark Leave"
+                  )
+                }
               >
                 On Leave
               </button>
@@ -833,7 +852,7 @@ function NewDsr() {
                 <div className="add-more">
                   <button
                     type="button"
-                    className="AddProjectButton"
+                    className="btn btn-dark"
                     onClick={handleAddMore}
                   >
                     Add Project
@@ -846,7 +865,18 @@ function NewDsr() {
                       className={`tab ${activeTab === index ? "active" : ""}`}
                       onClick={() => handleTabClick(index)}
                     >
-                      Project {index + 1}{" "}
+                      Project{" "}
+                      {index +
+                        1 +
+                        `${
+                          index % 10 === 0 && index !== 10
+                            ? "st"
+                            : index % 10 === 1 && index !== 11
+                            ? "nd"
+                            : index % 10 === 2 && index !== 12
+                            ? "rd"
+                            : "th"
+                        }`}{" "}
                       {index > 0 && (
                         <span
                           className="cross"
@@ -865,7 +895,6 @@ function NewDsr() {
                     Date: <span>{currentDate}</span>
                   </p>
                 </div>
-
                 {dsrData.map((entry, index) => (
                   <div
                     className={`dynamic-form ${
@@ -873,6 +902,7 @@ function NewDsr() {
                     }`}
                     key={index}
                   >
+                    {/* {console.log(index)} */}
                     <form className={`form login-form `}>
                       <div className="input-row">
                         <div className="input__group">
@@ -916,7 +946,9 @@ function NewDsr() {
                             }`}
                             readOnly
                             value={
-                              selectedProject ? selectedProject.manager : ""
+                              selectedProject[index]
+                                ? selectedProject[index].manager
+                                : ""
                             }
                           />
 
@@ -936,65 +968,68 @@ function NewDsr() {
                         </div>
                       </div>
 
-                      {selectedProject.value === "Other" && (
-                        <div className="input-row">
-                          <div className="input__group">
-                            <input
-                              type="text"
-                              id="other-project-name"
-                              name="other_project"
-                              onChange={(event) => storeData(event, index)}
-                              className={`form__input form-input ${
-                                errors.project ? "invalid-input" : "valid-input"
-                              }`}
-                              value={entry.other_project}
-                            />
+                      {selectedProject[index] &&
+                        selectedProject[index].value === "Other" && (
+                          <div className="input-row">
+                            <div className="input__group">
+                              <input
+                                type="text"
+                                id="other-project-name"
+                                name="other_project"
+                                onChange={(event) => storeData(event, index)}
+                                className={`form__input form-input ${
+                                  errors.project
+                                    ? "invalid-input"
+                                    : "valid-input"
+                                }`}
+                                value={entry.other_project}
+                              />
 
-                            <label
-                              htmlFor="project-name"
-                              className="input__label input-label"
-                            >
-                              Other Project Name{" "}
-                              <sup style={{ color: `red` }}>*</sup>
-                            </label>
+                              <label
+                                htmlFor="project-name"
+                                className="input__label input-label"
+                              >
+                                Other Project Name{" "}
+                                <sup style={{ color: `red` }}>*</sup>
+                              </label>
 
-                            {errors.project && (
-                              <div className="validation-error">
-                                {errors.other_manager}
-                              </div>
-                            )}
+                              {errors.project && (
+                                <div className="validation-error">
+                                  {errors.other_manager}
+                                </div>
+                              )}
+                            </div>
+
+                            <div className="input__group">
+                              <input
+                                type="text"
+                                id="other-manager-name"
+                                name="other_manager"
+                                onChange={(event) => storeData(event, index)}
+                                className={`form__input form-input ${
+                                  errors.other_manager
+                                    ? "invalid-input"
+                                    : "valid-input"
+                                }`}
+                                value={entry.other_manager}
+                              />
+
+                              <label
+                                htmlFor="client-manager-name"
+                                className="input__label input-label"
+                              >
+                                Other Project Manager Name{" "}
+                                <sup style={{ color: `red` }}>*</sup>
+                              </label>
+
+                              {errors.other_manager && (
+                                <div className="validation-error">
+                                  {errors.other_manager}
+                                </div>
+                              )}
+                            </div>
                           </div>
-
-                          <div className="input__group">
-                            <input
-                              type="text"
-                              id="other-manager-name"
-                              name="other_manager"
-                              onChange={(event) => storeData(event, index)}
-                              className={`form__input form-input ${
-                                errors.other_manager
-                                  ? "invalid-input"
-                                  : "valid-input"
-                              }`}
-                              value={entry.other_manager}
-                            />
-
-                            <label
-                              htmlFor="client-manager-name"
-                              className="input__label input-label"
-                            >
-                              Other Project Manager Name{" "}
-                              <sup style={{ color: `red` }}>*</sup>
-                            </label>
-
-                            {errors.other_manager && (
-                              <div className="validation-error">
-                                {errors.other_manager}
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      )}
+                        )}
 
                       <div className="input-row">
                         <div className="input__group input__group__area">

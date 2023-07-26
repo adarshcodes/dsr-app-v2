@@ -1,116 +1,117 @@
 .sidebar {
-    @include flex-column;
-    width: 22rem;
-    background-color: var(--light-section);
-    @include shadow-2;
-    height: 100vh;
-    border: 1px solid var(--border-color);
-    transition: all .3s $bez-4;
-    z-index: 1002;
+  @include flex-column;
+  width: 22rem;
+  background-color: var(--light-section);
+  @include shadow-2;
+  height: 100vh;
+  border: 1px solid var(--border-color);
+  transition: all 0.3s $bez-4;
+  z-index: 1002;
 
-    li {
-        list-style: none !important;
+  li {
+    list-style: none !important;
+  }
+
+  @media screen and (max-width: 750px) {
+    position: absolute;
+    transform: translateX(-100%);
+  }
+
+  &__logo {
+    width: 100%;
+    @include flex-row-center;
+    padding: 1rem;
+    height: 5.8rem;
+    border-bottom: 1px solid var(--border-color);
+
+    .logo {
+      width: 60%;
+    }
+  }
+
+  &__tabs {
+    padding: 2rem;
+
+    @media screen and (max-width: 600px) {
+      padding: 1rem;
     }
 
-    @media screen and (max-width: 750px) {
-        position: absolute;
-        transform: translateX(-100%);
-    }
+    .route-list {
+      @include flex-column;
+      gap: 1rem;
 
-    &__logo {
-        width: 100%;
-        @include flex-row-center;
-        padding: 1rem;
-        height: 5.8rem;
-        border-bottom: 1px solid var(--border-color);
+      .active {
+        color: #fff;
 
-        .logo {
-            width: 60%;
+        &::before {
+          background-color: var(--swatch-3);
+          transform: scaleY(1);
+          width: 100%;
         }
-    }
 
-    &__tabs {
-        padding: 2rem;
+        &:hover {
+          color: #fff;
+        }
+      }
 
-        @media screen and (max-width: 600px) {
-            padding: 1rem;
+      &__items {
+        font-size: 1.7rem;
+        border-radius: 0.4rem;
+        cursor: pointer;
+        letter-spacing: 0.2rem;
+        transition: all 0.1s $bez-1;
+        position: relative;
+        z-index: 1;
+        color: var(--swatch-1);
+        color: var(--primary-text);
+
+        &::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 100%;
+          width: 3px;
+          background-color: var(--swatch-5);
+          transform: scaleY(0);
+          transition: transform 0.1s, width 0.1s $bez-3 0.1s,
+            background-color 0.1s;
+          z-index: -1;
+          border-radius: 0.4rem;
         }
 
-        .route-list {
-            @include flex-column;
-            gap: 1rem;
-
-            .active {
-                color: #fff;
-
-                &::before {
-                    background-color: var(--swatch-3);
-                    transform: scaleY(1);
-                    width: 100%;
-                }
-
-                &:hover {
-                    color: #fff;
-                }
-            }
-
-            &__items {
-                font-size: 1.7rem;
-                border-radius: .4rem;
-                cursor: pointer;
-                letter-spacing: .2rem;
-                transition: all .1s $bez-1;
-                position: relative;
-                z-index: 1;
-                color: var(--swatch-1);
-                color: var(--primary-text);
-
-                &::before {
-                    content: "";
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    height: 100%;
-                    width: 3px;
-                    background-color: var(--swatch-5);
-                    transform: scaleY(0);
-                    transition: transform 0.1s, width 0.1s $bez-3 0.1s, background-color 0.1s;
-                    z-index: -1;
-                    border-radius: .4rem;
-                }
-
-                &:hover::before {
-                    transform: scaleY(1);
-                    width: 100%;
-                }
-
-                &:hover {
-                    color: var(--swatch-1);
-                }
-
-                .route-link {
-                    @include flex-row-center;
-                    justify-content: flex-start;
-                    gap: 1rem;
-                    padding: 1.2rem;
-                }
-            }
+        &:hover::before {
+          transform: scaleY(1);
+          width: 100%;
         }
+
+        &:hover {
+          color: var(--swatch-1);
+        }
+
+        .route-link {
+          @include flex-row-center;
+          justify-content: flex-start;
+          gap: 1rem;
+          padding: 1.2rem;
+        }
+      }
     }
+  }
 }
 
 .show-sidebar {
-    transform: translateX(0%);
+  transform: translateX(0%);
 }
 
 .bottom-branding {
-    width: 100%;
-    padding: 2rem;
-    margin-top: auto;
-    @include flex-row-center;
+  width: 100%;
+  padding: 2rem;
+  margin-top: auto;
+  @include flex-row-center;
 
-    img {
-        width: 75%;
-        height: auto;
-    }
+  img {
+    width: 75%;
+    height: auto;
+  }
 }
