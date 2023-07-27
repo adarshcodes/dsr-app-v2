@@ -40,7 +40,7 @@ function Drafts() {
 
       if (data.status === 403) {
         localStorage.clear();
-       window.location.href = window.location.origin + "/#/login";
+        window.location.href = window.location.origin + "/#/login";
       }
 
       setDrafts(data.data);
@@ -148,7 +148,7 @@ function Drafts() {
 
       if (data.status === 403) {
         localStorage.clear();
-       window.location.href = window.location.origin + "/#/login";
+        window.location.href = window.location.origin + "/#/login";
       }
       setIsLeave(data.data);
     } catch (error) {

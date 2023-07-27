@@ -46,11 +46,18 @@ function WeeklyDsr() {
 
   // Mapping fetched DSR to display as a card in recents tab
   const cardDsr = recents.map((data) => {
+    let CurrentTimeData = new Date();
     // formatting date and time from API data
     let date = new Date(data.createdAt);
     let year = date.getFullYear();
     let month = date.getMonth();
-    let day = date.getDate();
+    let currentDay = CurrentTimeData.getDate();
+    let day =
+      date.getDate() === currentDay
+        ? "Today"
+        : date.getDate() === currentDay - 1
+        ? "Yesterday"
+        : date.getDate();
 
     let hour = date.getHours();
     let min = date.getMinutes();
@@ -74,7 +81,11 @@ function WeeklyDsr() {
       "Nov",
       "Dec",
     ];
-    let dateOfCreation = day + " " + monthArray[month] + " " + year;
+
+    let dateOfCreation =
+      day === "Today" || day === "Yesterday"
+        ? day
+        : day + " " + monthArray[month] + " " + year;
 
     return (
       <div key={data._id}>

@@ -98,22 +98,39 @@ function NewDsr() {
 
   const [checkHours, setCheckHours] = useState(false);
   const handleAddMore = () => {
-    let vall = Number(dsrData[0].hoursWorked);
-    if (vall >= 8) {
-      setCheckHours(true);
-    }
-    if (!checkHours) {
-      for (let i = 0; i < dsrData.length; i++) {
-        if (vall >= 8) {
-          setCheckHours(true);
-          break;
-        }
-        vall += Number(dsrData[i].hoursWorked);
+    if (validateForm()) {
+      let vall = Number(dsrData[0].hoursWorked);
+      if (vall >= 8) {
+        setCheckHours(true);
       }
-    }
-    !checkHours &&
-      setDsrData([
-        ...dsrData,
+      if (!checkHours) {
+        for (let i = 0; i < dsrData.length; i++) {
+          if (vall >= 8) {
+            setCheckHours(true);
+            break;
+          }
+          vall += Number(dsrData[i].hoursWorked);
+        }
+      }
+      !checkHours &&
+        setDsrData([
+          ...dsrData,
+          {
+            project: null,
+            other_project: "",
+            other_manager: "",
+            activitiesCompleted: "",
+            activitiesPlanned: "",
+            health: "",
+            hoursWorked: "",
+            comment: "",
+            openIssues: "",
+          },
+        ]);
+      setActiveTab(dsrData.length);
+      setSelectedProject([...selectedProject, ""]);
+      setDraftData([
+        ...draftData,
         {
           project: null,
           other_project: "",
@@ -126,24 +143,7 @@ function NewDsr() {
           openIssues: "",
         },
       ]);
-    setActiveTab(dsrData.length);
-    setSelectedProject((prev) => [...prev, ""]);
-    console.log("selectedProject", selectedProject);
-
-    setDraftData([
-      ...draftData,
-      {
-        project: null,
-        other_project: "",
-        other_manager: "",
-        activitiesCompleted: "",
-        activitiesPlanned: "",
-        health: "",
-        hoursWorked: "",
-        comment: "",
-        openIssues: "",
-      },
-    ]);
+    }
   };
 
   const [activeTab, setActiveTab] = useState(0);
@@ -154,12 +154,8 @@ function NewDsr() {
 
   const handleTabDelete = (index) => {
     const updatedFormEntries = dsrData.filter((entry, i) => i !== index);
+    setActiveTab(dsrData.length);
     setDsrData(updatedFormEntries);
-    setActiveTab(1);
-    if (activeTab === dsrData.length - 1) {
-      // If it was, set the activeTab to the new last tab (if it exists)
-      setActiveTab(dsrData.length - 2);
-    }
   };
 
   // Setting data from input in the state for both the DSR data and Draft data --20-April-2023--Adarsh
@@ -193,10 +189,9 @@ function NewDsr() {
       )
     );
 
-    setErrors({
-      ...errors,
-      [e.target.name]: "",
-    });
+    setErrors((prev) =>
+      prev.map((item, i) => (i === index ? { ...item, [name]: "" } : item))
+    );
   }
 
   // Handle Quill data change
@@ -213,10 +208,9 @@ function NewDsr() {
       )
     );
 
-    setErrors({
-      ...errors,
-      [name]: "",
-    });
+    setErrors((prevData) =>
+      prevData.map((item, i) => (i === index ? { ...item, [name]: "" } : item))
+    );
   };
 
   // Handle Quill Edit
@@ -331,16 +325,18 @@ function NewDsr() {
       }))
     );
 
-    setErrors({
-      ...errors,
-      project: "",
-      other_project: "",
-      other_manager: "",
-      activitiesCompleted: "",
-      activitiesPlanned: "",
-      health: "",
-      hoursWorked: "",
-    });
+    setErrors((prevData) =>
+      prevData.map((item) => ({
+        ...item,
+        project: "",
+        other_project: "",
+        other_manager: "",
+        activitiesCompleted: "",
+        activitiesPlanned: "",
+        health: "",
+        hoursWorked: "",
+      }))
+    );
     setSelectedOption("Project health");
     setSelectedProject("");
 
@@ -498,67 +494,78 @@ function NewDsr() {
   }
 
   // Form Validation
-  const [errors, setErrors] = useState({
-    project: "",
-    other_project: "",
-    other_manager: "",
-    activitiesCompleted: "",
-    activitiesPlanned: "",
-    health: "green",
-    hoursWorked: "",
-  });
-
-  const validateForm = () => {
-    let isValid = true;
-
-    const newErrors = {
+  const [errors, setErrors] = useState([
+    {
       project: "",
       other_project: "",
       other_manager: "",
       activitiesCompleted: "",
       activitiesPlanned: "",
-      health: "green",
+      health: "",
       hoursWorked: "",
-    };
+    },
+  ]);
 
-    if (!dsrData.project) {
-      newErrors.project = "Project Name is required.";
-      isValid = false;
+  const validateForm = () => {
+    let isValid = true;
+    const newErrorsArray = [];
+
+    // Assuming dsrData is an array of objects
+    for (let i = 0; i < dsrData.length; i++) {
+      const data = dsrData[i];
+      const newErrors = {
+        project: "",
+        other_project: "",
+        other_manager: "",
+        activitiesCompleted: "",
+        activitiesPlanned: "",
+        health: "",
+        hoursWorked: "",
+      };
+
+      if (selectedProject[i] === "") {
+        newErrors.project = "Project Name is required.";
+        isValid = false;
+      }
+      console.log(selectedProject[i]);
+
+      // if (!data.clientManager) {
+      //   newErrors.clientManager = "Project Manager Name is required.";
+      //   isValid = false;
+      // }no need
+
+      if (!data.hoursWorked) {
+        newErrors.hoursWorked = "Hours Worked is required.";
+        isValid = false;
+      } else if (data.hoursWorked < 0) {
+        newErrors.hoursWorked = "Hours Worked must be a positive number.";
+        isValid = false;
+      } else if (checkHours) {
+        newErrors.hoursWorked = "Maximum Working Hours Exceeded.";
+        isValid = false;
+      }
+
+      // if (!data.health) {
+      //   newErrors.health = "Project Status is required.";
+      //   isValid = false;
+      // }
+
+      if (!data.activitiesCompleted) {
+        newErrors.activitiesCompleted =
+          "Activities completed today is required.";
+        isValid = false;
+      }
+
+      if (!data.activitiesPlanned) {
+        newErrors.activitiesPlanned =
+          "Activities planned for tomorrow is required.";
+        isValid = false;
+      }
+
+      newErrorsArray.push(newErrors);
     }
 
-    // if (!dsrData.clientManager) {
-    //   newErrors.clientManager = "Project Manager Name is required.";
-    //   isValid = false;
-    // }no need
-
-    if (!dsrData.hoursWorked) {
-      newErrors.hoursWorked = "Hours Worked is required.";
-      isValid = false;
-    } else if (dsrData.hoursWorked < 0) {
-      newErrors.hoursWorked = "Hours Worked must be a positive number.";
-      isValid = false;
-    } else if (checkHours) {
-      newErrors.hoursWorked = "Your Hours limit is over, Now.";
-      isValid = false;
-    }
-
-    if (!dsrData.health) {
-      newErrors.health = "Project Status is required.";
-      isValid = false;
-    }
-
-    if (!dsrData.activitiesCompleted) {
-      newErrors.activitiesCompleted = "Activities completed today is required.";
-      isValid = false;
-    }
-
-    if (!dsrData.activitiesPlanned) {
-      newErrors.activitiesPlanned =
-        "Activities planned for tomorrow is required.";
-      isValid = false;
-    }
-
-    setErrors(newErrors);
+    setErrors(newErrorsArray);
     return isValid;
   };
 
@@ -689,8 +696,6 @@ function NewDsr() {
     { label: "Red", color: "#ff0000" },
   ];
 
-  // console.log(dsrData);
-
   const handleOptionClick = (option, index) => {
     setSelectedOption(option.label);
     setDsrData((prevData) =>
@@ -698,6 +703,7 @@ function NewDsr() {
         i === index ? { ...item, health: option.value } : item
       )
     );
+    setIsOpen(false);
     // setDsrData([
     //   {
     //     ...dsrData,
@@ -744,7 +750,12 @@ function NewDsr() {
 
   //list dropdown project name and the project manager dynamically with the Api
 
-  const list = projects.map((data) => {
+  const [selectedProject, setSelectedProject] = useState([""]);
+  const filteredProjects = projects.filter((data) => {
+    return selectedProject.every((item) => data.name !== item.label);
+  });
+
+  const list = filteredProjects.map((data) => {
     return {
       value: data.name,
       label: data.name,
@@ -753,14 +764,10 @@ function NewDsr() {
     };
   });
 
-  const [selectedProject, setSelectedProject] = useState([]);
-
   const handleProjectSelect = (selectedOption, index) => {
-    console.log(selectedOption);
     setSelectedProject((prevSelectedProject) => {
       const updatedSelectedProject = [...prevSelectedProject];
       updatedSelectedProject[index] = selectedOption;
-      // console.log("handleProjectSelect", updatedSelectedProject);
 
       return updatedSelectedProject;
     });
@@ -882,8 +889,18 @@ function NewDsr() {
                           className="cross"
                           onClick={() => handleTabDelete(index)}
                         >
-                          {" "}
-                          &#9587;
+                          <button
+                            style={{
+                              background: "red",
+                              color: "#222",
+                              cursor: "pointer",
+                              zIndex: "100",
+                              fontWeight: "bold",
+                              border: "transparent",
+                            }}
+                          >
+                            &#9587;
+                          </button>
                         </span>
                       )}
                     </div>
@@ -902,12 +919,11 @@ function NewDsr() {
                     }`}
                     key={index}
                   >
-                    {/* {console.log(index)} */}
                     <form className={`form login-form `}>
                       <div className="input-row">
                         <div className="input__group">
                           <Select
-                            value={selectedProject}
+                            value={selectedProject[index]}
                             defaultValue="Select Project"
                             isMulti={false}
                             name="colors"
@@ -926,9 +942,9 @@ function NewDsr() {
                             Project Name <sup style={{ color: `red` }}>*</sup>
                           </label>
 
-                          {errors.project && (
+                          {errors[index] && errors[index].project && (
                             <div className="validation-error">
-                              {errors.project}
+                              {errors[index] && errors[index].project}
                             </div>
                           )}
                         </div>
@@ -940,7 +956,7 @@ function NewDsr() {
                             name="clientManager"
                             onChange={(event) => storeData(event, index)}
                             className={`form__input form-input disabled ${
-                              errors.clientManager
+                              errors[index] && errors[index].clientManager
                                 ? "invalid-input"
                                 : "valid-input"
                             }`}
@@ -978,7 +994,7 @@ function NewDsr() {
                                 name="other_project"
                                 onChange={(event) => storeData(event, index)}
                                 className={`form__input form-input ${
-                                  errors.project
+                                  errors[index] && errors[index].project
                                     ? "invalid-input"
                                     : "valid-input"
                                 }`}
@@ -993,9 +1009,9 @@ function NewDsr() {
                                 <sup style={{ color: `red` }}>*</sup>
                               </label>
 
-                              {errors.project && (
+                              {errors[index] && errors[index].project && (
                                 <div className="validation-error">
-                                  {errors.other_manager}
+                                  {errors[index] && errors[index].other_manager}
                                 </div>
                               )}
                             </div>
@@ -1007,7 +1023,7 @@ function NewDsr() {
                                 name="other_manager"
                                 onChange={(event) => storeData(event, index)}
                                 className={`form__input form-input ${
-                                  errors.other_manager
+                                  errors[index] && errors[index].other_manager
                                     ? "invalid-input"
                                     : "valid-input"
                                 }`}
@@ -1022,9 +1038,9 @@ function NewDsr() {
                                 <sup style={{ color: `red` }}>*</sup>
                               </label>
 
-                              {errors.other_manager && (
+                              {errors[index] && errors[index].other_manager && (
                                 <div className="validation-error">
-                                  {errors.other_manager}
+                                  {errors[index] && errors[index].other_manager}
                                 </div>
                               )}
                             </div>
@@ -1052,11 +1068,13 @@ function NewDsr() {
                             <sup style={{ color: "red" }}>*</sup>
                           </label>
 
-                          {errors.activitiesCompleted && (
-                            <div className="validation-error textarea-error">
-                              {errors.activitiesCompleted}
-                            </div>
-                          )}
+                          {errors[index] &&
+                            errors[index].activitiesCompleted && (
+                              <div className="validation-error textarea-error">
+                                {errors[index] &&
+                                  errors[index].activitiesCompleted}
+                              </div>
+                            )}
                         </div>
 
                         <div className="input__group input__group__area">
@@ -1079,9 +1097,9 @@ function NewDsr() {
                             <sup style={{ color: "red" }}>*</sup>
                           </label>
 
-                          {errors.activitiesPlanned && (
+                          {errors[index] && errors[index].activitiesPlanned && (
                             <div className="validation-error textarea-error">
-                              {errors.activitiesPlanned}
+                              {errors[index] && errors[index].activitiesPlanned}
                             </div>
                           )}
                         </div>
@@ -1097,7 +1115,7 @@ function NewDsr() {
                               name="hoursWorked"
                               onChange={(event) => storeData(event, index)}
                               className={`form__input form-input ${
-                                errors.hoursWorked
+                                errors[index] && errors[index].hoursWorked
                                   ? "invalid-input"
                                   : "valid-input"
                               }`}
@@ -1113,9 +1131,9 @@ function NewDsr() {
                               Hours Worked <sup style={{ color: "red" }}>*</sup>
                             </label>
 
-                            {errors.hoursWorked && (
+                            {errors[index] && errors[index].hoursWorked && (
                               <div className="validation-error">
-                                {errors.hoursWorked}
+                                {errors[index] && errors[index].hoursWorked}
                               </div>
                             )}
                           </div>
@@ -1139,6 +1157,11 @@ function NewDsr() {
                               Select Project Health{" "}
                               <sup style={{ color: `red` }}>*</sup>
                             </label>
+                            {errors[index] && errors[index].health && (
+                              <div className="validation-error">
+                                {errors[index] && errors[index].health}
+                              </div>
+                            )}
                           </div>
                         </div>
 
