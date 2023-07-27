@@ -163,10 +163,17 @@ function Drafts() {
   // Mapping drafts in to React component
   const cardDraft = drafts.map((data, index) => {
     // formatting date and time from API data
+    let CurrentTimeData = new Date();
     let date = new Date(data.createdAt);
     let year = date.getFullYear();
     let month = date.getMonth();
-    let day = date.getDate();
+    let currentDay = CurrentTimeData.getDate();
+    let day =
+      date.getDate() === currentDay
+        ? "Today"
+        : date.getDate() === currentDay - 1
+        ? "Yesterday"
+        : date.getDate();
 
     let monthArray = [
       "Jan",
@@ -183,7 +190,11 @@ function Drafts() {
       "Dec",
     ];
 
-    let dateOfCreation = day + " " + monthArray[month] + " " + year;
+    let dateOfCreation =
+      day === "Today" || day === "Yesterday"
+        ? day
+        : day + " " + monthArray[month] + " " + year;
+
     draftId = data._id;
 
     return (
