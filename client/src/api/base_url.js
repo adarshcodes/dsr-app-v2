@@ -1,4 +1,4 @@
-const base_url = "https://10.10.121.68:6001/api";
+const base_url = "http://localhost:6001/api";
 // latest api
 
 export { base_url };

@@ -97,7 +97,7 @@ function NewDsr() {
   ]);
 
   const handleAddMore = () => {
-    if (!validateForm()) {
+    if (validateForm()) {
       setDsrData([
         ...dsrData,
         {
@@ -112,6 +112,7 @@ function NewDsr() {
           openIssues: "",
         },
       ]);
+
       setActiveTab(dsrData.length);
       setSelectedProject([...selectedProject, ""]);
       setDraftData([
@@ -243,6 +244,8 @@ function NewDsr() {
   }, [isUse, draftValue]);
   // --Handle data post for new DSR to API--
   const handlePost = async (event) => {
+    console.log(dsrData);
+
     setLoading(true);
     try {
       const response = await fetch(base_url + "/dsr/create", {
@@ -278,7 +281,7 @@ function NewDsr() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    showModal("Are you sure you want to Submit?", "Mark DSR");
+    // showModal("Are you sure you want to Submit?", "Mark DSR");
     // if (validateForm()) {
     handlePost(event);
     // }
@@ -369,9 +372,12 @@ function NewDsr() {
     },
   ]);
 
+  // console.log(draftData);
   // Handle Draft Save
   const handleDraft = async () => {
     try {
+      console.log(draftData);
+
       setLoading(true);
       const response = await fetch(base_url + "/dsr/draft/create", {
         method: "POST",
@@ -590,6 +596,7 @@ function NewDsr() {
         window.location.href = window.location.origin + "/#/login";
       }
       setLastDsr(data.data);
+
       // setIsUpdated(data.data.isupdated);
     } catch (error) {
       return error;
@@ -692,6 +699,11 @@ function NewDsr() {
         i === index ? { ...item, health: option.label } : item
       )
     );
+    setDraftData((prevData) =>
+      prevData.map((item, i) =>
+        i === index ? { ...item, health: option.label } : item
+      )
+    );
     setIsOpen(false);
     // setDsrData([
     //   {
@@ -741,7 +753,10 @@ function NewDsr() {
 
   const [selectedProject, setSelectedProject] = useState([""]);
   const filteredProjects = projects.filter((data) => {
-    return selectedProject.every((item) => data.name !== item.label);
+    return (
+      selectedProject &&
+      selectedProject.every((item) => data.name !== item.label)
+    );
   });
 
   const list = filteredProjects.map((data) => {
@@ -858,7 +873,9 @@ function NewDsr() {
               <Modal
                 btnValue={btnValue}
                 modalHead={modalHead}
-                action={handleLeaveBtn}
+                action={
+                  btnValue === "Mark Submit" ? handleSubmit : handleLeaveBtn
+                }
                 state={modal}
                 setState={setModal}
                 hideModal={hideModal}
@@ -1277,7 +1294,7 @@ function NewDsr() {
                         name="project"
                         id="project-edit"
                         value={
-                          lastDsr.other_project
+                          lastDsr && lastDsr.other_project
                             ? lastDsr.other_project
                             : lastDsr.project.name
                         }
