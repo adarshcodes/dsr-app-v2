@@ -1759,6 +1759,35 @@ p {
   }
 }
 
+.basic-multi-select-color .select__menu div div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: 0.5s all ease;
+}
+.basic-multi-select-color .select__menu div div::after {
+  content: "" !important;
+  border-radius: 100%;
+  height: 1.5rem !important;
+  width: 1.5rem !important;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.basic-multi-select-color .select__menu div div:nth-child(1)::after {
+  content: "" !important;
+  background-color: green !important;
+}
+.basic-multi-select-color .select__menu div div:nth-child(2)::after {
+  content: "" !important;
+  background-color: orange !important;
+}
+.basic-multi-select-color .select__menu div div:nth-child(3)::after {
+  content: "" !important;
+  background-color: red !important;
+}
+
 .recents {
   display: flex;
   flex-direction: column;

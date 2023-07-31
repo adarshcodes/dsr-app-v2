@@ -96,37 +96,22 @@ function NewDsr() {
     },
   ]);
 
-  const [checkHours, setCheckHours] = useState(false);
   const handleAddMore = () => {
-    if (validateForm()) {
-      let vall = Number(dsrData[0].hoursWorked);
-      if (vall >= 8) {
-        setCheckHours(true);
-      }
-      if (!checkHours) {
-        for (let i = 0; i < dsrData.length; i++) {
-          if (vall >= 8) {
-            setCheckHours(true);
-            break;
-          }
-          vall += Number(dsrData[i].hoursWorked);
-        }
-      }
-      !checkHours &&
-        setDsrData([
-          ...dsrData,
-          {
-            project: null,
-            other_project: "",
-            other_manager: "",
-            activitiesCompleted: "",
-            activitiesPlanned: "",
-            health: "",
-            hoursWorked: "",
-            comment: "",
-            openIssues: "",
-          },
-        ]);
+    if (!validateForm()) {
+      setDsrData([
+        ...dsrData,
+        {
+          project: null,
+          other_project: "",
+          other_manager: "",
+          activitiesCompleted: "",
+          activitiesPlanned: "",
+          health: "",
+          hoursWorked: "",
+          comment: "",
+          openIssues: "",
+        },
+      ]);
       setActiveTab(dsrData.length);
       setSelectedProject([...selectedProject, ""]);
       setDraftData([
@@ -148,14 +133,22 @@ function NewDsr() {
 
   const [activeTab, setActiveTab] = useState(0);
 
-  const handleTabClick = (index) => {
-    setActiveTab(index);
-  };
+  const handleTabClick = (event, index) => {
+    // operation === "tabclick" && ;
+    console.log(event.target.dataset, index);
+    const operation = event.target.dataset.name;
+    console.log(operation);
+    if (operation === "DELETE") {
+      const updatedFormEntries = dsrData.filter((entry, i) => i !== index);
+      setDsrData(updatedFormEntries);
+      console.log("delete", index, operation);
 
-  const handleTabDelete = (index) => {
-    const updatedFormEntries = dsrData.filter((entry, i) => i !== index);
-    setActiveTab(dsrData.length);
-    setDsrData(updatedFormEntries);
+      setActiveTab(index - 1);
+      console.log(operation, index, 164);
+    } else if (operation === "CLICK") {
+      console.log("tab clicked");
+      setActiveTab(index);
+    }
   };
 
   // Setting data from input in the state for both the DSR data and Draft data --20-April-2023--Adarsh
@@ -527,12 +520,6 @@ function NewDsr() {
         newErrors.project = "Project Name is required.";
         isValid = false;
       }
-      console.log(selectedProject[i]);
-
-      // if (!data.clientManager) {
-      //   newErrors.clientManager = "Project Manager Name is required.";
-      //   isValid = false;
-      // }no need
 
       if (!data.hoursWorked) {
         newErrors.hoursWorked = "Hours Worked is required.";
@@ -540,15 +527,12 @@ function NewDsr() {
       } else if (data.hoursWorked < 0) {
         newErrors.hoursWorked = "Hours Worked must be a positive number.";
         isValid = false;
-      } else if (checkHours) {
-        newErrors.hoursWorked = "Maximum Working Hours Exceeded.";
-        isValid = false;
       }
 
-      // if (!data.health) {
-      //   newErrors.health = "Project Status is required.";
-      //   isValid = false;
-      // }
+      if (selectedOption[i] === "") {
+        newErrors.health = "Project Health is required.";
+        isValid = false;
+      }
 
       if (!data.activitiesCompleted) {
         newErrors.activitiesCompleted =
@@ -687,7 +671,7 @@ function NewDsr() {
   // }
 
   // Custom Dropdown
-  const [selectedOption, setSelectedOption] = useState("Project health");
+  const [selectedOption, setSelectedOption] = useState([""]);
   const [isOpen, setIsOpen] = useState(false);
 
   const options = [
@@ -697,10 +681,15 @@ function NewDsr() {
   ];
 
   const handleOptionClick = (option, index) => {
-    setSelectedOption(option.label);
+    setSelectedOption((prevSelectedOption) => {
+      const updatedSelectedOption = [...prevSelectedOption];
+      updatedSelectedOption[index] = option.label;
+
+      return updatedSelectedOption;
+    });
     setDsrData((prevData) =>
       prevData.map((item, i) =>
-        i === index ? { ...item, health: option.value } : item
+        i === index ? { ...item, health: option.label } : item
       )
     );
     setIsOpen(false);
@@ -783,6 +772,38 @@ function NewDsr() {
         i === index ? { ...item, project: selectedOption._id } : item
       )
     );
+  };
+
+  const ColorLabel = ({ color, label }) => {
+    return (
+      <div
+        style={{
+          display: "flex",
+          transform: "translateY(-18px)",
+          justifyContent: "space-between",
+        }}
+      >
+        <p style={{ fontWeight: "400" }}>{label}</p>
+        <div
+          style={{
+            backgroundColor: color,
+            height: "1.5rem",
+            width: "1.5rem",
+            borderRadius: "100%",
+          }}
+        ></div>
+      </div>
+    );
+  };
+
+  const CustomSingleValue = ({ data }) => {
+    if (!data) {
+      return null;
+    }
+
+    const { color, label } = data;
+
+    return <ColorLabel color={color} label={label} />;
   };
 
   const [modalHead, setModalHead] = useState("");
@@ -870,7 +891,8 @@ function NewDsr() {
                     <div
                       key={index}
                       className={`tab ${activeTab === index ? "active" : ""}`}
-                      onClick={() => handleTabClick(index)}
+                      data-name="CLICK"
+                      onClick={(event) => handleTabClick(event, index)}
                     >
                       Project{" "}
                       {index +
@@ -887,20 +909,10 @@ function NewDsr() {
                       {index > 0 && (
                         <span
                           className="cross"
-                          onClick={() => handleTabDelete(index)}
+                          data-name="DELETE"
+                          // onClick={() => handleTabClick(index, "tabdelete")}
                         >
-                          <button
-                            style={{
-                              background: "red",
-                              color: "#222",
-                              cursor: "pointer",
-                              zIndex: "100",
-                              fontWeight: "bold",
-                              border: "transparent",
-                            }}
-                          >
-                            &#9587;
-                          </button>
+                          &#9587;
                         </span>
                       )}
                     </div>
@@ -926,8 +938,8 @@ function NewDsr() {
                             value={selectedProject[index]}
                             defaultValue="Select Project"
                             isMulti={false}
-                            name="colors"
                             options={list}
+                            placeholder={"Select Project..."}
                             className="basic-multi-select"
                             classNamePrefix="select"
                             onChange={(option) =>
@@ -944,7 +956,7 @@ function NewDsr() {
 
                           {errors[index] && errors[index].project && (
                             <div className="validation-error">
-                              {errors[index] && errors[index].project}
+                              {!selectedProject[index] && errors[index].project}
                             </div>
                           )}
                         </div>
@@ -1139,15 +1151,21 @@ function NewDsr() {
                           </div>
 
                           <div className="input__group row-group">
-                            <Dropdown
-                              selectedOption={selectedOption}
-                              isOpen={isOpen}
-                              setIsOpen={setIsOpen}
+                            <Select
+                              value={
+                                selectedOption[index] &&
+                                selectedOption[index].label
+                              } // Just pass the selectedOption object directly
+                              placeholder={"Project Health..."}
+                              isMulti={false}
                               options={options}
-                              handleOptionClick={(option) =>
+                              isSearchable={false}
+                              className="basic-multi-select-color"
+                              classNamePrefix="select"
+                              components={{ SingleValue: CustomSingleValue }} // Use the custom component for rendering the selected option
+                              onChange={(option) =>
                                 handleOptionClick(option, index)
                               }
-                              id="health"
                             />
 
                             <label
@@ -1159,7 +1177,7 @@ function NewDsr() {
                             </label>
                             {errors[index] && errors[index].health && (
                               <div className="validation-error">
-                                {errors[index] && errors[index].health}
+                                {!selectedOption[index] && errors[index].health}
                               </div>
                             )}
                           </div>
