@@ -44,6 +44,8 @@ function WeeklyDsr() {
     fetchData();
   }, []);
 
+  console.log(recents);
+
   // Mapping fetched DSR to display as a card in recents tab
   const cardDsr = recents.map((data) => {
     let CurrentTimeData = new Date();
@@ -52,7 +54,8 @@ function WeeklyDsr() {
     let year = date.getFullYear();
     let month = date.getMonth();
     let currentDay = CurrentTimeData.getDate();
-    let day =
+    let day = date.getDate();
+    day =
       date.getDate() === currentDay
         ? "Today"
         : date.getDate() === currentDay - 1
@@ -96,133 +99,159 @@ function WeeklyDsr() {
               Marked the DSR as Leave on {dateOfCreation}
             </h4>
           ) : (
-            <div className="info">
+            <div className="Current-cards">
               <div className="data date">
-                <h4 className="heading-xs">Date of Submission</h4>
+                {/* <h4 className="heading-xs">Date of Submission</h4> */}
                 <p className="para date">{dateOfCreation}</p>
               </div>
+              {data.list.map((item, index) => {
+                return (
+                  <div className="info" key={index}>
+                    <div
+                      className="contain-details"
+                      style={{
+                        display: "flex",
+                        flexWrap: "wrap",
+                        gap: "1rem",
+                        width: "100%",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <div className="data project-name">
+                        <h4 className="heading-xs">Project</h4>
+                        <p className="para para-bold">
+                          {item.project !== undefined &&
+                            (item.other_project
+                              ? item.other_project
+                              : item.project.name)}
+                        </p>
+                      </div>
+                      <div className="data health-name">
+                        <h4 className="heading-xs">Health</h4>
+                        <p className="para para-bold">
+                          {item.health !== undefined && item.health}
+                        </p>
+                      </div>
+                      <div className="data hrs-worked">
+                        <h4 className="heading-xs">Hours Worked</h4>
+                        <p className="para">{item.hoursWorked}hrs</p>
+                      </div>
+                      <div className="data client-manager">
+                        <h4 className="heading-xs">Manager</h4>
+                        <p className="para">
+                          {item.project !== undefined &&
+                            (item.other_manager
+                              ? item.other_manager
+                              : item.project.manager)}
+                        </p>
+                      </div>
+                    </div>
 
-              <div className="data project-name">
-                <h4 className="heading-xs">Project</h4>
-                <p className="para para-bold">
-                  {data.project !== undefined &&
-                    (data.other_project
-                      ? data.other_project
-                      : data.project.name)}
-                </p>
-              </div>
-
-              <div className="data hrs-worked">
-                <h4 className="heading-xs">Hours Worked</h4>
-                <p className="para">{data.hoursWorked}hrs</p>
-              </div>
-
-              <div className="data client-manager">
-                <h4 className="heading-xs">Manager</h4>
-                <p className="para">
-                  {data.project !== undefined &&
-                    (data.other_manager
-                      ? data.other_manager
-                      : data.project.manager)}
-                </p>
-              </div>
-            </div>
-          )}
-
-          {data.isOnLeave ? (
-            ""
-          ) : (
-            <div className="cta">
-              <button
-                className="btn btn-dark btn-view"
-                onClick={(e) => setSlider(data._id)}
-              >
-                View
-              </button>
+                    {item.isOnLeave ? (
+                      ""
+                    ) : (
+                      <div className="cta">
+                        <button
+                          className="btn btn-dark btn-view"
+                          onClick={(e) => setSlider(item._id)}
+                        >
+                          View
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           )}
         </div>
 
-        <div
-          className={`view-slider ${slider === data._id ? "show-slider" : ""}`}
-        >
-          <div className="close-btn" onClick={(e) => setSlider(false)}>
-            <i className="fa-solid fa-angle-right"></i>
-          </div>
+        {/* Assuming data is an array of objects */}
+        {data.list.map((item, index) => (
+          <div
+            key={index}
+            className={`view-slider ${
+              slider === item._id ? "show-slider" : ""
+            }`}
+          >
+            <div className="close-btn" onClick={(e) => setSlider(false)}>
+              <i className="fa-solid fa-angle-right"></i>
+            </div>
 
-          <div className="dsr-details">
-            <h3 className="heading-s dsr-title">DSR Details</h3>
+            <div className="dsr-details">
+              <h3 className="heading-s dsr-title">DSR Details</h3>
 
-            <div className="details">
-              <div className="data">
-                <h4 className="heading-xs">Date & Time:</h4>
-                <p className="para">{dateOfCreation + ",  " + time}</p>
-              </div>
+              <div className="details">
+                <div className="data">
+                  <h4 className="heading-xs">Date & Time:</h4>
+                  <p className="para">{dateOfCreation + ",  " + time}</p>
+                </div>
+                {console.log(item.other_manager)}
+                <div className="data">
+                  <h4 className="heading-xs">Project:</h4>
+                  <p className="para">
+                    {item.project !== undefined &&
+                      (item.other_project
+                        ? item.other_project
+                        : item.project.name)}
+                  </p>
+                </div>
 
-              <div className="data">
-                <h4 className="heading-xs">Project:</h4>
-                <p className="para">
-                  {data.project !== undefined &&
-                    (data.other_project
-                      ? data.other_project
-                      : data.project.name)}
-                </p>
-              </div>
+                <div className="data">
+                  <h4 className="heading-xs">Manager:</h4>
+                  <p className="para">
+                    {item.project !== undefined &&
+                      (item.other_manager
+                        ? item.other_manager
+                        : item.project.manager)}
+                  </p>
+                </div>
 
-              <div className="data">
-                <h4 className="heading-xs">Manager:</h4>
-                <p className="para">
-                  {data.project !== undefined &&
-                    (data.other_manager
-                      ? data.other_manager
-                      : data.project.manager)}
-                </p>
-              </div>
+                <div className="data">
+                  <h4 className="heading-xs">Hours Worked:</h4>
+                  <p className="para">{item.hoursWorked} Hrs</p>
+                </div>
 
-              <div className="data">
-                <h4 className="heading-xs">Hours Worked:</h4>
-                <p className="para">{data.hoursWorked} Hrs</p>
-              </div>
+                <div className="data">
+                  <h4 className="heading-xs">Project Health:</h4>
+                  <p className="para" style={{ color: `${item.health}` }}>
+                    {item.health}
+                  </p>
+                </div>
 
-              <div className="data">
-                <h4 className="heading-xs">Project Health:</h4>
-                <p className="para" style={{ color: `${data.health}` }}>
-                  {data.health}
-                </p>
-              </div>
+                <div className="data">
+                  <h4 className="heading-xs">Activities Completed:</h4>
+                  <p
+                    className="para"
+                    dangerouslySetInnerHTML={{
+                      __html: item.activitiesCompleted,
+                    }}
+                  ></p>
+                </div>
 
-              <div className="data">
-                <h4 className="heading-xs">Activities Completed:</h4>
-                <p
-                  className="para"
-                  dangerouslySetInnerHTML={{
-                    __html: data.activitiesCompleted,
-                  }}
-                ></p>
-              </div>
+                <div className="data">
+                  <h4 className="heading-xs">Activities Planned:</h4>
+                  <p
+                    className="para"
+                    dangerouslySetInnerHTML={{
+                      __html: item.activitiesPlanned,
+                    }}
+                  ></p>
+                </div>
 
-              <div className="data">
-                <h4 className="heading-xs">Activities Planned:</h4>
-                <p
-                  className="para"
-                  dangerouslySetInnerHTML={{
-                    __html: data.activitiesPlanned,
-                  }}
-                ></p>
-              </div>
+                <div className="data">
+                  <h4 className="heading-xs">Open Issues:</h4>
+                  <p className="para">{item.openIssues}</p>
+                </div>
 
-              <div className="data">
-                <h4 className="heading-xs">Open Issues:</h4>
-                <p className="para">{data.openIssues}</p>
-              </div>
-
-              <div className="data">
-                <h4 className="heading-xs">Comments:</h4>
-                <p className="para">{data.comment}</p>
+                <div className="data">
+                  <h4 className="heading-xs">Comments:</h4>
+                  <p className="para">{item.comment}</p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        ))}
       </div>
     );
   });

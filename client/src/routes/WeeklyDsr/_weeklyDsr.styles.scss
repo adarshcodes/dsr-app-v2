@@ -43,10 +43,11 @@
     height: 100%;
     background-color: var(--light-section);
     border-radius: 0.4rem;
+    flex-direction: column;
     padding: 2rem;
     border: 1px solid var(--border-color);
-    @include flex-row-spacebetween;
-    gap: 10rem;
+    display: flex;
+    gap: 2rem;
 
     @media screen and (max-width: 1000px) {
       gap: 3rem;
@@ -63,9 +64,12 @@
     .info {
       flex: 1;
       @include flex-row-spacebetween;
-      flex-wrap: wrap;
       align-items: flex-start;
       gap: 2rem;
+      border: 1px solid var(--border-color);
+      padding: 2rem;
+      border-radius: 0.4rem;
+      align-items: center;
 
       .data {
         @include flex-column;
@@ -195,4 +199,14 @@
   i {
     margin-right: 1rem;
   }
+}
+.Current-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.date {
+  color: $swatch_3;
+  font-weight: 500;
 }

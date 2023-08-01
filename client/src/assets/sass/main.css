@@ -1788,6 +1788,17 @@ p {
   background-color: red !important;
 }
 
+.dsr-switch {
+  display: flex;
+  width: 70%;
+  align-self: center;
+  justify-content: space-between;
+  margin: 0.5rem 0;
+}
+.dsr-switch i {
+  color: var(--color-success);
+}
+
 .recents {
   display: flex;
   flex-direction: column;
@@ -1847,12 +1858,11 @@ p {
   height: 100%;
   background-color: var(--light-section);
   border-radius: 0.4rem;
+  flex-direction: column;
   padding: 2rem;
   border: 1px solid var(--border-color);
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10rem;
+  gap: 2rem;
 }
 @media screen and (max-width: 1000px) {
   .card-container .card {
@@ -1872,9 +1882,12 @@ p {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
   align-items: flex-start;
   gap: 2rem;
+  border: 1px solid var(--border-color);
+  padding: 2rem;
+  border-radius: 0.4rem;
+  align-items: center;
 }
 .card-container .card .info .data {
   display: flex;
@@ -2016,6 +2029,17 @@ p {
 }
 .leave-cta i {
   margin-right: 1rem;
+}
+
+.Current-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.date {
+  color: #018171;
+  font-weight: 500;
 }
 
 .draft-card .info {

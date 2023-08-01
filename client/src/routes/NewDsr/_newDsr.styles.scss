@@ -591,3 +591,13 @@
   }
   // }
 }
+.dsr-switch {
+  display: flex;
+  width: 70%;
+  align-self: center;
+  justify-content: space-between;
+  i {
+    color: var(--color-success);
+  }
+  margin: 0.5rem 0;
+}
