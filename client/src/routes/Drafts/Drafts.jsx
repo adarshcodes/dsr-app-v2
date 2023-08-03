@@ -19,6 +19,8 @@ function Drafts() {
   const { setDraftData } = useContext(transferData);
   const { setIsUse } = useContext(takeData);
 
+  console.log(drafts);
+
   function handleUse(index) {
     setDraftData(drafts[index]);
     setIsUse(true);
@@ -200,12 +202,11 @@ function Drafts() {
     return (
       <div key={data._id}>
         <div className="draft-card recents-card card">
+          <div className="data date">
+            {/* <h4 className="heading-xs">Date of Creation</h4> */}
+            <p className="para date">{dateOfCreation}</p>
+          </div>
           <div className="info">
-            <div className="data date">
-              <h4 className="heading-xs">Date of Creation</h4>
-              <p className="para date">{dateOfCreation}</p>
-            </div>
-
             <div className="data project-name">
               <h4 className="heading-xs">Project Name</h4>
               <p className="para para-bold">

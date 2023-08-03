@@ -12,7 +12,7 @@ function WeeklyDsr() {
   // Using post method to send userID which return the Recents DSR of the user
 
   const [recents, setRecents] = useState([]);
-  const [slider, setSlider] = useState("");
+  const [slider, setSlider] = useState({});
   const [loading, setLoading] = useState(true);
 
   const fetchData = async () => {
@@ -153,7 +153,9 @@ function WeeklyDsr() {
                       <div className="cta">
                         <button
                           className="btn btn-dark btn-view"
-                          onClick={(e) => setSlider(item._id)}
+                          onClick={(e) =>
+                            setSlider({ _id: data._id, project: item.project })
+                          }
                         >
                           View
                         </button>
@@ -166,14 +168,16 @@ function WeeklyDsr() {
           )}
         </div>
 
-        {/* Assuming data is an array of objects */}
         {data.list.map((item, index) => (
           <div
             key={index}
             className={`view-slider ${
-              slider === item._id ? "show-slider" : ""
+              slider.project === item.project && slider._id === data._id
+                ? "show-slider"
+                : ""
             }`}
           >
+            {console.log(item.project)}
             <div className="close-btn" onClick={(e) => setSlider(false)}>
               <i className="fa-solid fa-angle-right"></i>
             </div>

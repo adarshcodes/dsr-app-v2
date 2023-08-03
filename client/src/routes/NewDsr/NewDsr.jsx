@@ -82,6 +82,8 @@ function NewDsr() {
     " " +
     dateTime.getFullYear();
 
+  const [checkHoursRemaining, setCheckHoursRemaining] = useState(0);
+
   const [dsrData, setDsrData] = useState([
     {
       project: null,
@@ -97,7 +99,7 @@ function NewDsr() {
   ]);
 
   const handleAddMore = () => {
-    if (validateForm()) {
+    if (validateForm() && checkHoursRemaining > 0) {
       setDsrData([
         ...dsrData,
         {
@@ -147,20 +149,32 @@ function NewDsr() {
   };
 
   // Setting data from input in the state for both the DSR data and Draft data --20-April-2023--Adarsh
+  useEffect(() => {
+    const totalHoursWorked = dsrData.reduce(
+      (acc, item) => acc + parseFloat(item.hoursWorked || 0),
+      0
+    );
+    setCheckHoursRemaining(8 - totalHoursWorked);
+  }, [dsrData]);
 
   function storeData(e, index) {
     const name = e.target.name;
     let value = e.target.value;
 
+    console.log(checkHoursRemaining);
+
     if (name === "hoursWorked") {
       // Remove any non-digit characters
       value = value.replace(/[^\d.]/g, "");
-
       // Limit to a range between 1 and 15
       if (value < 0) {
         value = "";
-      } else if (value > 12) {
-        value = 12;
+      } else if (value > 8) {
+        value = "";
+      } else if (checkHoursRemaining < 0) {
+        value = "";
+      } else if (checkHoursRemaining > 0 && value > checkHoursRemaining) {
+        value = checkHoursRemaining;
       }
     }
     const updatedFormEntries = [...dsrData];
@@ -527,6 +541,9 @@ function NewDsr() {
       } else if (data.hoursWorked < 0) {
         newErrors.hoursWorked = "Hours Worked must be a positive number.";
         isValid = false;
+      } else if (checkHoursRemaining < 0) {
+        newErrors.hoursWorked = "Exceeded Working Hours Limit.";
+        isValid = false;
       }
 
       if (selectedOption[i] === "") {
@@ -807,6 +824,7 @@ function NewDsr() {
       >
         <p style={{ fontWeight: "400" }}>{label}</p>
         <div
+          className="compDropdownColor"
           style={{
             backgroundColor: color,
             height: "1.5rem",
@@ -906,6 +924,9 @@ function NewDsr() {
                     type="button"
                     className="btn btn-dark"
                     onClick={handleAddMore}
+                    style={{
+                      display: `${checkHoursRemaining <= 0 ? "none" : ""}`,
+                    }}
                   >
                     Add Project
                   </button>
@@ -1164,7 +1185,22 @@ function NewDsr() {
                               htmlFor="hours-worked"
                               className="input__label input-label"
                             >
-                              Hours Worked <sup style={{ color: "red" }}>*</sup>
+                              Hours Worked <sup style={{ color: "red" }}>*</sup>{" "}
+                              {index !== 0 && (
+                                <p
+                                  style={{
+                                    fontSize: "1.65rem",
+                                    display: "inline",
+                                  }}
+                                >
+                                  &nbsp; &nbsp;
+                                  {`Hours left : ${
+                                    checkHoursRemaining <= 0
+                                      ? "    Nothing 🥲"
+                                      : checkHoursRemaining
+                                  }`}
+                                </p>
+                              )}
                             </label>
 
                             {errors[index] && errors[index].hoursWorked && (
@@ -1299,7 +1335,9 @@ function NewDsr() {
                     lastDsr.list.map((item, index) => {
                       return (
                         <div
-                          className={`preview-card`}
+                          className={`preview-card ${
+                            index === activeSubmitDsrIndex ? "show" : ""
+                          }`}
                           style={{
                             display: `${
                               index === activeSubmitDsrIndex ? "" : "none"
@@ -1463,6 +1501,7 @@ function NewDsr() {
                               style={{
                                 width: "7%",
                                 display: "flex",
+                                gap: "1rem",
                                 alignItems: "center",
                                 justifyContent: "space-between",
                               }}
@@ -1477,6 +1516,7 @@ function NewDsr() {
                                       fontSize: "1.4rem",
                                       fontWeight: "bold",
                                       padding: "5px 2px",
+                                      cursor: "pointer",
                                       color: `${
                                         activeSubmitDsrIndex === index
                                           ? "var(--color-success)"
@@ -1488,6 +1528,9 @@ function NewDsr() {
                                           : ""
                                       }`,
                                     }}
+                                    onClick={() =>
+                                      setActiveSubmitDsrIndex(index)
+                                    }
                                   >
                                     {index + 1}
                                   </div>

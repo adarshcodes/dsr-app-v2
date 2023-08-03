@@ -199,7 +199,6 @@
     .preview-card {
       @include flex-column;
       gap: 2rem;
-
       .edit-input-row {
         width: 100%;
         @include flex-row-spacebetween;
@@ -225,9 +224,9 @@
           }
         }
 
-        .dropdown-menu {
-          border-top: #ccc 1px solid;
-        }
+        // .dropdown-menu {
+        //   border-top: #ccc 1px solid;
+        // }
 
         .dropdown-toggle {
           border-bottom: 0;
@@ -600,4 +599,20 @@
     color: var(--color-success);
   }
   margin: 0.5rem 0;
+}
+.fa-arrow-left,
+.fa-arrow-right {
+  transition: 0.5s ease;
+  &:hover,
+  &:focus {
+    font-size: 2.1rem;
+    font-weight: 900;
+    opacity: 0.8;
+    background-color: var(--message-box-border);
+  }
+}
+.compDropdownColor {
+  &:hover {
+    transform: scale(1.1) !important;
+  }
 }
