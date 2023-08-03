@@ -754,8 +754,8 @@ function NewDsr() {
         },
         // body: localStorage.getItem("authToken"),
       });
-      const data = await response.json();
 
+      const data = await response.json();
       if (data.status === 403) {
         localStorage.clear();
         window.location.href = window.location.origin + "/#/login";
