@@ -39,7 +39,7 @@ function NewDsr() {
       const data = await response.json();
       if (data.status === 403) {
         localStorage.clear();
-        window.location.href = "/login";
+        window.location.href = window.location.origin + "/#/login";
       }
 
       setIsLeave(data);
@@ -82,68 +82,137 @@ function NewDsr() {
     " " +
     dateTime.getFullYear();
 
-  const [dsrData, setDsrData] = useState({
-    project: null,
-    other_project: "",
-    other_manager: "",
-    activitiesCompleted: "",
-    activitiesPlanned: "",
-    health: "",
-    hoursWorked: "",
-    comment: "",
-    openIssues: "",
-  });
+  const [checkHoursRemaining, setCheckHoursRemaining] = useState(0);
+
+  const [dsrData, setDsrData] = useState([
+    {
+      project: null,
+      other_project: "",
+      other_manager: "",
+      activitiesCompleted: "",
+      activitiesPlanned: "",
+      health: "",
+      hoursWorked: "",
+      comment: "",
+      openIssues: "",
+    },
+  ]);
+
+  const handleAddMore = () => {
+    if (validateForm() && checkHoursRemaining > 0) {
+      setDsrData([
+        ...dsrData,
+        {
+          project: null,
+          other_project: "",
+          other_manager: "",
+          activitiesCompleted: "",
+          activitiesPlanned: "",
+          health: "",
+          hoursWorked: "",
+          comment: "",
+          openIssues: "",
+        },
+      ]);
+
+      setActiveTab(dsrData.length);
+      setSelectedProject([...selectedProject, ""]);
+      setDraftData([
+        ...draftData,
+        {
+          project: null,
+          other_project: "",
+          other_manager: "",
+          activitiesCompleted: "",
+          activitiesPlanned: "",
+          health: "",
+          hoursWorked: "",
+          comment: "",
+          openIssues: "",
+        },
+      ]);
+    }
+  };
+
+  const [activeTab, setActiveTab] = useState(0);
+
+  const handleTabClick = (event, index) => {
+    const operation = event.target.dataset.name;
+    if (operation === "DELETE") {
+      const updatedFormEntries = dsrData.filter((entry, i) => i !== index);
+      setDsrData(updatedFormEntries);
+
+      setActiveTab(index - 1);
+    } else if (operation === "CLICK") {
+      setActiveTab(index);
+    }
+  };
 
   // Setting data from input in the state for both the DSR data and Draft data --20-April-2023--Adarsh
+  useEffect(() => {
+    const totalHoursWorked = dsrData.reduce(
+      (acc, item) => acc + parseFloat(item.hoursWorked || 0),
+      0
+    );
+    setCheckHoursRemaining(8 - totalHoursWorked);
+  }, [dsrData]);
 
-  function storeData(e) {
+  function storeData(e, index) {
     const name = e.target.name;
     let value = e.target.value;
+
+    console.log(checkHoursRemaining);
 
     if (name === "hoursWorked") {
       // Remove any non-digit characters
       value = value.replace(/[^\d.]/g, "");
-
       // Limit to a range between 1 and 15
       if (value < 0) {
         value = "";
-      } else if (value > 12) {
-        value = 12;
+      } else if (value > 8) {
+        value = "";
+      } else if (checkHoursRemaining < 0) {
+        value = "";
+      } else if (checkHoursRemaining > 0 && value > checkHoursRemaining) {
+        value = checkHoursRemaining;
       }
     }
+    const updatedFormEntries = [...dsrData];
+    updatedFormEntries[index][name] = value;
+    setDsrData((prevDatam) =>
+      prevDatam.map((item, i) =>
+        i === index ? { ...item, [name]: value } : item
+      )
+    );
 
-    setDsrData({
-      ...dsrData,
-      [e.target.name]: value,
-    });
+    setDraftData((prevDatap) =>
+      prevDatap.map((item, i) =>
+        i === index ? { ...item, [name]: value } : item
+      )
+    );
 
-    setDraftData({
-      ...draftData,
-      [e.target.name]: value,
-    });
-
-    setErrors({
-      ...errors,
-      [e.target.name]: "",
-    });
+    setErrors((prev) =>
+      prev.map((item, i) => (i === index ? { ...item, [name]: "" } : item))
+    );
   }
 
   // Handle Quill data change
-  const handleQuillChange = (name, value) => {
-    setDsrData((prevDsrData) => ({
-      ...prevDsrData,
-      [name]: value,
-    }));
+  const handleQuillChange = (name, value, index) => {
+    setDsrData((prevData) =>
+      prevData.map((item, i) =>
+        i === index ? { ...item, [name]: value } : item
+      )
+    );
 
-    setDraftData((prevDsrData) => ({
-      ...prevDsrData,
-      [name]: value,
-    }));
+    setDraftData((prevData) =>
+      prevData.map((item, i) =>
+        i === index ? { ...item, [name]: value } : item
+      )
+    );
 
-    setErrors({
-      ...errors,
-      [name]: "",
-    });
+    setErrors((prevData) =>
+      prevData.map((item, i) => (i === index ? { ...item, [name]: "" } : item))
+    );
   };
 
   // Handle Quill Edit
@@ -160,7 +229,7 @@ function NewDsr() {
     isUse &&
       draftValue &&
       setDsrData({
-        project: draftValue.project.name,
+        project: draftValue.project,
         activitiesCompleted: draftValue.activitiesCompleted,
         activitiesPlanned: draftValue.activitiesPlanned,
         hoursWorked: draftValue.hoursWorked,
@@ -182,8 +251,10 @@ function NewDsr() {
       });
   }, [isUse, draftValue]);
   // --Handle data post for new DSR to API--
-  console.log("dsrdata bhai:", dsrData);
   const handlePost = async (event) => {
+    console.log(dsrData);
+
+    setLoading(true);
     try {
       const response = await fetch(base_url + "/dsr/create", {
         method: "POST",
@@ -195,9 +266,10 @@ function NewDsr() {
       });
 
       const data = await response.json();
+      setLoading(false);
       if (data.status === 403) {
         localStorage.clear();
-        window.location.href = "/login";
+        window.location.href = window.location.origin + "/#/login";
       }
       // Clearing form after Submission
       setMsgToShow("DSR-Saved");
@@ -217,52 +289,58 @@ function NewDsr() {
 
   function handleSubmit(event) {
     event.preventDefault();
-
-    if (validateForm()) {
-      handlePost(event);
-    }
+    // showModal("Are you sure you want to Submit?", "Mark DSR");
+    // if (validateForm()) {
+    handlePost(event);
+    // }
   }
 
   // --End of Posting New DSR Data--
 
   // Clearing the input
   const handleClear = () => {
-    setDsrData({
-      ...dsrData,
-      project: "",
-      other_project: "",
-      other_manager: "",
-      activitiesCompleted: "",
-      activitiesPlanned: "",
-      health: "",
-      hoursWorked: "",
-      comment: "",
-      openIssues: "",
-    });
+    setDsrData((prevData) =>
+      prevData.map((item) => ({
+        ...item,
+        project: "",
+        other_project: "",
+        other_manager: "",
+        activitiesCompleted: "",
+        activitiesPlanned: "",
+        health: "",
+        hoursWorked: "",
+        comment: "",
+        openIssues: "",
+      }))
+    );
 
-    setDraftData({
-      ...dsrData,
-      project: null,
-      other_project: "",
-      other_manager: "",
-      activitiesCompleted: "",
-      activitiesPlanned: "",
-      health: "",
-      hoursWorked: "",
-      comment: "",
-      openIssues: "",
-    });
+    setDraftData((prevData) =>
+      prevData.map((item) => ({
+        ...item,
+        project: "",
+        other_project: "",
+        other_manager: "",
+        activitiesCompleted: "",
+        activitiesPlanned: "",
+        health: "",
+        hoursWorked: "",
+        comment: "",
+        openIssues: "",
+      }))
+    );
 
-    setErrors({
-      ...errors,
-      project: "",
-      other_project: "",
-      other_manager: "",
-      activitiesCompleted: "",
-      activitiesPlanned: "",
-      health: "",
-      hoursWorked: "",
-    });
+    setErrors((prevData) =>
+      prevData.map((item) => ({
+        ...item,
+        project: "",
+        other_project: "",
+        other_manager: "",
+        activitiesCompleted: "",
+        activitiesPlanned: "",
+        health: "",
+        hoursWorked: "",
+      }))
+    );
     setSelectedOption("Project health");
     setSelectedProject("");
 
@@ -288,21 +366,27 @@ function NewDsr() {
   }
 
   // Saving Draft
-  const [draftData, setDraftData] = useState({
-    project: null,
-    other_project: "",
-    other_manager: "",
-    activitiesCompleted: "",
-    activitiesPlanned: "",
-    health: "",
-    hoursWorked: "",
-    comment: "",
-    openIssues: "",
-  });
+  const [draftData, setDraftData] = useState([
+    {
+      project: null,
+      other_project: "",
+      other_manager: "",
+      activitiesCompleted: "",
+      activitiesPlanned: "",
+      health: "",
+      hoursWorked: "",
+      comment: "",
+      openIssues: "",
+    },
+  ]);
 
+  // console.log(draftData);
   // Handle Draft Save
   const handleDraft = async () => {
     try {
+      console.log(draftData);
+
+      setLoading(true);
       const response = await fetch(base_url + "/dsr/draft/create", {
         method: "POST",
         headers: {
@@ -313,10 +397,11 @@ function NewDsr() {
       });
 
       const data = await response.json();
+      setLoading(false);
       // Clearing form after Submission
       if (data.status === 403) {
         localStorage.clear();
-        window.location.href = "/login";
+        window.location.href = window.location.origin + "/#/login";
       }
 
       handleClear();
@@ -363,6 +448,7 @@ function NewDsr() {
 
   const markLeave = async () => {
     try {
+      setLoading(true);
       const response = await fetch(base_url + "/dsr/onleave", {
         method: "GET",
         headers: {
@@ -372,9 +458,10 @@ function NewDsr() {
       });
 
       const data = await response.json();
+      setLoading(false);
       if (data.status === 403) {
         localStorage.clear();
-        window.location.href = "/login";
+        window.location.href = window.location.origin + "/#/login";
       }
       setMsgToShow("Marked-Leave");
       !data ? errorMsg() : verificationMsg();
@@ -403,8 +490,10 @@ function NewDsr() {
       : container.classList.remove("remove-scroll");
   }, [modal]);
 
-  function showModal() {
+  function showModal(modalHead, btnValue) {
     setModal(true);
+    setModalHead(modalHead);
+    setBtnValue(btnValue);
   }
 
   function hideModal() {
@@ -412,85 +501,107 @@ function NewDsr() {
   }
 
   // Form Validation
-  const [errors, setErrors] = useState({
-    project: "",
-    other_project: "",
-    other_manager: "",
-    activitiesCompleted: "",
-    activitiesPlanned: "",
-    health: "green",
-    hoursWorked: "",
-  });
-
-  const validateForm = () => {
-    let isValid = true;
-
-    const newErrors = {
+  const [errors, setErrors] = useState([
+    {
       project: "",
       other_project: "",
       other_manager: "",
       activitiesCompleted: "",
       activitiesPlanned: "",
-      health: "green",
+      health: "",
       hoursWorked: "",
-    };
+    },
+  ]);
 
-    if (!dsrData.project) {
-      newErrors.project = "Project Name is required.";
-      isValid = false;
+  const validateForm = () => {
+    let isValid = true;
+    const newErrorsArray = [];
+
+    // Assuming dsrData is an array of objects
+    for (let i = 0; i < dsrData.length; i++) {
+      const data = dsrData[i];
+      const newErrors = {
+        project: "",
+        other_project: "",
+        other_manager: "",
+        activitiesCompleted: "",
+        activitiesPlanned: "",
+        health: "",
+        hoursWorked: "",
+      };
+
+      if (selectedProject[i] === "") {
+        newErrors.project = "Project Name is required.";
+        isValid = false;
+      }
+
+      if (!data.hoursWorked) {
+        newErrors.hoursWorked = "Hours Worked is required.";
+        isValid = false;
+      } else if (data.hoursWorked < 0) {
+        newErrors.hoursWorked = "Hours Worked must be a positive number.";
+        isValid = false;
+      } else if (checkHoursRemaining < 0) {
+        newErrors.hoursWorked = "Exceeded Working Hours Limit.";
+        isValid = false;
+      }
+
+      if (selectedOption[i] === "") {
+        newErrors.health = "Project Health is required.";
+        isValid = false;
+      }
+
+      if (!data.activitiesCompleted) {
+        newErrors.activitiesCompleted =
+          "Activities completed today is required.";
+        isValid = false;
+      }
+
+      if (!data.activitiesPlanned) {
+        newErrors.activitiesPlanned =
+          "Activities planned for tomorrow is required.";
+        isValid = false;
+      }
+
+      newErrorsArray.push(newErrors);
     }
 
-    // if (!dsrData.clientManager) {
-    //   newErrors.clientManager = "Project Manager Name is required.";
-    //   isValid = false;
-    // }no need
-
-    if (!dsrData.hoursWorked) {
-      newErrors.hoursWorked = "Hours Worked is required.";
-      isValid = false;
-    } else if (dsrData.hoursWorked < 0) {
-      newErrors.hoursWorked = "Hours Worked must be a positive number.";
-      isValid = false;
-    }
-
-    if (!dsrData.health) {
-      newErrors.health = "Project Status is required.";
-      isValid = false;
-    }
-
-    if (!dsrData.activitiesCompleted) {
-      newErrors.activitiesCompleted = "Activities completed today is required.";
-      isValid = false;
-    }
-
-    if (!dsrData.activitiesPlanned) {
-      newErrors.activitiesPlanned =
-        "Activities planned for tomorrow is required.";
-      isValid = false;
-    }
-
-    setErrors(newErrors);
+    setErrors(newErrorsArray);
     return isValid;
   };
 
   // Updating DSR
-  const [lastDsr, setLastDsr] = useState({
-    project: "",
-    manager: "",
-    other_project: "",
-    other_manager: "",
-    activitiesCompleted: "",
-    activitiesPlanned: "",
-    health: "",
-    hoursWorked: "",
-    comment: "",
-    openIssues: "",
-  });
+  const [lastDsr, setLastDsr] = useState([
+    {
+      project: "",
+      manager: "",
+      other_project: "",
+      other_manager: "",
+      activitiesCompleted: "",
+      activitiesPlanned: "",
+      health: "",
+      hoursWorked: "",
+      comment: "",
+      openIssues: "",
+    },
+  ]);
+
+  // Switch of the dsrs filled in after submission ui of dsr.
+
+  const handleIncrementIndex = () => {
+    setActiveSubmitDsrIndex((i) => (i < lastDsr.list.length - 1 ? i + 1 : i));
+    console.log(activeSubmitDsrIndex);
+  };
+  const handleDecrementIndex = () => {
+    console.log(activeSubmitDsrIndex);
+    setActiveSubmitDsrIndex((i) => (i > 0 ? i - 1 : i));
+  };
 
   // const [isUpdated, setIsUpdated] = useState(false);
   const [isEditable] = useState(false);
 
   const fetchLastDsr = async () => {
+    setLoading(true);
     try {
       const response = await fetch(base_url + "/dsr/last", {
         method: "GET",
@@ -501,12 +612,13 @@ function NewDsr() {
       });
 
       const data = await response.json();
-
+      setLoading(false);
       if (data.status === 403) {
         localStorage.clear();
-        window.location.href = "/login";
+        window.location.href = window.location.origin + "/#/login";
       }
       setLastDsr(data.data);
+
       // setIsUpdated(data.data.isupdated);
     } catch (error) {
       return error;
@@ -588,7 +700,7 @@ function NewDsr() {
   // }
 
   // Custom Dropdown
-  const [selectedOption, setSelectedOption] = useState("Project health");
+  const [selectedOption, setSelectedOption] = useState([""]);
   const [isOpen, setIsOpen] = useState(false);
 
   const options = [
@@ -597,19 +709,35 @@ function NewDsr() {
     { label: "Red", color: "#ff0000" },
   ];
 
-  const handleOptionClick = (option) => {
-    setSelectedOption(option.label);
+  const handleOptionClick = (option, index) => {
+    setSelectedOption((prevSelectedOption) => {
+      const updatedSelectedOption = [...prevSelectedOption];
+      updatedSelectedOption[index] = option.label;
+
+      return updatedSelectedOption;
+    });
+    setDsrData((prevData) =>
+      prevData.map((item, i) =>
+        i === index ? { ...item, health: option.label } : item
+      )
+    );
+    setDraftData((prevData) =>
+      prevData.map((item, i) =>
+        i === index ? { ...item, health: option.label } : item
+      )
+    );
     setIsOpen(false);
+    // setDsrData([
+    //   {
+    //     ...dsrData,
+    //     health: option.label,
+    //   },
+    // ]);
 
-    setDsrData({
-      ...dsrData,
-      health: option.label,
-    });
-
-    setDraftData({
-      ...draftData,
-      health: option.label,
-    });
+    // setDraftData({
+    //   ...draftData,
+    //   health: option.label,
+    // });
   };
 
   // fetch project list Api
@@ -627,11 +755,10 @@ function NewDsr() {
         // body: localStorage.getItem("authToken"),
       });
       const data = await response.json();
-      console.log("projects", data);
 
       if (data.status === 403) {
         localStorage.clear();
-        window.location.href = "/login";
+        window.location.href = window.location.origin + "/#/login";
       }
       setProjects(data.data);
       setLoading(false);
@@ -646,7 +773,15 @@ function NewDsr() {
 
   //list dropdown project name and the project manager dynamically with the Api
 
-  const list = projects.map((data) => {
+  const [selectedProject, setSelectedProject] = useState([""]);
+  const filteredProjects = projects.filter((data) => {
+    return (
+      selectedProject &&
+      selectedProject.every((item) => data.name !== item.label)
+    );
+  });
+
+  const list = filteredProjects.map((data) => {
     return {
       value: data.name,
       label: data.name,
@@ -655,19 +790,64 @@ function NewDsr() {
     };
   });
 
-  const [selectedProject, setSelectedProject] = useState("");
+  const handleProjectSelect = (selectedOption, index) => {
+    setSelectedProject((prevSelectedProject) => {
+      const updatedSelectedProject = [...prevSelectedProject];
+      updatedSelectedProject[index] = selectedOption;
 
-  const handleProjectSelect = (selectedOption) => {
-    setSelectedProject(selectedOption);
-    setDsrData({
-      ...dsrData,
-      project: selectedOption ? selectedOption._id : null,
+      return updatedSelectedProject;
     });
-    setDraftData({
-      ...draftData,
-      project: selectedOption ? selectedOption._id : null,
-    });
+
+    setDsrData((prevData) =>
+      prevData.map((item, i) =>
+        i === index ? { ...item, project: selectedOption._id } : item
+      )
+    );
+
+    setDraftData((prevData) =>
+      prevData.map((item, i) =>
+        i === index ? { ...item, project: selectedOption._id } : item
+      )
+    );
   };
+
+  const [activeSubmitDsrIndex, setActiveSubmitDsrIndex] = useState(0);
+
+  const ColorLabel = ({ color, label }) => {
+    return (
+      <div
+        style={{
+          display: "flex",
+          transform: "translateY(-11px)",
+          justifyContent: "space-between",
+        }}
+      >
+        <p style={{ fontWeight: "400" }}>{label}</p>
+        <div
+          className="compDropdownColor"
+          style={{
+            backgroundColor: color,
+            height: "1.5rem",
+            width: "1.5rem",
+            borderRadius: "100%",
+          }}
+        ></div>
+      </div>
+    );
+  };
+
+  const CustomSingleValue = ({ data }) => {
+    if (!data) {
+      return null;
+    }
+
+    const { color, label } = data;
+
+    return <ColorLabel color={color} label={label} />;
+  };
+
+  const [modalHead, setModalHead] = useState("");
+  const [btnValue, setBtnValue] = useState("");
 
   return (
     // Adding animated component to make the route change animated -- Adarsh(19-Apr)
@@ -716,9 +896,11 @@ function NewDsr() {
 
               {/* Modal confirmation */}
               <Modal
-                btnValue={"Mark Leave"}
-                modalHead={"Are you sure to mark leave today?"}
-                action={handleLeaveBtn}
+                btnValue={btnValue}
+                modalHead={modalHead}
+                action={
+                  btnValue === "Mark Submit" ? handleSubmit : handleLeaveBtn
+                }
                 state={modal}
                 setState={setModal}
                 hideModal={hideModal}
@@ -726,296 +908,406 @@ function NewDsr() {
 
               <button
                 className="btn btn-dark btn-error"
-                onClick={(e) => showModal()}
+                onClick={(e) =>
+                  showModal(
+                    "Are you sure you want to take Leave?",
+                    "Mark Leave"
+                  )
+                }
               >
                 On Leave
               </button>
 
               <div className="new-dsr-card">
+                <div className="add-more">
+                  <button
+                    type="button"
+                    className="btn btn-dark"
+                    onClick={handleAddMore}
+                    style={{
+                      display: `${checkHoursRemaining <= 0 ? "none" : ""}`,
+                    }}
+                  >
+                    Add Project
+                  </button>
+                </div>
+                <div className="tabs">
+                  {dsrData.map((entry, index) => (
+                    <div
+                      key={index}
+                      className={`tab ${activeTab === index ? "active" : ""}`}
+                      data-name="CLICK"
+                      onClick={(event) => handleTabClick(event, index)}
+                    >
+                      Project
+                      {index +
+                        1 +
+                        `${
+                          index % 10 === 0 && index !== 10
+                            ? "st"
+                            : index % 10 === 1 && index !== 11
+                            ? "nd"
+                            : index % 10 === 2 && index !== 12
+                            ? "rd"
+                            : "th"
+                        }`}{" "}
+                      {index > 0 && (
+                        <span
+                          className="cross"
+                          data-name="DELETE"
+                          // onClick={() => handleTabClick(index, "tabdelete")}
+                        >
+                          &#9587;
+                        </span>
+                      )}
+                    </div>
+                  ))}
+                </div>
                 <div className="uid-date">
                   <h3 className="heading-s">Please Fill Your DSR!</h3>
                   <p className="para">
                     Date: <span>{currentDate}</span>
                   </p>
                 </div>
+                {dsrData.map((entry, index) => (
+                  <div
+                    className={`dynamic-form ${
+                      activeTab === index ? "active" : ""
+                    }`}
+                    key={index}
+                  >
+                    <form className={`form login-form `}>
+                      <div className="input-row">
+                        <div className="input__group">
+                          <Select
+                            value={selectedProject[index]}
+                            defaultValue="Select Project"
+                            isMulti={false}
+                            options={list}
+                            placeholder={"Select Project..."}
+                            className="basic-multi-select"
+                            classNamePrefix="select"
+                            onChange={(option) =>
+                              handleProjectSelect(option, index)
+                            }
+                          />
 
-                <form className="form login-form">
-                  <div className="input-row">
-                    <div className="input__group">
-                      <Select
-                        value={selectedProject}
-                        defaultValue="Select Project"
-                        isMulti={false}
-                        name="colors"
-                        options={list}
-                        className="basic-multi-select"
-                        classNamePrefix="select"
-                        onChange={handleProjectSelect}
-                      />
+                          <label
+                            htmlFor="project-name"
+                            className="input__label input-label"
+                          >
+                            Project Name <sup style={{ color: `red` }}>*</sup>
+                          </label>
 
-                      <label
-                        htmlFor="project-name"
-                        className="input__label input-label"
-                      >
-                        Project Name <sup style={{ color: `red` }}>*</sup>
-                      </label>
+                          {errors[index] && errors[index].project && (
+                            <div className="validation-error">
+                              {!selectedProject[index] && errors[index].project}
+                            </div>
+                          )}
+                        </div>
 
-                      {errors.project && (
-                        <div className="validation-error">{errors.project}</div>
-                      )}
-                    </div>
+                        <div className="input__group">
+                          <input
+                            type="text"
+                            id="client-manager-name"
+                            name="clientManager"
+                            onChange={(event) => storeData(event, index)}
+                            className={`form__input form-input disabled ${
+                              errors[index] && errors[index].clientManager
+                                ? "invalid-input"
+                                : "valid-input"
+                            }`}
+                            readOnly
+                            value={
+                              selectedProject[index]
+                                ? selectedProject[index].manager
+                                : ""
+                            }
+                          />
 
-                    <div className="input__group">
-                      <input
-                        type="text"
-                        id="client-manager-name"
-                        name="clientManager"
-                        onChange={storeData}
-                        className={`form__input form-input disabled ${
-                          errors.clientManager ? "invalid-input" : "valid-input"
-                        }`}
-                        readOnly
-                        value={selectedProject ? selectedProject.manager : ""}
-                      />
+                          <label
+                            htmlFor="client-manager-name"
+                            className="input__label input-label"
+                          >
+                            Project Manager Name{" "}
+                            <sup style={{ color: `red` }}>*</sup>
+                          </label>
 
-                      <label
-                        htmlFor="client-manager-name"
-                        className="input__label input-label"
-                      >
-                        Project Manager Name{" "}
-                        <sup style={{ color: `red` }}>*</sup>
-                      </label>
-
-                      {/* {errors.clientManager && (
+                          {/* {errors.clientManager && (
                         <div className="validation-error">
                           {errors.}
                         </div>
                       )} */}
-                    </div>
-                  </div>
-
-                  {selectedProject.value === "Other" && (
-                    <div className="input-row">
-                      <div className="input__group">
-                        <input
-                          type="text"
-                          id="other-project-name"
-                          name="other_project"
-                          onChange={storeData}
-                          className={`form__input form-input ${
-                            errors.project ? "invalid-input" : "valid-input"
-                          }`}
-                          value={dsrData.other_project}
-                        />
-
-                        <label
-                          htmlFor="project-name"
-                          className="input__label input-label"
-                        >
-                          Other Project Name{" "}
-                          <sup style={{ color: `red` }}>*</sup>
-                        </label>
-
-                        {errors.project && (
-                          <div className="validation-error">
-                            {errors.other_manager}
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="input__group">
-                        <input
-                          type="text"
-                          id="other-manager-name"
-                          name="other_manager"
-                          onChange={storeData}
-                          className={`form__input form-input ${
-                            errors.other_manager
-                              ? "invalid-input"
-                              : "valid-input"
-                          }`}
-                          value={dsrData.other_manager}
-                        />
-
-                        <label
-                          htmlFor="client-manager-name"
-                          className="input__label input-label"
-                        >
-                          Other Project Manager Name{" "}
-                          <sup style={{ color: `red` }}>*</sup>
-                        </label>
-
-                        {errors.other_manager && (
-                          <div className="validation-error">
-                            {errors.other_manager}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  )}
-
-                  <div className="input-row">
-                    <div className="input__group input__group__area">
-                      <ReactQuill
-                        value={dsrData.activitiesCompleted}
-                        onChange={(value) =>
-                          handleQuillChange("activitiesCompleted", value)
-                        }
-                      />
-
-                      <label
-                        htmlFor="activities-today"
-                        className="input__label input__label__area input-label"
-                      >
-                        Activities completed Today{" "}
-                        <sup style={{ color: "red" }}>*</sup>
-                      </label>
-
-                      {errors.activitiesCompleted && (
-                        <div className="validation-error textarea-error">
-                          {errors.activitiesCompleted}
                         </div>
-                      )}
-                    </div>
+                      </div>
 
-                    <div className="input__group input__group__area">
-                      <ReactQuill
-                        value={dsrData.activitiesPlanned}
-                        onChange={(value) =>
-                          handleQuillChange("activitiesPlanned", value)
-                        }
-                      />
+                      {selectedProject[index] &&
+                        selectedProject[index].value === "Other" && (
+                          <div className="input-row">
+                            <div className="input__group">
+                              <input
+                                type="text"
+                                id="other-project-name"
+                                name="other_project"
+                                onChange={(event) => storeData(event, index)}
+                                className={`form__input form-input ${
+                                  errors[index] && errors[index].project
+                                    ? "invalid-input"
+                                    : "valid-input"
+                                }`}
+                                value={entry.other_project}
+                              />
 
-                      <label
-                        htmlFor="activities-tomorrow"
-                        className="input__label input__label__area input-label"
-                      >
-                        Activities planned for tomorrow{" "}
-                        <sup style={{ color: "red" }}>*</sup>
-                      </label>
+                              <label
+                                htmlFor="project-name"
+                                className="input__label input-label"
+                              >
+                                Other Project Name{" "}
+                                <sup style={{ color: `red` }}>*</sup>
+                              </label>
 
-                      {errors.activitiesPlanned && (
-                        <div className="validation-error textarea-error">
-                          {errors.activitiesPlanned}
-                        </div>
-                      )}
-                    </div>
-                  </div>
+                              {errors[index] && errors[index].project && (
+                                <div className="validation-error">
+                                  {errors[index] && errors[index].other_manager}
+                                </div>
+                              )}
+                            </div>
 
-                  <div className="input-row input-row-spcl">
-                    <div className="input__group-box">
-                      <div className="input__group row-group">
-                        <input
-                          type="number"
-                          inputMode="numeric"
-                          id="hours-worked"
-                          name="hoursWorked"
-                          onChange={storeData}
-                          className={`form__input form-input ${
-                            errors.hoursWorked ? "invalid-input" : "valid-input"
-                          }`}
-                          min="1"
-                          max="12"
-                          value={dsrData.hoursWorked}
-                        />
+                            <div className="input__group">
+                              <input
+                                type="text"
+                                id="other-manager-name"
+                                name="other_manager"
+                                onChange={(event) => storeData(event, index)}
+                                className={`form__input form-input ${
+                                  errors[index] && errors[index].other_manager
+                                    ? "invalid-input"
+                                    : "valid-input"
+                                }`}
+                                value={entry.other_manager}
+                              />
 
-                        <label
-                          htmlFor="hours-worked"
-                          className="input__label input-label"
-                        >
-                          Hours Worked <sup style={{ color: "red" }}>*</sup>
-                        </label>
+                              <label
+                                htmlFor="client-manager-name"
+                                className="input__label input-label"
+                              >
+                                Other Project Manager Name{" "}
+                                <sup style={{ color: `red` }}>*</sup>
+                              </label>
 
-                        {errors.hoursWorked && (
-                          <div className="validation-error">
-                            {errors.hoursWorked}
+                              {errors[index] && errors[index].other_manager && (
+                                <div className="validation-error">
+                                  {errors[index] && errors[index].other_manager}
+                                </div>
+                              )}
+                            </div>
                           </div>
                         )}
+
+                      <div className="input-row">
+                        <div className="input__group input__group__area">
+                          <ReactQuill
+                            value={entry.activitiesCompleted}
+                            onChange={(value) =>
+                              handleQuillChange(
+                                "activitiesCompleted",
+                                value,
+                                index
+                              )
+                            }
+                          />
+
+                          <label
+                            htmlFor="activities-today"
+                            className="input__label input__label__area input-label"
+                          >
+                            Activities completed Today{" "}
+                            <sup style={{ color: "red" }}>*</sup>
+                          </label>
+
+                          {errors[index] &&
+                            errors[index].activitiesCompleted && (
+                              <div className="validation-error textarea-error">
+                                {errors[index] &&
+                                  errors[index].activitiesCompleted}
+                              </div>
+                            )}
+                        </div>
+
+                        <div className="input__group input__group__area">
+                          <ReactQuill
+                            value={entry.activitiesPlanned}
+                            onChange={(value) =>
+                              handleQuillChange(
+                                "activitiesPlanned",
+                                value,
+                                index
+                              )
+                            }
+                          />
+
+                          <label
+                            htmlFor="activities-tomorrow"
+                            className="input__label input__label__area input-label"
+                          >
+                            Activities planned for tomorrow{" "}
+                            <sup style={{ color: "red" }}>*</sup>
+                          </label>
+
+                          {errors[index] && errors[index].activitiesPlanned && (
+                            <div className="validation-error textarea-error">
+                              {errors[index] && errors[index].activitiesPlanned}
+                            </div>
+                          )}
+                        </div>
                       </div>
 
-                      <div className="input__group row-group">
-                        <Dropdown
-                          selectedOption={selectedOption}
-                          isOpen={isOpen}
-                          setIsOpen={setIsOpen}
-                          options={options}
-                          handleOptionClick={handleOptionClick}
-                          id="health"
-                        />
+                      <div className="input-row input-row-spcl">
+                        <div className="input__group-box">
+                          <div className="input__group row-group">
+                            <input
+                              type="number"
+                              inputMode="numeric"
+                              id="hours-worked"
+                              name="hoursWorked"
+                              onChange={(event) => storeData(event, index)}
+                              className={`form__input form-input ${
+                                errors[index] && errors[index].hoursWorked
+                                  ? "invalid-input"
+                                  : "valid-input"
+                              }`}
+                              min="1"
+                              max="12"
+                              value={entry.hoursWorked}
+                            />
 
-                        <label
-                          htmlFor="health"
-                          className="input__label input__label__area input-label"
+                            <label
+                              htmlFor="hours-worked"
+                              className="input__label input-label"
+                            >
+                              Hours Worked <sup style={{ color: "red" }}>*</sup>{" "}
+                              {index !== 0 && (
+                                <p
+                                  style={{
+                                    fontSize: "1.65rem",
+                                    display: "inline",
+                                  }}
+                                >
+                                  &nbsp; &nbsp;
+                                  {`Hours left : ${
+                                    checkHoursRemaining <= 0
+                                      ? "    Nothing 🥲"
+                                      : checkHoursRemaining
+                                  }`}
+                                </p>
+                              )}
+                            </label>
+
+                            {errors[index] && errors[index].hoursWorked && (
+                              <div className="validation-error">
+                                {errors[index] && errors[index].hoursWorked}
+                              </div>
+                            )}
+                          </div>
+
+                          <div className="input__group row-group">
+                            <Select
+                              value={
+                                selectedOption[index] &&
+                                selectedOption[index].label
+                              } // Just pass the selectedOption object directly
+                              placeholder={"Project Health..."}
+                              isMulti={false}
+                              options={options}
+                              isSearchable={false}
+                              className="basic-multi-select-color"
+                              classNamePrefix="select"
+                              components={{ SingleValue: CustomSingleValue }} // Use the custom component for rendering the selected option
+                              onChange={(option) =>
+                                handleOptionClick(option, index)
+                              }
+                            />
+
+                            <label
+                              htmlFor="health"
+                              className="input__label input__label__area input-label"
+                            >
+                              Select Project Health{" "}
+                              <sup style={{ color: `red` }}>*</sup>
+                            </label>
+                            {errors[index] && errors[index].health && (
+                              <div className="validation-error">
+                                {!selectedOption[index] && errors[index].health}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+
+                        <div className="input__group input__group__area input__group__area__spcl">
+                          <textarea
+                            id="open-issues"
+                            name="openIssues"
+                            onChange={(event) => storeData(event, index)}
+                            className={`form__input form-input`}
+                            value={entry.openIssues}
+                          />
+
+                          <label
+                            htmlFor="open-issues"
+                            className="input__label input__label__area input-label"
+                          >
+                            Open Issues for today <sup>&nbsp;</sup>
+                          </label>
+                        </div>
+                      </div>
+
+                      <div className="input-row">
+                        <div className="input__group input__group__area">
+                          <textarea
+                            id="comment"
+                            name="comment"
+                            onChange={(event) => storeData(event, index)}
+                            className={`form__input form-input`}
+                            value={entry.comment}
+                          />
+
+                          <label
+                            htmlFor="comment"
+                            className="input__label input__label__area input-label"
+                          >
+                            Any other comments
+                          </label>
+                        </div>
+                      </div>
+
+                      <div className="input-row btn-row">
+                        <button
+                          type="submit"
+                          className="btn btn-dark"
+                          onClick={handleSubmit}
                         >
-                          Select Project Health{" "}
-                          <sup style={{ color: `red` }}>*</sup>
-                        </label>
+                          Submit
+                        </button>
+
+                        <button
+                          className="btn btn-dark btn-warning"
+                          type="button"
+                          onClick={handleDraft}
+                        >
+                          Save as Draft
+                        </button>
+
+                        <button
+                          type="button"
+                          className="btn btn-dark btn-error"
+                          onClick={handleClear}
+                        >
+                          Clear
+                        </button>
                       </div>
-                    </div>
-
-                    <div className="input__group input__group__area input__group__area__spcl">
-                      <textarea
-                        id="open-issues"
-                        name="openIssues"
-                        onChange={storeData}
-                        className={`form__input form-input`}
-                        value={dsrData.openIssues}
-                      />
-
-                      <label
-                        htmlFor="open-issues"
-                        className="input__label input__label__area input-label"
-                      >
-                        Open Issues for today <sup>&nbsp;</sup>
-                      </label>
-                    </div>
+                    </form>
                   </div>
-
-                  <div className="input-row">
-                    <div className="input__group input__group__area">
-                      <textarea
-                        id="comment"
-                        name="comment"
-                        onChange={storeData}
-                        className={`form__input form-input`}
-                        value={dsrData.comment}
-                      />
-
-                      <label
-                        htmlFor="comment"
-                        className="input__label input__label__area input-label"
-                      >
-                        Any other comments
-                      </label>
-                    </div>
-                  </div>
-
-                  <div className="input-row btn-row">
-                    <button
-                      type="submit"
-                      className="btn btn-dark"
-                      onClick={handleSubmit}
-                    >
-                      Submit
-                    </button>
-
-                    <button
-                      className="btn btn-dark btn-warning"
-                      type="button"
-                      onClick={handleDraft}
-                    >
-                      Save as Draft
-                    </button>
-
-                    <button
-                      type="button"
-                      className="btn btn-dark btn-error"
-                      onClick={handleClear}
-                    >
-                      Clear
-                    </button>
-                  </div>
-                </form>
+                ))}
                 {/* has context menu */}
               </div>
             </div>
@@ -1035,144 +1327,225 @@ function NewDsr() {
                   You've already filled the DSR.
                 </h1>
 
+                {console.log("lastDSR", lastDsr)}
+
                 <div className="preview-edit">
                   <h4 className="heading-s">Your last DSR</h4>
-                  <div className="preview-card">
-                    <div className="edit-input-row">
-                      <label htmlFor="project-edit">Project name:</label>
-                      <input
-                        type="text"
-                        name="project"
-                        id="project-edit"
-                        value={lastDsr.project.name}
-                        onChange={handleEdit}
-                        readOnly={!isEditable}
-                        className={`${!isEditable ? "non-editable" : ""}`}
-                      />
-                    </div>
-
-                    <div className="edit-input-row">
-                      <label htmlFor="manager-edit">
-                        Project manager name:
-                      </label>
-                      <input
-                        type="text"
-                        name="clientManager"
-                        id="manager-edit"
-                        value={lastDsr.project.manager}
-                        onChange={handleEdit}
-                        readOnly={!isEditable}
-                        className={`${!isEditable ? "non-editable" : ""}`}
-                      />
-                    </div>
-
-                    <div className="edit-input-row">
-                      <label htmlFor="hours-edit">Hours worked:</label>
-                      <input
-                        type="number"
-                        name="hoursWorked"
-                        id="hours-edit"
-                        value={lastDsr.hoursWorked}
-                        onChange={handleEdit}
-                        readOnly={!isEditable}
-                        className={`${!isEditable ? "non-editable" : ""}`}
-                      />
-                    </div>
-
-                    <div className="edit-input-row">
-                      <label htmlFor="status-edit">Project Health:</label>
-                      {isEditable ? (
-                        <Dropdown
-                          selectedOption={selectedOption}
-                          isOpen={isOpen}
-                          setIsOpen={setIsOpen}
-                          options={options}
-                          handleOptionClick={handleOptionEdit}
-                          id="health"
-                        />
-                      ) : (
-                        <input
-                          type="text"
-                          name="health"
-                          id="status-edit"
-                          value={lastDsr.health}
-                          onChange={handleEdit}
-                          readOnly={!isEditable}
-                          className={`${!isEditable ? "non-editable" : ""}`}
-                        />
-                      )}
-                    </div>
-
-                    <div className="edit-input-row">
-                      <label htmlFor="activity-edit">
-                        Activities completed today:
-                      </label>
-
-                      {isEditable ? (
-                        <ReactQuill
-                          value={lastDsr.activitiesCompleted}
-                          onChange={(value) =>
-                            handleQuillEdit("activitiesCompleted", value)
-                          }
-                          modules={{ toolbar: true }}
-                        />
-                      ) : (
+                  {lastDsr.list &&
+                    lastDsr.list.map((item, index) => {
+                      return (
                         <div
-                          className="rte non-editable"
-                          dangerouslySetInnerHTML={{
-                            __html: lastDsr.activitiesCompleted,
+                          className={`preview-card ${
+                            index === activeSubmitDsrIndex ? "show" : ""
+                          }`}
+                          style={{
+                            display: `${
+                              index === activeSubmitDsrIndex ? "" : "none"
+                            }`,
                           }}
-                        ></div>
-                      )}
-                    </div>
+                          key={index}
+                        >
+                          <div className="edit-input-row">
+                            <label htmlFor="project-edit">Project name:</label>
+                            <input
+                              type="text"
+                              name="project"
+                              id="project-edit"
+                              value={
+                                item && item.other_project
+                                  ? item.other_project
+                                  : item.name && item.project.name
+                              }
+                              onChange={handleEdit}
+                              readOnly={!isEditable}
+                              className={`${!isEditable ? "non-editable" : ""}`}
+                            />
+                          </div>
+                          <div className="edit-input-row">
+                            <label htmlFor="manager-edit">
+                              Project manager name:
+                            </label>
+                            <input
+                              type="text"
+                              name="clientManager"
+                              id="manager-edit"
+                              value={
+                                item.other_manager
+                                  ? item.other_manager
+                                  : item.manager && item.project.manager
+                              }
+                              onChange={handleEdit}
+                              readOnly={!isEditable}
+                              className={`${!isEditable ? "non-editable" : ""}`}
+                            />
+                          </div>
 
-                    <div className="edit-input-row">
-                      <label htmlFor="activity-planned-edit">
-                        Activities planned for tomorrows:
-                      </label>
+                          <div className="edit-input-row">
+                            <label htmlFor="hours-edit">Hours worked:</label>
+                            <input
+                              type="number"
+                              name="hoursWorked"
+                              id="hours-edit"
+                              value={item.hoursWorked}
+                              onChange={handleEdit}
+                              readOnly={!isEditable}
+                              className={`${!isEditable ? "non-editable" : ""}`}
+                            />
+                          </div>
 
-                      {isEditable ? (
-                        <ReactQuill
-                          value={lastDsr.activitiesPlanned}
-                          onChange={(value) =>
-                            handleQuillEdit("activitiesPlanned", value)
-                          }
-                          modules={{ toolbar: true }}
-                        />
-                      ) : (
-                        <div
-                          className="rte non-editable"
-                          dangerouslySetInnerHTML={{
-                            __html: lastDsr.activitiesPlanned,
-                          }}
-                        ></div>
-                      )}
-                    </div>
+                          <div className="edit-input-row">
+                            <label htmlFor="status-edit">Project Health:</label>
+                            {isEditable ? (
+                              <Dropdown
+                                selectedOption={selectedOption}
+                                isOpen={isOpen}
+                                setIsOpen={setIsOpen}
+                                options={options}
+                                handleOptionClick={handleOptionEdit}
+                                id="health"
+                              />
+                            ) : (
+                              <input
+                                type="text"
+                                name="health"
+                                id="status-edit"
+                                value={item.health}
+                                onChange={handleEdit}
+                                readOnly={!isEditable}
+                                className={`${
+                                  !isEditable ? "non-editable" : ""
+                                }`}
+                              />
+                            )}
+                          </div>
 
-                    <div className="edit-input-row">
-                      <label htmlFor="issues-edit">Open issues:</label>
-                      <textarea
-                        name="openIssues"
-                        id="issues-edit"
-                        value={lastDsr.openIssues}
-                        onChange={handleEdit}
-                        readOnly={!isEditable}
-                        className={`${!isEditable ? "non-editable" : ""}`}
-                      ></textarea>
-                    </div>
+                          <div className="edit-input-row">
+                            <label htmlFor="activity-edit">
+                              Activities completed today:
+                            </label>
 
-                    <div className="edit-input-row">
-                      <label htmlFor="comment-edit">Any other comment:</label>
-                      <textarea
-                        name="comment"
-                        id="comment-edit"
-                        value={lastDsr.comment}
-                        onChange={handleEdit}
-                        readOnly={!isEditable}
-                        className={`${!isEditable ? "non-editable" : ""}`}
-                      ></textarea>
-                    </div>
-                  </div>
+                            {isEditable ? (
+                              <ReactQuill
+                                value={item.activitiesCompleted}
+                                onChange={(value) =>
+                                  handleQuillEdit("activitiesCompleted", value)
+                                }
+                                modules={{ toolbar: true }}
+                              />
+                            ) : (
+                              <div
+                                className="rte non-editable"
+                                dangerouslySetInnerHTML={{
+                                  __html: item.activitiesCompleted,
+                                }}
+                              ></div>
+                            )}
+                          </div>
+
+                          <div className="edit-input-row">
+                            <label htmlFor="activity-planned-edit">
+                              Activities planned for tomorrows:
+                            </label>
+
+                            {isEditable ? (
+                              <ReactQuill
+                                value={item.activitiesPlanned}
+                                onChange={(value) =>
+                                  handleQuillEdit("activitiesPlanned", value)
+                                }
+                                modules={{ toolbar: true }}
+                              />
+                            ) : (
+                              <div
+                                className="rte non-editable"
+                                dangerouslySetInnerHTML={{
+                                  __html: item.activitiesPlanned,
+                                }}
+                              ></div>
+                            )}
+                          </div>
+
+                          <div className="edit-input-row">
+                            <label htmlFor="issues-edit">Open issues:</label>
+                            <textarea
+                              name="openIssues"
+                              id="issues-edit"
+                              value={item.openIssues}
+                              onChange={handleEdit}
+                              readOnly={!isEditable}
+                              className={`${!isEditable ? "non-editable" : ""}`}
+                            ></textarea>
+                          </div>
+
+                          <div className="edit-input-row">
+                            <label htmlFor="comment-edit">
+                              Any other comment:
+                            </label>
+                            <textarea
+                              name="comment"
+                              id="comment-edit"
+                              value={item.comment}
+                              onChange={handleEdit}
+                              readOnly={!isEditable}
+                              className={`${!isEditable ? "non-editable" : ""}`}
+                            ></textarea>
+                          </div>
+                          <div className="dsr-switch">
+                            <i
+                              className="fa fa-arrow-left"
+                              style={{ cursor: "pointer", padding: ".25rem" }}
+                              onClick={handleDecrementIndex}
+                            />
+                            <div
+                              className="number-container"
+                              style={{
+                                width: "7%",
+                                display: "flex",
+                                gap: "1rem",
+                                alignItems: "center",
+                                justifyContent: "space-between",
+                              }}
+                            >
+                              {lastDsr.list.map((item, index) => {
+                                return (
+                                  <div
+                                    className="number-of-projects"
+                                    key={index}
+                                    style={{
+                                      transition: "1.5s ease",
+                                      fontSize: "1.4rem",
+                                      fontWeight: "bold",
+                                      padding: "5px 2px",
+                                      cursor: "pointer",
+                                      color: `${
+                                        activeSubmitDsrIndex === index
+                                          ? "var(--color-success)"
+                                          : ""
+                                      }`,
+                                      borderBottom: `${
+                                        activeSubmitDsrIndex === index
+                                          ? "2px solid var(--color-success)"
+                                          : ""
+                                      }`,
+                                    }}
+                                    onClick={() =>
+                                      setActiveSubmitDsrIndex(index)
+                                    }
+                                  >
+                                    {index + 1}
+                                  </div>
+                                );
+                              })}
+                            </div>
+                            <i
+                              className="fa fa-arrow-right"
+                              onClick={handleIncrementIndex}
+                              style={{ cursor: "pointer", padding: ".25rem" }}
+                            />
+                          </div>
+                        </div>
+                      );
+                    })}
 
                   {/* Showing edit or update button based on if it is edited once or not */}
 
