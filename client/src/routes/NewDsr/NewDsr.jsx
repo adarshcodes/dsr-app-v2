@@ -1289,13 +1289,13 @@ function NewDsr() {
                           Submit
                         </button>
 
-                        <button
+                        {/* <button
                           className="btn btn-dark btn-warning"
                           type="button"
                           onClick={handleDraft}
                         >
                           Save as Draft
-                        </button>
+                        </button> */}
 
                         <button
                           type="button"
