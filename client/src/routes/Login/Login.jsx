@@ -34,11 +34,9 @@ function Login() {
   // Check if there is already an interaction in progress
 
   async function handleMicrosoftLogin(account) {
-    console.log("handleMicrosoftLogin");
     const userData = { name: account.name, email: account.username };
 
     localStorage.setItem("userdetails", JSON.stringify(userData));
-    console.log(userData);
 
     try {
       const response = await fetch(base_url + "/user/login", {
@@ -52,20 +50,15 @@ function Login() {
       const data = await response.json();
       if (data) {
         await handleDataInput(data.authToken);
-        console.log(data.authToken);
-        console.log(data);
         setMsgToShow("Login");
         data.errors ? errMsg() : verificationMsg();
         setTimeout(closeMsg, 2500);
         clearFields();
       } else {
-        console.log("handleMiscrosoft Else");
-
         // handle login failure here, e.g. show an error message
         setMsgToShow("LoginFailed");
         errorMsg();
         setTimeout(closeMsg, 2500);
-        console.log("Login failed.");
       }
     } catch (error) {
       console.log(error);
@@ -85,8 +78,6 @@ function Login() {
         await handleMicrosoftLogin(account);
         // ... do something with the authenticated user
       } else {
-        console.log("login Else");
-
         // If no account is found, initiate an interactive login request
         await msalInstance
           .loginPopup(loginRequest)
@@ -177,7 +168,6 @@ function Login() {
   }
 
   const handleDataInput = async (data) => {
-    console.log("handleDataInput");
     if (data) {
       localStorage.setItem("authToken", data);
     }
@@ -190,8 +180,6 @@ function Login() {
 
   const handleLogin = async (e) => {
     try {
-      console.log("handleLogin");
-
       const response = await fetch("https://new-web-app.onrender.com/login", {
         method: "POST",
         headers: {
@@ -213,7 +201,6 @@ function Login() {
         setMsgToShow("LoginFailed");
         errorMsg();
         setTimeout(closeMsg, 2500);
-        console.log("Login failed.");
       }
     } catch (error) {
       console.log(error);

@@ -1806,6 +1806,17 @@ p {
   transform: scale(1.1) !important;
 }
 
+.hoursLeft {
+  color: red;
+  font-size: 1.6rem;
+  display: inline;
+}
+@media screen and (max-width: 830px) {
+  .hoursLeft {
+    font-size: 1.35rem;
+  }
+}
+
 .recents {
   display: flex;
   flex-direction: column;
