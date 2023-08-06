@@ -16,7 +16,7 @@ const config = {
     clientId: "427bf882-77ea-49c0-853e-1676532387a7",
     authority:
       "https://login.microsoftonline.com/de7de043-fa62-4bc0-83e5-0466b479d2b7",
-    redirectUri: "http://localhost:3000/#/",
+    redirectUri: "http://localhost:3000/",
     postLogoutRedirectUri: "http://localhost:3000/#/login",
   },
 };

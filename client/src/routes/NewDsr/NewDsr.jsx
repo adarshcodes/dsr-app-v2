@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useMemo } from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import AnimatedComponent from "../../AnimatedComponent";
 import Modal from "../../components/Modal/Modal";
@@ -140,8 +140,9 @@ function NewDsr() {
     const operation = event.target.dataset.name;
     if (operation === "DELETE") {
       const updatedFormEntries = dsrData.filter((entry, i) => i !== index);
+      const updatedPtoject = selectedProject.filter((entry, i) => i !== index);
       setDsrData(updatedFormEntries);
-
+      setSelectedProject(updatedPtoject);
       setActiveTab(index - 1);
     } else if (operation === "CLICK") {
       setActiveTab(index);
@@ -149,18 +150,22 @@ function NewDsr() {
   };
 
   // Setting data from input in the state for both the DSR data and Draft data --20-April-2023--Adarsh
-  useEffect(() => {
-    const totalHoursWorked = dsrData.reduce(
+  const totalHoursWorked = useMemo(() => {
+    return dsrData.reduce(
       (acc, item) => acc + parseFloat(item.hoursWorked || 0),
       0
     );
-    setCheckHoursRemaining(8 - totalHoursWorked);
   }, [dsrData]);
+
+  useEffect(() => {
+    const remainingHours = 8 - totalHoursWorked;
+    const roundedTotalHoursWorked = parseFloat(remainingHours.toFixed(2));
+    setCheckHoursRemaining(roundedTotalHoursWorked);
+  }, [totalHoursWorked]);
 
   function storeData(e, index) {
     const name = e.target.name;
     let value = e.target.value;
-
     // console.log(checkHoursRemaining);
 
     if (name === "hoursWorked") {
@@ -168,22 +173,20 @@ function NewDsr() {
       value = value.replace(/[^\d.]/g, "");
 
       // Limit to a range between 1 and 15
-      if (value < 0) {
+      if (value < 0 || value > 8) {
         value = "";
-      } else if (value > 8) {
-        value = "";
-      } else if (checkHoursRemaining <= 0) {
-        value = value.replace("");
+      } else if (value + checkHoursRemaining === 8 && index !== 0) {
+        value = checkHoursRemaining;
       } else {
         const dotIndex = value.indexOf(".");
         if (dotIndex !== -1) {
           const decimalDigits = value.slice(dotIndex + 1);
           if (decimalDigits.length > 1) {
             // Limit the decimal part to one digit
-            value = value.slice(0, dotIndex + 2);
+            value = value.slice(0, dotIndex + 3);
           }
         }
-        e.target.value = value;
+        // e.target.value = value;
       }
     }
     const updatedFormEntries = [...dsrData];
@@ -294,14 +297,15 @@ function NewDsr() {
       setTimeout(closeMsg, 2500);
       console.log(error);
     }
+    setModal(false);
   };
 
   function handleSubmit(event) {
     event.preventDefault();
     // showModal("Are you sure you want to Submit?", "Mark DSR");
-    // if (validateForm()) {
-    handlePost(event);
-    // }
+    if (validateForm()) {
+      handlePost(event);
+    }
   }
 
   // --End of Posting New DSR Data--
@@ -522,8 +526,8 @@ function NewDsr() {
     },
   ]);
 
+  let [isValid, setIsValid] = useState(true);
   const validateForm = () => {
-    let isValid = true;
     const newErrorsArray = [];
 
     // Assuming dsrData is an array of objects
@@ -541,35 +545,41 @@ function NewDsr() {
 
       if (selectedProject[i] === "") {
         newErrors.project = "Project Name is required.";
-        isValid = false;
+        setIsValid(false);
       }
 
       if (!data.hoursWorked) {
         newErrors.hoursWorked = "Hours Worked is required.";
-        isValid = false;
+        // isValid = false;
+        setIsValid(false);
       } else if (data.hoursWorked < 0) {
         newErrors.hoursWorked = "Hours Worked must be a positive number.";
-        isValid = false;
+        // isValid = false;
+        setIsValid(false);
       } else if (checkHoursRemaining < 0) {
         newErrors.hoursWorked = "Exceeded Working Hours Limit.";
-        isValid = false;
+        // isValid = false;
+        setIsValid(false);
       }
 
       if (selectedOption[i] === "") {
         newErrors.health = "Project Health is required.";
-        isValid = false;
+        // isValid = false;
+        setIsValid(false);
       }
 
       if (!data.activitiesCompleted) {
         newErrors.activitiesCompleted =
           "Activities completed today is required.";
-        isValid = false;
+        // isValid = false;
+        setIsValid(false);
       }
 
       if (!data.activitiesPlanned) {
         newErrors.activitiesPlanned =
           "Activities planned for tomorrow is required.";
-        isValid = false;
+        // isValid = false;
+        setIsValid(false);
       }
 
       newErrorsArray.push(newErrors);

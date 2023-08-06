@@ -79,7 +79,6 @@ function WeeklyDsr() {
     ];
     let dateOfCreation = day + " " + monthArray[month] + " " + year;
 
-
     return (
       <div key={data._id}>
         <div className="recents-card card">
