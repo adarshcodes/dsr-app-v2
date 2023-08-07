@@ -170,6 +170,12 @@ function Login() {
   const handleDataInput = async (data) => {
     if (data) {
       localStorage.setItem("authToken", data);
+      localStorage.setItem(
+        "TimeLoggedIn",
+        JSON.stringify({
+          time: new Date(),
+        })
+      );
     }
     if (localStorage.getItem("authToken")) {
       navigate("/newdsr");
