@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useMemo } from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import AnimatedComponent from "../../AnimatedComponent";
 import Modal from "../../components/Modal/Modal";
@@ -117,6 +117,7 @@ function NewDsr() {
 
       setActiveTab(dsrData.length);
       setSelectedProject([...selectedProject, ""]);
+      setSelectedOption([...selectedOption, ""]);
       setDraftData([
         ...draftData,
         {
@@ -149,37 +150,47 @@ function NewDsr() {
   };
 
   // Setting data from input in the state for both the DSR data and Draft data --20-April-2023--Adarsh
-  useEffect(() => {
-    const totalHoursWorked = dsrData.reduce(
+  const totalHoursWorked = useMemo(() => {
+    return dsrData.reduce(
       (acc, item) => acc + parseFloat(item.hoursWorked || 0),
       0
     );
-    setCheckHoursRemaining(8 - totalHoursWorked);
   }, [dsrData]);
+
+  useEffect(() => {
+    const remainingHours = 8 - totalHoursWorked;
+    const roundedTotalHoursWorked = parseFloat(remainingHours.toFixed(2));
+    setCheckHoursRemaining(roundedTotalHoursWorked);
+  }, [totalHoursWorked]);
 
   function storeData(e, index) {
     const name = e.target.name;
     let value = e.target.value;
+    // console.log(checkHoursRemaining);
 
-    console.log(checkHoursRemaining);
+    console.log("val", value);
 
     if (name === "hoursWorked") {
       // Remove any non-digit characters
       value = value.replace(/[^\d.]/g, "");
-      // Limit to a range between 1 and 15
-      if (value < 0) {
+
+      // Limit to a range between 1 and 8
+      if (value < 0 || value > 8) {
         value = "";
-      } else if (value > 8) {
-        value = "";
-      } else if (checkHoursRemaining < 0) {
-        value = "";
-      } else if (
-        checkHoursRemaining + value === 0 &&
-        value > checkHoursRemaining
-      ) {
-        value = checkHoursRemaining;
+      } else {
+        const dotIndex = value.indexOf(".");
+        if (dotIndex !== -1) {
+          const decimalDigits = value.slice(dotIndex + 1);
+          if (decimalDigits.length > 1) {
+            value = value.slice(0, dotIndex + 3);
+          }
+        }
+      }
+      if (checkHoursRemaining <= 0 && index !== 0) {
+        value = ""; // 2 --- 1
       }
     }
+
     const updatedFormEntries = [...dsrData];
     updatedFormEntries[index][name] = value;
     setDsrData((prevDatam) =>
@@ -293,9 +304,9 @@ function NewDsr() {
   function handleSubmit(event) {
     event.preventDefault();
     // showModal("Are you sure you want to Submit?", "Mark DSR");
-    // if (validateForm()) {
-    handlePost(event);
-    // }
+    if (validateForm()) {
+      handlePost(event);
+    }
   }
 
   // --End of Posting New DSR Data--
@@ -385,39 +396,39 @@ function NewDsr() {
 
   // console.log(draftData);
   // Handle Draft Save
-  const handleDraft = async () => {
-    try {
-      console.log(draftData);
+  // const handleDraft = async () => {
+  //   try {
+  //     console.log(draftData);
 
-      setLoading(true);
-      const response = await fetch(base_url + "/dsr/draft/create", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + localStorage.getItem("authToken"),
-        },
-        body: JSON.stringify(draftData),
-      });
+  //     setLoading(true);
+  //     const response = await fetch(base_url + "/dsr/draft/create", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: "Bearer " + localStorage.getItem("authToken"),
+  //       },
+  //       body: JSON.stringify(draftData),
+  //     });
 
-      const data = await response.json();
-      setLoading(false);
-      // Clearing form after Submission
-      if (data.status === 403) {
-        localStorage.clear();
-        window.location.href = window.location.origin + "/#/login";
-      }
+  //     const data = await response.json();
+  //     setLoading(false);
+  //     // Clearing form after Submission
+  //     if (data.status === 403) {
+  //       localStorage.clear();
+  //       window.location.href = window.location.origin + "/#/login";
+  //     }
 
-      handleClear();
-      setMsgToShow("Draft-Saved");
-      data.errors ? errMsg() : verificationMsg();
-      setTimeout(closeMsg, 2500);
-    } catch (error) {
-      console.error("Error occurred:", error);
-      setMsgToShow("Draft-Not-Saved");
-      errorMsg();
-      setTimeout(closeMsg, 2500);
-    }
-  };
+  //     handleClear();
+  //     setMsgToShow("Draft-Saved");
+  //     data.errors ? errMsg() : verificationMsg();
+  //     setTimeout(closeMsg, 2500);
+  //   } catch (error) {
+  //     console.error("Error occurred:", error);
+  //     setMsgToShow("Draft-Not-Saved");
+  //     errorMsg();
+  //     setTimeout(closeMsg, 2500);
+  //   }
+  // };
 
   // Draft Validation
   // const handleDraftSave = () => {
@@ -522,6 +533,7 @@ function NewDsr() {
 
     // Assuming dsrData is an array of objects
     for (let i = 0; i < dsrData.length; i++) {
+      console.log(selectedOption[i]);
       const data = dsrData[i];
       const newErrors = {
         project: "",
@@ -554,13 +566,18 @@ function NewDsr() {
         isValid = false;
       }
 
-      if (!data.activitiesCompleted) {
+      console.log(data.activitiesCompleted);
+
+      if (
+        !data.activitiesCompleted ||
+        data.activitiesCompleted === "<p><br></p>"
+      ) {
         newErrors.activitiesCompleted =
           "Activities completed today is required.";
         isValid = false;
       }
 
-      if (!data.activitiesPlanned) {
+      if (!data.activitiesPlanned || data.activitiesPlanned === "<p><br></p>") {
         newErrors.activitiesPlanned =
           "Activities planned for tomorrow is required.";
         isValid = false;
@@ -1243,6 +1260,8 @@ function NewDsr() {
                                 {!selectedOption[index] && errors[index].health}
                               </div>
                             )}
+                            {console.log(selectedOption)}
+                            {console.log(selectedProject)}
                           </div>
                         </div>
 
@@ -1292,13 +1311,13 @@ function NewDsr() {
                           Submit
                         </button>
 
-                        <button
+                        {/* <button
                           className="btn btn-dark btn-warning"
                           type="button"
                           onClick={handleDraft}
                         >
                           Save as Draft
-                        </button>
+                        </button> */}
 
                         <button
                           type="button"
