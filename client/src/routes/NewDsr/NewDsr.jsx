@@ -47,6 +47,7 @@ function NewDsr() {
       // !data && <Navigate to="/login" replace />;
     } catch (error) {
       console.error("Error:", error);
+      window.location.href = window.location.origin + "/#/login";
     }
   };
 
@@ -294,6 +295,7 @@ function NewDsr() {
     } catch (error) {
       setMsgToShow("DSR-Not-Saved");
       errorMsg();
+      window.location.href = window.location.origin + "/#/login";
       setTimeout(closeMsg, 2500);
       console.log(error);
     }
@@ -481,6 +483,7 @@ function NewDsr() {
     } catch (error) {
       setMsgToShow("Unmarked-Leave");
       errorMsg();
+      window.location.href = window.location.origin + "/#/login";
       setTimeout(closeMsg, 2500);
     }
 
@@ -630,6 +633,7 @@ function NewDsr() {
 
       // setIsUpdated(data.data.isupdated);
     } catch (error) {
+      window.location.href = window.location.origin + "/#/login";
       return error;
     }
   };
@@ -773,6 +777,7 @@ function NewDsr() {
       setLoading(false);
     } catch (error) {
       console.error("Error:", error);
+      window.location.href = window.location.origin + "/#/login";
     }
   };
 
