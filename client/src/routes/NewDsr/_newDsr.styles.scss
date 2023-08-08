@@ -616,11 +616,9 @@
     transform: scale(1.1) !important;
   }
 }
-.hoursLeft {
-  color: red;
-  font-size: 1.6rem;
+.HoursWorked {
+  font-size: 1.45rem;
   display: inline;
-  @media screen and (max-width: 830px) {
-    font-size: 1.35rem;
-  }
+  font-weight: "500";
+  color: var(--color-success);
 }

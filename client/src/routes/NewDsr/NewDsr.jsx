@@ -168,8 +168,6 @@ function NewDsr() {
     let value = e.target.value;
     // console.log(checkHoursRemaining);
 
-    console.log("val", value);
-
     if (name === "hoursWorked") {
       // Remove any non-digit characters
       value = value.replace(/[^\d.]/g, "");
@@ -608,15 +606,6 @@ function NewDsr() {
 
   // Switch of the dsrs filled in after submission ui of dsr.
 
-  const handleIncrementIndex = () => {
-    setActiveSubmitDsrIndex((i) => (i < lastDsr.list.length - 1 ? i + 1 : i));
-    console.log(activeSubmitDsrIndex);
-  };
-  const handleDecrementIndex = () => {
-    console.log(activeSubmitDsrIndex);
-    setActiveSubmitDsrIndex((i) => (i > 0 ? i - 1 : i));
-  };
-
   // const [isUpdated, setIsUpdated] = useState(false);
   const [isEditable] = useState(false);
 
@@ -830,8 +819,6 @@ function NewDsr() {
       )
     );
   };
-
-  const [activeSubmitDsrIndex, setActiveSubmitDsrIndex] = useState(0);
 
   const ColorLabel = ({ color, label }) => {
     return (
@@ -1207,16 +1194,13 @@ function NewDsr() {
                             >
                               Hours Worked <sup style={{ color: "red" }}>*</sup>{" "}
                               {index !== 0 && (
-                                <p
-                                  style={{
-                                    fontSize: "1.65rem",
-                                    display: "inline",
-                                  }}
-                                >
+                                <p className="HoursWorked">
                                   &nbsp; &nbsp;
                                   {`Hours left : ${
-                                    checkHoursRemaining <= 0
-                                      ? "    Nothing 🥲"
+                                    checkHoursRemaining === 0
+                                      ? "  Nothing 🥲"
+                                      : checkHoursRemaining < 0
+                                      ? `exceeded by ${-checkHoursRemaining}`
                                       : checkHoursRemaining
                                   }`}
                                 </p>
@@ -1353,224 +1337,150 @@ function NewDsr() {
 
                 <div className="preview-edit">
                   <h4 className="heading-s">Your last DSR</h4>
-                  {lastDsr.list &&
-                    lastDsr.list.map((item, index) => {
-                      return (
+                  <div className={`preview-card`}>
+                    <div className="edit-input-row">
+                      <label htmlFor="project-edit">Project name:</label>
+                      <input
+                        type="text"
+                        name="project"
+                        id="project-edit"
+                        value={
+                          lastDsr && lastDsr.other_project
+                            ? lastDsr.other_project
+                            : lastDsr.name && lastDsr.project.name
+                        }
+                        onChange={handleEdit}
+                        readOnly={!isEditable}
+                        className={`${!isEditable ? "non-editable" : ""}`}
+                      />
+                    </div>
+                    <div className="edit-input-row">
+                      <label htmlFor="manager-edit">
+                        Project manager name:
+                      </label>
+                      <input
+                        type="text"
+                        name="clientManager"
+                        id="manager-edit"
+                        value={
+                          lastDsr.other_manager
+                            ? lastDsr.other_manager
+                            : lastDsr.manager && lastDsr.project.manager
+                        }
+                        onChange={handleEdit}
+                        readOnly={!isEditable}
+                        className={`${!isEditable ? "non-editable" : ""}`}
+                      />
+                    </div>
+
+                    <div className="edit-input-row">
+                      <label htmlFor="hours-edit">Hours worked:</label>
+                      <input
+                        type="number"
+                        name="hoursWorked"
+                        id="hours-edit"
+                        value={lastDsr.hoursWorked}
+                        onChange={handleEdit}
+                        readOnly={!isEditable}
+                        className={`${!isEditable ? "non-editable" : ""}`}
+                      />
+                    </div>
+
+                    <div className="edit-input-row">
+                      <label htmlFor="status-edit">Project Health:</label>
+                      {isEditable ? (
+                        <Dropdown
+                          selectedOption={selectedOption}
+                          isOpen={isOpen}
+                          setIsOpen={setIsOpen}
+                          options={options}
+                          handleOptionClick={handleOptionEdit}
+                          id="health"
+                        />
+                      ) : (
+                        <input
+                          type="text"
+                          name="health"
+                          id="status-edit"
+                          value={lastDsr.health}
+                          onChange={handleEdit}
+                          readOnly={!isEditable}
+                          className={`${!isEditable ? "non-editable" : ""}`}
+                        />
+                      )}
+                    </div>
+
+                    <div className="edit-input-row">
+                      <label htmlFor="activity-edit">
+                        Activities completed today:
+                      </label>
+
+                      {isEditable ? (
+                        <ReactQuill
+                          value={lastDsr.activitiesCompleted}
+                          onChange={(value) =>
+                            handleQuillEdit("activitiesCompleted", value)
+                          }
+                          modules={{ toolbar: true }}
+                        />
+                      ) : (
                         <div
-                          className={`preview-card ${
-                            index === activeSubmitDsrIndex ? "show" : ""
-                          }`}
-                          style={{
-                            display: `${
-                              index === activeSubmitDsrIndex ? "" : "none"
-                            }`,
+                          className="rte non-editable"
+                          dangerouslySetInnerHTML={{
+                            __html: lastDsr.activitiesCompleted,
                           }}
-                          key={index}
-                        >
-                          <div className="edit-input-row">
-                            <label htmlFor="project-edit">Project name:</label>
-                            <input
-                              type="text"
-                              name="project"
-                              id="project-edit"
-                              value={
-                                item && item.other_project
-                                  ? item.other_project
-                                  : item.name && item.project.name
-                              }
-                              onChange={handleEdit}
-                              readOnly={!isEditable}
-                              className={`${!isEditable ? "non-editable" : ""}`}
-                            />
-                          </div>
-                          <div className="edit-input-row">
-                            <label htmlFor="manager-edit">
-                              Project manager name:
-                            </label>
-                            <input
-                              type="text"
-                              name="clientManager"
-                              id="manager-edit"
-                              value={
-                                item.other_manager
-                                  ? item.other_manager
-                                  : item.manager && item.project.manager
-                              }
-                              onChange={handleEdit}
-                              readOnly={!isEditable}
-                              className={`${!isEditable ? "non-editable" : ""}`}
-                            />
-                          </div>
+                        ></div>
+                      )}
+                    </div>
 
-                          <div className="edit-input-row">
-                            <label htmlFor="hours-edit">Hours worked:</label>
-                            <input
-                              type="number"
-                              name="hoursWorked"
-                              id="hours-edit"
-                              value={item.hoursWorked}
-                              onChange={handleEdit}
-                              readOnly={!isEditable}
-                              className={`${!isEditable ? "non-editable" : ""}`}
-                            />
-                          </div>
+                    <div className="edit-input-row">
+                      <label htmlFor="activity-planned-edit">
+                        Activities planned for tomorrows:
+                      </label>
 
-                          <div className="edit-input-row">
-                            <label htmlFor="status-edit">Project Health:</label>
-                            {isEditable ? (
-                              <Dropdown
-                                selectedOption={selectedOption}
-                                isOpen={isOpen}
-                                setIsOpen={setIsOpen}
-                                options={options}
-                                handleOptionClick={handleOptionEdit}
-                                id="health"
-                              />
-                            ) : (
-                              <input
-                                type="text"
-                                name="health"
-                                id="status-edit"
-                                value={item.health}
-                                onChange={handleEdit}
-                                readOnly={!isEditable}
-                                className={`${
-                                  !isEditable ? "non-editable" : ""
-                                }`}
-                              />
-                            )}
-                          </div>
+                      {isEditable ? (
+                        <ReactQuill
+                          value={lastDsr.activitiesPlanned}
+                          onChange={(value) =>
+                            handleQuillEdit("activitiesPlanned", value)
+                          }
+                          modules={{ toolbar: true }}
+                        />
+                      ) : (
+                        <div
+                          className="rte non-editable"
+                          dangerouslySetInnerHTML={{
+                            __html: lastDsr.activitiesPlanned,
+                          }}
+                        ></div>
+                      )}
+                    </div>
 
-                          <div className="edit-input-row">
-                            <label htmlFor="activity-edit">
-                              Activities completed today:
-                            </label>
+                    <div className="edit-input-row">
+                      <label htmlFor="issues-edit">Open issues:</label>
+                      <textarea
+                        name="openIssues"
+                        id="issues-edit"
+                        value={lastDsr.openIssues}
+                        onChange={handleEdit}
+                        readOnly={!isEditable}
+                        className={`${!isEditable ? "non-editable" : ""}`}
+                      ></textarea>
+                    </div>
 
-                            {isEditable ? (
-                              <ReactQuill
-                                value={item.activitiesCompleted}
-                                onChange={(value) =>
-                                  handleQuillEdit("activitiesCompleted", value)
-                                }
-                                modules={{ toolbar: true }}
-                              />
-                            ) : (
-                              <div
-                                className="rte non-editable"
-                                dangerouslySetInnerHTML={{
-                                  __html: item.activitiesCompleted,
-                                }}
-                              ></div>
-                            )}
-                          </div>
-
-                          <div className="edit-input-row">
-                            <label htmlFor="activity-planned-edit">
-                              Activities planned for tomorrows:
-                            </label>
-
-                            {isEditable ? (
-                              <ReactQuill
-                                value={item.activitiesPlanned}
-                                onChange={(value) =>
-                                  handleQuillEdit("activitiesPlanned", value)
-                                }
-                                modules={{ toolbar: true }}
-                              />
-                            ) : (
-                              <div
-                                className="rte non-editable"
-                                dangerouslySetInnerHTML={{
-                                  __html: item.activitiesPlanned,
-                                }}
-                              ></div>
-                            )}
-                          </div>
-
-                          <div className="edit-input-row">
-                            <label htmlFor="issues-edit">Open issues:</label>
-                            <textarea
-                              name="openIssues"
-                              id="issues-edit"
-                              value={item.openIssues}
-                              onChange={handleEdit}
-                              readOnly={!isEditable}
-                              className={`${!isEditable ? "non-editable" : ""}`}
-                            ></textarea>
-                          </div>
-
-                          <div className="edit-input-row">
-                            <label htmlFor="comment-edit">
-                              Any other comment:
-                            </label>
-                            <textarea
-                              name="comment"
-                              id="comment-edit"
-                              value={item.comment}
-                              onChange={handleEdit}
-                              readOnly={!isEditable}
-                              className={`${!isEditable ? "non-editable" : ""}`}
-                            ></textarea>
-                          </div>
-                          <div className="dsr-switch">
-                            <i
-                              className="fa fa-arrow-left"
-                              style={{ cursor: "pointer", padding: ".25rem" }}
-                              onClick={handleDecrementIndex}
-                            />
-                            <div
-                              className="number-container"
-                              style={{
-                                width: "7%",
-                                display: "flex",
-                                gap: "1rem",
-                                alignItems: "center",
-                                justifyContent: "space-between",
-                              }}
-                            >
-                              {lastDsr.list.map((item, index) => {
-                                return (
-                                  <div
-                                    className="number-of-projects"
-                                    key={index}
-                                    style={{
-                                      transition: "1.5s ease",
-                                      fontSize: "1.4rem",
-                                      fontWeight: "bold",
-                                      padding: "5px 2px",
-                                      cursor: "pointer",
-                                      color: `${
-                                        activeSubmitDsrIndex === index
-                                          ? "var(--color-success)"
-                                          : ""
-                                      }`,
-                                      borderBottom: `${
-                                        activeSubmitDsrIndex === index
-                                          ? "2px solid var(--color-success)"
-                                          : ""
-                                      }`,
-                                    }}
-                                    onClick={() =>
-                                      setActiveSubmitDsrIndex(index)
-                                    }
-                                  >
-                                    {index + 1}
-                                  </div>
-                                );
-                              })}
-                            </div>
-                            <i
-                              className="fa fa-arrow-right"
-                              onClick={handleIncrementIndex}
-                              style={{ cursor: "pointer", padding: ".25rem" }}
-                            />
-                          </div>
-                        </div>
-                      );
-                    })}
-
+                    <div className="edit-input-row">
+                      <label htmlFor="comment-edit">Any other comment:</label>
+                      <textarea
+                        name="comment"
+                        id="comment-edit"
+                        value={lastDsr.comment}
+                        onChange={handleEdit}
+                        readOnly={!isEditable}
+                        className={`${!isEditable ? "non-editable" : ""}`}
+                      ></textarea>
+                    </div>
+                  </div>
                   {/* Showing edit or update button based on if it is edited once or not */}
-
                   {/* {!isUpdated ? (
 										!isEditable ? (
 											<button
