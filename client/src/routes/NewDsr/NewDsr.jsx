@@ -142,6 +142,12 @@ function NewDsr() {
     const operation = event.target.dataset.name;
     if (operation === "DELETE") {
       const updatedFormEntries = dsrData.filter((entry, i) => i !== index);
+      const updatedProject = selectedProject.filter((entry, i) => i !== index);
+      const updatedProjectHealth = selectedOption.filter(
+        (entry, i) => i !== index
+      );
+      setSelectedOption(updatedProjectHealth);
+      setSelectedProject(updatedProject);
       setDsrData(updatedFormEntries);
 
       setActiveTab(index - 1);

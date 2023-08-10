@@ -30,13 +30,17 @@ const loginRequest = {
 function Login() {
   // msal auth
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   // Check if there is already an interaction in progress
 
   async function handleMicrosoftLogin(account) {
+    // console.log("handleMicrosoftLogin");
     const userData = { name: account.name, email: account.username };
 
     localStorage.setItem("userdetails", JSON.stringify(userData));
+    // console.log(userData);
+    setLoading(true);
 
     try {
       const response = await fetch(base_url + "/user/login", {
@@ -48,17 +52,23 @@ function Login() {
       });
 
       const data = await response.json();
+      setLoading(false);
       if (data) {
         await handleDataInput(data.authToken);
+        // console.log(data.authToken);
+        // console.log(data);
         setMsgToShow("Login");
         data.errors ? errMsg() : verificationMsg();
         setTimeout(closeMsg, 2500);
         clearFields();
       } else {
+        // console.log("handleMiscrosoft Else");
+
         // handle login failure here, e.g. show an error message
         setMsgToShow("LoginFailed");
         errorMsg();
         setTimeout(closeMsg, 2500);
+        console.log("Login failed.");
       }
     } catch (error) {
       console.log(error);
@@ -78,6 +88,8 @@ function Login() {
         await handleMicrosoftLogin(account);
         // ... do something with the authenticated user
       } else {
+        // console.log("login Else");
+
         // If no account is found, initiate an interactive login request
         await msalInstance
           .loginPopup(loginRequest)
@@ -168,14 +180,9 @@ function Login() {
   }
 
   const handleDataInput = async (data) => {
+    // console.log("handleDataInput");
     if (data) {
       localStorage.setItem("authToken", data);
-      localStorage.setItem(
-        "TimeLoggedIn",
-        JSON.stringify({
-          time: new Date(),
-        })
-      );
     }
     if (localStorage.getItem("authToken")) {
       navigate("/newdsr");
@@ -186,6 +193,8 @@ function Login() {
 
   const handleLogin = async (e) => {
     try {
+      // console.log("handleLogin");
+
       const response = await fetch("https://new-web-app.onrender.com/login", {
         method: "POST",
         headers: {
@@ -207,6 +216,7 @@ function Login() {
         setMsgToShow("LoginFailed");
         errorMsg();
         setTimeout(closeMsg, 2500);
+        console.log("Login failed.");
       }
     } catch (error) {
       console.log(error);
@@ -358,7 +368,7 @@ function Login() {
                   onClick={() => login()}
                 >
                   <img src={Icon} alt="ms-login" />
-                  <p>Sign in with Microsoft</p>
+                  <p> {loading ? `Signing In..` : `Sign in with Microsoft`}</p>
                 </div>
               </div>
             </form>
