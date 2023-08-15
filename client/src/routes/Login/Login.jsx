@@ -16,8 +16,8 @@ const config = {
     clientId: "427bf882-77ea-49c0-853e-1676532387a7",
     authority:
       "https://login.microsoftonline.com/de7de043-fa62-4bc0-83e5-0466b479d2b7",
-    redirectUri: "https://dsr.quadrafort.com/",
-    postLogoutRedirectUri: "https://dsr.quadrafort.com/#/login",
+    redirectUri: "http://localhost:3000/",
+    postLogoutRedirectUri: "http://localhost:3000/#/login",
   },
 };
 
@@ -302,13 +302,19 @@ function Login() {
             <form className="form">
               <div className="logo-part">
                 <img src={LogoFavi} alt="icon" className="favicon" />
-                <h1 className="heading-s">Login</h1>
+                <h1 className="heading-s" style={{ color: "#222" }}>
+                  Login
+                </h1>
               </div>
 
               <div className="input-row">
                 <div className="form-group">
                   <div className="input__group">
-                    <label htmlFor="email" className="input__label">
+                    <label
+                      htmlFor="email"
+                      className="input__label"
+                      style={{ color: "#222" }}
+                    >
                       Email
                     </label>
                     <input
@@ -320,6 +326,7 @@ function Login() {
                       value={userDetail.email}
                       onChange={handleChange}
                       required
+                      style={{ backgroundColor: "#fff" }}
                     />
 
                     {errors.email && (
@@ -327,7 +334,11 @@ function Login() {
                     )}
                   </div>
                   <div className="input__group">
-                    <label htmlFor="password" className="input__label">
+                    <label
+                      htmlFor="password"
+                      className="input__label"
+                      style={{ color: "#222" }}
+                    >
                       Password
                     </label>
                     <input
@@ -339,6 +350,7 @@ function Login() {
                       value={userDetail.password}
                       onChange={handleChange}
                       required
+                      style={{ backgroundColor: "#fff" }}
                     />
 
                     {errors.password && (
@@ -360,7 +372,9 @@ function Login() {
 							</Link> */}
 
               {/* Register using Microsoft */}
-              <p className="align-self">Or</p>
+              <p className="align-self" style={{ color: "#6f6e6e" }}>
+                Or
+              </p>
 
               <div className="ms">
                 <div
@@ -368,7 +382,10 @@ function Login() {
                   onClick={() => login()}
                 >
                   <img src={Icon} alt="ms-login" />
-                  <p> {loading ? `Signing In..` : `Sign in with Microsoft`}</p>
+                  <p style={{ color: "#6f6e6e" }}>
+                    {" "}
+                    {loading ? `Signing In..` : `Sign in with Microsoft`}
+                  </p>
                 </div>
               </div>
             </form>

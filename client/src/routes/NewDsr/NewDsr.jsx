@@ -1356,9 +1356,10 @@ function NewDsr() {
                         name="project"
                         id="project-edit"
                         value={
-                          lastDsr && lastDsr.other_project
+                          !lastDsr.other_project === undefined &&
+                          (lastDsr.other_project
                             ? lastDsr.other_project
-                            : lastDsr.name && lastDsr.project.name
+                            : lastDsr.project.name)
                         }
                         onChange={handleEdit}
                         readOnly={!isEditable}
@@ -1374,9 +1375,10 @@ function NewDsr() {
                         name="clientManager"
                         id="manager-edit"
                         value={
-                          lastDsr.other_manager
+                          !lastDsr.other_manager === undefined &&
+                          (lastDsr.other_manager
                             ? lastDsr.other_manager
-                            : lastDsr.manager && lastDsr.project.manager
+                            : lastDsr.project.manager)
                         }
                         onChange={handleEdit}
                         readOnly={!isEditable}

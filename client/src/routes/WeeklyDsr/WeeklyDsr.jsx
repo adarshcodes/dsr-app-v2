@@ -27,7 +27,7 @@ function WeeklyDsr() {
         // body: localStorage.getItem("authToken"),
       });
       const data = await response.json();
-      // console.log("weak", data);
+      console.log("weak", data);
 
       if (data.status === 403) {
         localStorage.clear();
