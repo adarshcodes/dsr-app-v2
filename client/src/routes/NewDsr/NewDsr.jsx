@@ -1356,7 +1356,8 @@ function NewDsr() {
                         name="project"
                         id="project-edit"
                         value={
-                          !lastDsr.other_project === undefined &&
+                          lastDsr &&
+                          lastDsr.other_project !== undefined &&
                           (lastDsr.other_project
                             ? lastDsr.other_project
                             : lastDsr.project.name)
@@ -1375,7 +1376,8 @@ function NewDsr() {
                         name="clientManager"
                         id="manager-edit"
                         value={
-                          !lastDsr.other_manager === undefined &&
+                          lastDsr &&
+                          lastDsr.other_manager !== undefined &&
                           (lastDsr.other_manager
                             ? lastDsr.other_manager
                             : lastDsr.project.manager)
