@@ -1714,9 +1714,6 @@ p {
   font-family: "League Spartan", sans-serif !important;
   color: var(--secondary-text) !important;
 }
-.css-1nmdiq5-menu div:first-child {
-  background-color: var(--light-section) !important;
-}
 .css-1nmdiq5-menu div:first-child div {
   background-color: var(--light-section) !important;
 }
@@ -2037,6 +2034,13 @@ p {
 }
 .leave-cta i {
   margin-right: 1rem;
+}
+
+.cta {
+  height: -moz-fit-content;
+  height: fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
 }
 
 .draft-card .info {

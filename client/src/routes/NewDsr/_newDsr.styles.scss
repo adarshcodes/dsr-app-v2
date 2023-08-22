@@ -508,7 +508,7 @@
     cursor: pointer;
     transition: all 0.15s $bez-3;
     &:first-child {
-      background-color: var(--light-section) !important;
+      // background-color: var(--light-section) !important
       div {
         background-color: var(--light-section) !important;
         &:hover,
@@ -584,7 +584,6 @@
             background-color: red !important;
           }
         }
-        // background-color: red !important;
       }
     }
   }

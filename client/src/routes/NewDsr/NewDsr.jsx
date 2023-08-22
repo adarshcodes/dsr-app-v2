@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useMemo } from "react";
+import React, { useState, useEffect, useContext, useMemo, useRef } from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import AnimatedComponent from "../../AnimatedComponent";
 import Modal from "../../components/Modal/Modal";
@@ -83,7 +83,7 @@ function NewDsr() {
     " " +
     dateTime.getFullYear();
 
-  const [checkHoursRemaining, setCheckHoursRemaining] = useState(0);
+  const [checkHoursRemaining, setCheckHoursRemaining] = useState();
 
   const [dsrData, setDsrData] = useState([
     {
@@ -134,6 +134,9 @@ function NewDsr() {
         },
       ]);
     }
+    else if (checkHoursRemaining <= 0) {
+        filledHours();
+    }
   };
 
   const [activeTab, setActiveTab] = useState(0);
@@ -168,7 +171,9 @@ function NewDsr() {
     const remainingHours = 8 - totalHoursWorked;
     const roundedTotalHoursWorked = parseFloat(remainingHours.toFixed(2));
     setCheckHoursRemaining(roundedTotalHoursWorked);
+   
   }, [totalHoursWorked]);
+
 
   function storeData(e, index) {
     const name = e.target.name;
@@ -831,9 +836,41 @@ function NewDsr() {
     );
   };
 
+  const filledHours = () => {
+    console.log("yoooo!....");
+    setMsgToShow("Maximum Hours");
+    verificationMsg();
+    setTimeout(closeMsg, 2500);
+  };
+
+  const filledHoursRef = useRef(filledHours);
+
+  useEffect(() => {
+    if (checkHoursRemaining <= 0) {
+      filledHoursRef.current();
+    }
+  }, [checkHoursRemaining]);
+
+
+  useEffect(() => {
+    const observer = new MutationObserver((mutationsList) => {
+      for (const mutation of mutationsList) {
+        if (mutation.type === 'childList' && checkHoursRemaining <= 0) {
+          filledHoursRef.current();
+        }
+      }
+    });
+
+    observer.observe(document.body, { childList: true });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [checkHoursRemaining]);
+
   const ColorLabel = ({ color, label }) => {
     return (
-      <div
+      <div 
         style={{
           display: "flex",
           transform: "translateY(-11px)",
@@ -853,6 +890,8 @@ function NewDsr() {
       </div>
     );
   };
+  // useEffect(() => {
+  //   checkHoursRemaining === 0 && }, []);
 
   const CustomSingleValue = ({ data }) => {
     if (!data) {
@@ -887,6 +926,7 @@ function NewDsr() {
                   {msgToShow === "DSR-Saved" &&
                     "DSR successfully Submitted! 🎉"}
                   {msgToShow === "Draft-Saved" && "Draft saved successfully!🎉"}
+                  {msgToShow === "Maximum Hours" && "Maximum Hours Filled!🥳"}
                   {msgToShow === "Marked-Leave" && "Leave Marked for today! 🎉"}
                   {msgToShow === "Updated-Dsr" &&
                     "DSR is updated successfully! 🎉"}
@@ -943,7 +983,7 @@ function NewDsr() {
                     className="btn btn-dark"
                     onClick={handleAddMore}
                     style={{
-                      display: `${checkHoursRemaining <= 0 ? "none" : ""}`,
+                      backgroundColor: `${checkHoursRemaining <= 0 ? "#c0c0c0" : "#018171"}`,
                     }}
                   >
                     Add Project
