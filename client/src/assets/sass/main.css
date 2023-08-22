@@ -582,6 +582,11 @@ p {
     font-size: 1.5rem;
   }
 }
+@media screen and (max-width: 300px) {
+  .topbar .greet h4 {
+    font-size: 1.4rem;
+  }
+}
 .topbar .logo-phone {
   width: 2.5rem;
   display: none;

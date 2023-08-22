@@ -21,6 +21,9 @@
       @media screen and (max-width: 400px) {
         font-size: 1.5rem;
       }
+      @media screen and (max-width: 300px) {
+        font-size: 1.4rem;
+      }
     }
   }
 
@@ -41,7 +44,6 @@
     display: none;
     z-index: 1005;
     transform: scale(0.8) translate(-1rem);
-
 
     @media screen and (max-width: 750px) {
       display: block;
