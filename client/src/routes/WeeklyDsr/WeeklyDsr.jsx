@@ -152,18 +152,18 @@ function WeeklyDsr() {
               <div className="data">
                 <h4 className="heading-xs">Project:</h4>
                 <p className="para">
-                  {data && data.other_project
-                    ? data.other_project
-                    : data.project.name}
+                  {!data.isOnLeave ? (data.other_project 
+                    ?  data.other_project
+                    : data.project.name) : ""} 
                 </p>
               </div>
 
               <div className="data">
                 <h4 className="heading-xs">Manager:</h4>
                 <p className="para">
-                  {data && data.other_manager
+                  {!data.isOnLeave ? (data.other_manager
                     ? data.other_manager
-                    : data.project.manager}
+                    : data.project.manager) : ""}
                 </p>
               </div>
 
