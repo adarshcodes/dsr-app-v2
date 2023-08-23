@@ -1814,10 +1814,49 @@ p {
 }
 
 .HoursWorked {
-  font-size: 1.45rem;
+  font-size: 1.12rem;
   display: inline;
   font-weight: "500";
   color: var(--color-success);
+}
+
+.display {
+  display: none;
+}
+@media screen and (min-width: 475px) {
+  .display {
+    display: block;
+  }
+}
+@media screen and (min-width: 668px) {
+  .display {
+    display: none;
+  }
+}
+@media screen and (min-width: 745px) {
+  .display {
+    display: none;
+  }
+}
+@media screen and (min-width: 750px) {
+  .display {
+    display: block;
+  }
+}
+@media screen and (min-width: 880px) {
+  .display {
+    display: none;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .display {
+    display: block;
+  }
+}
+@media screen and (min-width: 1479px) {
+  .display {
+    display: none;
+  }
 }
 
 .recents {

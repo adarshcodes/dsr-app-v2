@@ -276,7 +276,7 @@ function NewDsr() {
   }, [isUse, draftValue]);
   // --Handle data post for new DSR to API--
   const handlePost = async (event) => {
-    console.log(dsrData);
+    // console.log(dsrData);
 
     setLoading(true);
     try {
@@ -297,7 +297,7 @@ function NewDsr() {
       }
       // Clearing form after Submission
       setMsgToShow("DSR-Saved");
-      data.errors ? errMsg() : verificationMsg();
+      verificationMsg();
       setTimeout(closeMsg, 2500);
       handleClear();
       setIsLeave("");
@@ -545,7 +545,7 @@ function NewDsr() {
 
     // Assuming dsrData is an array of objects
     for (let i = 0; i < dsrData.length; i++) {
-      console.log(selectedOption[i]);
+      // console.log(selectedOption[i]);
       const data = dsrData[i];
       const newErrors = {
         project: "",
@@ -578,7 +578,7 @@ function NewDsr() {
         isValid = false;
       }
 
-      console.log(data.activitiesCompleted);
+      // console.log(data.activitiesCompleted);
 
       if (
         !data.activitiesCompleted ||
@@ -589,11 +589,11 @@ function NewDsr() {
         isValid = false;
       }
 
-      if (!data.activitiesPlanned || data.activitiesPlanned === "<p><br></p>") {
-        newErrors.activitiesPlanned =
-          "Activities planned for tomorrow is required.";
-        isValid = false;
-      }
+      // if (!data.activitiesPlanned || data.activitiesPlanned === "<p><br></p>") {
+      //   newErrors.activitiesPlanned =
+      //     "Activities planned for tomorrow is required.";
+      //   isValid = false;
+      // }
 
       newErrorsArray.push(newErrors);
     }
@@ -799,13 +799,20 @@ function NewDsr() {
   //list dropdown project name and the project manager dynamically with the Api
 
   const [selectedProject, setSelectedProject] = useState([""]);
+
   const filteredProjects = projects.filter((data) => {
+    const isOtherOption = data.name === "Other";
+    
+    if (isOtherOption) {
+      return true; 
+    }
+    
     return (
       selectedProject &&
       selectedProject.every((item) => data.name !== item.label)
     );
   });
-
+  
   const list = filteredProjects.map((data) => {
     return {
       value: data.name,
@@ -814,6 +821,8 @@ function NewDsr() {
       _id: data._id,
     };
   });
+  
+  console.log(filteredProjects)
 
   const handleProjectSelect = (selectedOption, index) => {
     setSelectedProject((prevSelectedProject) => {
@@ -837,7 +846,7 @@ function NewDsr() {
   };
 
   const filledHours = () => {
-    console.log("yoooo!....");
+    // console.log("yoooo!....");
     setMsgToShow("Maximum Hours");
     verificationMsg();
     setTimeout(closeMsg, 2500);
@@ -906,6 +915,9 @@ function NewDsr() {
   const [modalHead, setModalHead] = useState("");
   const [btnValue, setBtnValue] = useState("");
 
+
+
+
   return (
     // Adding animated component to make the route change animated -- Adarsh(19-Apr)
     <HelmetProvider>
@@ -914,12 +926,8 @@ function NewDsr() {
           <title>Create New DSR | LeafLog-Quadrafort</title>
         </Helmet>
         <div className="container-box">
-          {loading && <NewDsrSkeleton />}
-
-          {!loading && !isLeave.submitted && !isLeave.leave && (
-            <div className="new-dsr">
-              {/* Notification Messages */}
-              <div
+          {/* Notification Messages */}
+          <div
                 className={`verification-cta ${msg ? "show-verification" : ""}`}
               >
                 <h3 className="heading-xs">
@@ -951,6 +959,11 @@ function NewDsr() {
                     "Unable to edit DSR due to some internal issues! 💀"}
                 </h3>
               </div>
+          {loading && <NewDsrSkeleton />}
+
+          {!loading && !isLeave.submitted && !isLeave.leave && (
+            <div className="new-dsr">
+              
 
               {/* Modal confirmation */}
               <Modal
@@ -1209,14 +1222,14 @@ function NewDsr() {
                             className="input__label input__label__area input-label"
                           >
                             Activities planned for tomorrow{" "}
-                            <sup style={{ color: "red" }}>*</sup>
+                            {/* <sup style={{ color: "red" }}>*</sup> */}
                           </label>
 
-                          {errors[index] && errors[index].activitiesPlanned && (
+                          {/* {errors[index] && errors[index].activitiesPlanned && (
                             <div className="validation-error textarea-error">
                               {errors[index] && errors[index].activitiesPlanned}
                             </div>
-                          )}
+                          )} */}
                         </div>
                       </div>
 
@@ -1282,21 +1295,21 @@ function NewDsr() {
                                 handleOptionClick(option, index)
                               }
                             />
-
+            
                             <label
                               htmlFor="health"
                               className="input__label input__label__area input-label"
                             >
-                              Select Project Health{" "}
-                              <sup style={{ color: `red` }}>*</sup>
+                              Select Project Health{" "} 
+                              <sup style={{ color: `red` }}>*</sup>{checkHoursRemaining <= 0 && index !== 0  && (<p className="display" style={{lineHeight: ".95rem"}}><br/><br/></p>)}
                             </label>
                             {errors[index] && errors[index].health && (
                               <div className="validation-error">
                                 {!selectedOption[index] && errors[index].health}
                               </div>
                             )}
-                            {console.log(selectedOption)}
-                            {console.log(selectedProject)}
+                            {/* {console.log(selectedOption)} */}
+                            {/* {console.log(selectedProject)} */}
                           </div>
                         </div>
 
@@ -1384,7 +1397,7 @@ function NewDsr() {
                   You've already filled the DSR.
                 </h1>
 
-                {console.log("lastDSR", lastDsr)}
+                {/* {console.log("lastDSR", lastDsr)} */}
 
                 <div className="preview-edit">
                   <h4 className="heading-s">Your last DSR</h4>

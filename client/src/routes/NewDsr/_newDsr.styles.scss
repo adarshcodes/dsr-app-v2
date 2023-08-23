@@ -616,8 +616,33 @@
   }
 }
 .HoursWorked {
-  font-size: 1.45rem;
+  font-size: 1.12rem;
   display: inline;
   font-weight: "500";
   color: var(--color-success);
+}
+
+.display {
+  display: none;
+  @media screen and (min-width: 475px) {
+      display: block;
+  }
+  @media screen and (min-width: 668px) {
+    display: none;
+  }
+  @media screen and (min-width: 745px) {
+    display: none;
+  }
+  @media screen and (min-width: 750px) {
+    display: block;
+  }
+  @media screen  and (min-width: 880px){
+    display: none;
+  }
+  @media screen and (min-width: 1200px) {
+    display: block;
+  }
+  @media screen and (min-width: 1479px) {
+    display: none;
+  }
 }
