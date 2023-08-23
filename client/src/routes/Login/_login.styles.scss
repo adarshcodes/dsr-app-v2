@@ -59,7 +59,7 @@
             input::placeholder {
               font-weight: 100;
               font-size: 1.5rem;
-              color: var(--secondary-text);
+              color: #7a9d9a !important;
             }
 
             input:focus:invalid {
@@ -162,4 +162,7 @@
   .favicon {
     width: 4.5rem;
   }
+}
+.form__input {
+  color: #222 !important;
 }
