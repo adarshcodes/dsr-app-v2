@@ -1828,7 +1828,7 @@ p {
     display: block;
   }
 }
-@media screen and (min-width: 668px) {
+@media screen and (min-width: 673px) {
   .display {
     display: none;
   }
@@ -1838,12 +1838,12 @@ p {
     display: none;
   }
 }
-@media screen and (min-width: 750px) {
+@media screen and (min-width: 751px) {
   .display {
     display: block;
   }
 }
-@media screen and (min-width: 880px) {
+@media screen and (min-width: 893px) {
   .display {
     display: none;
   }
