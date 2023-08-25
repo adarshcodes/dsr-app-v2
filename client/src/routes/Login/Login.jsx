@@ -16,8 +16,8 @@ const config = {
     clientId: "427bf882-77ea-49c0-853e-1676532387a7",
     authority:
       "https://login.microsoftonline.com/de7de043-fa62-4bc0-83e5-0466b479d2b7",
-    redirectUri: "http://localhost:3000/",
-    postLogoutRedirectUri: "http://localhost:3000/#/login",
+    redirectUri: "https://dsr.quadrafort.com/",
+    postLogoutRedirectUri: "https://dsr.quadrafort.com/#/login",
   },
 };
 
@@ -326,7 +326,7 @@ function Login() {
                       value={userDetail.email}
                       onChange={handleChange}
                       required
-                      style={{ backgroundColor: "#fff" }}
+                      style={{ backgroundColor: "#fff", color: "#222" }}
                     />
 
                     {errors.email && (
@@ -350,7 +350,7 @@ function Login() {
                       value={userDetail.password}
                       onChange={handleChange}
                       required
-                      style={{ backgroundColor: "#fff" }}
+                      style={{ backgroundColor: "#fff", color: "#222" }}
                     />
 
                     {errors.password && (

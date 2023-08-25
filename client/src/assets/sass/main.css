@@ -1113,10 +1113,6 @@ p {
   width: 4.5rem;
 }
 
-.form__input {
-  color: #222 !important;
-}
-
 .login-container .login-card {
   display: flex;
   flex-direction: row;

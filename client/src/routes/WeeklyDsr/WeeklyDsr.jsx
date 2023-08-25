@@ -48,7 +48,8 @@ function WeeklyDsr() {
   // console.log("recents", recents);
 
   // Mapping fetched DSR to display as a card in recents tab
-  const cardDsr = recents.map((data) => {
+  let dateyo = recents[0] && recents[0].dsrDate;
+  const cardDsr = recents.map((data, index) => {
     // formatting date and time from API data
     let date = new Date(data.createdAt);
     let year = date.getFullYear();
@@ -62,6 +63,7 @@ function WeeklyDsr() {
     hour = hour ? hour : 12; // the hour '0' should be '12'
     min = min < 10 ? "0" + min : min;
     let time = hour + ":" + min + " " + ampm;
+    let today = new Date().getDate().toString();
 
     let monthArray = [
       "Jan",
@@ -78,9 +80,18 @@ function WeeklyDsr() {
       "Dec",
     ];
     let dateOfCreation = day + " " + monthArray[month] + " " + year;
-
+    
+console.log(recents[0].dsrDate.slice(0, 2))
+console.log((today - 1).toString())
+console.log((today - 1).toString() === recents[0].dsrDate.slice(0, 2));
     return (
-      <div key={data._id}>
+      <div key={data._id} style={{display: "flex", flexDirection: "column", gap: ".42rem"}}>
+        <h4 className="heading-xs" style={{padding: ".6rem 0" }}>
+        {index === 0 ? (recents[0].dsrDate.slice(0, 2) === today ? "Today"  : recents[0].dsrDate.slice(0, 2) === (today-1).toString() ? "Yesterday" : dateyo)
+        : (
+          data.dsrDate !== dateyo ? dateyo = data.dsrDate : ""
+          )}</h4>
+
         <div className="recents-card card">
           {data.isOnLeave ? (
             <h4 className="heading-xs leave-cta">
@@ -132,6 +143,7 @@ function WeeklyDsr() {
             </div>
           )}
         </div>
+       
 
         <div
           className={`view-slider ${slider === data._id ? "show-slider" : ""}`}
