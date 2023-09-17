@@ -314,9 +314,9 @@ function NewDsr() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    // showModal("Are you sure you want to Submit?", "Mark DSR");
     if (validateForm()) {
-      handlePost(event);
+      showModal("Are you sure you want to Submit?", "Submit DSR", event);
+      // handlePost(event);
     }
   }
 
@@ -505,6 +505,10 @@ function NewDsr() {
     hideModal();
     handleLeave();
   }
+  function handleSubmitBtn() {
+    hideModal();
+    handlePost(eventContainer);
+  }
 
   // Shows Modal
   const [modal, setModal] = useState(false);
@@ -516,10 +520,13 @@ function NewDsr() {
       : container.classList.remove("remove-scroll");
   }, [modal]);
 
-  function showModal(modalHead, btnValue) {
+  const [eventContainer, setEventContainer] = useState();
+
+  function showModal(modalHead, btnValue, event) {
     setModal(true);
     setModalHead(modalHead);
     setBtnValue(btnValue);
+    setEventContainer(event);
   }
 
   function hideModal() {
@@ -970,7 +977,7 @@ function NewDsr() {
                 btnValue={btnValue}
                 modalHead={modalHead}
                 action={
-                  btnValue === "Mark Submit" ? handleSubmit : handleLeaveBtn
+                  btnValue === "Submit DSR" ? handleSubmitBtn : handleLeaveBtn
                 }
                 state={modal}
                 setState={setModal}

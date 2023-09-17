@@ -9,11 +9,12 @@ function Modal({ btnValue, action, hideModal, modalHead, state, draftId }) {
 				<div className="ctas">
 					<button
 						className="btn btn-dark btn-error"
+						style={{background : `${btnValue === "Submit DSR" ? "#018171" : ""}`}}
 						onClick={(e) => action(draftId)}
 					>
 						{btnValue}
 					</button>
-					<button className="btn btn-dark" onClick={(e) => hideModal()}>
+					<button className="btn btn-dark" onClick={(e) => hideModal()} style={{background : `${btnValue === "Submit DSR" ? "#fff" : ""}`, color: `${btnValue === "Submit DSR" ? "#222" : ""}`}}>
 						Cancel
 					</button>
 				</div>
