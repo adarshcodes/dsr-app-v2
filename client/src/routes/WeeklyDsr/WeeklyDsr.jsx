@@ -27,7 +27,7 @@ function WeeklyDsr() {
         // body: localStorage.getItem("authToken"),
       });
       const data = await response.json();
-      console.log("weak", data);
+      // console.log("weak", data);
 
       if (data.status === 403) {
         localStorage.clear();
@@ -81,9 +81,9 @@ function WeeklyDsr() {
     ];
     let dateOfCreation = day + " " + monthArray[month] + " " + year;
     
-console.log(recents[0].dsrDate.slice(0, 2))
-console.log((today - 1).toString())
-console.log((today - 1).toString() === recents[0].dsrDate.slice(0, 2));
+// console.log(recents[0].dsrDate.slice(0, 2))
+// console.log((today - 1).toString())
+// console.log((today - 1).toString() === recents[0].dsrDate.slice(0, 2));
     return (
       <div key={data._id} style={{display: "flex", flexDirection: "column", gap: ".42rem"}}>
         <h4 className="heading-xs" style={{padding: ".6rem 0" }}>

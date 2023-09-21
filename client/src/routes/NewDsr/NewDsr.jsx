@@ -829,7 +829,7 @@ function NewDsr() {
     };
   });
   
-  console.log(filteredProjects)
+  // console.log(filteredProjects)
 
   const handleProjectSelect = (selectedOption, index) => {
     setSelectedProject((prevSelectedProject) => {
