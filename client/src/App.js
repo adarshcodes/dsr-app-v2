@@ -8,7 +8,6 @@ import Drafts from "./routes/Drafts/Drafts";
 import Login from "./routes/Login/Login";
 import Register from "./routes/Register/Register";
 import Dashboard from "./parts/Dashboard/Dashboard";
-// import Admindashboard from "./parts/Admin_dashboard/Admindashboard";
 
 function PrivateRoute({ element }) {
   const user = localStorage.getItem("usercred");
@@ -54,9 +53,6 @@ function App() {
       document.documentElement.classList.remove("dark");
     }
   }, [theme]);
-
-  // const user = JSON.parse(localStorage.getItem("usercred"));
-  // const isAdmin = user && user.isAdmin;
 
   return (
     <Routes>

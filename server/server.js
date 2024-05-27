@@ -8,7 +8,8 @@ const dsr_fetch_route = require("./routes/dsr_fetch_route");
 const dsr_save_route = require("./routes/dsr_save_route");
 const user_route = require("./routes/user_route");
 const web_route = require("./routes/web_route");
-const helper = require("./helper.js");
+const project_route = require("./routes/project_route");
+const {sendEmail} = require("./helpers/mailer.js");
 const cron = require("node-cron");
 
 const userModel = require("./models/usermodel");
@@ -27,7 +28,7 @@ app.use(express.json());
 // Connects to the database and sets flags that allow writes to be retried. This is a no - op if there is an error
 mongoose
   .connect(
-    "mongodb+srv://catalyst16812:nikhil11111@origindb.ginrwdp.mongodb.net/?retryWrites=true&w=majority",
+    "mongodb+srv://catalyst16812:nikhil11111@origindb.ginrwdp.mongodb.net/",
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -47,42 +48,45 @@ db.once("open", function () {
 
 //getting email of users who have not submitted dsrs today
 async function findEmail() {
-  const user = await userModel.find({ isAdmin: false });
+  const user = await userModel.find({ dsr: true });
   var todayDate = new Date();
+  const dayOfWeek = todayDate.getDay();
   var emailArray = [];
-  for (let i of user) {
-    if (i.lastdsrtime.getDate() != todayDate.getDate()) {
-      emailArray.push(i.email);
-    } else {
-      if (i.lastdsrtime.getMonth() != todayDate.getMonth()) {
+  if(dayOfWeek != 0 || dayOfWeek != 6)
+    for (let i of user) {
+      if (i.lastdsrtime.getDate() != todayDate.getDate()) {
         emailArray.push(i.email);
       } else {
-        if (i.lastdsrtime.getFullYear() != todayDate.getFullYear()) {
+        if (i.lastdsrtime.getMonth() != todayDate.getMonth()) {
           emailArray.push(i.email);
+        } else {
+          if (i.lastdsrtime.getFullYear() != todayDate.getFullYear()) {
+            emailArray.push(i.email);
+          }
         }
       }
     }
-  }
   return emailArray;
 }
 
 
 // Schedule a cron job to send a daily email. This is a convenience function for use with services that don't need to worry about cron scheduling
-cron.schedule(
-  "0 22 * * *",
+//cron.schedule(
+  "02 18 * * *",
   async () => {
-    let arr = await findEmail();
+    // let arr = await findEmail();
+    let arr=['dhruv@quadrafort.com','rohit@quadrafort.com'];
     console.log(arr);
     console.log("Sending daily remainder email...");
     for (let i = 0; i < arr.length; i++) {
-      helper(arr[i]);
+      sendEmail(arr[i]);
     }
   },
   {
     scheduled: true,
     timezone: "Asia/Kolkata",
   }
-);
+//);
 
 // Adds routes to the app based on the configuration. This is called after all routes have been added
 app.use(admin_route);
@@ -91,6 +95,7 @@ app.use(dsr_fetch_route);
 app.use(dsr_save_route);
 app.use(user_route);
 app.use(web_route);
+app.use(project_route);
 
 // Listen for HTTP requests on the port specified in environment variable or 3030
 const PORT = process.env.PORT || 3030;
